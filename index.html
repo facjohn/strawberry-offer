@@ -92,7 +92,7 @@
     gap:6px;align-items:center;padding:9px 14px;border-bottom:1px solid var(--border);
   }
   .spec-row:last-of-type{border-bottom:none;}
-  .spec-label{font-size:11px;color:var(--text2);font-weight:500;}
+  .spec-label{font-size:12px;color:var(--text);font-weight:700;}
   .spec-badge{display:inline-block;font-size:8px;font-weight:700;padding:1px 4px;border-radius:3px;margin-left:3px;vertical-align:middle;}
   .badge-250{background:rgba(232,51,74,.12);color:var(--red);}
   .badge-500{background:rgba(180,120,0,.12);color:var(--yellow);}
@@ -112,7 +112,7 @@
   .margin-display{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:1px 6px;text-align:right;}
   .m-box-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;grid-column:1;grid-row:1;}
   .m-pct{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;grid-column:2;grid-row:1;color:var(--text2);}
-  .m-krw-total{font-family:'JetBrains Mono',monospace;font-size:9px;grid-column:1/span 2;grid-row:2;color:var(--text2);}
+  .m-krw-total{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;grid-column:1/span 2;grid-row:2;}
   .mpos{color:var(--green);}
   .mmid{color:var(--yellow);}
   .mneg{color:var(--red);}
@@ -354,11 +354,11 @@
 <!-- BASE INPUTS -->
 <div class="base-section">
   <div class="input-group">
-    <label>단가 <em>250g</em> (원/kg)</label>
+    <label>단가 <em>250g</em></label>
     <input type="number" id="price250" value="11500" oninput="recalcAll()">
   </div>
   <div class="input-group">
-    <label>단가 <em>500g/330g</em> (원/kg)</label>
+    <label>단가 <em>500g/330g</em></label>
     <input type="number" id="price500" value="13000" oninput="recalcAll()">
   </div>
   <div class="input-group">
@@ -378,6 +378,7 @@
   <button class="tab-btn" onclick="switchTab('logs',this)">📋 오퍼 기록<span class="log-count" id="log-count">0</span></button>
   <button class="tab-btn" onclick="switchTab('freight',this)">✏️ 운임 편집</button>
   <button class="tab-btn" onclick="switchTab('settings',this)">⚙️ 시트 연동</button>
+  <button class="tab-btn" onclick="switchTab('memo',this)">📝 메모</button>
 </div>
 
 <!-- TAB: 오퍼 계산 -->
@@ -447,6 +448,23 @@
     .setMimeType(ContentService.MimeType.JSON);
 }</code>
   </div>
+</div>
+
+
+<!-- TAB: 메모 -->
+<div id="tab-memo" class="tab-panel">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+    <span style="font-size:13px;font-weight:700;">자유 메모</span>
+    <button onclick="clearMemo()" style="background:none;border:1px solid var(--border);color:var(--text2);font-size:11px;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">초기화</button>
+  </div>
+  <p style="font-size:11px;color:var(--text2);margin-bottom:8px;">자동 저장됩니다. 바이어 연락처, 협의 내용, 할 일 등 자유롭게 메모하세요.</p>
+  <textarea id="free-memo"
+    style="width:100%;min-height:400px;background:var(--surface);border:1px solid var(--border);
+    color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:13px;line-height:1.8;
+    padding:14px;border-radius:10px;outline:none;resize:vertical;transition:border-color .15s;"
+    placeholder="자유롭게 메모하세요...&#10;&#10;예)&#10;- 베트남 CPG 바이어: +84-xxx-xxxx&#10;- 태국 3월 선적 협의 중&#10;- 홍콩 250g 샘플 발송 완료"
+    oninput="saveMemo()"></textarea>
+  <div style="text-align:right;font-size:10px;color:var(--text3);margin-top:4px;" id="memo-saved-hint"></div>
 </div>
 
 <!-- 기록 모달 -->
@@ -752,8 +770,7 @@ function mCls(m){return m>=1.5?'mpos':m>=0?'mmid':'mneg';}
 function fmt(n,d=2){return(n>=0?'+':'')+n.toFixed(d);}
 function fmtKrw(n){
   const abs=Math.abs(Math.round(n));
-  const s=abs>=10000000?(abs/10000000).toFixed(1)+'천만':abs>=10000?Math.round(abs/10000)+'만':abs.toLocaleString();
-  return(n>=0?'+':'-')+'₩'+s;
+  return(n>=0?'+':'-')+'₩'+abs.toLocaleString()+'원';
 }
 
 // ── 빌드 ─────────────────────────────────────────────────────
@@ -777,7 +794,7 @@ function buildOffers(){
       row.innerHTML=`
         <div>
           <div class="spec-label">${spec.label}<span class="spec-badge ${spec.cls}">${spec.badge}</span></div>
-          <div class="cost-detail" id="cost-${key}-${i}">원가 계산중...</div>
+
         </div>
         <div class="price-input-wrap">
           <span class="price-prefix">${sym}</span>
@@ -836,7 +853,7 @@ function recalcRow(key,i){
   document.getElementById(`mbox-${key}-${i}`).innerHTML=`<span class="${cls}">${fmt(marginBox)}${sym}</span>`;
   document.getElementById(`mpct-${key}-${i}`).innerHTML=`<span class="${cls}">${fmt(marginPct,1)}%</span>`;
   document.getElementById(`mkrw-${key}-${i}`).textContent=`총 ${fmtKrw(totalKrw)} (${SPECS[i].cartons}박스)`;
-  document.getElementById(`cost-${key}-${i}`).textContent=`원가 ₩${Math.round(cifKrw).toLocaleString()} · 운임 ₩${Math.round(perBoxFr).toLocaleString()}`;
+
 }
 
 function recalcAll(){Object.keys(FREIGHT).forEach(k=>SPECS.forEach((_,i)=>recalcRow(k,i)));}
@@ -847,6 +864,7 @@ function switchTab(name,btn){
   btn.classList.add('active');
   document.getElementById('tab-'+name).classList.add('active');
   if(name==='logs'){renderLogs();updateFilterOptions();}
+  if(name==='memo'){const el=document.getElementById('free-memo');if(el)el.focus();}
 }
 
 // 모달 바깥 클릭 닫기
@@ -854,6 +872,30 @@ document.getElementById('modal-overlay').addEventListener('click',function(e){
   if(e.target===this)closeModal();
 });
 
+
+
+// ── 자유 메모 ─────────────────────────────────────────────────
+function loadMemo(){
+  const txt=localStorage.getItem('sb_free_memo')||'';
+  const el=document.getElementById('free-memo');
+  if(el) el.value=txt;
+}
+let memoTimer=null;
+function saveMemo(){
+  clearTimeout(memoTimer);
+  memoTimer=setTimeout(()=>{
+    const txt=document.getElementById('free-memo')?.value||'';
+    localStorage.setItem('sb_free_memo',txt);
+    const hint=document.getElementById('memo-saved-hint');
+    if(hint){hint.textContent='저장됨 ✓';setTimeout(()=>hint.textContent='',2000);}
+  },600);
+}
+function clearMemo(){
+  if(!confirm('메모를 전부 지울까요?'))return;
+  localStorage.removeItem('sb_free_memo');
+  const el=document.getElementById('free-memo');
+  if(el) el.value='';
+}
 
 // ── 비밀번호 ─────────────────────────────────────────────────
 function checkPw(){
@@ -882,6 +924,7 @@ if(localStorage.getItem('sb_auth')==='ok'){
 // ── INIT ─────────────────────────────────────────────────────
 loadStorage();
 loadLogs();
+loadMemo();
 buildOffers();
 buildFreightEditor();
 recalcAll();

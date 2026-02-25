@@ -813,13 +813,11 @@ buildOffers();
 buildFreightEditor();
 recalcAll();
 
-// 어떤 기기에서 열어도 자동 동기화되도록 URL 고정
+// 항상 최신 URL로 강제 업데이트
 const HARDCODED_URL='https://script.google.com/macros/s/AKfycbzInpagPLGyvcnEpivUM8ELvnO0XaePqWyfz4WIsdlB-m8d5my6Gwaogty9qWlNOG7JLA/exec';
-if(!localStorage.getItem('sb_sheets_url')){
-  localStorage.setItem('sb_sheets_url', HARDCODED_URL);
-}
+localStorage.setItem('sb_sheets_url', HARDCODED_URL);
 const urlInput=document.getElementById('sheets-url');
-if(urlInput) urlInput.value=localStorage.getItem('sb_sheets_url')||HARDCODED_URL;
+if(urlInput) urlInput.value=HARDCODED_URL;
 syncFromSheets(true);
 </script>
 </body>

@@ -283,6 +283,40 @@
   .save-btn:hover{border-color:var(--green);color:var(--green);}
   .save-btn.saved{border-color:var(--green);color:var(--green);}
 
+
+  /* ── 비밀번호 화면 ── */
+  .pw-overlay{
+    position:fixed;inset:0;background:#fff;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    z-index:9999;padding:30px;
+  }
+  .pw-overlay.hidden{display:none;}
+  .pw-box{
+    background:#fff;border:1px solid var(--border);
+    border-radius:16px;padding:32px 28px;width:100%;max-width:320px;
+    text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.08);
+  }
+  .pw-emoji{font-size:48px;margin-bottom:12px;}
+  .pw-title{font-size:18px;font-weight:900;color:var(--text);margin-bottom:4px;}
+  .pw-sub{font-size:12px;color:var(--text2);margin-bottom:24px;}
+  .pw-input{
+    width:100%;background:var(--bg);border:2px solid var(--border);
+    color:var(--text);font-family:'JetBrains Mono',monospace;
+    font-size:24px;font-weight:700;padding:12px;border-radius:10px;
+    outline:none;text-align:center;letter-spacing:8px;
+    transition:border-color .15s;margin-bottom:12px;
+  }
+  .pw-input:focus{border-color:var(--accent);}
+  .pw-input.shake{animation:shake .3s ease-out;}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+  .pw-btn{
+    width:100%;padding:13px;border-radius:10px;
+    background:var(--accent);border:none;color:#fff;
+    font-size:15px;font-weight:700;cursor:pointer;
+    font-family:'Noto Sans KR',sans-serif;transition:opacity .15s;
+  }
+  .pw-btn:hover{opacity:.9;}
+  .pw-error{font-size:12px;color:var(--red);margin-top:8px;height:16px;}
   ::-webkit-scrollbar{width:4px;}
   ::-webkit-scrollbar-track{background:var(--bg);}
   ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
@@ -291,6 +325,20 @@
 <body>
 
 <!-- HEADER -->
+
+<div class="pw-overlay" id="pw-overlay">
+  <div class="pw-box">
+    <div class="pw-emoji">🍓</div>
+    <div class="pw-title">딸기 오퍼 계산기</div>
+    <div class="pw-sub">현농 프레쉬 by JOHN</div>
+    <input class="pw-input" type="password" id="pw-input"
+      placeholder="****" maxlength="10"
+      onkeydown="if(event.key==='Enter')checkPw()">
+    <button class="pw-btn" onclick="checkPw()">입장</button>
+    <div class="pw-error" id="pw-error"></div>
+  </div>
+</div>
+
 <div class="header">
   <span style="font-size:22px">🍓</span>
   <div>
@@ -805,6 +853,31 @@ function switchTab(name,btn){
 document.getElementById('modal-overlay').addEventListener('click',function(e){
   if(e.target===this)closeModal();
 });
+
+
+// ── 비밀번호 ─────────────────────────────────────────────────
+function checkPw(){
+  const val = document.getElementById('pw-input').value;
+  if(val === '5678'){
+    localStorage.setItem('sb_auth','ok');
+    document.getElementById('pw-overlay').classList.add('hidden');
+  } else {
+    const inp = document.getElementById('pw-input');
+    inp.classList.remove('shake');
+    void inp.offsetWidth;
+    inp.classList.add('shake');
+    document.getElementById('pw-error').textContent = '비밀번호가 틀렸어요';
+    inp.value='';
+    setTimeout(()=>document.getElementById('pw-error').textContent='',2000);
+  }
+}
+
+// 이미 인증된 경우 바로 통과
+if(localStorage.getItem('sb_auth')==='ok'){
+  document.getElementById('pw-overlay').classList.add('hidden');
+} else {
+  setTimeout(()=>document.getElementById('pw-input').focus(),300);
+}
 
 // ── INIT ─────────────────────────────────────────────────────
 loadStorage();

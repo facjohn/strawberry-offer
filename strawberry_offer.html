@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍓 딸기 오퍼 계산기</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f4f5f7; --surface:#ffffff; --surface2:#f0f1f4; --border:#dde0e8;
+    --red:#e8334a; --green:#18a96a; --yellow:#d48a00; --blue:#3b6ff0; --sgd:#c47d00;
+    --text:#1a1a2e; --text2:#606080; --text3:#a0a0b8; --accent:#e8334a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;min-height:100vh;}
+
+  /* ── HEADER ── */
+  .header{
+    background:linear-gradient(135deg,#fff0f2,#ffffff);
+    border-bottom:1px solid var(--border);
+    padding:12px 18px;display:flex;align-items:center;gap:10px;
+    position:sticky;top:0;z-index:100;
+  }
+  .header h1{font-size:15px;font-weight:700;}
+  .header-sub{font-size:10px;color:var(--text2);font-family:'JetBrains Mono',monospace;margin-top:1px;}
+  .header-right{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
+  .sync-badge{
+    font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;border:1px solid;
+    font-family:'JetBrains Mono',monospace;cursor:pointer;transition:all .2s;white-space:nowrap;
+  }
+  .sync-badge.ok{color:var(--green);border-color:var(--green);}
+  .sync-badge.error{color:var(--red);border-color:var(--red);}
+  .sync-badge.idle{color:var(--text2);border-color:var(--border);}
+  .sync-badge.loading{color:var(--yellow);border-color:var(--yellow);animation:blink .8s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+  .last-sync{font-size:9px;color:var(--text3);font-family:'JetBrains Mono',monospace;}
+
+  /* ── BASE INPUTS ── */
+  .base-section{
+    padding:12px 18px;background:var(--surface);border-bottom:1px solid var(--border);
+    display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
+  }
+  .input-group label{font-size:10px;font-weight:700;color:var(--text2);display:block;margin-bottom:5px;}
+  .input-group label em{color:var(--accent);font-style:normal;}
+  .input-group label .sg{color:var(--sgd);}
+  .input-group input{
+    width:100%;background:var(--bg);border:1px solid var(--border);
+    color:var(--text);font-family:'JetBrains Mono',monospace;
+    font-size:13px;font-weight:600;padding:7px 8px;border-radius:6px;outline:none;transition:border-color .15s;
+  }
+  .input-group input:focus{border-color:var(--accent);}
+  .input-group input.updated{border-color:var(--green);animation:flashGreen .6s ease-out;}
+  @keyframes flashGreen{0%{background:rgba(24,169,106,.15)}100%{background:var(--bg)}}
+  .sgd-hint{font-size:9px;color:var(--sgd);margin-top:3px;display:flex;align-items:center;gap:4px;}
+  .dot{width:5px;height:5px;border-radius:50%;background:var(--sgd);animation:pulse 2s infinite;flex-shrink:0;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+  /* ── TABS ── */
+  .tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);padding:0 18px;overflow-x:auto;}
+  .tab-btn{
+    padding:9px 12px;font-size:12px;font-weight:600;color:var(--text2);
+    border:none;background:none;border-bottom:2px solid transparent;
+    cursor:pointer;transition:all .15s;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;
+  }
+  .tab-btn.active{color:var(--text);border-bottom-color:var(--accent);}
+  .log-count{
+    display:inline-block;background:var(--accent);color:#fff;
+    font-size:8px;font-weight:700;padding:1px 5px;border-radius:10px;margin-left:4px;
+    vertical-align:middle;
+  }
+
+  /* ── PANELS ── */
+  .tab-panel{display:none;padding:14px 18px;flex-direction:column;gap:12px;}
+  .tab-panel.active{display:flex;}
+
+  /* ── COUNTRY CARD ── */
+  .country-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .country-header{
+    padding:9px 14px;background:var(--surface2);border-bottom:1px solid var(--border);
+    display:flex;align-items:center;gap:8px;
+  }
+  .country-flag{font-size:17px;}
+  .country-name{font-size:13px;font-weight:700;}
+  .country-currency{margin-left:auto;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;}
+  .cur-usd{background:rgba(59,111,240,.1);color:var(--blue);}
+  .cur-sgd{background:rgba(196,125,0,.1);color:var(--sgd);}
+
+  /* ── SPEC ROW ── */
+  .spec-row{
+    display:grid;
+    grid-template-columns:1fr 78px 1fr 36px;
+    gap:6px;align-items:center;padding:9px 14px;border-bottom:1px solid var(--border);
+  }
+  .spec-row:last-of-type{border-bottom:none;}
+  .spec-label{font-size:11px;color:var(--text2);font-weight:500;}
+  .spec-badge{display:inline-block;font-size:8px;font-weight:700;padding:1px 4px;border-radius:3px;margin-left:3px;vertical-align:middle;}
+  .badge-250{background:rgba(232,51,74,.12);color:var(--red);}
+  .badge-500{background:rgba(180,120,0,.12);color:var(--yellow);}
+  .badge-330{background:rgba(59,111,240,.12);color:var(--blue);}
+  .cost-detail{font-size:9px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-top:2px;}
+
+  .price-input-wrap{display:flex;align-items:center;gap:3px;}
+  .price-prefix{font-size:10px;color:var(--text2);min-width:14px;}
+  .price-input{
+    width:60px;background:var(--bg);border:1px solid var(--border);
+    color:var(--text);font-family:'JetBrains Mono',monospace;
+    font-size:13px;font-weight:600;padding:5px;border-radius:5px;
+    outline:none;text-align:center;transition:border-color .15s;
+  }
+  .price-input:focus{border-color:var(--accent);}
+
+  .margin-display{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:1px 6px;text-align:right;}
+  .m-box-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;grid-column:1;grid-row:1;}
+  .m-pct{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;grid-column:2;grid-row:1;color:var(--text2);}
+  .m-krw-total{font-family:'JetBrains Mono',monospace;font-size:9px;grid-column:1/span 2;grid-row:2;color:var(--text2);}
+  .mpos{color:var(--green);}
+  .mmid{color:var(--yellow);}
+  .mneg{color:var(--red);}
+
+  /* ── 기록 버튼 ── */
+  .log-btn{
+    width:32px;height:32px;border-radius:6px;
+    background:rgba(59,111,240,.08);border:1px solid rgba(59,111,240,.25);
+    color:var(--blue);font-size:14px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .15s;flex-shrink:0;
+  }
+  .log-btn:hover{background:rgba(59,111,240,.15);border-color:var(--blue);}
+  .log-btn:active{transform:scale(.92);}
+  .log-btn.logged{
+    background:rgba(24,169,106,.15);border-color:rgba(24,169,106,.4);
+    color:var(--green);animation:logPop .3s ease-out;
+  }
+  @keyframes logPop{0%{transform:scale(1.3)}100%{transform:scale(1)}}
+
+  /* ── 오퍼 기록 탭 ── */
+  .log-toolbar{
+    display:flex;align-items:center;gap:8px;
+  }
+  .log-toolbar-title{font-size:13px;font-weight:700;flex:1;}
+  .log-filter{
+    background:var(--bg);border:1px solid var(--border);
+    color:var(--text);font-family:'Noto Sans KR',sans-serif;
+    font-size:11px;padding:5px 8px;border-radius:6px;outline:none;
+  }
+  .clear-btn{
+    background:none;border:1px solid var(--border);
+    color:var(--text3);font-size:11px;padding:5px 10px;
+    border-radius:6px;cursor:pointer;transition:all .15s;
+    font-family:'Noto Sans KR',sans-serif;
+  }
+  .clear-btn:hover{border-color:var(--red);color:var(--red);}
+
+  .log-empty{
+    text-align:center;padding:40px 20px;color:var(--text3);
+    font-size:13px;line-height:2;
+  }
+  .log-empty .emoji{font-size:36px;display:block;margin-bottom:8px;}
+
+  .log-item{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:10px;padding:12px 14px;position:relative;
+    transition:border-color .15s;
+  }
+  .log-item:hover{border-color:rgba(91,143,255,.3);}
+  .log-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+  .log-flag{font-size:20px;flex-shrink:0;}
+  .log-main{flex:1;}
+  .log-country{font-size:13px;font-weight:700;}
+  .log-spec-badge{
+    display:inline-block;font-size:9px;font-weight:700;
+    padding:1px 5px;border-radius:3px;margin-left:5px;vertical-align:middle;
+  }
+  .log-date{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-top:2px;}
+  .log-memo-text{font-size:11px;color:var(--text2);margin-top:3px;font-style:italic;}
+
+  .log-prices{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:6px;
+    background:var(--surface2);border-radius:7px;padding:8px 10px;
+  }
+  .log-price-item label{font-size:9px;color:var(--text3);display:block;margin-bottom:2px;}
+  .log-price-item .val{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;}
+
+  .log-actions{display:flex;gap:6px;margin-top:8px;}
+  .log-action-btn{
+    background:none;border:1px solid var(--border);
+    color:var(--text2);font-size:10px;padding:4px 8px;
+    border-radius:5px;cursor:pointer;transition:all .15s;
+    font-family:'Noto Sans KR',sans-serif;
+  }
+  .log-action-btn:hover{border-color:var(--blue);color:var(--blue);}
+  .log-action-btn.del:hover{border-color:var(--red);color:var(--red);}
+
+  /* 메모 입력 */
+  .memo-input{
+    width:100%;background:var(--bg);border:1px solid var(--border);
+    color:var(--text);font-family:'Noto Sans KR',sans-serif;
+    font-size:11px;padding:6px 8px;border-radius:6px;outline:none;
+    margin-top:6px;transition:border-color .15s;resize:none;
+  }
+  .memo-input:focus{border-color:var(--blue);}
+
+  /* 기록 모달 */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.7);
+    display:flex;align-items:center;justify-content:center;
+    z-index:200;padding:20px;
+  }
+  .modal-overlay.hidden{display:none;}
+  .modal{
+    background:var(--surface);border:1px solid var(--border);
+    border-radius:14px;padding:20px;width:100%;max-width:360px;
+    box-shadow:0 8px 32px rgba(0,0,0,.12);
+  }
+  .modal h3{font-size:14px;font-weight:700;margin-bottom:4px;}
+  .modal .modal-sub{font-size:11px;color:var(--text2);margin-bottom:14px;}
+  .modal-info{
+    background:var(--surface2);border-radius:8px;padding:10px;
+    font-size:11px;margin-bottom:12px;line-height:1.8;
+  }
+  .modal-info span{color:var(--text);font-weight:600;font-family:'JetBrains Mono',monospace;}
+  .modal label{font-size:10px;color:var(--text2);font-weight:700;display:block;margin-bottom:5px;}
+  .modal textarea{
+    width:100%;background:var(--bg);border:1px solid var(--border);
+    color:var(--text);font-family:'Noto Sans KR',sans-serif;
+    font-size:12px;padding:8px;border-radius:6px;outline:none;
+    resize:none;height:70px;transition:border-color .15s;
+  }
+  .modal textarea:focus{border-color:var(--blue);}
+  .modal-btns{display:flex;gap:8px;margin-top:12px;}
+  .modal-btn{
+    flex:1;padding:10px;border-radius:7px;font-size:13px;font-weight:700;
+    cursor:pointer;transition:all .15s;border:1px solid;
+    font-family:'Noto Sans KR',sans-serif;
+  }
+  .modal-btn.cancel{background:none;border-color:var(--border);color:var(--text2);}
+  .modal-btn.confirm{background:rgba(24,169,106,.12);border-color:var(--green);color:var(--green);}
+  .modal-btn.confirm:hover{background:rgba(24,169,106,.22);}
+
+  /* ── SETTINGS ── */
+  .settings-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;}
+  .settings-card p{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:8px;}
+  .settings-card code{
+    display:block;background:var(--bg);border:1px solid var(--border);
+    border-radius:6px;padding:10px;font-size:10px;color:#99ccff;
+    font-family:'JetBrains Mono',monospace;white-space:pre;overflow-x:auto;
+    margin:8px 0;line-height:1.5;
+  }
+  .url-row{display:flex;gap:8px;margin-top:8px;}
+  .url-input{
+    flex:1;background:var(--bg);border:1px solid var(--border);
+    color:var(--text);font-family:'JetBrains Mono',monospace;
+    font-size:11px;padding:7px 10px;border-radius:6px;outline:none;transition:border-color .15s;
+  }
+  .url-input:focus{border-color:var(--blue);}
+  .btn{
+    background:var(--surface2);border:1px solid var(--border);
+    color:var(--text2);font-family:'Noto Sans KR',sans-serif;
+    font-size:11px;font-weight:600;padding:7px 12px;
+    border-radius:6px;cursor:pointer;transition:all .15s;white-space:nowrap;
+  }
+  .btn.primary{border-color:var(--green);color:var(--green);}
+  .btn.primary:hover{background:rgba(46,204,138,.1);}
+  .sync-result{font-size:10px;margin-top:6px;font-family:'JetBrains Mono',monospace;padding:6px 8px;border-radius:5px;}
+  .sync-result.ok{background:rgba(24,169,106,.08);color:var(--green);border:1px solid rgba(24,169,106,.2);}
+  .sync-result.error{background:rgba(232,51,74,.06);color:var(--red);border:1px solid rgba(232,51,74,.2);}
+  .auto-banner{
+    background:rgba(24,169,106,.07);border:1px solid rgba(24,169,106,.25);
+    border-radius:8px;padding:10px 14px;font-size:11px;color:var(--green);
+    display:flex;align-items:center;gap:8px;
+  }
+  .dot-green{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pulse 2s infinite;}
+
+  /* FREIGHT EDITOR */
+  .freight-editor{display:flex;flex-direction:column;gap:10px;}
+  .freight-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .freight-card-header{padding:8px 14px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;}
+  .freight-fields{padding:10px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .freight-field label{font-size:9px;color:var(--text2);font-weight:700;display:block;margin-bottom:4px;}
+  .freight-field input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:6px 7px;border-radius:5px;outline:none;transition:border-color .15s;}
+  .freight-field input:focus{border-color:var(--blue);}
+  .save-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text2);font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:600;padding:10px;border-radius:7px;cursor:pointer;transition:all .15s;width:100%;}
+  .save-btn:hover{border-color:var(--green);color:var(--green);}
+  .save-btn.saved{border-color:var(--green);color:var(--green);}
+
+  ::-webkit-scrollbar{width:4px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <span style="font-size:22px">🍓</span>
+  <div>
+    <h1>딸기 오퍼 계산기</h1>
+    <div class="header-sub">현농 프레쉬 by JOHN</div>
+  </div>
+  <div class="header-right">
+    <div class="sync-badge idle" id="sync-badge" onclick="syncFromSheets()">🔄 수동 동기화</div>
+    <div class="last-sync" id="last-sync">마지막 동기화: -</div>
+  </div>
+</div>
+
+<!-- BASE INPUTS -->
+<div class="base-section">
+  <div class="input-group">
+    <label>단가 <em>250g</em> (원/kg)</label>
+    <input type="number" id="price250" value="11500" oninput="recalcAll()">
+  </div>
+  <div class="input-group">
+    <label>단가 <em>500g/330g</em> (원/kg)</label>
+    <input type="number" id="price500" value="13000" oninput="recalcAll()">
+  </div>
+  <div class="input-group">
+    <label>환율 ₩/$</label>
+    <input type="number" id="exrate" value="1400" oninput="recalcAll()">
+  </div>
+  <div class="input-group">
+    <label><span class="sg">SGD</span>/₩ (브루나이)</label>
+    <input type="number" id="sgdrate" value="1137" oninput="recalcAll()">
+    <div class="sgd-hint"><span class="dot"></span>시트 자동 반영</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('offers',this)">📊 오퍼 계산</button>
+  <button class="tab-btn" onclick="switchTab('logs',this)">📋 오퍼 기록<span class="log-count" id="log-count">0</span></button>
+  <button class="tab-btn" onclick="switchTab('freight',this)">✏️ 운임 편집</button>
+  <button class="tab-btn" onclick="switchTab('settings',this)">⚙️ 시트 연동</button>
+</div>
+
+<!-- TAB: 오퍼 계산 -->
+<div id="tab-offers" class="tab-panel active"></div>
+
+<!-- TAB: 오퍼 기록 -->
+<div id="tab-logs" class="tab-panel">
+  <div class="log-toolbar">
+    <div class="log-toolbar-title">오퍼 기록</div>
+    <select class="log-filter" id="log-filter" onchange="renderLogs()">
+      <option value="">전체 나라</option>
+    </select>
+    <button class="clear-btn" onclick="clearAllLogs()">전체 삭제</button>
+  </div>
+  <div id="log-list"></div>
+</div>
+
+<!-- TAB: 운임 편집 -->
+<div id="tab-freight" class="tab-panel">
+  <p style="font-size:11px;color:var(--text2)">운임은 앱 실행 시 구글 시트에서 자동 동기화됩니다. 수동 수정 후 저장하세요.</p>
+  <div class="freight-editor" id="freight-editor"></div>
+  <button class="save-btn" id="save-btn" onclick="saveFreight()">💾 운임 저장 (브라우저에 기억)</button>
+</div>
+
+<!-- TAB: 시트 연동 -->
+<div id="tab-settings" class="tab-panel">
+  <div class="auto-banner">
+    <span class="dot-green"></span>
+    <span>앱을 열 때마다 구글 시트에서 자동으로 최신 데이터를 가져옵니다.</span>
+  </div>
+  <div class="settings-card">
+    <p><strong style="color:var(--text)">Apps Script URL 설정</strong><br>
+    URL을 저장하면 다음부터 앱을 열 때마다 자동 동기화됩니다.</p>
+    <div class="url-row">
+      <input class="url-input" type="text" id="sheets-url" placeholder="https://script.google.com/macros/s/AKfy.../exec">
+      <button class="btn primary" onclick="saveUrlAndSync()">저장 + 지금 동기화</button>
+    </div>
+    <div id="sync-result" style="display:none"></div>
+  </div>
+  <div class="settings-card">
+    <p><strong style="color:var(--text)">동기화 항목:</strong> 딸기단가, 환율, SGD환율, 나라별 운임+FSC</p>
+    <p style="margin-top:8px;color:var(--text3)">Apps Script 코드 (한 번만 설정):</p>
+    <code>function doGet() {
+  const ss    = SpreadsheetApp.getActiveSpreadsheet();
+  const straw = ss.getSheetByName("딸기");
+  const data  = ss.getSheetByName("DATA");
+  const result = {
+    prices: {
+      p500_330: straw.getRange("C2").getValue(),
+      p250:     straw.getRange("C3").getValue(),
+    },
+    exrate:  straw.getRange("C1").getValue(),
+    sgdrate: straw.getRange("C36").getValue(),
+    freight: {
+      vn_hcm: { airKg: data.getRange("K25").getValue(), fsc: data.getRange("L25").getValue() },
+      vn_han: { airKg: data.getRange("K24").getValue(), fsc: data.getRange("L24").getValue() },
+      th:     { airKg: data.getRange("K35").getValue(), fsc: data.getRange("L35").getValue() },
+      id:     { airKg: data.getRange("K29").getValue(), fsc: data.getRange("L29").getValue() },
+      my:     { airKg: data.getRange("K27").getValue(), fsc: data.getRange("L27").getValue() },
+      hk:     { airKg: data.getRange("K30").getValue(), fsc: data.getRange("L30").getValue() },
+      ph:     { airKg: data.getRange("K37").getValue(), fsc: data.getRange("L37").getValue() },
+      bn:     { airKg: data.getRange("K31").getValue(), fsc: data.getRange("L31").getValue() },
+    }
+  };
+  return ContentService
+    .createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}</code>
+  </div>
+</div>
+
+<!-- 기록 모달 -->
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal">
+    <h3>📝 오퍼 기록 저장</h3>
+    <div class="modal-sub" id="modal-sub">이 오퍼를 기록에 저장합니다</div>
+    <div class="modal-info" id="modal-info"></div>
+    <label>메모 (바이어, 특이사항 등 선택입력)</label>
+    <textarea id="modal-memo" placeholder="예) 바이어, 기타사항"></textarea>
+    <div class="modal-btns">
+      <button class="modal-btn cancel" onclick="closeModal()">취소</button>
+      <button class="modal-btn confirm" onclick="confirmLog()">✅ 기록 저장</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── 데이터 ────────────────────────────────────────────────────
+let FREIGHT = {
+  vn_hcm:{name:'베트남 호치민',flag:'🇻🇳',route:'SGN',airKg:1900,fsc:410,domFreight:55000},
+  vn_han:{name:'베트남 하노이',flag:'🇻🇳',route:'HAN',airKg:1500,fsc:410,domFreight:55000},
+  th:    {name:'태국',         flag:'🇹🇭',route:'BKK',airKg:850, fsc:410,domFreight:55000},
+  id:    {name:'인도네시아',   flag:'🇮🇩',route:'CGK',airKg:3200,fsc:410,domFreight:55000},
+  my:    {name:'말레이시아',   flag:'🇲🇾',route:'KUL',airKg:2200,fsc:410,domFreight:55000},
+  hk:    {name:'홍콩',         flag:'🇭🇰',route:'HKG',airKg:700, fsc:410,domFreight:55000},
+  ph:    {name:'필리핀',       flag:'🇵🇭',route:'MNL',airKg:2200,fsc:410,domFreight:55000},
+  bn:    {name:'브루나이',     flag:'🇧🇳',route:'BWN',airKg:7700,fsc:0,  domFreight:55000,isSGD:true},
+};
+
+const SPECS=[
+  {label:'2kg 250g×8',   badge:'250g',cls:'badge-250',cartons:152,gw:2.9,nw:2,   bujajai:240,priceKey:'250'},
+  {label:'2kg 500g×4',   badge:'500g',cls:'badge-500',cartons:153,gw:2.8,nw:2,   bujajai:120,priceKey:'500'},
+  {label:'1.32kg 330g×4',badge:'330g',cls:'badge-330',cartons:220,gw:2.0,nw:1.32,bujajai:120,priceKey:'500'},
+];
+
+const DEFAULT_PRICES={
+  vn_hcm:[22.4,null,20.2],vn_han:[24,null,20.2],th:[23.8,null,19],
+  id:[24.8,null,18.2],my:[23.5,null,23.4],hk:[19.5,null,14.4],
+  ph:[22.5,null,16.4],bn:[38.5,47,27],
+};
+
+// ── 오퍼 기록 ─────────────────────────────────────────────────
+let offerLogs = [];
+let pendingLog = null;
+
+function loadLogs(){
+  try{const d=localStorage.getItem('sb_offer_logs');if(d)offerLogs=JSON.parse(d);}catch(e){}
+  updateLogCount();
+}
+
+function saveLogs(){
+  try{localStorage.setItem('sb_offer_logs',JSON.stringify(offerLogs));}catch(e){}
+  updateLogCount();
+}
+
+function updateLogCount(){
+  const el=document.getElementById('log-count');
+  if(el) el.textContent=offerLogs.length;
+}
+
+// 기록 버튼 클릭 → 모달 열기
+function openLogModal(key, specIdx){
+  const p250 =+document.getElementById('price250').value||0;
+  const p500 =+document.getElementById('price500').value||0;
+  const ex   =+document.getElementById('exrate').value  ||1400;
+  const sgd  =+document.getElementById('sgdrate').value ||1137;
+  const offer=+document.getElementById(`offer-${key}-${specIdx}`)?.value||0;
+  const fd   =FREIGHT[key];
+  const spec =SPECS[specIdx];
+
+  const {marginBox,marginPct,totalKrw,cifKrw}=calcMargin(offer,spec,fd,p250,p500,ex,sgd);
+  const sym=fd.isSGD?'S$':'$';
+  const matPrice=spec.priceKey==='250'?p250:p500;
+  const rate=fd.isSGD?sgd:ex;
+
+  pendingLog={
+    id: Date.now(),
+    date: new Date().toISOString(),
+    key, specIdx,
+    country: fd.name, flag: fd.flag,
+    spec: spec.label, badge: spec.badge, badgeCls: spec.cls,
+    offer, sym, isSGD: fd.isSGD,
+    price250: p250, price500: p500,
+    matPrice, exrate: ex, sgdrate: sgd, rate,
+    marginBox, marginPct, totalKrw, cifKrw,
+    memo:''
+  };
+
+  document.getElementById('modal-sub').textContent=`${fd.flag} ${fd.name} · ${spec.label}`;
+  document.getElementById('modal-info').innerHTML=`
+    오퍼가격: <span>${sym}${offer}</span> &nbsp;|&nbsp;
+    딸기단가: <span>₩${matPrice.toLocaleString()}</span> &nbsp;|&nbsp;
+    환율: <span>₩${rate}</span><br>
+    박스당 마진: <span class="${mCls(marginBox)}">${fmt(marginBox)}${sym}</span> &nbsp;|&nbsp;
+    마진율: <span class="${mCls(marginBox)}">${fmt(marginPct,1)}%</span><br>
+    컨테이너 총마진: <span class="${mCls(totalKrw)}">${fmtKrw(totalKrw)} (${spec.cartons}박스)</span>
+  `;
+  document.getElementById('modal-memo').value='';
+  document.getElementById('modal-overlay').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('modal-memo').focus(),100);
+}
+
+function closeModal(){
+  document.getElementById('modal-overlay').classList.add('hidden');
+  pendingLog=null;
+}
+
+function confirmLog(){
+  if(!pendingLog) return;
+  pendingLog.memo=document.getElementById('modal-memo').value.trim();
+  offerLogs.unshift(pendingLog); // 최신이 맨 위
+  saveLogs();
+
+  // 버튼 시각 피드백
+  const btn=document.getElementById(`logbtn-${pendingLog.key}-${pendingLog.specIdx}`);
+  if(btn){btn.classList.add('logged');setTimeout(()=>btn.classList.remove('logged'),1000);}
+
+  closeModal();
+  renderLogs();
+  updateFilterOptions();
+}
+
+function deleteLog(id){
+  offerLogs=offerLogs.filter(l=>l.id!==id);
+  saveLogs();
+  renderLogs();
+  updateFilterOptions();
+}
+
+function clearAllLogs(){
+  if(!confirm(`오퍼 기록 ${offerLogs.length}개를 전부 삭제할까요?`)) return;
+  offerLogs=[];
+  saveLogs();
+  renderLogs();
+  updateFilterOptions();
+}
+
+function renderLogs(){
+  const filter=document.getElementById('log-filter')?.value||'';
+  const list=document.getElementById('log-list');
+  const filtered=filter?offerLogs.filter(l=>l.key===filter):offerLogs;
+
+  if(filtered.length===0){
+    list.innerHTML=`<div class="log-empty"><span class="emoji">📋</span>
+      기록이 없어요.<br>오퍼 계산 탭에서 📝 버튼을 눌러 기록을 남겨보세요.</div>`;
+    return;
+  }
+
+  list.innerHTML=filtered.map(l=>{
+    const d=new Date(l.date);
+    const dateStr=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    const cls=mCls(l.marginBox);
+    return `
+    <div class="log-item">
+      <div class="log-top">
+        <span class="log-flag">${l.flag}</span>
+        <div class="log-main">
+          <div class="log-country">${l.country} <span class="log-spec-badge ${l.badgeCls}">${l.badge}</span></div>
+          <div class="log-date">${dateStr}</div>
+          ${l.memo?`<div class="log-memo-text">"${l.memo}"</div>`:''}
+        </div>
+      </div>
+      <div class="log-prices">
+        <div class="log-price-item"><label>오퍼가격</label><div class="val">${l.sym}${l.offer}</div></div>
+        <div class="log-price-item"><label>딸기단가</label><div class="val">₩${(l.matPrice||0).toLocaleString()}</div></div>
+        <div class="log-price-item"><label>환율</label><div class="val">₩${l.rate}</div></div>
+        <div class="log-price-item"><label>박스당마진</label><div class="val ${cls}">${fmt(l.marginBox)}${l.sym}</div></div>
+        <div class="log-price-item"><label>마진율</label><div class="val ${cls}">${fmt(l.marginPct,1)}%</div></div>
+        <div class="log-price-item" style="grid-column:span 2"><label>총마진 (${SPECS[l.specIdx]?.cartons||'-'}박스)</label><div class="val ${cls}">${fmtKrw(l.totalKrw)}</div></div>
+        <div class="log-price-item"><label>스펙</label><div class="val" style="font-size:10px">${l.spec}</div></div>
+      </div>
+      <div class="log-actions">
+        <button class="log-action-btn del" onclick="deleteLog(${l.id})">🗑 삭제</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateFilterOptions(){
+  const sel=document.getElementById('log-filter');
+  if(!sel)return;
+  const cur=sel.value;
+  const keys=[...new Set(offerLogs.map(l=>l.key))];
+  sel.innerHTML='<option value="">전체 나라</option>'+
+    keys.map(k=>`<option value="${k}" ${k===cur?'selected':''}>${FREIGHT[k]?.flag||''} ${FREIGHT[k]?.name||k}</option>`).join('');
+}
+
+// ── localStorage ──────────────────────────────────────────────
+function loadStorage(){
+  try{
+    const fr=localStorage.getItem('sb_freight_v2');
+    if(fr){const d=JSON.parse(fr);Object.keys(d).forEach(k=>{if(FREIGHT[k])Object.assign(FREIGHT[k],d[k]);});}
+    const url=localStorage.getItem('sb_sheets_url');
+    if(url) document.getElementById('sheets-url').value=url;
+  }catch(e){}
+}
+
+function saveFreight(){
+  const snap={};
+  Object.keys(FREIGHT).forEach(k=>{
+    const a=document.getElementById(`fe-air-${k}`);
+    const f=document.getElementById(`fe-fsc-${k}`);
+    const d=document.getElementById(`fe-dom-${k}`);
+    if(a){FREIGHT[k].airKg=+a.value||0;FREIGHT[k].fsc=+f.value||0;FREIGHT[k].domFreight=+d.value||55000;}
+    snap[k]={airKg:FREIGHT[k].airKg,fsc:FREIGHT[k].fsc,domFreight:FREIGHT[k].domFreight};
+  });
+  try{localStorage.setItem('sb_freight_v2',JSON.stringify(snap));}catch(e){}
+  const btn=document.getElementById('save-btn');
+  btn.textContent='✅ 저장 완료!';btn.classList.add('saved');
+  setTimeout(()=>{btn.textContent='💾 운임 저장 (브라우저에 기억)';btn.classList.remove('saved');},2000);
+  recalcAll();
+}
+
+// ── 동기화 ────────────────────────────────────────────────────
+function flashInput(id){
+  const el=document.getElementById(id);if(!el)return;
+  el.classList.remove('updated');void el.offsetWidth;el.classList.add('updated');
+  setTimeout(()=>el.classList.remove('updated'),700);
+}
+
+function saveUrlAndSync(){
+  const url=document.getElementById('sheets-url').value.trim();
+  if(url) localStorage.setItem('sb_sheets_url',url);
+  syncFromSheets();
+}
+
+async function syncFromSheets(silent=false){
+  const url=localStorage.getItem('sb_sheets_url')||document.getElementById('sheets-url')?.value?.trim();
+  if(!url){if(!silent){setBadge('idle','⚙️ URL 미설정');showSyncResult('error','⚙️ 탭에서 URL을 먼저 입력해주세요.');}return;}
+  setBadge('loading','⏳ 동기화 중...');
+  try{
+    const res=await fetch(url);
+    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    const d=await res.json();
+    if(d.prices){
+      if(d.prices.p250&&+d.prices.p250>0){document.getElementById('price250').value=d.prices.p250;flashInput('price250');}
+      if(d.prices.p500_330&&+d.prices.p500_330>0){document.getElementById('price500').value=d.prices.p500_330;flashInput('price500');}
+    }
+    if(d.exrate&&+d.exrate>0){document.getElementById('exrate').value=Math.round(d.exrate);flashInput('exrate');}
+    if(d.sgdrate&&+d.sgdrate>0){document.getElementById('sgdrate').value=Math.round(d.sgdrate);flashInput('sgdrate');}
+    if(d.freight){
+      Object.keys(d.freight).forEach(k=>{
+        if(FREIGHT[k]){
+          if(d.freight[k].airKg)FREIGHT[k].airKg=d.freight[k].airKg;
+          if(d.freight[k].fsc!==undefined)FREIGHT[k].fsc=d.freight[k].fsc;
+          const a=document.getElementById(`fe-air-${k}`);
+          const f=document.getElementById(`fe-fsc-${k}`);
+          if(a)a.value=FREIGHT[k].airKg;if(f)f.value=FREIGHT[k].fsc;
+        }
+      });
+    }
+    recalcAll();
+    const now=new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    setBadge('ok','✅ 시트 연동 중');
+    document.getElementById('last-sync').textContent=`마지막 동기화: ${now}`;
+    if(!silent)showSyncResult('ok',`✅ 동기화 완료 (${now})`);
+  }catch(err){
+    setBadge('error','❌ 동기화 실패');
+    if(!silent)showSyncResult('error',`❌ 오류: ${err.message}`);
+    else document.getElementById('last-sync').textContent='마지막 동기화: 실패';
+  }
+}
+
+function setBadge(cls,txt){const el=document.getElementById('sync-badge');el.className='sync-badge '+cls;el.textContent=txt;}
+function showSyncResult(type,msg){const el=document.getElementById('sync-result');if(!el)return;el.style.display='block';el.className='sync-result '+type;el.textContent=msg;}
+
+// ── 계산 ─────────────────────────────────────────────────────
+function calcMargin(offer,spec,fd,p250,p500,exrate,sgdRate){
+  const mat    =(spec.priceKey==='250'?p250:p500)*spec.nw;
+  const airUnit=fd.airKg+fd.fsc;
+  const perBoxFr=(fd.domFreight/spec.cartons)+spec.gw*airUnit;
+  const cifKrw =mat+spec.bujajai+perBoxFr;
+  const rate   =fd.isSGD?sgdRate:exrate;
+  const marginBox=offer-cifKrw/rate;
+  const marginPct=offer>0?(marginBox/offer*100):0;
+  const totalKrw =marginBox*rate*spec.cartons;
+  return{marginBox,marginPct,totalKrw,cifKrw,perBoxFr,sym:fd.isSGD?'S$':'$'};
+}
+
+function mCls(m){return m>=1.5?'mpos':m>=0?'mmid':'mneg';}
+function fmt(n,d=2){return(n>=0?'+':'')+n.toFixed(d);}
+function fmtKrw(n){
+  const abs=Math.abs(Math.round(n));
+  const s=abs>=10000000?(abs/10000000).toFixed(1)+'천만':abs>=10000?Math.round(abs/10000)+'만':abs.toLocaleString();
+  return(n>=0?'+':'-')+'₩'+s;
+}
+
+// ── 빌드 ─────────────────────────────────────────────────────
+function buildOffers(){
+  const panel=document.getElementById('tab-offers');
+  panel.innerHTML='';
+  Object.entries(FREIGHT).forEach(([key,fd])=>{
+    const card=document.createElement('div');
+    card.className='country-card';
+    card.innerHTML=`
+      <div class="country-header">
+        <span class="country-flag">${fd.flag}</span>
+        <span class="country-name">${fd.name}</span>
+        <span class="country-currency ${fd.isSGD?'cur-sgd':'cur-usd'}">${fd.isSGD?'SGD':'USD'}</span>
+      </div>`;
+    SPECS.forEach((spec,i)=>{
+      const def=DEFAULT_PRICES[key][i]??(i===0?22:i===1?28:18);
+      const sym=fd.isSGD?'S$':'$';
+      const row=document.createElement('div');
+      row.className='spec-row';
+      row.innerHTML=`
+        <div>
+          <div class="spec-label">${spec.label}<span class="spec-badge ${spec.cls}">${spec.badge}</span></div>
+          <div class="cost-detail" id="cost-${key}-${i}">원가 계산중...</div>
+        </div>
+        <div class="price-input-wrap">
+          <span class="price-prefix">${sym}</span>
+          <input class="price-input" type="number" step="0.1"
+            id="offer-${key}-${i}" value="${def}"
+            oninput="recalcRow('${key}',${i})">
+        </div>
+        <div class="margin-display">
+          <div class="m-box-val" id="mbox-${key}-${i}">-</div>
+          <div class="m-pct"     id="mpct-${key}-${i}">-</div>
+          <div class="m-krw-total" id="mkrw-${key}-${i}">-</div>
+        </div>
+        <button class="log-btn" id="logbtn-${key}-${i}"
+          onclick="openLogModal('${key}',${i})" title="이 오퍼 기록 저장">📝</button>`;
+      card.appendChild(row);
+    });
+    panel.appendChild(card);
+  });
+}
+
+function buildFreightEditor(){
+  const ed=document.getElementById('freight-editor');
+  ed.innerHTML='';
+  Object.entries(FREIGHT).forEach(([key,fd])=>{
+    const c=document.createElement('div');c.className='freight-card';
+    c.innerHTML=`
+      <div class="freight-card-header"><span>${fd.flag}</span><span>${fd.name}</span>
+        <span style="font-size:9px;color:var(--text2);margin-left:auto">${fd.route}</span></div>
+      <div class="freight-fields">
+        <div class="freight-field"><label>항공운임 (₩/kg)</label>
+          <input type="number" id="fe-air-${key}" value="${fd.airKg}" oninput="liveUpdate('${key}')"></div>
+        <div class="freight-field"><label>FSC (₩/kg)</label>
+          <input type="number" id="fe-fsc-${key}" value="${fd.fsc}" oninput="liveUpdate('${key}')"></div>
+        <div class="freight-field"><label>국내운임 (₩/box)</label>
+          <input type="number" id="fe-dom-${key}" value="${fd.domFreight}" oninput="liveUpdate('${key}')"></div>
+      </div>`;
+    ed.appendChild(c);
+  });
+}
+
+function liveUpdate(key){
+  FREIGHT[key].airKg     =+document.getElementById(`fe-air-${key}`).value||0;
+  FREIGHT[key].fsc       =+document.getElementById(`fe-fsc-${key}`).value||0;
+  FREIGHT[key].domFreight=+document.getElementById(`fe-dom-${key}`).value||55000;
+  SPECS.forEach((_,i)=>recalcRow(key,i));
+}
+
+function recalcRow(key,i){
+  const p250=+document.getElementById('price250').value||0;
+  const p500=+document.getElementById('price500').value||0;
+  const ex  =+document.getElementById('exrate').value  ||1400;
+  const sgd =+document.getElementById('sgdrate').value ||1137;
+  const off =+document.getElementById(`offer-${key}-${i}`)?.value||0;
+  const {marginBox,marginPct,totalKrw,cifKrw,perBoxFr,sym}=calcMargin(off,SPECS[i],FREIGHT[key],p250,p500,ex,sgd);
+  const cls=mCls(marginBox);
+  document.getElementById(`mbox-${key}-${i}`).innerHTML=`<span class="${cls}">${fmt(marginBox)}${sym}</span>`;
+  document.getElementById(`mpct-${key}-${i}`).innerHTML=`<span class="${cls}">${fmt(marginPct,1)}%</span>`;
+  document.getElementById(`mkrw-${key}-${i}`).textContent=`총 ${fmtKrw(totalKrw)} (${SPECS[i].cartons}박스)`;
+  document.getElementById(`cost-${key}-${i}`).textContent=`원가 ₩${Math.round(cifKrw).toLocaleString()} · 운임 ₩${Math.round(perBoxFr).toLocaleString()}`;
+}
+
+function recalcAll(){Object.keys(FREIGHT).forEach(k=>SPECS.forEach((_,i)=>recalcRow(k,i)));}
+
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='logs'){renderLogs();updateFilterOptions();}
+}
+
+// 모달 바깥 클릭 닫기
+document.getElementById('modal-overlay').addEventListener('click',function(e){
+  if(e.target===this)closeModal();
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+loadStorage();
+loadLogs();
+buildOffers();
+buildFreightEditor();
+recalcAll();
+
+// 어떤 기기에서 열어도 자동 동기화되도록 URL 고정
+const HARDCODED_URL='https://script.google.com/macros/s/AKfycbwr05AWJNAvBdBCJWNXFn_txRtDgPesq9PlxDwXYr0egMc-Ni2jETe4AvUXcd9IH-EypQ/exec';
+if(!localStorage.getItem('sb_sheets_url')){
+  localStorage.setItem('sb_sheets_url', HARDCODED_URL);
+}
+const urlInput=document.getElementById('sheets-url');
+if(urlInput) urlInput.value=localStorage.getItem('sb_sheets_url')||HARDCODED_URL;
+syncFromSheets(true);
+</script>
+</body>
+</html>

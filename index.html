@@ -626,14 +626,32 @@ function saveUrlAndSync(){
   syncFromSheets();
 }
 
-async function syncFromSheets(silent=false){
+function syncFromSheets(silent=false){
   const url=localStorage.getItem('sb_sheets_url')||document.getElementById('sheets-url')?.value?.trim();
   if(!url){if(!silent){setBadge('idle','⚙️ URL 미설정');showSyncResult('error','⚙️ 탭에서 URL을 먼저 입력해주세요.');}return;}
   setBadge('loading','⏳ 동기화 중...');
-  try{
-    const res=await fetch(url);
-    if(!res.ok)throw new Error(`HTTP ${res.status}`);
-    const d=await res.json();
+
+  // JSONP 방식 - 모바일 CORS 완전 우회
+  const callbackName = 'sbSyncCallback_' + Date.now();
+  const script = document.createElement('script');
+  script.src = url + '?callback=' + callbackName;
+
+  const timer = setTimeout(()=>{
+    cleanup();
+    setBadge('error','❌ 동기화 실패');
+    if(!silent) showSyncResult('error','❌ 타임아웃: Apps Script 응답 없음');
+    else document.getElementById('last-sync').textContent='마지막 동기화: 실패';
+  }, 10000);
+
+  function cleanup(){
+    clearTimeout(timer);
+    if(script.parentNode) script.parentNode.removeChild(script);
+    delete window[callbackName];
+  }
+
+  window[callbackName] = function(d){
+    cleanup();
+    try{
     if(d.prices){
       if(d.prices.p250&&+d.prices.p250>0){document.getElementById('price250').value=d.prices.p250;flashInput('price250');}
       if(d.prices.p500_330&&+d.prices.p500_330>0){document.getElementById('price500').value=d.prices.p500_330;flashInput('price500');}
@@ -656,11 +674,14 @@ async function syncFromSheets(silent=false){
     setBadge('ok','✅ 시트 연동 중');
     document.getElementById('last-sync').textContent=`마지막 동기화: ${now}`;
     if(!silent)showSyncResult('ok',`✅ 동기화 완료 (${now})`);
-  }catch(err){
-    setBadge('error','❌ 동기화 실패');
-    if(!silent)showSyncResult('error',`❌ 오류: ${err.message}`);
-    else document.getElementById('last-sync').textContent='마지막 동기화: 실패';
-  }
+    }catch(err){
+      setBadge('error','❌ 동기화 실패');
+      if(!silent)showSyncResult('error',`❌ 오류: ${err.message}`);
+      else document.getElementById('last-sync').textContent='마지막 동기화: 실패';
+    }
+  };
+
+  document.head.appendChild(script);
 }
 
 function setBadge(cls,txt){const el=document.getElementById('sync-badge');el.className='sync-badge '+cls;el.textContent=txt;}

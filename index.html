@@ -485,14 +485,14 @@
 <script>
 // ── 데이터 ────────────────────────────────────────────────────
 let FREIGHT = {
-  vn_hcm:{name:'베트남 호치민',flag:'🇻🇳',route:'SGN',airKg:1900,fsc:410,domFreight:55000},
-  vn_han:{name:'베트남 하노이',flag:'🇻🇳',route:'HAN',airKg:1500,fsc:410,domFreight:55000},
-  th:    {name:'태국',         flag:'🇹🇭',route:'BKK',airKg:850, fsc:410,domFreight:55000},
-  id:    {name:'인도네시아',   flag:'🇮🇩',route:'CGK',airKg:3200,fsc:410,domFreight:55000},
-  my:    {name:'말레이시아',   flag:'🇲🇾',route:'KUL',airKg:2200,fsc:410,domFreight:55000},
-  hk:    {name:'홍콩',         flag:'🇭🇰',route:'HKG',airKg:700, fsc:410,domFreight:55000},
-  ph:    {name:'필리핀',       flag:'🇵🇭',route:'MNL',airKg:2200,fsc:410,domFreight:55000},
-  bn:    {name:'브루나이',     flag:'🇧🇳',route:'BWN',airKg:7700,fsc:0,  domFreight:55000,isSGD:true},
+  vn_hcm:{name:'베트남 호치민',flag:'🇻🇳',route:'SGN',airKg:1900,fsc:410,domFreight:[55000,55000,55000]},
+  vn_han:{name:'베트남 하노이',flag:'🇻🇳',route:'HAN',airKg:1500,fsc:410,domFreight:[55000,55000,55000]},
+  th:    {name:'태국',         flag:'🇹🇭',route:'BKK',airKg:850, fsc:410,domFreight:[55000,55000,55000]},
+  id:    {name:'인도네시아',   flag:'🇮🇩',route:'CGK',airKg:3200,fsc:410,domFreight:[55000,55000,55000]},
+  my:    {name:'말레이시아',   flag:'🇲🇾',route:'KUL',airKg:2200,fsc:410,domFreight:[55000,55000,55000]},
+  hk:    {name:'홍콩',         flag:'🇭🇰',route:'HKG',airKg:700, fsc:410,domFreight:[55000,55000,55000]},
+  ph:    {name:'필리핀',       flag:'🇵🇭',route:'MNL',airKg:2200,fsc:410,domFreight:[55000,55000,55000]},
+  bn:    {name:'브루나이',     flag:'🇧🇳',route:'BWN',airKg:7700,fsc:0,  domFreight:[55000,55000,55000],isSGD:true},
 };
 
 const SPECS=[
@@ -536,7 +536,7 @@ function openLogModal(key, specIdx){
   const fd   =FREIGHT[key];
   const spec =SPECS[specIdx];
 
-  const {marginBox,marginPct,totalKrw,cifKrw}=calcMargin(offer,spec,fd,p250,p500,ex,sgd);
+  const {marginBox,marginPct,totalKrw,cifKrw}=calcMargin(offer,spec,fd,p250,p500,ex,sgd,specIdx);
   const sym=fd.isSGD?'S$':'$';
   const matPrice=spec.priceKey==='250'?p250:p500;
   const rate=fd.isSGD?sgd:ex;
@@ -657,7 +657,13 @@ function updateFilterOptions(){
 function loadStorage(){
   try{
     const fr=localStorage.getItem('sb_freight_v2');
-    if(fr){const d=JSON.parse(fr);Object.keys(d).forEach(k=>{if(FREIGHT[k])Object.assign(FREIGHT[k],d[k]);});}
+    if(fr){const d=JSON.parse(fr);Object.keys(d).forEach(k=>{
+      if(FREIGHT[k]){
+        if(d[k].airKg) FREIGHT[k].airKg=d[k].airKg;
+        if(d[k].fsc!==undefined) FREIGHT[k].fsc=d[k].fsc;
+        if(d[k].domFreight) FREIGHT[k].domFreight=d[k].domFreight;
+      }
+    });}
     const url=localStorage.getItem('sb_sheets_url');
     if(url) document.getElementById('sheets-url').value=url;
   }catch(e){}
@@ -725,6 +731,7 @@ function syncFromSheets(silent=false){
     if(d.exrate&&+d.exrate>0){document.getElementById('exrate').value=Math.round(d.exrate);flashInput('exrate');}
     if(d.sgdrate&&+d.sgdrate>0){document.getElementById('sgdrate').value=Math.round(d.sgdrate);flashInput('sgdrate');}
     if(d.freight){
+      const snap={};
       Object.keys(d.freight).forEach(k=>{
         if(FREIGHT[k]){
           if(d.freight[k].airKg)FREIGHT[k].airKg=d.freight[k].airKg;
@@ -732,8 +739,27 @@ function syncFromSheets(silent=false){
           const a=document.getElementById(`fe-air-${k}`);
           const f=document.getElementById(`fe-fsc-${k}`);
           if(a)a.value=FREIGHT[k].airKg;if(f)f.value=FREIGHT[k].fsc;
+          snap[k]={airKg:FREIGHT[k].airKg,fsc:FREIGHT[k].fsc,domFreight:FREIGHT[k].domFreight};
         }
       });
+      // 시트에서 받은 운임을 localStorage에도 저장 (다음 로드시 반영)
+      try{localStorage.setItem('sb_freight_v2',JSON.stringify(snap));}catch(e){}
+    }
+    if(d.domfreight){
+      const snap2={};
+      Object.keys(d.domfreight).forEach(k=>{
+        if(FREIGHT[k]){
+          FREIGHT[k].domFreight=d.domfreight[k];
+          const domEl=document.getElementById(`fe-dom-${k}`);
+          if(domEl) domEl.value=d.domfreight[k][0];
+          snap2[k]={domFreight:d.domfreight[k]};
+        }
+      });
+      try{
+        const existing=JSON.parse(localStorage.getItem('sb_freight_v2')||'{}');
+        Object.keys(snap2).forEach(k=>{if(existing[k])existing[k].domFreight=snap2[k].domFreight;});
+        localStorage.setItem('sb_freight_v2',JSON.stringify(existing));
+      }catch(e){}
     }
     recalcAll();
     const now=new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
@@ -754,10 +780,11 @@ function setBadge(cls,txt){const el=document.getElementById('sync-badge');el.cla
 function showSyncResult(type,msg){const el=document.getElementById('sync-result');if(!el)return;el.style.display='block';el.className='sync-result '+type;el.textContent=msg;}
 
 // ── 계산 ─────────────────────────────────────────────────────
-function calcMargin(offer,spec,fd,p250,p500,exrate,sgdRate){
+function calcMargin(offer,spec,fd,p250,p500,exrate,sgdRate,specIdx=0){
   const mat    =(spec.priceKey==='250'?p250:p500)*spec.nw;
   const airUnit=fd.airKg+fd.fsc;
-  const perBoxFr=(fd.domFreight/spec.cartons)+spec.gw*airUnit;
+  const domFr  =Array.isArray(fd.domFreight)?fd.domFreight[specIdx]:fd.domFreight;
+  const perBoxFr=(domFr/spec.cartons)+spec.gw*airUnit;
   const cifKrw =mat+spec.bujajai+perBoxFr;
   const rate   =fd.isSGD?sgdRate:exrate;
   const marginBox=offer-cifKrw/rate;
@@ -848,7 +875,7 @@ function recalcRow(key,i){
   const ex  =+document.getElementById('exrate').value  ||1400;
   const sgd =+document.getElementById('sgdrate').value ||1137;
   const off =+document.getElementById(`offer-${key}-${i}`)?.value||0;
-  const {marginBox,marginPct,totalKrw,cifKrw,perBoxFr,sym}=calcMargin(off,SPECS[i],FREIGHT[key],p250,p500,ex,sgd);
+  const {marginBox,marginPct,totalKrw,cifKrw,perBoxFr,sym}=calcMargin(off,SPECS[i],FREIGHT[key],p250,p500,ex,sgd,i);
   const cls=mCls(marginBox);
   document.getElementById(`mbox-${key}-${i}`).innerHTML=`<span class="${cls}">${fmt(marginBox)}${sym}</span>`;
   document.getElementById(`mpct-${key}-${i}`).innerHTML=`<span class="${cls}">${fmt(marginPct,1)}%</span>`;
@@ -930,7 +957,7 @@ buildFreightEditor();
 recalcAll();
 
 // 항상 최신 URL로 강제 업데이트
-const HARDCODED_URL='https://script.google.com/macros/s/AKfycbzInpagPLGyvcnEpivUM8ELvnO0XaePqWyfz4WIsdlB-m8d5my6Gwaogty9qWlNOG7JLA/exec';
+const HARDCODED_URL='https://script.google.com/macros/s/AKfycbzFMNp3ClkZ6lktBd33f7ShqdotbR8PrQTBZCy-RUTYVnBBX1RFCja1860EicTbSCjS/exec';
 localStorage.setItem('sb_sheets_url', HARDCODED_URL);
 const urlInput=document.getElementById('sheets-url');
 if(urlInput) urlInput.value=HARDCODED_URL;

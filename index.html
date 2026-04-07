@@ -647,7 +647,7 @@ function fetchHist(){
         rt:r.fxRate,raw:r.rawPrice,me:r.memo,author:r.author,
         dt:r.date,sent:true,_remote:true
       }));
-      const localOnly=logs.filter(l=>!l.id||!sheetLogs.find(s=>s.id===l.id));
+      const localOnly=logs.filter(l=>!l.id);
       logs=[...sheetLogs,...localOnly];saveL();
     }
     rL();

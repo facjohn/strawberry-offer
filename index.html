@@ -173,6 +173,10 @@ tbody tr:hover td{background:#fafbfd}
 .auth{display:inline-block;font-size:8px;font-weight:800;color:var(--t2);background:var(--sf2);border:1px solid var(--bd);padding:1px 6px;border-radius:8px;margin-left:5px;vertical-align:middle}
 .auth.me{color:#fff;background:var(--ac);border-color:var(--ac)}
 .li.mine{border-left:3px solid var(--ac);background:linear-gradient(90deg,rgba(59,111,240,.04),#fff 60%)}
+.rgnb{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;padding:8px;background:var(--sf);border:1px solid var(--bd);border-radius:10px;box-shadow:var(--sh)}
+.rgn{padding:6px 14px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;background:#fff;border:1.5px solid;font-family:inherit;transition:all .18s;letter-spacing:-.01em}
+.rgn:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.rgn.a{color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.15)}
 </style>
 </head>
 <body>
@@ -193,6 +197,11 @@ tbody tr:hover td{background:#fafbfd}
 <div class="fc" onclick="go('s')"><span class="e">🍓</span><span class="n">딸기</span></div>
 <div class="fc" onclick="go('p')"><span class="e">🍐</span><span class="n">배</span></div>
 <div class="fc" onclick="go('g')"><span class="e">🍇</span><span class="n">포도</span></div>
+</div>
+<div class="fcs" style="margin-top:8px">
+<div class="fc" onclick="go('o')"><span class="e">🍊</span><span class="n">귤</span></div>
+<div class="fc" onclick="go('k')"><span class="e">🥝</span><span class="n">키위</span></div>
+<div class="fc" onclick="go('h')"><span class="e">🟠</span><span class="n">감</span></div>
 </div>
 <button onclick="testSync()" style="margin-top:12px;padding:6px 16px;border-radius:8px;border:1px solid #dde0e8;background:#fff;font-family:inherit;font-size:11px;color:#606080;cursor:pointer">🔌 시트 연동 테스트</button>
 <div id="testR" style="font-size:10px;color:#606080;margin-top:6px;max-width:300px;word-break:break-all;text-align:center"></div>
@@ -260,6 +269,8 @@ const SD={vn_hcm:[22,0,0],vn_han:[23,0,0],th:[17.8,0,13.3],id:[22.8,0,17],my:[20
 // ═══ PEAR ═══
 const PSANJI=['아리팜','전남','순천','아산','상주','고창','천안','김제'];
 const PC=[{n:'대만',f:'🇹🇼'},{n:'베트남',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이시아',f:'🇲🇾'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'호주',f:'🇦🇺'},{n:'미국LA',f:'🇺🇸',us:1},{n:'미국NY',f:'🇺🇸',us:1},{n:'캐나다',f:'🇨🇦',us:1}];
+const PRG=[{k:'all',l:'전체',c:'#3b6ff0'},{k:'sea',l:'동남아',c:'#16a368',ns:['베트남','말레이시아','인도네시아','태국']},{k:'nea',l:'동북아',c:'#d48a00',ns:['대만','홍콩']},{k:'oce',l:'오세아니아',c:'#9333ea',ns:['호주']},{k:'ame',l:'미주',c:'#dc2626',ns:['미국LA','미국NY','캐나다']}];
+let pRgn='all';
 const PSEA={대만:{f:2151000,t:1246000},베트남:{f:2503500,t:1528000},홍콩:{f:2080500,t:1351750},말레이시아:{f:2362500,t:1422250},인도네시아:{f:3138000,t:1915750},태국:{f:2221500,t:1387000},호주:{f:2815000,t:1669000},미국LA:{f:5141500,t:0},미국NY:{f:6481000,t:0},캐나다:{f:5241500,t:0}};
 const PIL={아리팜:{f:662500,t:583800},전남:{f:604600,t:534600},순천:{f:355900,t:310400},아산:{f:1338900,t:1188900},상주:{f:592000,t:528000},고창:{f:690300,t:607800},천안:{f:1288800,t:1149100},김제:{f:773100,t:677300}};
 
@@ -271,29 +282,30 @@ const PS=[
 {id:'15c',l:'15kg 32-36s',c4:54,c2:48,nw:15,gw:17,bj:468,bx:2118,rf:p=>p.c,wk:'w15',noUS:1},
 {id:'75',l:'7.5kg 9-12s',c4:0,c2:54,nw:7.5,gw:9,bj:273,bx:0,rf:p=>p.a/15*7.5,wk:'w75',noUS:1},
 {id:'5a',l:'5kg 6-8s',c4:136,c2:120,nw:5,gw:6,bj:104,bx:1206,rf:p=>p.a/3,wk:'w5',
-  urf:(h)=>h.a,uwk:(raw,wc)=>wc.ua+raw*0.05},
+  urf:(h)=>h.a,uwk:(raw,wc)=>wc.u5+raw*0.05},
 {id:'5b',l:'5kg 9-10s',c4:136,c2:120,nw:5,gw:6,bj:130,bx:1206,rf:p=>p.b/3,wk:'w5',
-  urf:(h)=>h.b,uwk:(raw,wc)=>wc.ua+raw*0.05},
+  urf:(h)=>h.b,uwk:(raw,wc)=>wc.u5+raw*0.05},
 {id:'5ga',l:'5kg GIFT 6-8s',c4:128,c2:0,nw:5,gw:6,bj:200,bx:2580,rf:p=>p.a/3,wk:'w5',
-  urf:(h)=>h.a,uwk:(raw,wc)=>wc.ua+raw*0.05},
+  urf:(h)=>h.a,uwk:(raw,wc)=>wc.u5+raw*0.05},
 {id:'5gb',l:'5kg GIFT 9-10s',c4:128,c2:0,nw:5,gw:6,bj:250,bx:2580,rf:p=>p.b/3,wk:'w5',
-  urf:(h)=>h.b,uwk:(raw,wc)=>wc.ua+raw*0.05},
+  urf:(h)=>h.b,uwk:(raw,wc)=>wc.u5+raw*0.05},
 {id:'3a',l:'3kg 5s',c4:216,c2:0,nw:3,gw:4,bj:65,bx:1055,rf:p=>(p.a/24*3)+(p.b/26*2),wk:'w3a',
-  urf:(h)=>(h.a/8*3)+(h.b/9*2),uwk:(raw,wc)=>3700+raw*0.05},
+  urf:(h)=>(h.a/8*3)+(h.b/9*2),uwk:(raw,wc)=>wc.u3+raw*0.05},
 {id:'3b',l:'3kg 6s',c4:216,c2:0,nw:3,gw:4,bj:78,bx:1055,rf:p=>p.b/26*3,wk:'w3b',
-  urf:(h)=>h.b/10*6,uwk:()=>4174},
+  urf:(h)=>h.b/10*6,uwk:(raw,wc)=>wc.u3+raw*0.05},
 {id:'12k',l:'12kg 5구',c4:60,c2:0,nw:12,gw:13,bj:3314,bx:0,rf:p=>((p.a/24*3)+(p.b/26*2))*4,wk:'w12',
-  urf:(h)=>((h.a/8*3)+(h.b/9*2))*4,uwk:(raw,wc)=>8500+raw*0.05},
+  urf:(h)=>((h.a/8*3)+(h.b/9*2))*4,uwk:(raw,wc)=>wc.u12+raw*0.05},
 {id:'128',l:'12.8kg 3팩',c4:60,c2:54,nw:12.8,gw:15,bj:600,bx:1314,rf:p=>p.b/15*12.8,wk:'w128',
-  urf:(h)=>h.b/5*12.8,uwk:(raw,wc)=>wc.ub+raw*0.05},
+  urf:(h)=>h.b/5*12.8,uwk:(raw,wc)=>wc.u128+raw*0.05},
 {id:'109',l:'10.9kg 3팩',c4:66,c2:60,nw:10.9,gw:13,bj:600,bx:1284,rf:p=>p.c/15*10.9,wk:'w109',
-  urf:(h)=>h.c/5*10.9,uwk:(raw,wc)=>wc.ub+raw*0.05},
+  urf:(h)=>h.c/5*10.9,uwk:(raw,wc)=>wc.u109+raw*0.05},
 {id:'10d2',l:'10kg 대과2구',c4:54,c2:48,nw:10,gw:12,bj:4336,bx:1300,rf:p=>p.a/15*10,wk:'wdg',
-  urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>8000},
+  urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>wc.udg},
 {id:'10d1',l:'10kg 대과1구',c4:54,c2:48,nw:10,gw:12,bj:3120,bx:1300,rf:p=>p.a/15*10,wk:'wdg',
-  urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>8000},
+  urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>wc.udg},
 ];
 const PWK={w15:10000,w75:6000,w5:5000,w3a:3700,w3b:3700,w12:8500,w128:8000,w109:8000,wdg:8000};
+const PUWK={u5:5500,u3:3700,u12:8500,u128:8500,u109:8500,udg:8000};
 const PWK_SJ={
 아리팜:{w15:10000,w75:6000,w5:5000,w3a:3500,w3b:3500,w12:8500,w128:8200,w109:8500,wdg:8200},
 전남:{w15:10000,w75:6000,w5:5500,w3a:4181,w3b:4174,w12:9000,w128:8500,w109:8700,wdg:8000},
@@ -307,23 +319,56 @@ const PWK_SJ={
 
 // ═══ GRAPE ═══
 const GSANJI=['초록','아리팜','전남','순천','아산','상주','고창','천안','김제'];
-const GC=[{n:'대만',f:'🇹🇼'},{n:'베트남',f:'🇻🇳'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'말레이시아',f:'🇲🇾'}];
-const GSEA={대만:{f:2151000,t:1246000},베트남:{f:2503500,t:1528000},인도네시아:{f:3138000,t:1915750},태국:{f:2221500,t:1387000},말레이시아:{f:2362500,t:1422250}};
+const GC=[{n:'대만',f:'🇹🇼'},{n:'베트남',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이시아',f:'🇲🇾'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'호주',f:'🇦🇺'},{n:'미국LA',f:'🇺🇸',us:1},{n:'미국NY',f:'🇺🇸',us:1},{n:'캐나다',f:'🇨🇦',us:1}];
+const GSEA={대만:{f:2151000,t:1246000},베트남:{f:2503500,t:1528000},홍콩:{f:2080500,t:1351750},말레이시아:{f:2362500,t:1422250},인도네시아:{f:3138000,t:1915750},태국:{f:2221500,t:1387000},호주:{f:2815000,t:1669000},미국LA:{f:5141500,t:0},미국NY:{f:6481000,t:0},캐나다:{f:5241500,t:0}};
 const GIL={초록:{f:387900,t:337600},아리팜:{f:662500,t:583800},전남:{f:604600,t:534600},순천:{f:355900,t:310400},아산:{f:1338900,t:1188900},상주:{f:592000,t:528000},고창:{f:690300,t:607800},천안:{f:1288800,t:1149100},김제:{f:773100,t:677300}};
 const GS=[
-{l:'1.5kg 2b',ct:256,nw:1.5,gw:2.3,bj:60,bx:0},
-{l:'1.8kg 2b',ct:182,nw:1.8,gw:2.6,bj:40,bx:0},
-{l:'2kg 2b',ct:182,nw:2,gw:2.8,bj:60,bx:0},
-{l:'2kg 3b',ct:208,nw:2,gw:2.8,bj:90,bx:0},
-{l:'2.5kg 3b',ct:160,nw:2.5,gw:3.5,bj:0,bx:0},
-{l:'3.8kg 5-7b',ct:120,nw:3.8,gw:5.1,bj:150,bx:0},
-{l:'4kg 5b',ct:120,nw:4,gw:5.1,bj:150,bx:0},
-{l:'2.1kg 800g×3',ct:160,nw:2.1,gw:3.1,bj:0,bx:0},
-{l:'2.7kg 700g×3',ct:160,nw:2.7,gw:3.7,bj:0,bx:0},
-{l:'4.8kg gift6c',ct:56,nw:4.8,gw:6,bj:5400,bx:6300},
-{l:'3.6kg gift4c',ct:102,nw:3.6,gw:5,bj:6600,bx:9360},
-{l:'4kg gift4c',ct:102,nw:4,gw:5.4,bj:0,bx:0},
+// ── 송이 (Bunch) ──
+{l:'1.5kg 2송이',ct:256,nw:1.5,gw:2.3,bj:0,bx:0,cat:'bun'},
+{l:'1.8kg 2송이',ct:182,nw:1.8,gw:2.6,bj:40,bx:0,cat:'bun'},
+{l:'2kg 2송이',ct:182,nw:2,gw:2.8,bj:60,bx:0,cat:'bun'},
+{l:'2kg 3송이',ct:208,nw:2,gw:2.8,bj:90,bx:0,cat:'bun'},
+{l:'2.5kg 3송이',ct:160,nw:2.5,gw:3.5,bj:0,bx:0,cat:'bun'},
+{l:'3.8kg 5-7송이',ct:120,nw:3.8,gw:5.1,bj:180,bx:0,cat:'bun'},
+{l:'4kg 5송이',ct:120,nw:4,gw:5.1,bj:150,bx:0,cat:'bun'},
+// ── 멀티팩 (Multipack) ──
+{l:'2.1kg 800g×3',ct:160,nw:2.1,gw:3.1,bj:0,bx:0,cat:'mlt'},
+{l:'2.4kg 700g×3',ct:160,nw:2.4,gw:3.4,bj:0,bx:0,cat:'mlt'},
+{l:'2.7kg 700g×3',ct:160,nw:2.7,gw:3.7,bj:0,bx:0,cat:'mlt'},
+{l:'4.2kg 600g×8',ct:68,nw:4.2,gw:6.2,bj:0,bx:0,cat:'mlt'},
+{l:'4.8kg 600g×8',ct:68,nw:4.8,gw:6.8,bj:240,bx:0,cat:'mlt'},
+{l:'4.8kg 700g×3',ct:56,nw:4.8,gw:6,bj:0,bx:0,cat:'mlt'},
+{l:'5.4kg 700g×3',ct:56,nw:5.4,gw:6,bj:0,bx:0,cat:'mlt'},
+// ── 알포도 (Loose) ──
+{l:'2.7kg 300g×9 bulk',ct:120,nw:2.7,gw:3.7,bj:90,bx:0,cat:'lse'},
+{l:'2.7kg 300g×9팩',ct:64,nw:2.7,gw:5,bj:270,bx:0,cat:'lse'},
+{l:'3kg 300g×10팩',ct:68,nw:3,gw:5,bj:400,bx:0,cat:'lse'},
+{l:'3.6kg(종이) 400g×9',ct:64,nw:3.6,gw:6,bj:270,bx:0,cat:'lse'},
+{l:'4kg 450g×9팩',ct:68,nw:4,gw:6,bj:300,bx:0,cat:'lse'},
+{l:'4.5kg 500g×9팩',ct:64,nw:4.5,gw:6.5,bj:270,bx:0,cat:'lse'},
+{l:'8kg 800g×10(알포도)',ct:60,nw:5.6,gw:7.6,bj:0,bx:0,cat:'lse'},
+{l:'9kg 1kg×9(알포도)',ct:60,nw:4.9,gw:6.9,bj:0,bx:0,cat:'lse'},
+// ── 기프트 (Gift) ──
+{l:'3.6kg GIFT 900g×4',ct:102,nw:3.6,gw:5,bj:6600,bx:9360,cat:'gft'},
+{l:'4kg GIFT 1kg×4',ct:102,nw:4,gw:5.4,bj:0,bx:0,cat:'gft'},
+{l:'4.8kg GIFT 800g×6',ct:56,nw:4.8,gw:6,bj:5400,bx:6300,cat:'gft'},
+{l:'5.4kg GIFT 900g×6',ct:84,nw:5.4,gw:6,bj:0,bx:0,cat:'gft'},
 ];
+const GRG=[
+{k:'all',l:'전체',c:'#7b2d8e'},
+{k:'sea',l:'동남아',c:'#16a368',ns:['베트남','말레이시아','인도네시아','태국']},
+{k:'nea',l:'동북아',c:'#d48a00',ns:['대만','홍콩']},
+{k:'oce',l:'오세아니아',c:'#9333ea',ns:['호주']},
+{k:'ame',l:'미주',c:'#dc2626',ns:['미국LA','미국NY','캐나다']},
+];
+const GSC=[
+{k:'all',l:'전체 스펙',c:'#7b2d8e'},
+{k:'bun',l:'송이',c:'#3b6ff0'},
+{k:'mlt',l:'멀티팩',c:'#16a368'},
+{k:'lse',l:'알포도',c:'#d48a00'},
+{k:'gft',l:'기프트',c:'#dc2626'},
+];
+let gRgn='all',gSpc='all';
 
 // ═══ NAV ═══
 let syTimer=null;
@@ -331,12 +376,12 @@ function go(f){F=f;$('land').classList.add('h');setTimeout(()=>$('land').style.d
 function bk(){if(syTimer){clearInterval(syTimer);syTimer=null;}$('app').style.display='none';const l=$('land');l.style.display='flex';l.classList.remove('h');F=null;pSj=null;gSj=null;document.body.style.background='';}
 
 function build(){
-  const C={s:{ac:'#e8334a',bg:'#fff0f2',bbg:'#fef2f4',e:'🍓',nm:'딸기'},p:{ac:'#b8860b',bg:'#fdf6e3',bbg:'#f8f4e8',e:'🍐',nm:'배'},g:{ac:'#7b2d8e',bg:'#faf0ff',bbg:'#f6f0fa',e:'🍇',nm:'포도'}};
+  const C={s:{ac:'#e8334a',bg:'#fff0f2',bbg:'#fef2f4',e:'🍓',nm:'딸기'},p:{ac:'#b8860b',bg:'#fdf6e3',bbg:'#f8f4e8',e:'🍐',nm:'배'},g:{ac:'#7b2d8e',bg:'#faf0ff',bbg:'#f6f0fa',e:'🍇',nm:'포도'},o:{ac:'#f97316',bg:'#fff7ed',bbg:'#fffaf2',e:'🍊',nm:'귤'},k:{ac:'#65a30d',bg:'#f0fdf4',bbg:'#f7fff5',e:'🥝',nm:'키위'},h:{ac:'#ea580c',bg:'#fff5eb',bbg:'#fffaf3',e:'🟠',nm:'감'}};
   const c=C[F];document.documentElement.style.setProperty('--ac',c.ac);document.body.style.background=c.bbg;
   $('hd').innerHTML=`<button class="bb" onclick="bk()">←</button><span style="font-size:20px">${c.e}</span><div><h1>${c.nm} 오퍼 계산기</h1><div class="hd-s">현농프레쉬</div></div><div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><div class="sbdg idle" id="sbdg" onclick="doSy()">🔄 수동 동기화</div><div class="lst" id="lst">마지막 동기화: -</div></div>`;
   $('hd').style.background=`linear-gradient(135deg,${c.bg},#fff)`;$('hd').style.borderBottomColor=c.ac;
   $('ts').innerHTML=`<button class="tb a" onclick="sw('o',this)">📊 계산</button><button class="tb" onclick="sw('l',this)">📋 기록<span class="lc" id="lc">0</span></button>`;
-  if(F==='s')bS();else if(F==='p')bP();else bG();
+  if(F==='s')bS();else if(F==='p')bP();else if(F==='g')bG();else bM();
   uLC();
 }
 function sw(t,b){document.querySelectorAll('.tb').forEach(x=>x.classList.remove('a'));b.classList.add('a');$('to').classList.toggle('a',t==='o');$('tl').classList.toggle('a',t==='l');if(t==='l'){rL();fetchHist();}}
@@ -414,6 +459,15 @@ function bP(){
       <div class="ig"><label>12.8kg</label><input type="number" id="pwk_w128" value="${PWK.w128}" oninput="pA()"></div>
       <div class="ig"><label>10.9kg</label><input type="number" id="pwk_w109" value="${PWK.w109}" oninput="pA()"></div>
       <div class="ig"><label>대과</label><input type="number" id="pwk_wdg" value="${PWK.wdg}" oninput="pA()"></div>
+    </div>
+    <div class="sl" style="background:rgba(220,38,38,.06);border-left:3px solid #dc2626;padding-left:11px;color:#dc2626">🇺🇸 미국 작업비 (기준 ₩/박스 + 5% 지원)</div>
+    <div class="wg" id="puwk_grid">
+      <div class="ig"><label>5kg(화지)</label><input type="number" id="puwk_u5" value="${PUWK.u5}" oninput="pA()"></div>
+      <div class="ig"><label>3kg</label><input type="number" id="puwk_u3" value="${PUWK.u3}" oninput="pA()"></div>
+      <div class="ig"><label>12kg</label><input type="number" id="puwk_u12" value="${PUWK.u12}" oninput="pA()"></div>
+      <div class="ig"><label>12.8kg(3팩)</label><input type="number" id="puwk_u128" value="${PUWK.u128}" oninput="pA()"></div>
+      <div class="ig"><label>10.9kg(3팩)</label><input type="number" id="puwk_u109" value="${PUWK.u109}" oninput="pA()"></div>
+      <div class="ig"><label>대과</label><input type="number" id="puwk_udg" value="${PUWK.udg}" oninput="pA()"></div>
     </div>`;
   pB();
 }
@@ -424,14 +478,32 @@ function pSl(s){pSj=pSj===s?null:s;document.querySelectorAll('#psb .sj').forEach
   pB();
 }
 
+function pSetRgn(k){pRgn=k;pB();pA();}
 function pB(){
   const o=$('to');
   if(!pSj){o.innerHTML='<div class="le"><span style="font-size:36px;display:block;margin-bottom:6px">🍐</span>산지를 선택하세요</div>';return;}
   const p={a:gv('pa'),b:gv('pb'),c:gv('pc')};
+  const us={a:gv('ha'),b:gv('hb'),c:gv('hc')};
   const conv={'5kg(6-8s)':Math.round(p.a/3),'5kg(9-10s)':Math.round(p.b/3),'7.5kg':Math.round(p.a/15*7.5),
     '12.8kg':Math.round(p.b/15*12.8),'10.9kg':Math.round(p.c/15*10.9),'3kg(5s)':Math.round((p.a/24*3)+(p.b/26*2)),
     '3kg(6s)':Math.round(p.b/26*3),'10kg대과':Math.round(p.a/15*10)};
+  const showUS=pRgn==='ame'||pRgn==='all';
+  const usConv=(us.a||us.b||us.c)?{
+    '미국 5kg(6-8s)':Math.round(us.a),
+    '미국 5kg(9-10s)':Math.round(us.b),
+    '미국 3kg(5s)':Math.round((us.a/8*3)+(us.b/9*2)),
+    '미국 3kg(6s)':Math.round(us.b/10*6),
+    '미국 12kg 5구':Math.round(((us.a/8*3)+(us.b/9*2))*4),
+    '미국 12.8kg':Math.round(us.b/5*12.8),
+    '미국 10.9kg':Math.round(us.c/5*10.9),
+    '미국 10kg대과':Math.round(p.a/15*10)
+  }:null;
   let h=`<div class="pp"><h3>📐 ${pSj} 사이즈환산</h3><div class="cv">${Object.entries(conv).map(([k,v])=>`<div class="cr"><span>${k}</span><span class="cvl">₩${fN(v)}</span></div>`).join('')}</div></div>`;
+  if(showUS&&usConv){
+    h+=`<div class="pp" style="background:linear-gradient(135deg,#fff5f5,#ffe8e8);border-color:#fcc"><h3 style="color:#dc2626">🇺🇸 ${pSj} 미국 환산 (US 단가 기준)</h3><div class="cv" style="border-color:#fcc">${Object.entries(usConv).map(([k,v])=>`<div class="cr" style="border-color:#fee"><span>${k}</span><span class="cvl" style="color:#dc2626">₩${fN(v)}</span></div>`).join('')}</div></div>`;
+  }
+
+  h+=`<div class="rgnb">${PRG.map(r=>`<button class="rgn${pRgn===r.k?' a':''}" style="${pRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="pSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
 
   const sh=gv('psh')==40?'f':'t';
   const specs=PS.filter(s=>{
@@ -439,9 +511,11 @@ function pB(){
     if(sh==='t'&&!s.c2)return false;
     return true;
   });
+  const rgn=PRG.find(r=>r.k===pRgn);
+  const filteredPC=pRgn==='all'?PC:PC.filter(c=>rgn.ns.indexOf(c.n)>=0);
 
   h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th style="font-size:8px">작업비</th><th>$</th><th>마진</th><th>총마진</th><th></th></tr></thead><tbody>`;
-  PC.forEach(c=>{
+  filteredPC.forEach(c=>{
     const cSpecs=specs.filter(s=>!(c.us&&s.noUS));
     cSpecs.forEach((s,si)=>{
       const wkVal=gv('pwk_'+s.wk)||PWK[s.wk]||0;
@@ -468,7 +542,7 @@ function pCalc(cn,sid){
 
   const p={a:gv('pa'),b:gv('pb'),c:gv('pc')};
   const h={a:gv('ha'),b:gv('hb'),c:gv('hc')};
-  const wc={ua:5500,ub:8500}; // 미국 화지/3팩 스티커미부착
+  const wc={u5:gv('puwk_u5')||PUWK.u5,u3:gv('puwk_u3')||PUWK.u3,u12:gv('puwk_u12')||PUWK.u12,u128:gv('puwk_u128')||PUWK.u128,u109:gv('puwk_u109')||PUWK.u109,udg:gv('puwk_udg')||PUWK.udg};
 
   let raw,wk;
   if(co.us&&sp.urf){raw=sp.urf(h,p);wk=sp.uwk(raw,wc);}
@@ -495,21 +569,35 @@ function bG(){
     <div class="ig"><label>운송</label><select id="gsh" onchange="gB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
     <div class="sjb" id="gsb">${GSANJI.map(s=>`<button class="sj" onclick="gSl('${s}')">${s}</button>`).join('')}</div>
-    <div class="sl" style="padding-top:4px">포도 단가 (₩/박스)</div>
+    <div class="sl" style="padding-top:4px">포도 단가</div>
     <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
-      <div class="ig"><label>기본단가</label><input type="number" id="gp1" value="0" oninput="gA()" placeholder="₩"></div>
-      <div class="ig"><label>작업비</label><input type="number" id="gwk" value="0" oninput="gA()" placeholder="₩"></div>
+      <div class="ig"><label>기본단가 <em>₩/kg</em></label><input type="number" id="gp1" value="0" oninput="gA()" placeholder="₩/kg"></div>
+      <div class="ig"><label>작업비 <em>₩/박스</em></label><input type="number" id="gwk" value="0" oninput="gA()" placeholder="₩"></div>
     </div>`;
   gB();
 }
 function gSl(s){gSj=gSj===s?null:s;document.querySelectorAll('#gsb .sj').forEach(b=>{const a=b.textContent===gSj;b.classList.toggle('a',a);b.style.background=a?'linear-gradient(135deg,#9b59b6,#7b2d8e)':'';b.style.color=a?'#fff':'';b.style.borderColor=a?'#7b2d8e':'';});gB();}
 
+function gSetRgn(k){gRgn=k;gB();gA();}
+function gSetSpc(k){gSpc=k;gB();gA();}
 function gB(){
   const o=$('to');
   if(!gSj){o.innerHTML='<div class="le"><span style="font-size:36px;display:block;margin-bottom:6px">🍇</span>산지를 선택하세요</div>';return;}
-  let h=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th>원물₩</th><th>$</th><th>마진</th><th>총마진</th><th></th></tr></thead><tbody>`;
-  GC.forEach(c=>{GS.forEach((s,si)=>{
-    h+=`<tr${si===GS.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${GS.length}">${c.f}<br><span style="font-size:9px">${c.n}</span></td>`:'')+
+  let h='';
+  const kg=gv('gp1');
+  if(kg){
+    const showSpecs=GS.filter(s=>gSpc==='all'||s.cat===gSpc).slice(0,12);
+    h+=`<div class="pp" style="border-color:#d8b3e8;background:linear-gradient(135deg,#faf0ff,#f3e0ff)"><h3 style="color:#7b2d8e">🍇 ${gSj} ₩${fN(kg)}/kg → 박스단가</h3><div class="cv" style="border-color:#d8b3e8"><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:2px">${showSpecs.map(s=>`<div class="cr" style="border-color:#f0e0f8"><span style="font-size:9px">${s.l}</span><span class="cvl" style="color:#7b2d8e">₩${fN(Math.round(kg*s.nw))}</span></div>`).join('')}</div></div></div>`;
+  }
+  h+=`<div class="rgnb">${GRG.map(r=>`<button class="rgn${gRgn===r.k?' a':''}" style="${gRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="gSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
+  h+=`<div class="rgnb">${GSC.map(r=>`<button class="rgn${gSpc===r.k?' a':''}" style="${gSpc===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="gSetSpc('${r.k}')">${r.l}</button>`).join('')}</div>`;
+  const rgn=GRG.find(r=>r.k===gRgn);
+  const fGC=gRgn==='all'?GC:GC.filter(c=>rgn.ns.indexOf(c.n)>=0);
+  const fGS=GS.map((s,i)=>({s,i})).filter(o=>gSpc==='all'||o.s.cat===gSpc);
+  if(!fGC.length||!fGS.length){o.innerHTML=h+'<div class="le">조건에 맞는 항목 없음</div>';return;}
+  h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th>원물₩</th><th>$</th><th>마진</th><th>총마진</th><th></th></tr></thead><tbody>`;
+  fGC.forEach(c=>{fGS.forEach((o,idx)=>{const s=o.s,si=o.i;
+    h+=`<tr${idx===fGS.length-1?' class="cs"':''}>`+(idx===0?`<td class="ctd" rowspan="${fGS.length}">${c.f}<br><span style="font-size:9px">${c.n}</span></td>`:'')+
       `<td style="font-size:9px;color:#555">${s.l}</td>
       <td class="ptd"><input type="number" id="gr${c.n}${si}" oninput="gR('${c.n}',${si})" style="width:48px;font-size:9px" placeholder="원물"></td>
       <td class="ptd"><input type="number" step="0.1" id="go${c.n}${si}" oninput="gR('${c.n}',${si})"></td>
@@ -520,10 +608,11 @@ function gB(){
 }
 function gCalc(cn,si){
   if(!gSj)return null;
+  const sp=GS[si];if(!sp)return null;
   const fx=gv('gfx'),sup=gv('gsp'),sh=gv('gsh')==40?'f':'t',of=gv('go'+cn+si);
   if(!of)return null;
-  let raw=gv('gr'+cn+si),usedDef=false;if(!raw){raw=gv('gp1');usedDef=true;}
-  const wk=gv('gwk'),sp=GS[si];
+  let raw=gv('gr'+cn+si),usedDef=false;if(!raw){const kg=gv('gp1');if(kg){raw=Math.round(kg*sp.nw);usedDef=true;}}
+  const wk=gv('gwk');
   const sea=GSEA[cn],il=GIL[gSj];if(!sea||!il)return null;
   const seaV=sea[sh],inlV=il[sh];if(!seaV)return null;
   const ct=sp.ct,tp=sh==='f'?20:9,tb=ct*tp;
@@ -534,13 +623,109 @@ function gCalc(cn,si){
 function gR(cn,si){const r=gCalc(cn,si);const e1=$('gm'+cn+si),e2=$('gt'+cn+si);if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}const cl=mC(r.mb);if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
   const ri=$('gr'+cn+si);if(ri){ri.style.borderColor=r.usedDef&&gv('gp1')?'#c9a0dc':'';}
 }
-function gA(){GC.forEach(c=>GS.forEach((_,i)=>gR(c.n,i)));}
+function gA(){GC.forEach(c=>GS.forEach((_,i)=>{if($('go'+c.n+i))gR(c.n,i);}));}
 function gL(cn,si){const r=gCalc(cn,si);if(!r||!r.of)return;const co=GC.find(c=>c.n===cn);
   const sp=GS[si],tp=gv('gsh')==40?20:9;
   const qty=`${sp.l} ${sp.ct}ctn × ${tp}p (${r.tb}ctn)`;
   const raw=fN(Math.round(r.raw))+'원/박스';
   cmOpen({fr:'g',co:cn,fl:co?.f||'',sp:sp.l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('gfx'),sj:gSj,sh:gv('gsh')+'ft',btn:'gb'+cn+si,qty,raw,maker:gSj},
     `${co?.f} ${cn} · ${sp.l} · ${gSj}`,`오퍼: <span>$${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);}
+
+// ═══ 일반 과수 (귤·키위·감) ═══
+const MFN={o:'귤',k:'키위',h:'감'};
+const MFD={
+  o:{nw:10,gw:11.5,ct:80,wk:5000,sj:['제주도'],defSj:'제주도',specs:[
+    {l:'10kg 2L',raw:90000},
+    {l:'10kg L',raw:87700},
+    {l:'10kg M',raw:82700},
+    {l:'10kg S',raw:75000},
+    {l:'10kg 2S',raw:68000},
+  ]},
+  k:{nw:5,gw:6,ct:168,wk:5000,sj:['제주','순천'],defSj:'제주',specs:[
+    {l:'5kg 35과(32-36)',raw:40500},
+    {l:'5kg 40과(36-41)',raw:39000},
+    {l:'5kg 45과(42-47)',raw:37500},
+    {l:'5kg 50과(46-51)',raw:36000},
+    {l:'5kg 55과(52-57)',raw:34500},
+    {l:'5kg 60과(58-62)',raw:33000},
+    {l:'5kg 70과(68-72)',raw:31500},
+    {l:'3.5kg 4-5과×10팩(골드)',raw:30000},
+    {l:'3.5kg 4-5과×10팩(레드)',raw:36000},
+    {l:'2kg 18-20과',raw:14000},
+  ]},
+  h:{nw:10,gw:11,ct:100,wk:4000,sj:['창원','순천'],defSj:'창원',specs:[
+    {l:'10kg 2L',raw:38850},
+    {l:'10kg L',raw:30450},
+    {l:'10kg M',raw:23625},
+    {l:'10kg S',raw:18900},
+    {l:'10kg 2S',raw:15750},
+  ]}
+};
+let mRgn='all',mSj={o:null,k:null,h:null};
+function mSetRgn(k){mRgn=k;mB();mA();}
+function mSjSel(s){mSj[F]=mSj[F]===s?null:s;mB();mA();}
+function bM(){
+  const d=MFD[F];
+  if(!mSj[F])mSj[F]=d.defSj;
+  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="mfx" value="1400" oninput="mA()"></div>
+    <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="msp" value="0" oninput="mA()"></div>
+    <div class="ig"><label>운송</label><select id="msh" onchange="mB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
+  $('ex').innerHTML=`<div class="sl">산지</div>
+    <div class="sjb" id="msb">${d.sj.map(s=>`<button class="sj${mSj[F]===s?' a':''}" onclick="mSjSel('${s}')" style="${mSj[F]===s?'background:'+MFD[F].ac+';color:#fff;border-color:'+MFD[F].ac:''}">${s}</button>`).join('')}</div>
+    <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
+      <div class="ig"><label>NW <em>kg</em></label><input type="number" step="0.1" id="mnw" value="${d.nw}" oninput="mA()"></div>
+      <div class="ig"><label>GW <em>kg</em></label><input type="number" step="0.1" id="mgw" value="${d.gw}" oninput="mA()"></div>
+      <div class="ig"><label>박스/팔레트</label><input type="number" id="mct" value="${d.ct}" oninput="mA()"></div>
+      <div class="ig"><label>작업비 <em>₩/박스</em></label><input type="number" id="mwk" value="${d.wk}" oninput="mA()"></div>
+    </div>`;
+  mB();
+}
+function mB(){
+  const o=$('to'),d=MFD[F];
+  if(!mSj[F]){o.innerHTML=`<div class="le"><span style="font-size:36px;display:block;margin-bottom:6px">${F==='o'?'🍊':F==='k'?'🥝':'🟠'}</span>산지를 선택하세요</div>`;return;}
+  let h='';
+  h+=`<div class="rgnb">${PRG.map(r=>`<button class="rgn${mRgn===r.k?' a':''}" style="${mRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="mSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
+  const rgn=PRG.find(r=>r.k===mRgn);
+  const fPC=mRgn==='all'?PC:PC.filter(c=>rgn.ns.indexOf(c.n)>=0);
+  h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th>원물₩</th><th>$</th><th>마진</th><th>총마진</th><th></th></tr></thead><tbody>`;
+  fPC.forEach(c=>{
+    d.specs.forEach((sp,si)=>{
+      h+=`<tr${si===d.specs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${d.specs.length}">${c.f}<br><span style="font-size:9px">${c.n}</span></td>`:'')+
+        `<td style="font-size:9px;color:#555">${sp.l}</td>
+        <td class="ptd"><input type="number" id="mr${c.n}${si}" value="${sp.raw}" oninput="mR('${c.n}',${si})" style="width:54px;font-size:9px"></td>
+        <td class="ptd"><input type="number" step="0.1" id="mo${c.n}${si}" oninput="mR('${c.n}',${si})"></td>
+        <td class="mc" id="mm${c.n}${si}">-</td><td class="tc" id="mt${c.n}${si}">-</td>
+        <td><button class="lb" id="mbtn${c.n}${si}" onclick="mL('${c.n}',${si})">📝</button></td></tr>`;
+    });
+  });
+  h+=`</tbody></table></div>`;o.innerHTML=h;
+}
+function mCalc(cn,si){
+  if(!mSj[F])return null;
+  const d=MFD[F],sp=d.specs[si];if(!sp)return null;
+  const fx=gv('mfx'),sup=gv('msp'),sh=gv('msh')==40?'f':'t',of=gv('mo'+cn+si);
+  if(!of)return null;
+  const raw=gv('mr'+cn+si)||sp.raw,wk=gv('mwk'),nw=gv('mnw')||1,ct=gv('mct')||1;
+  const sea=PSEA[cn];if(!sea)return null;
+  const seaV=sea[sh];if(!seaV)return null;
+  const tp=sh==='f'?20:9,tb=ct*tp;
+  const pbf=seaV/tp/ct;
+  const cif=raw+wk+pbf;
+  const mb=of-(cif/fx),tk=mb*tb*fx+tb*nw*sup;
+  return{of,raw,mb,tk,cif,tb};
+}
+function mR(cn,si){const r=mCalc(cn,si);const e1=$('mm'+cn+si),e2=$('mt'+cn+si);if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}const cl=mC(r.mb);if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}$</span>`;if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;}
+function mA(){const d=MFD[F];if(!d)return;PC.forEach(c=>d.specs.forEach((_,i)=>{if($('mo'+c.n+i))mR(c.n,i);}));}
+function mL(cn,si){
+  const r=mCalc(cn,si);if(!r||!r.of)return;
+  const co=PC.find(c=>c.n===cn),d=MFD[F],sp=d.specs[si];
+  const nm=MFN[F],nw=gv('mnw'),ct=gv('mct'),tp=gv('msh')==40?20:9;
+  const qty=`${nm} ${sp.l} ${ct}ctn × ${tp}p (${r.tb}ctn)`;
+  const raw=fN(Math.round(r.raw))+'원/박스';
+  cmOpen({fr:F,co:cn,fl:co?.f||'',sp:nm+' '+sp.l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('mfx'),sj:mSj[F],sh:gv('msh')+'ft',btn:'mbtn'+cn+si,qty,raw,maker:mSj[F]},
+    `${co?.f} ${cn} · ${nm} · ${sp.l} · ${mSj[F]}`,
+    `오퍼: <span>$${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);
+}
 
 // ═══ LOG ═══
 function loadL(){try{logs=JSON.parse(localStorage.getItem('hn4')||'[]');}catch(e){logs=[];}}
@@ -582,7 +767,7 @@ function cmSend(){
   if(!pnd.id)pnd.id=genId();
   pnd.author=me;
   const btn=$('msbtn');btn.disabled=true;btn.textContent='⏳ 전송 중...';
-  const FRN={s:'딸기',p:'배',g:'포도'};
+  const FRN={s:'딸기',p:'배',g:'포도',o:'귤',k:'키위',h:'감'};
   const isEdit=pnd._edit;
   const payload={
     fruit:FRN[pnd.fr]||pnd.fr,country:pnd.co,flag:pnd.fl||'',spec:pnd.sp||'',
@@ -721,6 +906,21 @@ function doSy(){
       if(pk(d,'sgdrate','sgd')){$('ssg').value=Math.round(pk(d,'sgdrate','sgd'));flI('ssg');}
       cnt++;
     }
+    // 배 단가 (한국 + 미국)
+    const pp=pk(d,'pearPrice','pPrice','pearPrices');
+    if(pp){
+      const map={a:'pa',b:'pb',c:'pc',ha:'ha',hb:'hb',hc:'hc'};
+      Object.keys(map).forEach(k=>{const v=pk(pp,k);if(v!=null&&$(map[k])){$(map[k]).value=v;flI(map[k]);cnt++;}});
+    }
+    // 미국 작업비
+    const puw=pk(d,'pearUWk','pUWk','usWk');
+    if(puw)Object.keys(puw).forEach(k=>{if(PUWK[k]!=null){PUWK[k]=puw[k];const e=$('puwk_'+k);if(e)e.value=puw[k];cnt++;}});
+    // 포도 기본단가 ₩/kg
+    const gpr=pk(d,'grapePrice','gPrice','grapeKg');
+    if(gpr!=null&&$('gp1')){$('gp1').value=gpr;flI('gp1');cnt++;}
+    // 포도 작업비
+    const gw=pk(d,'grapeWk','gWk');
+    if(gw!=null&&$('gwk')){$('gwk').value=gw;flI('gwk');cnt++;}
     const fr=pk(d,'freight','strawFreight','airFreight');
     if(fr)Object.keys(fr).forEach(k=>{if(!SF[k])return;const v=fr[k];const a=pk(v,'airKg','air','a','kg');if(a!=null){SF[k].a=a;cnt++;}const fc=pk(v,'fsc','fc','fuel');if(fc!=null)SF[k].fc=fc;const dom=pk(v,'domFreight','dom','d','domestic');if(dom!=null)SF[k].d=dom;});
     const ps=pk(d,'pearSea','pSea');if(ps)Object.keys(ps).forEach(k=>{if(!PSEA[k])return;const r=parseFT(ps[k]);if(r){Object.assign(PSEA[k],r);cnt++;}});
@@ -728,7 +928,7 @@ function doSy(){
     const pw=pk(d,'pearWk','pWk');if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){PWK[k]=pw[k];const e=$('pwk_'+k);if(e)e.value=pw[k];cnt++;}});
     const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){Object.assign(GSEA[k],r);cnt++;}});
     const gi=pk(d,'grapeInland','gInland');if(gi)Object.keys(gi).forEach(k=>{if(!GIL[k])return;const r=parseFT(gi[k]);if(r){Object.assign(GIL[k],r);cnt++;}});
-    if(F==='s')sA();else if(F==='p'){pB();pA();}else if(F==='g')gA();
+    if(F==='s')sA();else if(F==='p'){pB();pA();}else if(F==='g')gA();else mA();
     sBdg('ok','✅ 시트 연동 중');
     const now=new Date();const ts=now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
     const lt=$('lst');if(lt)lt.textContent='마지막 동기화: '+ts;

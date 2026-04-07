@@ -327,7 +327,7 @@ const GS=[
 
 // ═══ NAV ═══
 let syTimer=null;
-function go(f){F=f;$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('app').style.display='block';loadL();getMe();build();doSy();syTimer=setInterval(doSy,180000);}
+function go(f){F=f;$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('app').style.display='block';loadL();getMe();build();doSy();syTimer=setInterval(doSy,600000);}
 function bk(){if(syTimer){clearInterval(syTimer);syTimer=null;}$('app').style.display='none';const l=$('land');l.style.display='flex';l.classList.remove('h');F=null;pSj=null;gSj=null;document.body.style.background='';}
 
 function build(){
@@ -635,7 +635,7 @@ function rL(){
 function fetchHist(){
   histLoading=true;rL();
   const cb='hst'+Date.now(),s=document.createElement('script');
-  const t=setTimeout(()=>{cl();histLoading=false;rL();},10000);
+  const t=setTimeout(()=>{cl();histLoading=false;rL();},20000);
   function cl(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
   s.onerror=function(){cl();histLoading=false;rL();};
   window[cb]=function(d){cl();histLoading=false;
@@ -695,7 +695,7 @@ function flI(id){const e=$(id);if(!e)return;e.classList.remove('upd');void e.off
 function doSy(){
   const bg=$('sbdg');if(bg){bg.className='sbdg ld';bg.textContent='⏳ 동기화 중...';}
   const cb='c'+Date.now(),s=document.createElement('script');s.src=SU+'?callback='+cb;
-  const t=setTimeout(()=>{cl();sBdg('err','❌ 타임아웃');},10000);
+  const t=setTimeout(()=>{cl();sBdg('err','❌ 타임아웃');},30000);
   function cl(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
   s.onerror=function(){cl();sBdg('err','❌ 연결실패');};
   function pk(o,...keys){for(const k of keys){if(o[k]!=null)return o[k];}return null;}

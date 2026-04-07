@@ -90,7 +90,10 @@ tbody td{padding:4px 3px;border-bottom:1px solid #eee;white-space:nowrap}
 <div class="fc" onclick="go('s')"><span class="e">🍓</span><span class="n">딸기</span></div>
 <div class="fc" onclick="go('p')"><span class="e">🍐</span><span class="n">배</span></div>
 <div class="fc" onclick="go('g')"><span class="e">🍇</span><span class="n">포도</span></div>
-</div></div>
+</div>
+<button onclick="testSync()" style="margin-top:12px;padding:6px 16px;border-radius:8px;border:1px solid #dde0e8;background:#fff;font-family:inherit;font-size:11px;color:#606080;cursor:pointer">🔌 시트 연동 테스트</button>
+<div id="testR" style="font-size:10px;color:#606080;margin-top:6px;max-width:300px;word-break:break-all;text-align:center"></div>
+</div>
 <div id="app" style="display:none">
 <div class="hd" id="hd"></div>
 <div class="bs" id="bs"></div>
@@ -430,7 +433,7 @@ function dL(id){logs=logs.filter(l=>l.id!==id);saveL();rL();}
 function cL(){if(!confirm('전부 삭제?'))return;logs=logs.filter(l=>l.fr!==F);saveL();rL();}
 
 // ═══ SYNC ═══
-const SU='https://script.google.com/macros/s/AKfycbyBX1Wla3JWY8uMbZtDLAgtTLHowrsSoizrsOKaNEg8T8LcGFCSMSspG0JvPxeTjx-uCg/exec';
+const SU='https://script.google.com/macros/s/AKfycbyn1XNPzfZ_vrmf9Gh69HskO-1-dd7iEu6buS3GeUHiHgL9_VqlmMR1ipdtAe0_d2gc7Q/exec';
 function doSy(){
   const b=$('hd').querySelector('.sb');b.textContent='⏳...';
   const cb='c'+Date.now(),s=document.createElement('script');s.src=SU+'?callback='+cb;
@@ -493,6 +496,29 @@ function doSy(){
     b.textContent='✅';setTimeout(()=>b.textContent='🔄',3000);
     const st=$('syt');if(st){const now=new Date();st.textContent='· '+now.getHours()+':'+String(now.getMinutes()).padStart(2,'0')+' 동기화 ('+cnt+')';}
   }catch(e){console.error('[SYNC] parse error:',e);b.textContent='❌ 파싱오류';setTimeout(()=>b.textContent='🔄',4000);}};
+  document.head.appendChild(s);
+}
+
+function testSync(){
+  const r=$('testR');r.innerHTML='⏳ 연결 중...';
+  const cb='test'+Date.now(),s=document.createElement('script');
+  s.src=SU+'?callback='+cb;
+  const t=setTimeout(()=>{cln();r.innerHTML='❌ <b>타임아웃</b> — GAS URL이 응답하지 않습니다.<br>확인사항:<br>1) Apps Script → 배포 → 접근: "모든 사용자"<br>2) URL이 /exec 로 끝나는지';},8000);
+  s.onerror=function(){cln();r.innerHTML='❌ <b>스크립트 로드 실패</b> — URL을 확인하세요';};
+  function cln(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
+  window[cb]=function(d){cln();
+    if(d.error){r.innerHTML='❌ GAS 에러: '+d.error;return;}
+    const keys=Object.keys(d);
+    let info='✅ <b>연동 성공!</b><br>';
+    info+='환율: '+(d.exrate||'없음')+'<br>';
+    info+='딸기단가: '+(d.prices?d.prices.p250+'원/kg':'없음')+'<br>';
+    info+='딸기운임: '+(d.freight?Object.keys(d.freight).length+'개국':'없음')+'<br>';
+    info+='배 해운: '+(d.pearSea?Object.keys(d.pearSea).length+'개국':'없음')+'<br>';
+    info+='배 내륙: '+(d.pearInland?Object.keys(d.pearInland).length+'개 산지':'없음')+'<br>';
+    info+='포도 해운: '+(d.grapeSea?Object.keys(d.grapeSea).length+'개국':'없음')+'<br>';
+    info+='포도 내륙: '+(d.grapeInland?Object.keys(d.grapeInland).length+'개 산지':'없음');
+    r.innerHTML=info;
+  };
   document.head.appendChild(s);
 }
 </script>

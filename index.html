@@ -9,6 +9,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="현농오퍼">
 <meta name="theme-color" content="#16a368">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.json">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#f6f7fb;--sf:#fff;--sf2:#f1f3f8;--bd:#e2e5ee;--bd2:#cfd3df;--tx:#15172b;--t2:#5b6079;--t3:#9094a8;--gr:#16a368;--rd:#d63b3b;--yw:#d48a00;--bl:#3b6ff0;--ac:#3b6ff0;--sh:0 1px 2px rgba(20,25,55,.04),0 2px 8px rgba(20,25,55,.04);--sh2:0 4px 16px rgba(20,25,55,.08);--sh3:0 12px 40px rgba(20,25,55,.12)}
@@ -175,6 +179,48 @@ tbody tr:hover td{background:#fafbfd}
 .mbs{flex-wrap:wrap}
 .mbs .mb{flex:1 1 calc(50% - 4px);min-width:0}
 .snt{display:inline-block;font-size:8px;font-weight:800;color:var(--gr);background:rgba(22,163,104,.12);border:1px solid var(--gr);padding:1px 6px;border-radius:8px;margin-left:5px;vertical-align:middle;letter-spacing:.04em}
+.best td{background:linear-gradient(90deg,rgba(22,163,104,.12),rgba(22,163,104,.05))!important;position:relative}
+.best td:first-child::before{content:'★';position:absolute;left:1px;top:50%;transform:translateY(-50%);color:var(--gr);font-size:10px;font-weight:900}
+.summary{display:flex;gap:6px;padding:8px 12px;background:linear-gradient(135deg,#f5f7fc,#eef1f8);border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;flex-wrap:wrap;box-shadow:var(--sh)}
+.smi{flex:1;min-width:80px;text-align:center}
+.smi .lbl{font-size:8px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.04em}
+.smi .val{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:800;letter-spacing:-.02em;margin-top:2px}
+/* === 입력 검증 === */
+.req-empty{border-color:var(--rd)!important;background:rgba(214,59,59,.05)!important;animation:reqShake .4s}
+@keyframes reqShake{0%,100%{transform:translateX(0)}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.req-mark{color:var(--rd);font-weight:900;margin-left:2px}
+/* === 터치 타깃 확대 === */
+@media (hover:none) and (pointer:coarse){
+  .lb{width:36px;height:36px;font-size:14px}
+  .bb{width:38px;height:38px;font-size:18px}
+  .pi{width:68px;font-size:13px;padding:7px 4px}
+  .ig input,.ig select{padding:9px 8px;font-size:13px}
+  .ptd input{width:68px;font-size:12px;padding:7px 4px}
+  .sj{padding:8px 14px;font-size:12px}
+  .tb{padding:13px 14px;font-size:12px}
+  .rgn{padding:9px 16px;font-size:12px}
+  .mb{padding:13px;font-size:12px}
+  .ldb{padding:6px 12px;font-size:11px}
+  .cb{padding:7px 12px;font-size:11px}
+  .sbdg{padding:6px 12px;font-size:10px}
+}
+/* === 마진율 === */
+.mpct{display:block;font-size:8px;font-weight:700;opacity:.7;margin-top:1px;font-family:'JetBrains Mono',monospace}
+/* === 환율 시뮬레이터 === */
+.fxsim{display:flex;gap:3px;align-items:center;padding:0 8px;background:rgba(212,138,0,.08);border:1px solid rgba(212,138,0,.25);border-radius:6px;margin-left:6px}
+.fxsim span{font-size:8px;font-weight:700;color:var(--yw);text-transform:uppercase}
+.fxsim button{background:#fff;border:1px solid rgba(212,138,0,.3);color:var(--yw);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;padding:3px 7px;border-radius:4px;cursor:pointer;transition:all .12s}
+.fxsim button:hover{background:rgba(212,138,0,.1)}
+.fxsim button.a{background:var(--yw);color:#fff;border-color:var(--yw)}
+/* === PWA 설치 배너 === */
+.pwabanner{position:fixed;bottom:14px;left:14px;right:14px;background:linear-gradient(135deg,#16a368,#0e7c4d);color:#fff;padding:12px 14px;border-radius:14px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 28px rgba(22,163,104,.4);z-index:300;animation:slideUp .35s cubic-bezier(.2,.9,.3,1.2);max-width:480px;margin:0 auto}
+.pwabanner.h{display:none}
+@keyframes slideUp{from{transform:translateY(120%);opacity:0}to{transform:translateY(0);opacity:1}}
+.pwabanner .pwIcon{font-size:24px}
+.pwabanner .pwTxt{flex:1;font-size:11px;line-height:1.4}
+.pwabanner .pwTxt b{font-size:13px;display:block;margin-bottom:1px}
+.pwabanner button{background:#fff;color:#16a368;border:none;font-weight:800;font-size:11px;padding:8px 14px;border-radius:8px;cursor:pointer;font-family:inherit}
+.pwabanner .pwX{background:transparent;color:#fff;font-size:18px;padding:4px 8px;font-weight:400;opacity:.8}
 .auth{display:inline-block;font-size:8px;font-weight:800;color:var(--t2);background:var(--sf2);border:1px solid var(--bd);padding:1px 6px;border-radius:8px;margin-left:5px;vertical-align:middle}
 .auth.me{color:#fff;background:var(--ac);border-color:var(--ac)}
 .li.mine{border-left:3px solid var(--ac);background:linear-gradient(90deg,rgba(59,111,240,.04),#fff 60%)}
@@ -378,7 +424,7 @@ let gRgn='all',gSpc='all';
 // ═══ NAV ═══
 let syTimer=null;
 function go(f){F=f;$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('app').style.display='block';loadL();getMe();build();doSy();syTimer=setInterval(doSy,600000);}
-function bk(){if(syTimer){clearInterval(syTimer);syTimer=null;}$('app').style.display='none';const l=$('land');l.style.display='flex';l.classList.remove('h');F=null;pSj=null;gSj=null;document.body.style.background='';}
+function bk(){if(syTimer){clearInterval(syTimer);syTimer=null;}$('app').style.display='none';const l=$('land');l.style.display='flex';l.classList.remove('h');F=null;pSj=null;gSj=null;mSj={o:null,k:null,h:null};pRgn='all';gRgn='all';gSpc='all';mRgn='all';document.body.style.background='';document.documentElement.style.removeProperty('--ac');}
 
 function build(){
   const C={s:{ac:'#e8334a',bg:'#fff0f2',bbg:'#fef2f4',e:'🍓',nm:'딸기'},p:{ac:'#b8860b',bg:'#fdf6e3',bbg:'#f8f4e8',e:'🍐',nm:'배'},g:{ac:'#7b2d8e',bg:'#faf0ff',bbg:'#f6f0fa',e:'🍇',nm:'포도'},o:{ac:'#f97316',bg:'#fff7ed',bbg:'#fffaf2',e:'🍊',nm:'귤'},k:{ac:'#65a30d',bg:'#f0fdf4',bbg:'#f7fff5',e:'🥝',nm:'키위'},h:{ac:'#ea580c',bg:'#fff5eb',bbg:'#fffaf3',e:'🟠',nm:'감'}};
@@ -386,6 +432,7 @@ function build(){
   $('hd').innerHTML=`<button class="bb" onclick="bk()">←</button><span style="font-size:20px">${c.e}</span><div><h1>${c.nm} 오퍼 계산기</h1><div class="hd-s">현농프레쉬</div></div><div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><div class="sbdg idle" id="sbdg" onclick="doSy()">🔄 수동 동기화</div><div class="lst" id="lst">마지막 동기화: -</div></div>`;
   $('hd').style.background=`linear-gradient(135deg,${c.bg},#fff)`;$('hd').style.borderBottomColor=c.ac;
   $('ts').innerHTML=`<button class="tb a" onclick="sw('o',this)">📊 계산</button><button class="tb" onclick="sw('l',this)">📋 기록<span class="lc" id="lc">0</span></button>`;
+  $('to').classList.add('a');$('tl').classList.remove('a');
   if(F==='s')bS();else if(F==='p')bP();else if(F==='g')bG();else bM();
   uLC();
 }
@@ -395,7 +442,7 @@ function sw(t,b){document.querySelectorAll('.tb').forEach(x=>x.classList.remove(
 function bS(){
   $('bs').innerHTML=`<div class="ig"><label><em>250g</em></label><input type="number" id="sp0" value="8000" oninput="sA()"></div>
     <div class="ig"><label><em>500/330</em></label><input type="number" id="sp1" value="11500" oninput="sA()"></div>
-    <div class="ig"><label>환율₩/$</label><input type="number" id="sfx" value="1410" oninput="sA()"></div>
+    <div class="ig" style="flex:1.5"><label>환율₩/$</label><div style="display:flex;align-items:center"><input type="number" id="sfx" value="1410" oninput="sA()" style="flex:1">${fxsimHTML()}</div></div>
     <div class="ig"><label><span style="color:#c47d00">SGD</span>/₩ (브루나이)</label><input type="number" id="ssg" value="1137" oninput="sA()"><div class="sgd-hint"><span class="dot-sgd"></span>시트 자동 반영</div></div>`;
   $('ex').innerHTML='';
   const o=$('to');o.innerHTML='';
@@ -414,7 +461,7 @@ function bS(){
   });sA();
 }
 function sCalc(k,i){
-  const p0=gv('sp0'),p1=gv('sp1'),fx=gv('sfx'),sg=gv('ssg'),of=gv('so'+k+i),sp=SS[i],fd=SF[k];
+  const p0=gv('sp0'),p1=gv('sp1'),fx=gv('sfx')+fxAdj,sg=gv('ssg'),of=gv('so'+k+i),sp=SS[i],fd=SF[k];
   const mat=(sp.pk===0?p0:p1)*sp.nw,pb=(fd.d/sp.ct)+sp.gw*(fd.a+fd.fc),cif=mat+sp.bj+pb;
   const rt=fd.sg?sg:fx,mb=of-cif/rt,tk=mb*rt*sp.ct;
   return{of,mb,tk,cif,rt,sp,fd,sym:fd.sg?'S$':'$'};
@@ -438,7 +485,7 @@ function sL(k,i){
 
 // ═══ PEAR BUILD ═══
 function bP(){
-  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="pfx" value="1400" oninput="pA()"></div>
+  $('bs').innerHTML=`<div class="ig" style="flex:1.5"><label>환율 <em>₩/$</em></label><div style="display:flex;align-items:center"><input type="number" id="pfx" value="1400" oninput="pA()" style="flex:1">${fxsimHTML()}</div></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="psp" value="0" oninput="pA()"></div>
     <div class="ig"><label>운송</label><select id="psh" onchange="pB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
@@ -537,7 +584,7 @@ function pB(){
 
 function pCalc(cn,sid){
   if(!pSj)return null;
-  const fx=gv('pfx'),sup=gv('psp'),sh=gv('psh')==40?'f':'t';
+  const fx=gv('pfx')+fxAdj,sup=gv('psp'),sh=gv('psh')==40?'f':'t';
   const sp=PS.find(s=>s.id===sid);const co=PC.find(c=>c.n===cn);if(!sp||!co)return null;
   const of=gv('po'+cn+sid);if(!of)return null;
   const sea=PSEA[cn],il=PIL[pSj];if(!sea||!il)return null;
@@ -559,7 +606,14 @@ function pCalc(cn,sid){
   return{of,mb,tk,cif,tb,raw,wk,sp:sp.l};
 }
 function pR(cn,sid){const r=pCalc(cn,sid);const e1=$('pm'+cn+sid),e2=$('pt'+cn+sid),ew=$('pw'+cn+sid);if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}const cl=mC(r.mb);if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;if(ew)ew.textContent=fN(r.wk);}
-function pA(){PC.forEach(c=>PS.forEach(s=>pR(c.n,s.id)));}
+function markBest(prefix,calcFn,iterPairs){
+  let best=null;
+  iterPairs.forEach(([a,b])=>{const r=calcFn(a,b);if(r&&r.of&&r.mb>0&&(!best||r.mb>best.mb))best={a,b,mb:r.mb,tk:r.tk};});
+  document.querySelectorAll('.best').forEach(e=>e.classList.remove('best'));
+  if(best){const el=$(prefix+best.a+best.b);if(el){const tr=el.closest('tr');if(tr)tr.classList.add('best');}}
+  return best;
+}
+function pA(){PC.forEach(c=>PS.forEach(s=>pR(c.n,s.id)));const pairs=[];PC.forEach(c=>PS.forEach(s=>pairs.push([c.n,s.id])));markBest('pb',pCalc,pairs);}
 function pL(cn,sid){const r=pCalc(cn,sid);if(!r)return;const co=PC.find(c=>c.n===cn);
   const sp=PS.find(s=>s.id===sid),sh=gv('psh')==40?'f':'t',ctn=sh==='f'?sp.c4:sp.c2,tp=sh==='f'?20:9;
   const qty=`${r.sp} ${ctn}ctn × ${tp}p (${r.tb}ctn)`;
@@ -569,7 +623,7 @@ function pL(cn,sid){const r=pCalc(cn,sid);if(!r)return;const co=PC.find(c=>c.n==
 
 // ═══ GRAPE BUILD ═══
 function bG(){
-  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="gfx" value="1410" oninput="gA()"></div>
+  $('bs').innerHTML=`<div class="ig" style="flex:1.5"><label>환율 <em>₩/$</em></label><div style="display:flex;align-items:center"><input type="number" id="gfx" value="1410" oninput="gA()" style="flex:1">${fxsimHTML()}</div></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="gsp" value="0" oninput="gA()"></div>
     <div class="ig"><label>운송</label><select id="gsh" onchange="gB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
@@ -614,7 +668,7 @@ function gB(){
 function gCalc(cn,si){
   if(!gSj)return null;
   const sp=GS[si];if(!sp)return null;
-  const fx=gv('gfx'),sup=gv('gsp'),sh=gv('gsh')==40?'f':'t',of=gv('go'+cn+si);
+  const fx=gv('gfx')+fxAdj,sup=gv('gsp'),sh=gv('gsh')==40?'f':'t',of=gv('go'+cn+si);
   if(!of)return null;
   let raw=gv('gr'+cn+si),usedDef=false;if(!raw){const kg=gv('gp1');if(kg){raw=Math.round(kg*sp.nw);usedDef=true;}}
   const wk=gv('gwk');
@@ -628,7 +682,7 @@ function gCalc(cn,si){
 function gR(cn,si){const r=gCalc(cn,si);const e1=$('gm'+cn+si),e2=$('gt'+cn+si);if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}const cl=mC(r.mb);if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
   const ri=$('gr'+cn+si);if(ri){ri.style.borderColor=r.usedDef&&gv('gp1')?'#c9a0dc':'';}
 }
-function gA(){GC.forEach(c=>GS.forEach((_,i)=>{if($('go'+c.n+i))gR(c.n,i);}));}
+function gA(){GC.forEach(c=>GS.forEach((_,i)=>{if($('go'+c.n+i))gR(c.n,i);}));const pairs=[];GC.forEach(c=>GS.forEach((_,i)=>pairs.push([c.n,i])));markBest('gb',gCalc,pairs);}
 function gL(cn,si){const r=gCalc(cn,si);if(!r||!r.of)return;const co=GC.find(c=>c.n===cn);
   const sp=GS[si],tp=gv('gsh')==40?20:9;
   const qty=`${sp.l} ${sp.ct}ctn × ${tp}p (${r.tb}ctn)`;
@@ -672,7 +726,7 @@ function mSjSel(s){mSj[F]=mSj[F]===s?null:s;mB();mA();}
 function bM(){
   const d=MFD[F];
   if(!mSj[F])mSj[F]=d.defSj;
-  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="mfx" value="1400" oninput="mA()"></div>
+  $('bs').innerHTML=`<div class="ig" style="flex:1.5"><label>환율 <em>₩/$</em></label><div style="display:flex;align-items:center"><input type="number" id="mfx" value="1400" oninput="mA()" style="flex:1">${fxsimHTML()}</div></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="msp" value="0" oninput="mA()"></div>
     <div class="ig"><label>운송</label><select id="msh" onchange="mB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
@@ -708,7 +762,7 @@ function mB(){
 function mCalc(cn,si){
   if(!mSj[F])return null;
   const d=MFD[F],sp=d.specs[si];if(!sp)return null;
-  const fx=gv('mfx'),sup=gv('msp'),sh=gv('msh')==40?'f':'t',of=gv('mo'+cn+si);
+  const fx=gv('mfx')+fxAdj,sup=gv('msp'),sh=gv('msh')==40?'f':'t',of=gv('mo'+cn+si);
   if(!of)return null;
   const raw=gv('mr'+cn+si)||sp.raw,wk=gv('mwk'),nw=gv('mnw')||1,ct=gv('mct')||1;
   const sea=PSEA[cn];if(!sea)return null;
@@ -720,7 +774,7 @@ function mCalc(cn,si){
   return{of,raw,mb,tk,cif,tb};
 }
 function mR(cn,si){const r=mCalc(cn,si);const e1=$('mm'+cn+si),e2=$('mt'+cn+si);if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}const cl=mC(r.mb);if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}$</span>`;if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;}
-function mA(){const d=MFD[F];if(!d)return;PC.forEach(c=>d.specs.forEach((_,i)=>{if($('mo'+c.n+i))mR(c.n,i);}));}
+function mA(){const d=MFD[F];if(!d)return;PC.forEach(c=>d.specs.forEach((_,i)=>{if($('mo'+c.n+i))mR(c.n,i);}));const pairs=[];PC.forEach(c=>d.specs.forEach((_,i)=>pairs.push([c.n,i])));markBest('mbtn',mCalc,pairs);}
 function mL(cn,si){
   const r=mCalc(cn,si);if(!r||!r.of)return;
   const co=PC.find(c=>c.n===cn),d=MFD[F],sp=d.specs[si];
@@ -982,6 +1036,80 @@ if(localStorage.getItem('hn_auth')==='ok'){
   $('pwo').classList.add('h');$('land').style.display='flex';
 } else {
   setTimeout(()=>$('pwi').focus(),300);
+}
+
+// ═══════════ PWA Service Worker ═══════════
+let deferredPrompt=null;
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('sw.js',{scope:'./'})
+      .then(reg=>{
+        console.log('[PWA] SW registered',reg.scope);
+        if(reg.update)reg.update();
+        // 1시간마다 업데이트 체크
+        setInterval(()=>reg.update().catch(()=>{}),3600000);
+      })
+      .catch(err=>console.warn('[PWA] SW failed',err));
+  });
+}
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault();
+  deferredPrompt=e;
+  const dismissed=localStorage.getItem('pwa_dismissed');
+  if(!dismissed)setTimeout(showInstallBanner,3000);
+});
+function showInstallBanner(){
+  if(!deferredPrompt||document.getElementById('pwabanner'))return;
+  const b=document.createElement('div');b.id='pwabanner';b.className='pwabanner';
+  b.innerHTML=`<div class="pwIcon">💰</div><div class="pwTxt"><b>홈 화면에 설치</b>매번 주소 입력 없이 앱처럼 사용하세요</div><button onclick="pwaInstall()">설치</button><button class="pwX" onclick="pwaDismiss()">×</button>`;
+  document.body.appendChild(b);
+}
+function pwaInstall(){
+  if(!deferredPrompt)return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(c=>{
+    if(c.outcome==='accepted')console.log('[PWA] installed');
+    deferredPrompt=null;
+    pwaDismiss();
+  });
+}
+function pwaDismiss(){
+  const b=document.getElementById('pwabanner');if(b)b.remove();
+  localStorage.setItem('pwa_dismissed','1');
+}
+window.addEventListener('appinstalled',()=>{console.log('[PWA] app installed');pwaDismiss();});
+
+// 푸시 알림 권한 (선택적)
+function reqNotif(){
+  if(!('Notification' in window))return alert('알림 미지원');
+  Notification.requestPermission().then(p=>{
+    alert(p==='granted'?'알림 허용됨':'알림 거부됨');
+  });
+}
+
+// ═══════════ 환율 시뮬레이터 ═══════════
+let fxAdj=0;
+function setFxAdj(adj){
+  fxAdj=adj;
+  document.querySelectorAll('.fxsim button').forEach(b=>b.classList.toggle('a',+b.dataset.adj===adj));
+  if(F==='s')sA();else if(F==='p'){pB();pA();}else if(F==='g')gA();else mA();
+}
+function fxsimHTML(){
+  return `<div class="fxsim"><span>환율시뮬</span><button data-adj="-20" class="${fxAdj===-20?'a':''}" onclick="setFxAdj(-20)">-20</button><button data-adj="0" class="${fxAdj===0?'a':''}" onclick="setFxAdj(0)">0</button><button data-adj="20" class="${fxAdj===20?'a':''}" onclick="setFxAdj(20)">+20</button></div>`;
+}
+
+// ═══════════ 입력 검증 ═══════════
+function chkReq(ids){
+  let ok=true;
+  ids.forEach(id=>{
+    const e=$(id);if(!e)return;
+    if(!e.value||+e.value===0){
+      e.classList.add('req-empty');
+      e.addEventListener('input',function f(){e.classList.remove('req-empty');e.removeEventListener('input',f);},{once:true});
+      ok=false;
+    }
+  });
+  return ok;
 }
 </script>
 </body>

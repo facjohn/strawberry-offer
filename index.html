@@ -627,9 +627,11 @@ function rL(){
     const mine=l.author&&me&&l.author===me;
     const auth=l.author?`<span class="auth ${mine?'me':''}">${mine?'나':l.author}</span>`:'';
     const idAttr=l.id?`'${l.id}'`:'null';
+    const rowAttr=l._row||'null';
+    const isRemote=l._remote||l.sent;
     h+=`<div class="li ${mine?'mine':''}"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">${l.fl?`<span style="font-size:16px">${l.fl}</span>`:''}<div style="flex:1"><div style="font-size:11px;font-weight:700">${l.co||l.invoice||'-'}${l.sj?' · '+l.sj:''}${l.sh?' · '+l.sh:''}${auth}${l.sent?'<span class="snt">✓ SHEET</span>':''}</div><div class="ld">${ds}${l.invoice?' · '+l.invoice:''}${l.loadDate?' · '+l.loadDate:''}</div>${l.me?`<div style="font-size:9px;color:var(--t2);font-style:italic;margin-top:1px">"${l.me}"</div>`:''}</div></div>
     <div class="lps"><div class="lp"><label>스펙</label><div class="v" style="font-size:9px">${l.sp||'-'}</div></div><div class="lp"><label>오퍼</label><div class="v">${l.of?(l.sym||'')+l.of:'-'}</div></div><div class="lp"><label>마진</label><div class="v ${l.mb!=null?mC(l.mb):''}">${l.mb!=null?fD(l.mb)+(l.sym||''):'-'}</div></div><div class="lp"><label>총마진</label><div class="v ${l.tk!=null?mC(l.tk):''}">${l.tk!=null?fK(l.tk):'-'}</div></div></div>
-    <div style="display:flex;gap:5px;margin-top:5px">${l.id?`<button class="ldb" style="background:#fff;color:var(--bl);border-color:#cfdcf5" onclick="editLog('${l.id}')">✏️ 수정</button>`:''}<button class="ldb" onclick="dL(${idAttr},${l.id?true:false})">🗑 삭제</button></div></div>`;
+    <div style="display:flex;gap:5px;margin-top:5px">${l.id?`<button class="ldb" style="background:#fff;color:var(--bl);border-color:#cfdcf5" onclick="editLog('${l.id}')">✏️ 수정</button>`:''}<button class="ldb" onclick="dL(${idAttr},${isRemote?true:false},${rowAttr})">🗑 삭제</button></div></div>`;
   });list.innerHTML=h;
 }
 function fetchHist(){
@@ -641,7 +643,7 @@ function fetchHist(){
   window[cb]=function(d){cl();histLoading=false;
     if(d&&d.ok&&d.rows){
       const sheetLogs=d.rows.map(r=>({
-        id:r.id,fr:F,co:r.invoice||'-',fl:'',sj:'',sh:'',sp:'',
+        id:r.id,_row:r.rowNum,fr:F,co:r.invoice||'-',fl:'',sj:'',sh:'',sp:'',
         of:'',sym:'',mb:null,tk:null,
         invoice:r.invoice,maker:r.maker,loadDate:r.loadDate,qty:r.qty,
         rt:r.fxRate,raw:r.rawPrice,me:r.memo,author:r.author,
@@ -670,18 +672,21 @@ function editLog(id){
   $('mo').classList.remove('h');
   const b=$('msbtn');b.disabled=false;b.textContent='💾 수정 저장';
 }
-function dL(id,remote){
+function dL(id,remote,row){
   if(!confirm('이 기록을 삭제하시겠습니까?'))return;
-  if(remote&&id){
+  if(remote&&(id||row)){
     const cb='del'+Date.now(),s=document.createElement('script');
-    const t=setTimeout(()=>{cl();alert('삭제 타임아웃');},10000);
+    const t=setTimeout(()=>{cl();alert('삭제 타임아웃');},15000);
     function cl(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
-    s.onerror=function(){cl();alert('삭제 실패');};
+    s.onerror=function(){cl();alert('삭제 실패 (네트워크)');};
     window[cb]=function(d){cl();
-      if(d&&d.ok){logs=logs.filter(l=>l.id!==id);saveL();fetchHist();}
-      else alert('삭제 실패: '+(d&&d.error||'?'));
+      if(d&&d.ok){if(id)logs=logs.filter(l=>l.id!==id);saveL();fetchHist();}
+      else alert('삭제 실패: '+(d&&d.error||'알 수 없는 오류'));
     };
-    s.src=SU+'?action=delete&callback='+cb+'&id='+encodeURIComponent(id);
+    let url=SU+'?action=delete&callback='+cb;
+    if(id)url+='&id='+encodeURIComponent(id);
+    if(row)url+='&row='+row;
+    s.src=url;
     document.head.appendChild(s);
   } else {
     logs=logs.filter(l=>l.id!==id);saveL();rL();

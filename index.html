@@ -84,11 +84,37 @@ tbody td{padding:4px 3px;border-bottom:1px solid #eee;white-space:nowrap}
 .cb{background:none;border:1px solid var(--bd);color:var(--t3);font-size:10px;padding:4px 8px;border-radius:5px;cursor:pointer;font-family:inherit}
 .ig input.upd{border-color:var(--gr)!important;animation:flG .6s ease-out}
 @keyframes flG{0%{background:rgba(24,169,106,.15)}100%{background:var(--bg)}}
-.sync-time{font-size:8px;color:var(--gr);font-family:'JetBrains Mono',monospace}
+.sbdg{font-size:9px;font-weight:700;padding:3px 8px;border-radius:16px;border:1px solid;font-family:'JetBrains Mono',monospace;cursor:pointer;white-space:nowrap;margin-left:auto;transition:all .2s}
+.sbdg.ok{color:var(--gr);border-color:var(--gr)}.sbdg.err{color:var(--rd);border-color:var(--rd)}.sbdg.idle{color:var(--t2);border-color:var(--bd)}.sbdg.ld{color:var(--yw);border-color:var(--yw);animation:blk .8s infinite}
+@keyframes blk{0%,100%{opacity:1}50%{opacity:.4}}
+.lst{font-size:9px;color:var(--t3);font-family:'JetBrains Mono',monospace;text-align:right;margin-top:2px}
+.sgd-hint{font-size:9px;color:#c47d00;margin-top:3px;display:flex;align-items:center;gap:4px}
+.dot-sgd{width:5px;height:5px;border-radius:50%;background:#c47d00;animation:pls 2s infinite;flex-shrink:0}
+@keyframes pls{0%,100%{opacity:1}50%{opacity:.3}}
+.pwo{position:fixed;inset:0;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;padding:30px}
+.pwo.h{display:none}
+.pwb{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:32px 28px;width:100%;max-width:300px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.pwi{width:100%;background:var(--bg);border:2px solid var(--bd);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;padding:12px;border-radius:10px;outline:none;text-align:center;letter-spacing:8px;margin-bottom:12px;transition:border-color .15s}
+.pwi:focus{border-color:var(--ac)}
+.pwi.shake{animation:shk .3s ease-out}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.pwbtn{width:100%;padding:13px;border-radius:10px;background:var(--ac);border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
-<div id="land"><div class="lt">현농프레쉬</div><div class="ls">오퍼 계산기 · by JOHN</div>
+
+<div class="pwo" id="pwo">
+<div class="pwb">
+<div style="font-size:48px;margin-bottom:12px">🔒</div>
+<div style="font-size:18px;font-weight:900;margin-bottom:4px">현농프레쉬</div>
+<div style="font-size:12px;color:var(--t2);margin-bottom:24px">오퍼 계산기 · by JOHN</div>
+<input class="pwi" type="password" id="pwi" placeholder="****" maxlength="10" onkeydown="if(event.key==='Enter')chkPw()">
+<button class="pwbtn" onclick="chkPw()">입장</button>
+<div id="pwe" style="font-size:12px;color:var(--rd);margin-top:8px;height:16px"></div>
+</div>
+</div>
+
+<div id="land" style="display:none"><div class="lt">현농프레쉬</div><div class="ls">오퍼 계산기 · by JOHN</div>
 <div class="fcs">
 <div class="fc" onclick="go('s')"><span class="e">🍓</span><span class="n">딸기</span></div>
 <div class="fc" onclick="go('p')"><span class="e">🍐</span><span class="n">배</span></div>
@@ -211,7 +237,7 @@ function bk(){if(syTimer){clearInterval(syTimer);syTimer=null;}$('app').style.di
 function build(){
   const C={s:{ac:'#e8334a',bg:'#fff0f2',bbg:'#fef2f4',e:'🍓',nm:'딸기'},p:{ac:'#b8860b',bg:'#fdf6e3',bbg:'#f8f4e8',e:'🍐',nm:'배'},g:{ac:'#7b2d8e',bg:'#faf0ff',bbg:'#f6f0fa',e:'🍇',nm:'포도'}};
   const c=C[F];document.documentElement.style.setProperty('--ac',c.ac);document.body.style.background=c.bbg;
-  $('hd').innerHTML=`<button class="bb" onclick="bk()">←</button><span style="font-size:20px">${c.e}</span><div><h1>${c.nm} 오퍼 계산기</h1><div class="hd-s">현농프레쉬 <span id="syt" style="color:var(--gr);font-size:8px"></span></div></div><div class="sb" onclick="doSy()">🔄</div>`;
+  $('hd').innerHTML=`<button class="bb" onclick="bk()">←</button><span style="font-size:20px">${c.e}</span><div><h1>${c.nm} 오퍼 계산기</h1><div class="hd-s">현농프레쉬</div></div><div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><div class="sbdg idle" id="sbdg" onclick="doSy()">🔄 수동 동기화</div><div class="lst" id="lst">마지막 동기화: -</div></div>`;
   $('hd').style.background=`linear-gradient(135deg,${c.bg},#fff)`;$('hd').style.borderBottomColor=c.ac;
   $('ts').innerHTML=`<button class="tb a" onclick="sw('o',this)">📊 계산</button><button class="tb" onclick="sw('l',this)">📋 기록<span class="lc" id="lc">0</span></button>`;
   if(F==='s')bS();else if(F==='p')bP();else bG();
@@ -224,7 +250,7 @@ function bS(){
   $('bs').innerHTML=`<div class="ig"><label><em>250g</em></label><input type="number" id="sp0" value="8000" oninput="sA()"></div>
     <div class="ig"><label><em>500/330</em></label><input type="number" id="sp1" value="11500" oninput="sA()"></div>
     <div class="ig"><label>환율₩/$</label><input type="number" id="sfx" value="1410" oninput="sA()"></div>
-    <div class="ig"><label>SGD/₩</label><input type="number" id="ssg" value="1137" oninput="sA()"></div>`;
+    <div class="ig"><label><span style="color:#c47d00">SGD</span>/₩ (브루나이)</label><input type="number" id="ssg" value="1137" oninput="sA()"><div class="sgd-hint"><span class="dot-sgd"></span>시트 자동 반영</div></div>`;
   $('ex').innerHTML='';
   const o=$('to');o.innerHTML='';
   Object.entries(SF).forEach(([k,fd])=>{
@@ -439,69 +465,44 @@ function cL(){if(!confirm('전부 삭제?'))return;logs=logs.filter(l=>l.fr!==F)
 const SU='https://script.google.com/macros/s/AKfycbyn1XNPzfZ_vrmf9Gh69HskO-1-dd7iEu6buS3GeUHiHgL9_VqlmMR1ipdtAe0_d2gc7Q/exec';
 function flI(id){const e=$(id);if(!e)return;e.classList.remove('upd');void e.offsetWidth;e.classList.add('upd');setTimeout(()=>e.classList.remove('upd'),700);}
 function doSy(){
-  const b=$('hd').querySelector('.sb');b.textContent='⏳...';
+  const bg=$('sbdg');if(bg){bg.className='sbdg ld';bg.textContent='⏳ 동기화 중...';}
   const cb='c'+Date.now(),s=document.createElement('script');s.src=SU+'?callback='+cb;
-  const t=setTimeout(()=>{cl();b.textContent='❌ 타임아웃';console.error('[SYNC] timeout 10s');setTimeout(()=>b.textContent='🔄',4000);},10000);
+  const t=setTimeout(()=>{cl();sBdg('err','❌ 타임아웃');},10000);
   function cl(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
-  s.onerror=function(){cl();b.textContent='❌ 연결실패';console.error('[SYNC] script load failed');setTimeout(()=>b.textContent='🔄',4000);};
-
-  // 키 유연 매핑 헬퍼
+  s.onerror=function(){cl();sBdg('err','❌ 연결실패');};
   function pk(o,...keys){for(const k of keys){if(o[k]!=null)return o[k];}return null;}
   function parseFT(o){if(!o||typeof o!=='object')return null;const f=pk(o,'f','full','forty','ft40','40');const t=pk(o,'t','twenty','ft20','20');if(f==null&&t==null)return null;return{f:f||0,t:t||0};}
-
   window[cb]=function(d){cl();try{
-    console.log('[SYNC] received',JSON.stringify(d).substring(0,500));
-    if(d.error){b.textContent='❌';console.error('[SYNC] server error:',d.error);setTimeout(()=>b.textContent='🔄',4000);return;}
+    console.log('[SYNC]',JSON.stringify(d).substring(0,500));
+    if(d.error){sBdg('err','❌ '+d.error);return;}
     let cnt=0;
-
-    // ── 환율 (모든 모드) ──
     const ex=pk(d,'exrate','rate','fx');
     if(ex){
       if(F==='s'&&$('sfx')){$('sfx').value=Math.round(ex);flI('sfx');cnt++;}
       if(F==='p'&&$('pfx')){$('pfx').value=Math.round(ex);flI('pfx');cnt++;}
       if(F==='g'&&$('gfx')){$('gfx').value=Math.round(ex);flI('gfx');cnt++;}
     }
-
-    // ── 딸기 단가 ──
     if(F==='s'&&d.prices){
       if(d.prices.p250){$('sp0').value=d.prices.p250;flI('sp0');}
       if(d.prices.p500_330){$('sp1').value=d.prices.p500_330;flI('sp1');}
       if(pk(d,'sgdrate','sgd')){$('ssg').value=Math.round(pk(d,'sgdrate','sgd'));flI('ssg');}
       cnt++;
     }
-
-    // ── 딸기 항공 운임 ──
     const fr=pk(d,'freight','strawFreight','airFreight');
-    if(fr)Object.keys(fr).forEach(k=>{
-      if(!SF[k])return;const v=fr[k];
-      const a=pk(v,'airKg','air','a','kg');if(a!=null){SF[k].a=a;cnt++;}
-      const fc=pk(v,'fsc','fc','fuel');if(fc!=null)SF[k].fc=fc;
-      const dom=pk(v,'domFreight','dom','d','domestic');if(dom!=null)SF[k].d=dom;
-    });
-
-    // ── 배 해운/내륙/작업비 ──
-    const ps=pk(d,'pearSea','pSea','pearOcean');
-    if(ps)Object.keys(ps).forEach(k=>{if(!PSEA[k])return;const r=parseFT(ps[k]);if(r){Object.assign(PSEA[k],r);cnt++;}});
-    const pi=pk(d,'pearInland','pInland','pearDom');
-    if(pi)Object.keys(pi).forEach(k=>{if(!PIL[k])return;const r=parseFT(pi[k]);if(r){Object.assign(PIL[k],r);cnt++;}});
-    const pw=pk(d,'pearWk','pWk','pearWork');
-    if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){PWK[k]=pw[k];const e=$('pwk_'+k);if(e)e.value=pw[k];cnt++;}});
-
-    // ── 포도 해운/내륙 ──
-    const gs=pk(d,'grapeSea','gSea','grapeOcean');
-    if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){Object.assign(GSEA[k],r);cnt++;}});
-    const gi=pk(d,'grapeInland','gInland','grapeDom');
-    if(gi)Object.keys(gi).forEach(k=>{if(!GIL[k])return;const r=parseFT(gi[k]);if(r){Object.assign(GIL[k],r);cnt++;}});
-
-    // ── 재계산 ──
+    if(fr)Object.keys(fr).forEach(k=>{if(!SF[k])return;const v=fr[k];const a=pk(v,'airKg','air','a','kg');if(a!=null){SF[k].a=a;cnt++;}const fc=pk(v,'fsc','fc','fuel');if(fc!=null)SF[k].fc=fc;const dom=pk(v,'domFreight','dom','d','domestic');if(dom!=null)SF[k].d=dom;});
+    const ps=pk(d,'pearSea','pSea');if(ps)Object.keys(ps).forEach(k=>{if(!PSEA[k])return;const r=parseFT(ps[k]);if(r){Object.assign(PSEA[k],r);cnt++;}});
+    const pi=pk(d,'pearInland','pInland');if(pi)Object.keys(pi).forEach(k=>{if(!PIL[k])return;const r=parseFT(pi[k]);if(r){Object.assign(PIL[k],r);cnt++;}});
+    const pw=pk(d,'pearWk','pWk');if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){PWK[k]=pw[k];const e=$('pwk_'+k);if(e)e.value=pw[k];cnt++;}});
+    const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){Object.assign(GSEA[k],r);cnt++;}});
+    const gi=pk(d,'grapeInland','gInland');if(gi)Object.keys(gi).forEach(k=>{if(!GIL[k])return;const r=parseFT(gi[k]);if(r){Object.assign(GIL[k],r);cnt++;}});
     if(F==='s')sA();else if(F==='p'){pB();pA();}else if(F==='g')gA();
-
-    console.log('[SYNC] applied',cnt,'items');
-    b.textContent='✅';setTimeout(()=>b.textContent='🔄',3000);
-    const st=$('syt');if(st){const now=new Date();st.textContent='· '+now.getHours()+':'+String(now.getMinutes()).padStart(2,'0')+' 동기화 ('+cnt+')';}
-  }catch(e){console.error('[SYNC] parse error:',e);b.textContent='❌ 파싱오류';setTimeout(()=>b.textContent='🔄',4000);}};
+    sBdg('ok','✅ 시트 연동 중');
+    const now=new Date();const ts=now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    const lt=$('lst');if(lt)lt.textContent='마지막 동기화: '+ts;
+  }catch(e){console.error('[SYNC]',e);sBdg('err','❌ 오류');}};
   document.head.appendChild(s);
 }
+function sBdg(cls,txt){const e=$('sbdg');if(e){e.className='sbdg '+cls;e.textContent=txt;}}
 
 function testSync(){
   const r=$('testR');r.innerHTML='⏳ 연결 중...';
@@ -524,6 +525,25 @@ function testSync(){
     r.innerHTML=info;
   };
   document.head.appendChild(s);
+}
+// ═══ PASSWORD ═══
+function chkPw(){
+  const v=$('pwi').value;
+  if(v==='love'){
+    localStorage.setItem('hn_auth','ok');
+    $('pwo').classList.add('h');
+    $('land').style.display='flex';
+    setTimeout(()=>$('pwi').value='',300);
+  } else {
+    const inp=$('pwi');inp.classList.remove('shake');void inp.offsetWidth;inp.classList.add('shake');
+    $('pwe').textContent='비밀번호가 틀렸어요';inp.value='';
+    setTimeout(()=>$('pwe').textContent='',2000);
+  }
+}
+if(localStorage.getItem('hn_auth')==='ok'){
+  $('pwo').classList.add('h');$('land').style.display='flex';
+} else {
+  setTimeout(()=>$('pwi').focus(),300);
 }
 </script>
 </body>

@@ -93,6 +93,8 @@ tbody tr:last-child td{border-bottom:none}
 tbody tr:hover td{background:#fafbfd}
 .ctd{font-weight:800;text-align:center;background:linear-gradient(180deg,#fdf8ee,#fbf3df)!important;border-right:1px solid #d8c98c;vertical-align:middle;font-size:11px;color:#3d2a00;letter-spacing:-.01em}
 .ptd input{width:60px;background:#fff;border:1px solid #d8c08c;color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:4px;border-radius:5px;outline:none;text-align:center;transition:all .15s}
+.ptd input::placeholder{color:#b8a06a;font-weight:500;opacity:.7}
+.pi::placeholder{color:#b5b9c8;font-weight:500;opacity:.7}
 .ptd input:hover{border-color:#c4a866}
 .ptd input:focus{border-color:var(--ac);box-shadow:0 0 0 2px rgba(59,111,240,.15)}
 .mc{text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:11px;padding-right:6px!important;letter-spacing:-.02em}
@@ -429,6 +431,8 @@ function build(){
   $('ts').innerHTML=`<button class="tb a" onclick="sw('o',this)">📊 계산</button><button class="tb" onclick="sw('l',this)">📋 기록<span class="lc" id="lc">0</span></button>`;
   $('to').classList.add('a');$('tl').classList.remove('a');
   if(F==='s')bS();else if(F==='p')bP();else if(F==='g')bG();else bM();
+  inpRestore();
+  if(F==='s')sA();else if(F==='p')pA();else if(F==='g')gA();else mA();
   uLC();
 }
 function sw(t,b){document.querySelectorAll('.tb').forEach(x=>x.classList.remove('a'));b.classList.add('a');$('to').classList.toggle('a',t==='o');$('tl').classList.toggle('a',t==='l');if(t==='l'){rL();fetchHist();}}
@@ -456,21 +460,33 @@ function bS(){
   });sA();
 }
 function sCalc(k,i){
-  const p0=gv('sp0'),p1=gv('sp1'),fx=gv('sfx'),sg=gv('ssg'),of=gv('so'+k+i),sp=SS[i],fd=SF[k];
+  const p0=gv('sp0'),p1=gv('sp1'),fx=gv('sfx'),sg=gv('ssg'),sp=SS[i],fd=SF[k];
   const mat=(sp.pk===0?p0:p1)*sp.nw,pb=(fd.d/sp.ct)+sp.gw*(fd.a+fd.fc),cif=mat+sp.bj+pb;
-  const rt=fd.sg?sg:fx,mb=of-cif/rt,tk=mb*rt*sp.ct;
-  return{of,mb,tk,cif,rt,sp,fd,sym:fd.sg?'S$':'$'};
+  const rt=fd.sg?sg:fx;
+  const be=rt?cif/rt:0;
+  const of=gv('so'+k+i);
+  const sym=fd.sg?'S$':'$';
+  if(!of)return{empty:true,be,cif,rt,sp,fd,sym};
+  const mb=of-cif/rt,tk=mb*rt*sp.ct;
+  return{of,mb,tk,cif,rt,sp,fd,be,sym};
 }
 function sR(k,i){
-  const r=sCalc(k,i);const e1=$('sm'+k+i),e2=$('sk'+k+i);
-  if(!r.of){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
+  const r=sCalc(k,i);
+  const e1=$('sm'+k+i),e2=$('sk'+k+i),ei=$('so'+k+i);
+  if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
+  if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
+  if(r.empty){
+    if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">0.00${r.sym}</span>`;
+    if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
+    return;
+  }
   const cl=mC(r.mb);
   if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}${r.sym}</span>`;
   if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
 }
 function sA(){Object.keys(SF).forEach(k=>SS.forEach((_,i)=>sR(k,i)));}
 function sL(k,i){
-  const r=sCalc(k,i);if(!r.of)return;const fd=SF[k],sp=SS[i];
+  const r=sCalc(k,i);if(!r||!r.of)return;const fd=SF[k],sp=SS[i];
   const kgPrice=sp.pk===0?gv('sp0'):gv('sp1');
   const qty=`${sp.l} ${sp.ct}ctn`;
   const raw=fN(kgPrice)+'원/kg';
@@ -574,14 +590,13 @@ function pB(){
         <td><button class="lb" id="pb${c.n}${s.id}" onclick="pL('${c.n}','${s.id}')">📝</button></td></tr>`;
     });
   });
-  h+=`</tbody></table></div>`;o.innerHTML=h;
+  h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();pA();
 }
 
 function pCalc(cn,sid){
   if(!pSj)return null;
   const fx=gv('pfx'),sup=gv('psp'),sh=gv('psh')==40?'f':'t';
   const sp=PS.find(s=>s.id===sid);const co=PC.find(c=>c.n===cn);if(!sp||!co)return null;
-  const of=gv('po'+cn+sid);if(!of)return null;
   const sea=PSEA[cn],il=PIL[pSj];if(!sea||!il)return null;
   const seaV=sea[sh],inlV=il[sh];if(!seaV)return null;
   const ctn=sh==='f'?sp.c4:sp.c2;if(!ctn)return null;
@@ -597,10 +612,27 @@ function pCalc(cn,sid){
 
   const pbf=(inlV+seaV)/tp/ctn;
   const cif=raw+wk+sp.bj+sp.bx+pbf;
+  const be=fx?cif/fx:0;
+  const of=gv('po'+cn+sid);
+  if(!of)return{empty:true,be,cif,tb,raw,wk,sp:sp.l};
   const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;
-  return{of,mb,tk,cif,tb,raw,wk,sp:sp.l};
+  return{of,mb,tk,cif,tb,raw,wk,be,sp:sp.l};
 }
-function pR(cn,sid){const r=pCalc(cn,sid);const e1=$('pm'+cn+sid),e2=$('pt'+cn+sid),ew=$('pw'+cn+sid);if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}const cl=mC(r.mb);if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;if(ew)ew.textContent=fN(r.wk);}
+function pR(cn,sid){
+  const r=pCalc(cn,sid);
+  const e1=$('pm'+cn+sid),e2=$('pt'+cn+sid),ew=$('pw'+cn+sid),ei=$('po'+cn+sid);
+  if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
+  if(ew)ew.textContent=fN(r.wk||0);
+  if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
+  if(r.empty){
+    if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">0.00</span>`;
+    if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
+    return;
+  }
+  const cl=mC(r.mb);
+  if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;
+  if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
+}
 function markBest(prefix,calcFn,iterPairs){
   let best=null;
   iterPairs.forEach(([a,b])=>{const r=calcFn(a,b);if(r&&r.of&&r.mb>0&&(!best||r.mb>best.mb))best={a,b,mb:r.mb,tk:r.tk};});
@@ -658,24 +690,38 @@ function gB(){
       <td class="mc" id="gm${c.n}${si}">-</td><td class="tc" id="gt${c.n}${si}">-</td>
       <td><button class="lb" id="gb${c.n}${si}" onclick="gL('${c.n}',${si})">📝</button></td></tr>`;
   });});
-  h+=`</tbody></table></div>`;o.innerHTML=h;
+  h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();gA();
 }
 function gCalc(cn,si){
   if(!gSj)return null;
   const sp=GS[si];if(!sp)return null;
-  const fx=gv('gfx'),sup=gv('gsp'),sh=gv('gsh')==40?'f':'t',of=gv('go'+cn+si);
-  if(!of)return null;
+  const fx=gv('gfx'),sup=gv('gsp'),sh=gv('gsh')==40?'f':'t';
   let raw=gv('gr'+cn+si),usedDef=false;if(!raw){const kg=gv('gp1');if(kg){raw=Math.round(kg*sp.nw);usedDef=true;}}
   const wk=gv('gwk');
   const sea=GSEA[cn],il=GIL[gSj];if(!sea||!il)return null;
   const seaV=sea[sh],inlV=il[sh];if(!seaV)return null;
   const ct=sp.ct,tp=sh==='f'?20:9,tb=ct*tp;
   const pbf=(inlV+seaV)/tp/ct,cif=raw+wk+sp.bj+sp.bx+pbf;
+  const be=fx?cif/fx:0;
+  const of=gv('go'+cn+si);
+  if(!of)return{empty:true,be,cif,tb,raw,usedDef};
   const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;
-  return{of,raw,mb,tk,cif,tb,usedDef};
+  return{of,raw,mb,tk,cif,tb,be,usedDef};
 }
-function gR(cn,si){const r=gCalc(cn,si);const e1=$('gm'+cn+si),e2=$('gt'+cn+si);if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}const cl=mC(r.mb);if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
+function gR(cn,si){
+  const r=gCalc(cn,si);
+  const e1=$('gm'+cn+si),e2=$('gt'+cn+si),ei=$('go'+cn+si);
+  if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
+  if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
   const ri=$('gr'+cn+si);if(ri){ri.style.borderColor=r.usedDef&&gv('gp1')?'#c9a0dc':'';}
+  if(r.empty){
+    if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">0.00</span>`;
+    if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
+    return;
+  }
+  const cl=mC(r.mb);
+  if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;
+  if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
 }
 function gA(){GC.forEach(c=>GS.forEach((_,i)=>{if($('go'+c.n+i))gR(c.n,i);}));const pairs=[];GC.forEach(c=>GS.forEach((_,i)=>pairs.push([c.n,i])));markBest('gb',gCalc,pairs);}
 function gL(cn,si){const r=gCalc(cn,si);if(!r||!r.of)return;const co=GC.find(c=>c.n===cn);
@@ -752,23 +798,38 @@ function mB(){
         <td><button class="lb" id="mbtn${c.n}${si}" onclick="mL('${c.n}',${si})">📝</button></td></tr>`;
     });
   });
-  h+=`</tbody></table></div>`;o.innerHTML=h;
+  h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();mA();
 }
 function mCalc(cn,si){
   if(!mSj[F])return null;
   const d=MFD[F],sp=d.specs[si];if(!sp)return null;
-  const fx=gv('mfx'),sup=gv('msp'),sh=gv('msh')==40?'f':'t',of=gv('mo'+cn+si);
-  if(!of)return null;
+  const fx=gv('mfx'),sup=gv('msp'),sh=gv('msh')==40?'f':'t';
   const raw=gv('mr'+cn+si)||sp.raw,wk=gv('mwk'),nw=gv('mnw')||1,ct=gv('mct')||1;
   const sea=PSEA[cn];if(!sea)return null;
   const seaV=sea[sh];if(!seaV)return null;
   const tp=sh==='f'?20:9,tb=ct*tp;
   const pbf=seaV/tp/ct;
   const cif=raw+wk+pbf;
+  const be=fx?cif/fx:0;
+  const of=gv('mo'+cn+si);
+  if(!of)return{empty:true,be,cif,tb,raw};
   const mb=of-(cif/fx),tk=mb*tb*fx+tb*nw*sup;
-  return{of,raw,mb,tk,cif,tb};
+  return{of,raw,mb,tk,cif,tb,be};
 }
-function mR(cn,si){const r=mCalc(cn,si);const e1=$('mm'+cn+si),e2=$('mt'+cn+si);if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}const cl=mC(r.mb);if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}$</span>`;if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;}
+function mR(cn,si){
+  const r=mCalc(cn,si);
+  const e1=$('mm'+cn+si),e2=$('mt'+cn+si),ei=$('mo'+cn+si);
+  if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
+  if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
+  if(r.empty){
+    if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">0.00$</span>`;
+    if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
+    return;
+  }
+  const cl=mC(r.mb);
+  if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}$</span>`;
+  if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
+}
 function mA(){const d=MFD[F];if(!d)return;PC.forEach(c=>d.specs.forEach((_,i)=>{if($('mo'+c.n+i))mR(c.n,i);}));const pairs=[];PC.forEach(c=>d.specs.forEach((_,i)=>pairs.push([c.n,i])));markBest('mbtn',mCalc,pairs);}
 function mL(cn,si){
   const r=mCalc(cn,si);if(!r||!r.of)return;
@@ -784,6 +845,33 @@ function mL(cn,si){
 // ═══ LOG ═══
 function loadL(){try{logs=JSON.parse(localStorage.getItem('hn4')||'[]');}catch(e){logs=[];}}
 function saveL(){try{localStorage.setItem('hn4',JSON.stringify(logs));}catch(e){}uLC();}
+// ━━━ 입력값 자동 저장/복원 ━━━
+const INP_KEY='hn_inp_v1';
+let _inpSaveT=null;
+function inpStore(){try{return JSON.parse(localStorage.getItem(INP_KEY)||'{}');}catch(e){return{};}}
+function inpSet(id,val){const s=inpStore();if(val===''||val==null)delete s[id];else s[id]=String(val);try{localStorage.setItem(INP_KEY,JSON.stringify(s));}catch(e){}}
+function inpRestore(){
+  const s=inpStore();
+  document.querySelectorAll('input[id],select[id]').forEach(el=>{
+    if(s[el.id]!=null&&s[el.id]!=='')el.value=s[el.id];
+  });
+}
+function inpSaveAll(){
+  const s={};
+  document.querySelectorAll('input[id],select[id]').forEach(el=>{
+    if(el.id&&el.value!==''&&el.id!=='pwi'&&el.id!=='mm'&&el.id!=='finv'&&el.id!=='fmkr'&&el.id!=='fld'&&el.id!=='fqty'&&el.id!=='ffx'&&el.id!=='fraw')s[el.id]=el.value;
+  });
+  try{localStorage.setItem(INP_KEY,JSON.stringify(s));}catch(e){}
+}
+document.addEventListener('input',(e)=>{
+  const t=e.target;if(!t.id||t.tagName!=='INPUT'&&t.tagName!=='SELECT')return;
+  if(['pwi','mm','finv','fmkr','fld','fqty','ffx','fraw'].includes(t.id))return;
+  clearTimeout(_inpSaveT);_inpSaveT=setTimeout(inpSaveAll,300);
+});
+document.addEventListener('change',(e)=>{
+  const t=e.target;if(!t.id||t.tagName!=='SELECT')return;
+  clearTimeout(_inpSaveT);_inpSaveT=setTimeout(inpSaveAll,100);
+});
 function uLC(){const e=$('lc');if(e)e.textContent=logs.filter(l=>l.fr===F).length;}
 function getMe(){let n=localStorage.getItem('cur_user')||'';if(!n){n=(prompt('내 이름을 입력하세요 (기록 작성자 표시용)','')||'').trim();if(n)localStorage.setItem('cur_user',n);}return n;}
 function setMe(){const cur=localStorage.getItem('cur_user')||'';const n=(prompt('내 이름 변경',cur)||'').trim();if(n){localStorage.setItem('cur_user',n);rL();}}

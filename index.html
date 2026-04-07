@@ -207,11 +207,6 @@ tbody tr:hover td{background:#fafbfd}
 /* === 마진율 === */
 .mpct{display:block;font-size:8px;font-weight:700;opacity:.7;margin-top:1px;font-family:'JetBrains Mono',monospace}
 /* === 환율 시뮬레이터 === */
-.fxsim{display:flex;gap:3px;align-items:center;padding:0 8px;background:rgba(212,138,0,.08);border:1px solid rgba(212,138,0,.25);border-radius:6px;margin-left:6px}
-.fxsim span{font-size:8px;font-weight:700;color:var(--yw);text-transform:uppercase}
-.fxsim button{background:#fff;border:1px solid rgba(212,138,0,.3);color:var(--yw);font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;padding:3px 7px;border-radius:4px;cursor:pointer;transition:all .12s}
-.fxsim button:hover{background:rgba(212,138,0,.1)}
-.fxsim button.a{background:var(--yw);color:#fff;border-color:var(--yw)}
 /* === PWA 설치 배너 === */
 .pwabanner{position:fixed;bottom:14px;left:14px;right:14px;background:linear-gradient(135deg,#16a368,#0e7c4d);color:#fff;padding:12px 14px;border-radius:14px;display:flex;align-items:center;gap:10px;box-shadow:0 8px 28px rgba(22,163,104,.4);z-index:300;animation:slideUp .35s cubic-bezier(.2,.9,.3,1.2);max-width:480px;margin:0 auto}
 .pwabanner.h{display:none}
@@ -442,7 +437,7 @@ function sw(t,b){document.querySelectorAll('.tb').forEach(x=>x.classList.remove(
 function bS(){
   $('bs').innerHTML=`<div class="ig"><label><em>250g</em></label><input type="number" id="sp0" value="8000" oninput="sA()"></div>
     <div class="ig"><label><em>500/330</em></label><input type="number" id="sp1" value="11500" oninput="sA()"></div>
-    <div class="ig" style="flex:1.5"><label>환율₩/$</label><div style="display:flex;align-items:center"><input type="number" id="sfx" value="1410" oninput="sA()" style="flex:1">${fxsimHTML()}</div></div>
+    <div class="ig"><label>환율₩/$</label><input type="number" id="sfx" value="1410" oninput="sA()"></div>
     <div class="ig"><label><span style="color:#c47d00">SGD</span>/₩ (브루나이)</label><input type="number" id="ssg" value="1137" oninput="sA()"><div class="sgd-hint"><span class="dot-sgd"></span>시트 자동 반영</div></div>`;
   $('ex').innerHTML='';
   const o=$('to');o.innerHTML='';
@@ -461,7 +456,7 @@ function bS(){
   });sA();
 }
 function sCalc(k,i){
-  const p0=gv('sp0'),p1=gv('sp1'),fx=gv('sfx')+fxAdj,sg=gv('ssg'),of=gv('so'+k+i),sp=SS[i],fd=SF[k];
+  const p0=gv('sp0'),p1=gv('sp1'),fx=gv('sfx'),sg=gv('ssg'),of=gv('so'+k+i),sp=SS[i],fd=SF[k];
   const mat=(sp.pk===0?p0:p1)*sp.nw,pb=(fd.d/sp.ct)+sp.gw*(fd.a+fd.fc),cif=mat+sp.bj+pb;
   const rt=fd.sg?sg:fx,mb=of-cif/rt,tk=mb*rt*sp.ct;
   return{of,mb,tk,cif,rt,sp,fd,sym:fd.sg?'S$':'$'};
@@ -485,7 +480,7 @@ function sL(k,i){
 
 // ═══ PEAR BUILD ═══
 function bP(){
-  $('bs').innerHTML=`<div class="ig" style="flex:1.5"><label>환율 <em>₩/$</em></label><div style="display:flex;align-items:center"><input type="number" id="pfx" value="1400" oninput="pA()" style="flex:1">${fxsimHTML()}</div></div>
+  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="pfx" value="1400" oninput="pA()"></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="psp" value="0" oninput="pA()"></div>
     <div class="ig"><label>운송</label><select id="psh" onchange="pB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
@@ -584,7 +579,7 @@ function pB(){
 
 function pCalc(cn,sid){
   if(!pSj)return null;
-  const fx=gv('pfx')+fxAdj,sup=gv('psp'),sh=gv('psh')==40?'f':'t';
+  const fx=gv('pfx'),sup=gv('psp'),sh=gv('psh')==40?'f':'t';
   const sp=PS.find(s=>s.id===sid);const co=PC.find(c=>c.n===cn);if(!sp||!co)return null;
   const of=gv('po'+cn+sid);if(!of)return null;
   const sea=PSEA[cn],il=PIL[pSj];if(!sea||!il)return null;
@@ -623,7 +618,7 @@ function pL(cn,sid){const r=pCalc(cn,sid);if(!r)return;const co=PC.find(c=>c.n==
 
 // ═══ GRAPE BUILD ═══
 function bG(){
-  $('bs').innerHTML=`<div class="ig" style="flex:1.5"><label>환율 <em>₩/$</em></label><div style="display:flex;align-items:center"><input type="number" id="gfx" value="1410" oninput="gA()" style="flex:1">${fxsimHTML()}</div></div>
+  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="gfx" value="1410" oninput="gA()"></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="gsp" value="0" oninput="gA()"></div>
     <div class="ig"><label>운송</label><select id="gsh" onchange="gB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
@@ -668,7 +663,7 @@ function gB(){
 function gCalc(cn,si){
   if(!gSj)return null;
   const sp=GS[si];if(!sp)return null;
-  const fx=gv('gfx')+fxAdj,sup=gv('gsp'),sh=gv('gsh')==40?'f':'t',of=gv('go'+cn+si);
+  const fx=gv('gfx'),sup=gv('gsp'),sh=gv('gsh')==40?'f':'t',of=gv('go'+cn+si);
   if(!of)return null;
   let raw=gv('gr'+cn+si),usedDef=false;if(!raw){const kg=gv('gp1');if(kg){raw=Math.round(kg*sp.nw);usedDef=true;}}
   const wk=gv('gwk');
@@ -726,7 +721,7 @@ function mSjSel(s){mSj[F]=mSj[F]===s?null:s;mB();mA();}
 function bM(){
   const d=MFD[F];
   if(!mSj[F])mSj[F]=d.defSj;
-  $('bs').innerHTML=`<div class="ig" style="flex:1.5"><label>환율 <em>₩/$</em></label><div style="display:flex;align-items:center"><input type="number" id="mfx" value="1400" oninput="mA()" style="flex:1">${fxsimHTML()}</div></div>
+  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="mfx" value="1400" oninput="mA()"></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="msp" value="0" oninput="mA()"></div>
     <div class="ig"><label>운송</label><select id="msh" onchange="mB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
@@ -762,7 +757,7 @@ function mB(){
 function mCalc(cn,si){
   if(!mSj[F])return null;
   const d=MFD[F],sp=d.specs[si];if(!sp)return null;
-  const fx=gv('mfx')+fxAdj,sup=gv('msp'),sh=gv('msh')==40?'f':'t',of=gv('mo'+cn+si);
+  const fx=gv('mfx'),sup=gv('msp'),sh=gv('msh')==40?'f':'t',of=gv('mo'+cn+si);
   if(!of)return null;
   const raw=gv('mr'+cn+si)||sp.raw,wk=gv('mwk'),nw=gv('mnw')||1,ct=gv('mct')||1;
   const sea=PSEA[cn];if(!sea)return null;
@@ -1087,16 +1082,6 @@ function reqNotif(){
   });
 }
 
-// ═══════════ 환율 시뮬레이터 ═══════════
-let fxAdj=0;
-function setFxAdj(adj){
-  fxAdj=adj;
-  document.querySelectorAll('.fxsim button').forEach(b=>b.classList.toggle('a',+b.dataset.adj===adj));
-  if(F==='s')sA();else if(F==='p'){pB();pA();}else if(F==='g')gA();else mA();
-}
-function fxsimHTML(){
-  return `<div class="fxsim"><span>환율시뮬</span><button data-adj="-20" class="${fxAdj===-20?'a':''}" onclick="setFxAdj(-20)">-20</button><button data-adj="0" class="${fxAdj===0?'a':''}" onclick="setFxAdj(0)">0</button><button data-adj="20" class="${fxAdj===20?'a':''}" onclick="setFxAdj(20)">+20</button></div>`;
-}
 
 // ═══════════ 입력 검증 ═══════════
 function chkReq(ids){

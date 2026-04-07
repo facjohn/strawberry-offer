@@ -434,63 +434,65 @@ const SU='https://script.google.com/macros/s/AKfycbyBX1Wla3JWY8uMbZtDLAgtTLHowrs
 function doSy(){
   const b=$('hd').querySelector('.sb');b.textContent='⏳...';
   const cb='c'+Date.now(),s=document.createElement('script');s.src=SU+'?callback='+cb;
-  const t=setTimeout(()=>{cl();b.textContent='❌';setTimeout(()=>b.textContent='🔄',3000);},10000);
+  const t=setTimeout(()=>{cl();b.textContent='❌ 타임아웃';console.error('[SYNC] timeout 10s');setTimeout(()=>b.textContent='🔄',4000);},10000);
   function cl(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
+  s.onerror=function(){cl();b.textContent='❌ 연결실패';console.error('[SYNC] script load failed');setTimeout(()=>b.textContent='🔄',4000);};
+
+  // 키 유연 매핑 헬퍼
+  function pk(o,...keys){for(const k of keys){if(o[k]!=null)return o[k];}return null;}
+  function parseFT(o){if(!o||typeof o!=='object')return null;const f=pk(o,'f','full','forty','ft40','40');const t=pk(o,'t','twenty','ft20','20');if(f==null&&t==null)return null;return{f:f||0,t:t||0};}
+
   window[cb]=function(d){cl();try{
+    console.log('[SYNC] received',JSON.stringify(d).substring(0,500));
+    if(d.error){b.textContent='❌';console.error('[SYNC] server error:',d.error);setTimeout(()=>b.textContent='🔄',4000);return;}
+    let cnt=0;
 
-    // ── 딸기 모드 전용: 단가 + 환율 ──
-    if(F==='s'){
-      if(d.prices?.p250)$('sp0').value=d.prices.p250;
-      if(d.prices?.p500_330)$('sp1').value=d.prices.p500_330;
-      if(d.exrate)$('sfx').value=Math.round(d.exrate);
-      if(d.sgdrate)$('ssg').value=Math.round(d.sgdrate);
-    }
-    // ── 배 모드 전용: 환율 ──
-    else if(F==='p'){
-      if(d.exrate&&$('pfx'))$('pfx').value=Math.round(d.exrate);
-    }
-    // ── 포도 모드 전용: 환율 ──
-    else if(F==='g'){
-      if(d.exrate&&$('gfx'))$('gfx').value=Math.round(d.exrate);
+    // ── 환율 (모든 모드) ──
+    const ex=pk(d,'exrate','rate','fx');
+    if(ex){
+      if(F==='s'&&$('sfx')){$('sfx').value=Math.round(ex);cnt++;}
+      if(F==='p'&&$('pfx')){$('pfx').value=Math.round(ex);cnt++;}
+      if(F==='g'&&$('gfx')){$('gfx').value=Math.round(ex);cnt++;}
     }
 
-    // ── 딸기 항공 운임 (모드 무관, 항상 동기화) ──
-    if(d.freight)Object.keys(d.freight).forEach(k=>{
-      if(SF[k]){
-        if(d.freight[k].airKg!=null)SF[k].a=d.freight[k].airKg;
-        if(d.freight[k].fsc!=null)SF[k].fc=d.freight[k].fsc;
-        if(d.freight[k].domFreight!=null)SF[k].d=d.freight[k].domFreight;
-      }
+    // ── 딸기 단가 ──
+    if(F==='s'&&d.prices){
+      if(d.prices.p250)$('sp0').value=d.prices.p250;
+      if(d.prices.p500_330)$('sp1').value=d.prices.p500_330;
+      if(pk(d,'sgdrate','sgd'))$('ssg').value=Math.round(pk(d,'sgdrate','sgd'));
+      cnt++;
+    }
+
+    // ── 딸기 항공 운임 ──
+    const fr=pk(d,'freight','strawFreight','airFreight');
+    if(fr)Object.keys(fr).forEach(k=>{
+      if(!SF[k])return;const v=fr[k];
+      const a=pk(v,'airKg','air','a','kg');if(a!=null){SF[k].a=a;cnt++;}
+      const fc=pk(v,'fsc','fc','fuel');if(fc!=null)SF[k].fc=fc;
+      const dom=pk(v,'domFreight','dom','d','domestic');if(dom!=null)SF[k].d=dom;
     });
 
-    // ── 배 해운 운임 (시트에서 제공 시 동기화) ──
-    if(d.pearSea)Object.keys(d.pearSea).forEach(k=>{
-      if(PSEA[k])Object.assign(PSEA[k],d.pearSea[k]);
-    });
-    if(d.pearInland)Object.keys(d.pearInland).forEach(k=>{
-      if(PIL[k])Object.assign(PIL[k],d.pearInland[k]);
-    });
-    // ── 배 작업비 (시트에서 제공 시 동기화) ──
-    if(d.pearWk)Object.keys(d.pearWk).forEach(k=>{
-      if(PWK[k]!=null){PWK[k]=d.pearWk[k];const e=$('pwk_'+k);if(e)e.value=d.pearWk[k];}
-    });
+    // ── 배 해운/내륙/작업비 ──
+    const ps=pk(d,'pearSea','pSea','pearOcean');
+    if(ps)Object.keys(ps).forEach(k=>{if(!PSEA[k])return;const r=parseFT(ps[k]);if(r){Object.assign(PSEA[k],r);cnt++;}});
+    const pi=pk(d,'pearInland','pInland','pearDom');
+    if(pi)Object.keys(pi).forEach(k=>{if(!PIL[k])return;const r=parseFT(pi[k]);if(r){Object.assign(PIL[k],r);cnt++;}});
+    const pw=pk(d,'pearWk','pWk','pearWork');
+    if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){PWK[k]=pw[k];const e=$('pwk_'+k);if(e)e.value=pw[k];cnt++;}});
 
-    // ── 포도 해운 운임 (시트에서 제공 시 동기화) ──
-    if(d.grapeSea)Object.keys(d.grapeSea).forEach(k=>{
-      if(GSEA[k])Object.assign(GSEA[k],d.grapeSea[k]);
-    });
-    if(d.grapeInland)Object.keys(d.grapeInland).forEach(k=>{
-      if(GIL[k])Object.assign(GIL[k],d.grapeInland[k]);
-    });
+    // ── 포도 해운/내륙 ──
+    const gs=pk(d,'grapeSea','gSea','grapeOcean');
+    if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){Object.assign(GSEA[k],r);cnt++;}});
+    const gi=pk(d,'grapeInland','gInland','grapeDom');
+    if(gi)Object.keys(gi).forEach(k=>{if(!GIL[k])return;const r=parseFT(gi[k]);if(r){Object.assign(GIL[k],r);cnt++;}});
 
-    // ── 현재 모드 재계산 ──
-    if(F==='s')sA();
-    else if(F==='p')pA();
-    else if(F==='g')gA();
+    // ── 재계산 ──
+    if(F==='s')sA();else if(F==='p'){pB();pA();}else if(F==='g')gA();
 
+    console.log('[SYNC] applied',cnt,'items');
     b.textContent='✅';setTimeout(()=>b.textContent='🔄',3000);
-    const st=$('syt');if(st){const now=new Date();st.textContent='· '+now.getHours()+':'+String(now.getMinutes()).padStart(2,'0')+' 동기화';}
-  }catch(e){b.textContent='❌';setTimeout(()=>b.textContent='🔄',3000);}};
+    const st=$('syt');if(st){const now=new Date();st.textContent='· '+now.getHours()+':'+String(now.getMinutes()).padStart(2,'0')+' 동기화 ('+cnt+')';}
+  }catch(e){console.error('[SYNC] parse error:',e);b.textContent='❌ 파싱오류';setTimeout(()=>b.textContent='🔄',4000);}};
   document.head.appendChild(s);
 }
 </script>

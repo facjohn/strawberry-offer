@@ -157,6 +157,19 @@ tbody tr:hover td{background:#fafbfd}
 .pwbtn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,#3b6ff0,#2855d4);border:none;color:#fff;font-size:15px;font-weight:800;cursor:pointer;letter-spacing:-.01em;box-shadow:0 4px 14px rgba(59,111,240,.3);transition:all .15s}
 .pwbtn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(59,111,240,.4)}
 .pwbtn:active{transform:translateY(0) scale(.98)}
+.mfg{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+.mr{display:flex;gap:7px}
+.mfi{flex:1;min-width:0}
+.mfi label{font-size:9px;color:var(--t2);font-weight:700;display:block;margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+.mfi input{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-size:11px;font-weight:600;padding:7px 8px;border-radius:6px;outline:none;font-family:inherit;transition:all .15s}
+.mfi input:focus{border-color:var(--ac);background:#fff;box-shadow:0 0 0 3px rgba(59,111,240,.1)}
+.mfi input.auto{background:#f7faff;border-color:#cfdcf5;color:#2855d4;font-family:'JetBrains Mono',monospace;font-size:10px}
+.mb.s{background:linear-gradient(135deg,#3b6ff0,#2855d4);border-color:#2855d4;color:#fff;box-shadow:0 3px 12px rgba(59,111,240,.28)}
+.mb.s:hover{box-shadow:0 5px 16px rgba(59,111,240,.4);transform:translateY(-1px)}
+.mb.s:disabled{background:#c5cad8;border-color:#c5cad8;box-shadow:none;cursor:not-allowed;transform:none}
+.mbs{flex-wrap:wrap}
+.mbs .mb{flex:1 1 calc(50% - 4px);min-width:0}
+.snt{display:inline-block;font-size:8px;font-weight:800;color:var(--gr);background:rgba(22,163,104,.12);border:1px solid var(--gr);padding:1px 6px;border-radius:8px;margin-left:5px;vertical-align:middle;letter-spacing:.04em}
 </style>
 </head>
 <body>
@@ -189,9 +202,31 @@ tbody tr:hover td{background:#fafbfd}
 <div id="to" class="tp a"></div>
 <div id="tl" class="tp"></div>
 </div>
-<div class="mo h" id="mo"><div class="ml"><h3>📝 오퍼 기록</h3><div class="msb" id="msb"></div><div class="mif" id="mif"></div>
+<div class="mo h" id="mo"><div class="ml"><h3>📝 오퍼 기록</h3>
+<div class="msb" id="msb"></div>
+<div class="mif" id="mif"></div>
+<div class="mfg">
+<div class="mr">
+<div class="mfi"><label>인보이스</label><input id="finv" type="text" placeholder="DIAMOND-25-07(AIR)"></div>
+<div class="mfi"><label>제조자</label><input id="fmkr" type="text" placeholder="한림"></div>
+</div>
+<div class="mr">
+<div class="mfi"><label>상차일</label><input id="fld" type="text" placeholder="4/7 화"></div>
+<div class="mfi"><label>수량</label><input id="fqty" type="text" class="auto"></div>
+</div>
+<div class="mr">
+<div class="mfi"><label>적용환율</label><input id="ffx" type="text" class="auto" readonly></div>
+<div class="mfi"><label>산지단가</label><input id="fraw" type="text" class="auto"></div>
+</div>
+</div>
 <label>메모</label><textarea id="mm" placeholder="바이어, 특이사항"></textarea>
-<div class="mbs"><button class="mb c" onclick="cmClose()">취소</button><button class="mb c" onclick="cmCopy()" id="mcb">📋 복사</button><button class="mb k" onclick="cmOk()">✅ 저장</button></div></div></div>
+<div class="mbs">
+<button class="mb c" onclick="cmClose()">취소</button>
+<button class="mb c" onclick="cmCopy()" id="mcb">📋 복사</button>
+<button class="mb k" onclick="cmOk()">💾 로컬</button>
+<button class="mb s" onclick="cmSend()" id="msbtn">📤 시트 전송</button>
+</div>
+</div></div>
 
 <script>
 let F,logs=[],pnd,pSj,gSj;
@@ -341,7 +376,10 @@ function sR(k,i){
 function sA(){Object.keys(SF).forEach(k=>SS.forEach((_,i)=>sR(k,i)));}
 function sL(k,i){
   const r=sCalc(k,i);if(!r.of)return;const fd=SF[k],sp=SS[i];
-  cmOpen({fr:'s',co:fd.n,fl:fd.f,sp:sp.l,of:r.of,sym:r.sym,mb:r.mb,tk:r.tk,cif:r.cif,rt:r.rt,btn:'sb'+k+i},
+  const kgPrice=sp.pk===0?gv('sp0'):gv('sp1');
+  const qty=`${sp.l} ${sp.ct}ctn`;
+  const raw=fN(kgPrice)+'원/kg';
+  cmOpen({fr:'s',co:fd.n,fl:fd.f,sp:sp.l,of:r.of,sym:r.sym,mb:r.mb,tk:r.tk,cif:r.cif,rt:r.rt,btn:'sb'+k+i,qty,raw},
     `${fd.f} ${fd.n} · ${sp.l}`,`오퍼: <span>${r.sym}${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}${r.sym}</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${sp.ct}박스)</span>`);
 }
 
@@ -441,7 +479,10 @@ function pCalc(cn,sid){
 function pR(cn,sid){const r=pCalc(cn,sid);const e1=$('pm'+cn+sid),e2=$('pt'+cn+sid),ew=$('pw'+cn+sid);if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}const cl=mC(r.mb);if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;if(ew)ew.textContent=fN(r.wk);}
 function pA(){PC.forEach(c=>PS.forEach(s=>pR(c.n,s.id)));}
 function pL(cn,sid){const r=pCalc(cn,sid);if(!r)return;const co=PC.find(c=>c.n===cn);
-  cmOpen({fr:'p',co:cn,fl:co?.f||'',sp:r.sp,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('pfx'),sj:pSj,sh:gv('psh')+'ft',btn:'pb'+cn+sid},
+  const sp=PS.find(s=>s.id===sid),sh=gv('psh')==40?'f':'t',ctn=sh==='f'?sp.c4:sp.c2,tp=sh==='f'?20:9;
+  const qty=`${r.sp} ${ctn}ctn × ${tp}p (${r.tb}ctn)`;
+  const raw=fN(Math.round(r.raw))+'원/박스';
+  cmOpen({fr:'p',co:cn,fl:co?.f||'',sp:r.sp,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('pfx'),sj:pSj,sh:gv('psh')+'ft',btn:'pb'+cn+sid,qty,raw,maker:pSj},
     `${co?.f} ${cn} · ${r.sp} · ${pSj}`,`오퍼: <span>$${r.of}</span> | CIF: <span>₩${fN(Math.round(r.cif))}</span> (작업비 ₩${fN(r.wk)}) | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);}
 
 // ═══ GRAPE BUILD ═══
@@ -492,17 +533,74 @@ function gR(cn,si){const r=gCalc(cn,si);const e1=$('gm'+cn+si),e2=$('gt'+cn+si);
 }
 function gA(){GC.forEach(c=>GS.forEach((_,i)=>gR(c.n,i)));}
 function gL(cn,si){const r=gCalc(cn,si);if(!r||!r.of)return;const co=GC.find(c=>c.n===cn);
-  cmOpen({fr:'g',co:cn,fl:co?.f||'',sp:GS[si].l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('gfx'),sj:gSj,sh:gv('gsh')+'ft',btn:'gb'+cn+si},
-    `${co?.f} ${cn} · ${GS[si].l} · ${gSj}`,`오퍼: <span>$${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);}
+  const sp=GS[si],tp=gv('gsh')==40?20:9;
+  const qty=`${sp.l} ${sp.ct}ctn × ${tp}p (${r.tb}ctn)`;
+  const raw=fN(Math.round(r.raw))+'원/박스';
+  cmOpen({fr:'g',co:cn,fl:co?.f||'',sp:sp.l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('gfx'),sj:gSj,sh:gv('gsh')+'ft',btn:'gb'+cn+si,qty,raw,maker:gSj},
+    `${co?.f} ${cn} · ${sp.l} · ${gSj}`,`오퍼: <span>$${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);}
 
 // ═══ LOG ═══
 function loadL(){try{logs=JSON.parse(localStorage.getItem('hn4')||'[]');}catch(e){logs=[];}}
 function saveL(){try{localStorage.setItem('hn4',JSON.stringify(logs));}catch(e){}uLC();}
 function uLC(){const e=$('lc');if(e)e.textContent=logs.filter(l=>l.fr===F).length;}
-function cmOpen(d,sub,info){pnd={...d,id:Date.now(),dt:new Date().toISOString(),me:''};$('msb').textContent=sub;$('mif').innerHTML=info;$('mm').value='';$('mo').classList.remove('h');}
+function cmOpen(d,sub,info){
+  pnd={...d,id:Date.now(),dt:new Date().toISOString(),me:''};
+  $('msb').textContent=sub;$('mif').innerHTML=info;$('mm').value='';
+  $('finv').value='';
+  $('fmkr').value=d.maker||d.sj||'';
+  $('fld').value='';
+  $('fqty').value=d.qty||'';
+  $('ffx').value=d.rt?(d.rt+(d.fr==='s'&&d.sym==='S$'?' SGD':' ₩/$')):'';
+  $('fraw').value=d.raw||'';
+  $('mo').classList.remove('h');
+  const b=$('msbtn');b.disabled=false;b.textContent='📤 시트 전송';
+}
 function cmClose(){$('mo').classList.add('h');pnd=null;}
-function cmOk(){if(!pnd)return;pnd.me=$('mm').value.trim();logs.unshift(pnd);saveL();const b=$(pnd.btn);if(b){b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1000);}cmClose();rL();}
-function cmCopy(){if(!pnd)return;const t=`${pnd.co} ${pnd.sp||''}\nOffer: ${pnd.sym}${pnd.of}\nMargin: ${fD(pnd.mb)}${pnd.sym}/box\nTotal: ${fK(pnd.tk)}${pnd.sj?' ('+pnd.sj+')':''}${pnd.sh?' '+pnd.sh:''}`;navigator.clipboard?navigator.clipboard.writeText(t).then(()=>{const b=$('mcb');b.textContent='✅ 복사됨';setTimeout(()=>b.textContent='📋 복사',1500);}):alert(t);}
+function cmFill(){
+  if(!pnd)return;
+  pnd.me=$('mm').value.trim();
+  pnd.invoice=$('finv').value.trim();
+  pnd.maker=$('fmkr').value.trim();
+  pnd.loadDate=$('fld').value.trim();
+  pnd.qty=$('fqty').value.trim();
+  pnd.raw=$('fraw').value.trim();
+}
+function cmOk(){if(!pnd)return;cmFill();logs.unshift({...pnd});saveL();const b=$(pnd.btn);if(b){b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1000);}cmClose();rL();}
+function cmCopy(){if(!pnd)return;cmFill();
+  const t=`인보이스: ${pnd.invoice||'-'}\n제조자: ${pnd.maker||'-'}\n상차일: ${pnd.loadDate||'-'}\n수량: ${pnd.qty||'-'}\n적용환율: ${pnd.rt||'-'}\n바이어단가: ${pnd.sym}${pnd.of}\n산지단가: ${pnd.raw||'-'}\n──────────\n${pnd.co} ${pnd.sp||''}\n마진: ${fD(pnd.mb)}${pnd.sym}/box · 총 ${fK(pnd.tk)}${pnd.sj?' ('+pnd.sj+')':''}${pnd.sh?' '+pnd.sh:''}${pnd.me?'\n메모: '+pnd.me:''}`;
+  navigator.clipboard?navigator.clipboard.writeText(t).then(()=>{const b=$('mcb');b.textContent='✅ 복사됨';setTimeout(()=>b.textContent='📋 복사',1500);}):alert(t);
+}
+function cmSend(){
+  if(!pnd)return;cmFill();
+  const btn=$('msbtn');btn.disabled=true;btn.textContent='⏳ 전송 중...';
+  const FRN={s:'딸기',p:'배',g:'포도'};
+  const payload={
+    fruit:FRN[pnd.fr]||pnd.fr,country:pnd.co,flag:pnd.fl||'',spec:pnd.sp||'',
+    invoice:pnd.invoice||'',maker:pnd.maker||'',loadDate:pnd.loadDate||'',qty:pnd.qty||'',
+    fxRate:pnd.rt||'',buyerPrice:(pnd.sym||'$')+pnd.of,rawPrice:pnd.raw||'',
+    margin:Number(pnd.mb||0).toFixed(2),totalMargin:Math.round(pnd.tk||0),
+    sanji:pnd.sj||'',ship:pnd.sh||'',memo:pnd.me||'',timestamp:pnd.dt
+  };
+  const cb='snd'+Date.now();
+  const s=document.createElement('script');
+  s.src=SU+'?action=log&callback='+cb+'&data='+encodeURIComponent(JSON.stringify(payload));
+  const t=setTimeout(()=>{cl();btn.disabled=false;btn.textContent='❌ 타임아웃';setTimeout(()=>{btn.textContent='📤 시트 전송';btn.disabled=false;},2500);},12000);
+  function cl(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
+  s.onerror=function(){cl();btn.disabled=false;btn.textContent='❌ 연결실패';setTimeout(()=>btn.textContent='📤 시트 전송',2500);};
+  window[cb]=function(d){cl();
+    if(d&&(d.ok||d.success)){
+      pnd.sent=true;pnd.sentAt=new Date().toISOString();
+      logs.unshift({...pnd});saveL();
+      btn.textContent='✅ 전송 완료';
+      const lb=$(pnd.btn);if(lb){lb.classList.add('ok');setTimeout(()=>lb.classList.remove('ok'),1000);}
+      setTimeout(()=>{cmClose();rL();},900);
+    } else {
+      btn.disabled=false;btn.textContent='❌ '+(d&&d.error||'GAS 미지원');
+      setTimeout(()=>btn.textContent='📤 시트 전송',3000);
+    }
+  };
+  document.head.appendChild(s);
+}
 $('mo').addEventListener('click',function(e){if(e.target===this)cmClose();});
 
 function rL(){
@@ -511,7 +609,7 @@ function rL(){
   let h=`<div style="display:flex;align-items:center;gap:6px"><span style="font-size:12px;font-weight:700;flex:1">기록 (${fl.length})</span><button class="cb" onclick="cL()">전체삭제</button></div>`;
   fl.forEach(l=>{
     const d=new Date(l.dt),ds=`${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-    h+=`<div class="li"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:16px">${l.fl}</span><div style="flex:1"><div style="font-size:11px;font-weight:700">${l.co}${l.sj?' · '+l.sj:''}${l.sh?' · '+l.sh:''}</div><div class="ld">${ds}</div>${l.me?`<div style="font-size:9px;color:var(--t2);font-style:italic;margin-top:1px">"${l.me}"</div>`:''}</div></div>
+    h+=`<div class="li"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:16px">${l.fl}</span><div style="flex:1"><div style="font-size:11px;font-weight:700">${l.co}${l.sj?' · '+l.sj:''}${l.sh?' · '+l.sh:''}${l.sent?'<span class="snt">✓ SENT</span>':''}</div><div class="ld">${ds}${l.invoice?' · '+l.invoice:''}${l.loadDate?' · '+l.loadDate:''}</div>${l.me?`<div style="font-size:9px;color:var(--t2);font-style:italic;margin-top:1px">"${l.me}"</div>`:''}</div></div>
     <div class="lps"><div class="lp"><label>스펙</label><div class="v" style="font-size:9px">${l.sp}</div></div><div class="lp"><label>오퍼</label><div class="v">${l.sym}${l.of}</div></div><div class="lp"><label>마진</label><div class="v ${mC(l.mb)}">${fD(l.mb)}${l.sym}</div></div><div class="lp"><label>총마진</label><div class="v ${mC(l.tk)}">${fK(l.tk)}</div></div></div>
     <button class="ldb" onclick="dL(${l.id})">🗑</button></div>`;
   });list.innerHTML=h;

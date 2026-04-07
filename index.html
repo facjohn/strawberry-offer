@@ -2,966 +2,497 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🍓 딸기 오퍼 계산기</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>현농프레쉬 오퍼계산기</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#f4f5f7; --surface:#ffffff; --surface2:#f0f1f4; --border:#dde0e8;
-    --red:#e8334a; --green:#18a96a; --yellow:#d48a00; --blue:#3b6ff0; --sgd:#c47d00;
-    --text:#1a1a2e; --text2:#606080; --text3:#a0a0b8; --accent:#e8334a;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;min-height:100vh;}
-
-  /* ── HEADER ── */
-  .header{
-    background:linear-gradient(135deg,#fff0f2,#ffffff);
-    border-bottom:1px solid var(--border);
-    padding:12px 18px;display:flex;align-items:center;gap:10px;
-    position:sticky;top:0;z-index:100;
-  }
-  .header h1{font-size:15px;font-weight:700;}
-  .header-sub{font-size:10px;color:var(--text2);font-family:'JetBrains Mono',monospace;margin-top:1px;}
-  .header-right{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:3px;}
-  .sync-badge{
-    font-size:9px;font-weight:700;padding:3px 8px;border-radius:20px;border:1px solid;
-    font-family:'JetBrains Mono',monospace;cursor:pointer;transition:all .2s;white-space:nowrap;
-  }
-  .sync-badge.ok{color:var(--green);border-color:var(--green);}
-  .sync-badge.error{color:var(--red);border-color:var(--red);}
-  .sync-badge.idle{color:var(--text2);border-color:var(--border);}
-  .sync-badge.loading{color:var(--yellow);border-color:var(--yellow);animation:blink .8s infinite;}
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
-  .last-sync{font-size:9px;color:var(--text3);font-family:'JetBrains Mono',monospace;}
-
-  /* ── BASE INPUTS ── */
-  .base-section{
-    padding:12px 18px;background:var(--surface);border-bottom:1px solid var(--border);
-    display:grid;grid-template-columns:repeat(4,1fr);gap:10px;
-  }
-  .input-group label{font-size:10px;font-weight:700;color:var(--text2);display:block;margin-bottom:5px;}
-  .input-group label em{color:var(--accent);font-style:normal;}
-  .input-group label .sg{color:var(--sgd);}
-  .input-group input{
-    width:100%;background:var(--bg);border:1px solid var(--border);
-    color:var(--text);font-family:'JetBrains Mono',monospace;
-    font-size:13px;font-weight:600;padding:7px 8px;border-radius:6px;outline:none;transition:border-color .15s;
-  }
-  .input-group input:focus{border-color:var(--accent);}
-  .input-group input.updated{border-color:var(--green);animation:flashGreen .6s ease-out;}
-  @keyframes flashGreen{0%{background:rgba(24,169,106,.15)}100%{background:var(--bg)}}
-  .sgd-hint{font-size:9px;color:var(--sgd);margin-top:3px;display:flex;align-items:center;gap:4px;}
-  .dot{width:5px;height:5px;border-radius:50%;background:var(--sgd);animation:pulse 2s infinite;flex-shrink:0;}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
-  /* ── TABS ── */
-  .tabs{display:flex;background:var(--surface);border-bottom:1px solid var(--border);padding:0 18px;overflow-x:auto;}
-  .tab-btn{
-    padding:9px 12px;font-size:12px;font-weight:600;color:var(--text2);
-    border:none;background:none;border-bottom:2px solid transparent;
-    cursor:pointer;transition:all .15s;font-family:'Noto Sans KR',sans-serif;white-space:nowrap;
-  }
-  .tab-btn.active{color:var(--text);border-bottom-color:var(--accent);}
-  .log-count{
-    display:inline-block;background:var(--accent);color:#fff;
-    font-size:8px;font-weight:700;padding:1px 5px;border-radius:10px;margin-left:4px;
-    vertical-align:middle;
-  }
-
-  /* ── PANELS ── */
-  .tab-panel{display:none;padding:14px 18px;flex-direction:column;gap:12px;}
-  .tab-panel.active{display:flex;}
-
-  /* ── COUNTRY CARD ── */
-  .country-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
-  .country-header{
-    padding:9px 14px;background:var(--surface2);border-bottom:1px solid var(--border);
-    display:flex;align-items:center;gap:8px;
-  }
-  .country-flag{font-size:17px;}
-  .country-name{font-size:13px;font-weight:700;}
-  .country-currency{margin-left:auto;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;}
-  .cur-usd{background:rgba(59,111,240,.1);color:var(--blue);}
-  .cur-sgd{background:rgba(196,125,0,.1);color:var(--sgd);}
-
-  /* ── SPEC ROW ── */
-  .spec-row{
-    display:grid;
-    grid-template-columns:1fr 78px 1fr 36px;
-    gap:6px;align-items:center;padding:9px 14px;border-bottom:1px solid var(--border);
-  }
-  .spec-row:last-of-type{border-bottom:none;}
-  .spec-label{font-size:12px;color:var(--text);font-weight:700;}
-  .spec-badge{display:inline-block;font-size:8px;font-weight:700;padding:1px 4px;border-radius:3px;margin-left:3px;vertical-align:middle;}
-  .badge-250{background:rgba(232,51,74,.12);color:var(--red);}
-  .badge-500{background:rgba(180,120,0,.12);color:var(--yellow);}
-  .badge-330{background:rgba(59,111,240,.12);color:var(--blue);}
-  .cost-detail{font-size:9px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-top:2px;}
-
-  .price-input-wrap{display:flex;align-items:center;gap:3px;}
-  .price-prefix{font-size:10px;color:var(--text2);min-width:14px;}
-  .price-input{
-    width:60px;background:var(--bg);border:1px solid var(--border);
-    color:var(--text);font-family:'JetBrains Mono',monospace;
-    font-size:13px;font-weight:600;padding:5px;border-radius:5px;
-    outline:none;text-align:center;transition:border-color .15s;
-  }
-  .price-input:focus{border-color:var(--accent);}
-
-  .margin-display{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:1px 6px;text-align:right;}
-  .m-box-val{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;grid-column:1;grid-row:1;}
-  .m-pct{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;grid-column:2;grid-row:1;color:var(--text2);}
-  .m-krw-total{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;grid-column:1/span 2;grid-row:2;}
-  .mpos{color:var(--green);}
-  .mmid{color:var(--yellow);}
-  .mneg{color:var(--red);}
-
-  /* ── 기록 버튼 ── */
-  .log-btn{
-    width:32px;height:32px;border-radius:6px;
-    background:rgba(59,111,240,.08);border:1px solid rgba(59,111,240,.25);
-    color:var(--blue);font-size:14px;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    transition:all .15s;flex-shrink:0;
-  }
-  .log-btn:hover{background:rgba(59,111,240,.15);border-color:var(--blue);}
-  .log-btn:active{transform:scale(.92);}
-  .log-btn.logged{
-    background:rgba(24,169,106,.15);border-color:rgba(24,169,106,.4);
-    color:var(--green);animation:logPop .3s ease-out;
-  }
-  @keyframes logPop{0%{transform:scale(1.3)}100%{transform:scale(1)}}
-
-  /* ── 오퍼 기록 탭 ── */
-  .log-toolbar{
-    display:flex;align-items:center;gap:8px;
-  }
-  .log-toolbar-title{font-size:13px;font-weight:700;flex:1;}
-  .log-filter{
-    background:var(--bg);border:1px solid var(--border);
-    color:var(--text);font-family:'Noto Sans KR',sans-serif;
-    font-size:11px;padding:5px 8px;border-radius:6px;outline:none;
-  }
-  .clear-btn{
-    background:none;border:1px solid var(--border);
-    color:var(--text3);font-size:11px;padding:5px 10px;
-    border-radius:6px;cursor:pointer;transition:all .15s;
-    font-family:'Noto Sans KR',sans-serif;
-  }
-  .clear-btn:hover{border-color:var(--red);color:var(--red);}
-
-  .log-empty{
-    text-align:center;padding:40px 20px;color:var(--text3);
-    font-size:13px;line-height:2;
-  }
-  .log-empty .emoji{font-size:36px;display:block;margin-bottom:8px;}
-
-  .log-item{
-    background:var(--surface);border:1px solid var(--border);
-    border-radius:10px;padding:12px 14px;position:relative;
-    transition:border-color .15s;
-  }
-  .log-item:hover{border-color:rgba(91,143,255,.3);}
-  .log-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
-  .log-flag{font-size:20px;flex-shrink:0;}
-  .log-main{flex:1;}
-  .log-country{font-size:13px;font-weight:700;}
-  .log-spec-badge{
-    display:inline-block;font-size:9px;font-weight:700;
-    padding:1px 5px;border-radius:3px;margin-left:5px;vertical-align:middle;
-  }
-  .log-date{font-size:10px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-top:2px;}
-  .log-memo-text{font-size:11px;color:var(--text2);margin-top:3px;font-style:italic;}
-
-  .log-prices{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:6px;
-    background:var(--surface2);border-radius:7px;padding:8px 10px;
-  }
-  .log-price-item label{font-size:9px;color:var(--text3);display:block;margin-bottom:2px;}
-  .log-price-item .val{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;}
-
-  .log-actions{display:flex;gap:6px;margin-top:8px;}
-  .log-action-btn{
-    background:none;border:1px solid var(--border);
-    color:var(--text2);font-size:10px;padding:4px 8px;
-    border-radius:5px;cursor:pointer;transition:all .15s;
-    font-family:'Noto Sans KR',sans-serif;
-  }
-  .log-action-btn:hover{border-color:var(--blue);color:var(--blue);}
-  .log-action-btn.del:hover{border-color:var(--red);color:var(--red);}
-
-  /* 메모 입력 */
-  .memo-input{
-    width:100%;background:var(--bg);border:1px solid var(--border);
-    color:var(--text);font-family:'Noto Sans KR',sans-serif;
-    font-size:11px;padding:6px 8px;border-radius:6px;outline:none;
-    margin-top:6px;transition:border-color .15s;resize:none;
-  }
-  .memo-input:focus{border-color:var(--blue);}
-
-  /* 기록 모달 */
-  .modal-overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,.7);
-    display:flex;align-items:center;justify-content:center;
-    z-index:200;padding:20px;
-  }
-  .modal-overlay.hidden{display:none;}
-  .modal{
-    background:var(--surface);border:1px solid var(--border);
-    border-radius:14px;padding:20px;width:100%;max-width:360px;
-    box-shadow:0 8px 32px rgba(0,0,0,.12);
-  }
-  .modal h3{font-size:14px;font-weight:700;margin-bottom:4px;}
-  .modal .modal-sub{font-size:11px;color:var(--text2);margin-bottom:14px;}
-  .modal-info{
-    background:var(--surface2);border-radius:8px;padding:10px;
-    font-size:11px;margin-bottom:12px;line-height:1.8;
-  }
-  .modal-info span{color:var(--text);font-weight:600;font-family:'JetBrains Mono',monospace;}
-  .modal label{font-size:10px;color:var(--text2);font-weight:700;display:block;margin-bottom:5px;}
-  .modal textarea{
-    width:100%;background:var(--bg);border:1px solid var(--border);
-    color:var(--text);font-family:'Noto Sans KR',sans-serif;
-    font-size:12px;padding:8px;border-radius:6px;outline:none;
-    resize:none;height:70px;transition:border-color .15s;
-  }
-  .modal textarea:focus{border-color:var(--blue);}
-  .modal-btns{display:flex;gap:8px;margin-top:12px;}
-  .modal-btn{
-    flex:1;padding:10px;border-radius:7px;font-size:13px;font-weight:700;
-    cursor:pointer;transition:all .15s;border:1px solid;
-    font-family:'Noto Sans KR',sans-serif;
-  }
-  .modal-btn.cancel{background:none;border-color:var(--border);color:var(--text2);}
-  .modal-btn.confirm{background:rgba(24,169,106,.12);border-color:var(--green);color:var(--green);}
-  .modal-btn.confirm:hover{background:rgba(24,169,106,.22);}
-
-  /* ── SETTINGS ── */
-  .settings-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;}
-  .settings-card p{font-size:11px;color:var(--text2);line-height:1.6;margin-bottom:8px;}
-  .settings-card code{
-    display:block;background:var(--bg);border:1px solid var(--border);
-    border-radius:6px;padding:10px;font-size:10px;color:#99ccff;
-    font-family:'JetBrains Mono',monospace;white-space:pre;overflow-x:auto;
-    margin:8px 0;line-height:1.5;
-  }
-  .url-row{display:flex;gap:8px;margin-top:8px;}
-  .url-input{
-    flex:1;background:var(--bg);border:1px solid var(--border);
-    color:var(--text);font-family:'JetBrains Mono',monospace;
-    font-size:11px;padding:7px 10px;border-radius:6px;outline:none;transition:border-color .15s;
-  }
-  .url-input:focus{border-color:var(--blue);}
-  .btn{
-    background:var(--surface2);border:1px solid var(--border);
-    color:var(--text2);font-family:'Noto Sans KR',sans-serif;
-    font-size:11px;font-weight:600;padding:7px 12px;
-    border-radius:6px;cursor:pointer;transition:all .15s;white-space:nowrap;
-  }
-  .btn.primary{border-color:var(--green);color:var(--green);}
-  .btn.primary:hover{background:rgba(46,204,138,.1);}
-  .sync-result{font-size:10px;margin-top:6px;font-family:'JetBrains Mono',monospace;padding:6px 8px;border-radius:5px;}
-  .sync-result.ok{background:rgba(24,169,106,.08);color:var(--green);border:1px solid rgba(24,169,106,.2);}
-  .sync-result.error{background:rgba(232,51,74,.06);color:var(--red);border:1px solid rgba(232,51,74,.2);}
-  .auto-banner{
-    background:rgba(24,169,106,.07);border:1px solid rgba(24,169,106,.25);
-    border-radius:8px;padding:10px 14px;font-size:11px;color:var(--green);
-    display:flex;align-items:center;gap:8px;
-  }
-  .dot-green{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0;animation:pulse 2s infinite;}
-
-  /* FREIGHT EDITOR */
-  .freight-editor{display:flex;flex-direction:column;gap:10px;}
-  .freight-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
-  .freight-card-header{padding:8px 14px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;}
-  .freight-fields{padding:10px 14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
-  .freight-field label{font-size:9px;color:var(--text2);font-weight:700;display:block;margin-bottom:4px;}
-  .freight-field input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:6px 7px;border-radius:5px;outline:none;transition:border-color .15s;}
-  .freight-field input:focus{border-color:var(--blue);}
-  .save-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text2);font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:600;padding:10px;border-radius:7px;cursor:pointer;transition:all .15s;width:100%;}
-  .save-btn:hover{border-color:var(--green);color:var(--green);}
-  .save-btn.saved{border-color:var(--green);color:var(--green);}
-
-
-  /* ── 비밀번호 화면 ── */
-  .pw-overlay{
-    position:fixed;inset:0;background:#fff;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    z-index:9999;padding:30px;
-  }
-  .pw-overlay.hidden{display:none;}
-  .pw-box{
-    background:#fff;border:1px solid var(--border);
-    border-radius:16px;padding:32px 28px;width:100%;max-width:320px;
-    text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.08);
-  }
-  .pw-emoji{font-size:48px;margin-bottom:12px;}
-  .pw-title{font-size:18px;font-weight:900;color:var(--text);margin-bottom:4px;}
-  .pw-sub{font-size:12px;color:var(--text2);margin-bottom:24px;}
-  .pw-input{
-    width:100%;background:var(--bg);border:2px solid var(--border);
-    color:var(--text);font-family:'JetBrains Mono',monospace;
-    font-size:24px;font-weight:700;padding:12px;border-radius:10px;
-    outline:none;text-align:center;letter-spacing:8px;
-    transition:border-color .15s;margin-bottom:12px;
-  }
-  .pw-input:focus{border-color:var(--accent);}
-  .pw-input.shake{animation:shake .3s ease-out;}
-  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
-  .pw-btn{
-    width:100%;padding:13px;border-radius:10px;
-    background:var(--accent);border:none;color:#fff;
-    font-size:15px;font-weight:700;cursor:pointer;
-    font-family:'Noto Sans KR',sans-serif;transition:opacity .15s;
-  }
-  .pw-btn:hover{opacity:.9;}
-  .pw-error{font-size:12px;color:var(--red);margin-top:8px;height:16px;}
-  ::-webkit-scrollbar{width:4px;}
-  ::-webkit-scrollbar-track{background:var(--bg);}
-  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+:root{--bg:#f4f5f7;--sf:#fff;--sf2:#f0f1f4;--bd:#dde0e8;--tx:#1a1a2e;--t2:#606080;--t3:#a0a0b8;--gr:#18a96a;--rd:#c0392b;--yw:#d48a00;--bl:#3b6ff0;--ac:#3b6ff0}
+*{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--tx);font-family:'Noto Sans KR',sans-serif;min-height:100vh;-webkit-tap-highlight-color:transparent;font-size:13px}
+.mpos{color:var(--gr)!important}.mneg{color:var(--rd)!important}.mmid{color:var(--yw)!important}
+.mono{font-family:'JetBrains Mono',monospace}
+#land{position:fixed;inset:0;background:linear-gradient(145deg,#fefefe,#f2f3f8);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .3s}
+#land.h{opacity:0;pointer-events:none}
+.lt{font-size:20px;font-weight:900}.ls{font-size:11px;color:var(--t2);margin-top:-8px}
+.fcs{display:flex;gap:12px}
+.fc{width:100px;height:115px;border-radius:16px;border:2px solid var(--bd);background:var(--sf);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all .2s}
+.fc:active{transform:scale(.95)}.fc .e{font-size:38px}.fc .n{font-size:14px;font-weight:700}
+.hd{position:sticky;top:0;z-index:100;padding:10px 14px;display:flex;align-items:center;gap:8px;border-bottom:2px solid var(--ac);background:var(--sf)}
+.hd h1{font-size:14px;font-weight:700}.hd-s{font-size:10px;color:var(--t2);font-family:'JetBrains Mono',monospace}
+.bb{width:30px;height:30px;border-radius:7px;border:1px solid var(--bd);background:var(--sf);color:var(--t2);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sb{font-size:9px;font-weight:700;padding:3px 7px;border-radius:16px;border:1px solid var(--bd);font-family:'JetBrains Mono',monospace;cursor:pointer;color:var(--t2);margin-left:auto;white-space:nowrap}
+.bs{padding:8px 14px;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;gap:6px;flex-wrap:wrap}
+.ig{flex:1;min-width:64px}.ig label{font-size:9px;font-weight:700;color:var(--t2);display:block;margin-bottom:3px}
+.ig label em{font-style:normal;color:var(--ac)}
+.ig input,.ig select{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:5px 6px;border-radius:5px;outline:none}
+.ig input:focus,.ig select:focus{border-color:var(--ac)}
+.tabs{display:flex;background:var(--sf);border-bottom:1px solid var(--bd);padding:0 14px;overflow-x:auto}
+.tb{padding:8px 10px;font-size:11px;font-weight:600;color:var(--t2);border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;font-family:inherit;white-space:nowrap}
+.tb.a{color:var(--tx);border-bottom-color:var(--ac)}
+.lc{display:inline-block;background:var(--ac);color:#fff;font-size:7px;font-weight:700;padding:1px 4px;border-radius:8px;margin-left:3px;vertical-align:middle}
+.tp{display:none;padding:10px 14px;flex-direction:column;gap:8px}.tp.a{display:flex}
+.sl{font-size:10px;color:var(--t3);padding:8px 14px 0;font-weight:500}
+.sjb{display:flex;gap:5px;flex-wrap:wrap;padding:6px 14px;background:var(--sf);border-bottom:1px solid var(--bd)}
+.sj{padding:5px 10px;border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;font-family:inherit;background:#fff;color:#666;border:1.5px solid var(--bd);transition:all .2s}
+.sj.a{color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.cc{background:var(--sf);border:1px solid var(--bd);border-radius:9px;overflow:hidden}
+.ch{padding:7px 10px;background:var(--sf2);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700}
+.sr{display:grid;grid-template-columns:1fr 70px 1fr 26px;gap:4px;align-items:center;padding:6px 10px;border-bottom:1px solid #eef}.sr:last-of-type{border:none}
+.slb{font-size:10px;font-weight:700}
+.sbg{display:inline-block;font-size:7px;font-weight:700;padding:1px 3px;border-radius:3px;margin-left:2px;vertical-align:middle}
+.pi{width:54px;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:4px;border-radius:4px;outline:none;text-align:center}
+.pi:focus{border-color:var(--ac)}
+.mv{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;text-align:right}
+.mk{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;text-align:right}
+.lb{width:24px;height:24px;border-radius:4px;background:rgba(59,111,240,.06);border:1px solid rgba(59,111,240,.15);color:var(--bl);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.lb.ok{background:rgba(24,169,106,.12);border-color:var(--gr);color:var(--gr);animation:lp .3s}
+@keyframes lp{0%{transform:scale(1.3)}100%{transform:scale(1)}}
+table{width:100%;border-collapse:collapse;font-size:11px;border:1.5px solid var(--bd);border-radius:7px;overflow:hidden}
+thead th{padding:5px 3px;text-align:center;font-size:9px;font-weight:700;color:var(--t2);background:var(--sf2);border-bottom:1.5px solid var(--bd);white-space:nowrap}
+tbody td{padding:4px 3px;border-bottom:1px solid #eee;white-space:nowrap}
+.ctd{font-weight:700;text-align:center;background:#fdf8ee;border-right:1px solid #e8e4d8;vertical-align:middle;font-size:10px}
+.ptd input{width:56px;background:#fff;border:1px solid #d4c090;color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:3px;border-radius:4px;outline:none;text-align:center}
+.ptd input:focus{border-color:var(--ac)}
+.mc{text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px}
+.tc{text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:9px}
+.cs{border-bottom:2.5px solid #e8d5a3!important}
+.pp{border:1.5px solid #e8d5a3;border-radius:8px;padding:8px;margin-bottom:4px;background:#fdf6e3}
+.pp h3{font-size:11px;font-weight:600;margin-bottom:6px;color:#b8860b}
+.cv{background:#fff;border:1px solid #e8e4d8;border-radius:6px;padding:6px;font-size:10px}
+.cr{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px solid #f0ece2}.cr:last-child{border:none}
+.cvl{font-weight:600;font-family:'JetBrains Mono',monospace;color:#b8860b}
+.wg{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;padding:6px 14px;background:var(--sf);border-bottom:1px solid var(--bd)}
+.wg .ig input{font-size:10px;padding:4px 5px}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
+.mo.h{display:none}
+.ml{background:var(--sf);border-radius:11px;padding:16px;width:100%;max-width:330px}
+.ml h3{font-size:12px;font-weight:700;margin-bottom:2px}
+.msb{font-size:10px;color:var(--t2);margin-bottom:8px}
+.mif{background:var(--sf2);border-radius:6px;padding:7px;font-size:10px;margin-bottom:8px;line-height:1.7;font-family:'JetBrains Mono',monospace}
+.mif span{color:var(--tx);font-weight:600}
+.ml label{font-size:9px;color:var(--t2);font-weight:700;display:block;margin-bottom:3px}
+.ml textarea{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:inherit;font-size:11px;padding:6px;border-radius:5px;outline:none;resize:none;height:50px}
+.mbs{display:flex;gap:6px;margin-top:8px}
+.mb{flex:1;padding:8px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:1px solid;font-family:inherit}
+.mb.c{background:none;border-color:var(--bd);color:var(--t2)}.mb.k{background:rgba(24,169,106,.1);border-color:var(--gr);color:var(--gr)}
+.le{text-align:center;padding:30px;color:var(--t3);font-size:12px;line-height:2}
+.li{background:var(--sf);border:1px solid var(--bd);border-radius:8px;padding:8px 10px}
+.ld{font-size:8px;color:var(--t3);font-family:'JetBrains Mono',monospace}
+.lps{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;background:var(--sf2);border-radius:5px;padding:5px 6px;margin-top:5px}
+.lp label{font-size:7px;color:var(--t3);display:block;margin-bottom:1px}
+.lp .v{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600}
+.ldb{background:none;border:1px solid var(--bd);color:var(--t2);font-size:9px;padding:2px 6px;border-radius:3px;cursor:pointer;margin-top:4px;font-family:inherit}
+.cb{background:none;border:1px solid var(--bd);color:var(--t3);font-size:10px;padding:4px 8px;border-radius:5px;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
-
-<!-- HEADER -->
-
-<div class="pw-overlay" id="pw-overlay">
-  <div class="pw-box">
-    <div class="pw-emoji">🍓</div>
-    <div class="pw-title">딸기 오퍼 계산기</div>
-    <div class="pw-sub">현농 프레쉬 by JOHN</div>
-    <input class="pw-input" type="password" id="pw-input"
-      placeholder="****" maxlength="10"
-      onkeydown="if(event.key==='Enter')checkPw()">
-    <button class="pw-btn" onclick="checkPw()">입장</button>
-    <div class="pw-error" id="pw-error"></div>
-  </div>
+<div id="land"><div class="lt">현농프레쉬</div><div class="ls">오퍼 계산기 · by JOHN</div>
+<div class="fcs">
+<div class="fc" onclick="go('s')"><span class="e">🍓</span><span class="n">딸기</span></div>
+<div class="fc" onclick="go('p')"><span class="e">🍐</span><span class="n">배</span></div>
+<div class="fc" onclick="go('g')"><span class="e">🍇</span><span class="n">포도</span></div>
+</div></div>
+<div id="app" style="display:none">
+<div class="hd" id="hd"></div>
+<div class="bs" id="bs"></div>
+<div id="ex"></div>
+<div class="tabs" id="ts"></div>
+<div id="to" class="tp a"></div>
+<div id="tl" class="tp"></div>
 </div>
-
-<div class="header">
-  <span style="font-size:22px">🍓</span>
-  <div>
-    <h1>딸기 오퍼 계산기</h1>
-    <div class="header-sub">현농 프레쉬 by JOHN</div>
-  </div>
-  <div class="header-right">
-    <div class="sync-badge idle" id="sync-badge" onclick="syncFromSheets()">🔄 수동 동기화</div>
-    <div class="last-sync" id="last-sync">마지막 동기화: -</div>
-  </div>
-</div>
-
-<!-- BASE INPUTS -->
-<div class="base-section">
-  <div class="input-group">
-    <label>단가 <em>250g</em></label>
-    <input type="number" id="price250" value="11500" oninput="recalcAll()">
-  </div>
-  <div class="input-group">
-    <label>단가 <em>500g/330g</em></label>
-    <input type="number" id="price500" value="13000" oninput="recalcAll()">
-  </div>
-  <div class="input-group">
-    <label>환율 ₩/$</label>
-    <input type="number" id="exrate" value="1400" oninput="recalcAll()">
-  </div>
-  <div class="input-group">
-    <label><span class="sg">SGD</span>/₩ (브루나이)</label>
-    <input type="number" id="sgdrate" value="1137" oninput="recalcAll()">
-    <div class="sgd-hint"><span class="dot"></span>시트 자동 반영</div>
-  </div>
-</div>
-
-<!-- TABS -->
-<div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('offers',this)">📊 오퍼 계산</button>
-  <button class="tab-btn" onclick="switchTab('logs',this)">📋 오퍼 기록<span class="log-count" id="log-count">0</span></button>
-  <button class="tab-btn" onclick="switchTab('memo',this)">📝 메모</button>
-  <button class="tab-btn" onclick="switchTab('freight',this)">✏️ 운임 편집</button>
-  <button class="tab-btn" onclick="switchTab('settings',this)">⚙️ 시트 연동</button>
-</div>
-
-<!-- TAB: 오퍼 계산 -->
-<div id="tab-offers" class="tab-panel active"></div>
-
-<!-- TAB: 오퍼 기록 -->
-<div id="tab-logs" class="tab-panel">
-  <div class="log-toolbar">
-    <div class="log-toolbar-title">오퍼 기록</div>
-    <select class="log-filter" id="log-filter" onchange="renderLogs()">
-      <option value="">전체 나라</option>
-    </select>
-    <button class="clear-btn" onclick="clearAllLogs()">전체 삭제</button>
-  </div>
-  <div id="log-list"></div>
-</div>
-
-<!-- TAB: 운임 편집 -->
-<div id="tab-freight" class="tab-panel">
-  <p style="font-size:11px;color:var(--text2)">운임은 앱 실행 시 구글 시트에서 자동 동기화됩니다. 수동 수정 후 저장하세요.</p>
-  <div class="freight-editor" id="freight-editor"></div>
-  <button class="save-btn" id="save-btn" onclick="saveFreight()">💾 운임 저장 (브라우저에 기억)</button>
-</div>
-
-<!-- TAB: 시트 연동 -->
-<div id="tab-settings" class="tab-panel">
-  <div class="auto-banner">
-    <span class="dot-green"></span>
-    <span>앱을 열 때마다 구글 시트에서 자동으로 최신 데이터를 가져옵니다.</span>
-  </div>
-  <div class="settings-card">
-    <p><strong style="color:var(--text)">Apps Script URL 설정</strong><br>
-    URL을 저장하면 다음부터 앱을 열 때마다 자동 동기화됩니다.</p>
-    <div class="url-row">
-      <input class="url-input" type="text" id="sheets-url" placeholder="https://script.google.com/macros/s/AKfy.../exec">
-      <button class="btn primary" onclick="saveUrlAndSync()">저장 + 지금 동기화</button>
-    </div>
-    <div id="sync-result" style="display:none"></div>
-  </div>
-  <div class="settings-card">
-    <p><strong style="color:var(--text)">동기화 항목:</strong> 딸기단가, 환율, SGD환율, 나라별 운임+FSC</p>
-    <p style="margin-top:8px;color:var(--text3)">Apps Script 코드 (한 번만 설정):</p>
-    <code>function doGet() {
-  const ss    = SpreadsheetApp.getActiveSpreadsheet();
-  const straw = ss.getSheetByName("딸기");
-  const data  = ss.getSheetByName("DATA");
-  const result = {
-    prices: {
-      p500_330: straw.getRange("C2").getValue(),
-      p250:     straw.getRange("C3").getValue(),
-    },
-    exrate:  straw.getRange("C1").getValue(),
-    sgdrate: straw.getRange("C36").getValue(),
-    freight: {
-      vn_hcm: { airKg: data.getRange("K25").getValue(), fsc: data.getRange("L25").getValue() },
-      vn_han: { airKg: data.getRange("K24").getValue(), fsc: data.getRange("L24").getValue() },
-      th:     { airKg: data.getRange("K35").getValue(), fsc: data.getRange("L35").getValue() },
-      id:     { airKg: data.getRange("K29").getValue(), fsc: data.getRange("L29").getValue() },
-      my:     { airKg: data.getRange("K27").getValue(), fsc: data.getRange("L27").getValue() },
-      hk:     { airKg: data.getRange("K30").getValue(), fsc: data.getRange("L30").getValue() },
-      ph:     { airKg: data.getRange("K37").getValue(), fsc: data.getRange("L37").getValue() },
-      bn:     { airKg: data.getRange("K31").getValue(), fsc: data.getRange("L31").getValue() },
-    }
-  };
-  return ContentService
-    .createTextOutput(JSON.stringify(result))
-    .setMimeType(ContentService.MimeType.JSON);
-}</code>
-  </div>
-</div>
-
-
-<!-- TAB: 메모 -->
-<div id="tab-memo" class="tab-panel">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
-    <span style="font-size:13px;font-weight:700;">자유 메모</span>
-    <button onclick="clearMemo()" style="background:none;border:1px solid var(--border);color:var(--text2);font-size:11px;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'Noto Sans KR',sans-serif;">초기화</button>
-  </div>
-  <p style="font-size:11px;color:var(--text2);margin-bottom:8px;">자동 저장됨</p>
-  <textarea id="free-memo"
-    style="width:100%;min-height:400px;background:var(--surface);border:1px solid var(--border);
-    color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:13px;line-height:1.8;
-    padding:14px;border-radius:10px;outline:none;resize:vertical;transition:border-color .15s;"
-    placeholder="필요시 메모 입력"
-    oninput="saveMemo()"></textarea>
-  <div style="text-align:right;font-size:10px;color:var(--text3);margin-top:4px;" id="memo-saved-hint"></div>
-</div>
-
-<!-- 기록 모달 -->
-<div class="modal-overlay hidden" id="modal-overlay">
-  <div class="modal">
-    <h3>📝 오퍼 기록 저장</h3>
-    <div class="modal-sub" id="modal-sub">이 오퍼를 기록에 저장합니다</div>
-    <div class="modal-info" id="modal-info"></div>
-    <label>메모 (바이어, 특이사항 등 선택입력)</label>
-    <textarea id="modal-memo" placeholder="예) 바이어, 기타사항"></textarea>
-    <div class="modal-btns">
-      <button class="modal-btn cancel" onclick="closeModal()">취소</button>
-      <button class="modal-btn confirm" onclick="confirmLog()">✅ 기록 저장</button>
-    </div>
-  </div>
-</div>
+<div class="mo h" id="mo"><div class="ml"><h3>📝 오퍼 기록</h3><div class="msb" id="msb"></div><div class="mif" id="mif"></div>
+<label>메모</label><textarea id="mm" placeholder="바이어, 특이사항"></textarea>
+<div class="mbs"><button class="mb c" onclick="cmClose()">취소</button><button class="mb c" onclick="cmCopy()" id="mcb">📋 복사</button><button class="mb k" onclick="cmOk()">✅ 저장</button></div></div></div>
 
 <script>
-// ── 데이터 ────────────────────────────────────────────────────
-let FREIGHT = {
-  vn_hcm:{name:'베트남 호치민',flag:'🇻🇳',route:'SGN',airKg:1900,fsc:410,domFreight:[55000,55000,55000]},
-  vn_han:{name:'베트남 하노이',flag:'🇻🇳',route:'HAN',airKg:1500,fsc:410,domFreight:[55000,55000,55000]},
-  th:    {name:'태국',         flag:'🇹🇭',route:'BKK',airKg:850, fsc:410,domFreight:[55000,55000,55000]},
-  id:    {name:'인도네시아',   flag:'🇮🇩',route:'CGK',airKg:3200,fsc:410,domFreight:[55000,55000,55000]},
-  my:    {name:'말레이시아',   flag:'🇲🇾',route:'KUL',airKg:2200,fsc:410,domFreight:[55000,55000,55000]},
-  hk:    {name:'홍콩',         flag:'🇭🇰',route:'HKG',airKg:700, fsc:410,domFreight:[55000,55000,55000]},
-  ph:    {name:'필리핀',       flag:'🇵🇭',route:'MNL',airKg:2200,fsc:410,domFreight:[55000,55000,55000]},
-  bn:    {name:'브루나이',     flag:'🇧🇳',route:'BWN',airKg:7700,fsc:0,  domFreight:[55000,55000,55000],isSGD:true},
+let F,logs=[],pnd,pSj,gSj;
+const $=id=>document.getElementById(id),gv=id=>{const e=$(id);return e?(+e.value||0):0};
+const fN=n=>n!=null&&!isNaN(n)?Math.round(n).toLocaleString('ko-KR'):'-';
+const fD=(n,d=2)=>n!=null&&!isNaN(n)?(n>=0?'+':'')+n.toFixed(d):'-';
+const fK=n=>{const a=Math.abs(Math.round(n));return(n>=0?'+':'-')+'₩'+a.toLocaleString()};
+const mC=m=>m>=1.5?'mpos':m>=0?'mmid':'mneg';
+
+// ═══ STRAWBERRY ═══
+const SF={
+vn_hcm:{n:'베트남 호치민',f:'🇻🇳',a:2200,fc:410,d:55000},
+vn_han:{n:'베트남 하노이',f:'🇻🇳',a:1700,fc:410,d:55000},
+th:{n:'태국',f:'🇹🇭',a:850,fc:410,d:55000},
+id:{n:'인도네시아',f:'🇮🇩',a:3300,fc:540,d:55000},
+my:{n:'말레이시아',f:'🇲🇾',a:2200,fc:410,d:55000},
+hk:{n:'홍콩',f:'🇭🇰',a:1100,fc:410,d:55000},
+ph:{n:'필리핀',f:'🇵🇭',a:2200,fc:410,d:55000},
+bn:{n:'브루나이',f:'🇧🇳',a:8200,fc:0,d:55000,sg:1},
+};
+const SS=[
+{l:'2kg 250g×8',b:'250g',cls:'background:rgba(232,51,74,.12);color:#e8334a',ct:152,gw:2.9,nw:2,bj:240,pk:0},
+{l:'2kg 500g×4',b:'500g',cls:'background:rgba(180,120,0,.12);color:#d48a00',ct:153,gw:2.8,nw:2,bj:120,pk:1},
+{l:'1.32kg 330g×4',b:'330g',cls:'background:rgba(59,111,240,.12);color:#3b6ff0',ct:220,gw:2.0,nw:1.32,bj:120,pk:1},
+];
+const SD={vn_hcm:[22,0,0],vn_han:[23,0,0],th:[17.8,0,13.3],id:[22.8,0,17],my:[20.8,0,20],hk:[17.5,0,14],ph:[21,0,0],bn:[58,0,38.4]};
+
+// ═══ PEAR ═══
+const PSANJI=['아리팜','전남','순천','아산','상주','고창','천안','김제'];
+const PC=[{n:'대만',f:'🇹🇼'},{n:'베트남',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이시아',f:'🇲🇾'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'호주',f:'🇦🇺'},{n:'미국LA',f:'🇺🇸',us:1},{n:'미국NY',f:'🇺🇸',us:1},{n:'캐나다',f:'🇨🇦',us:1}];
+const PSEA={대만:{f:1860000,t:1338000},베트남:{f:2210000,t:1520000},홍콩:{f:2014000,t:1247000},말레이시아:{f:3190000,t:1940000},인도네시아:{f:3190000,t:1940000},태국:{f:2210000,t:1310000},호주:{f:4340000,t:2850000},미국LA:{f:3780000,t:0},미국NY:{f:5180000,t:0},캐나다:{f:3880000,t:0}};
+const PIL={아리팜:{f:662500,t:583800},전남:{f:604600,t:534000},순천:{f:355900,t:310400},아산:{f:1338900,t:1188900},상주:{f:977700,t:851800},고창:{f:1181200,t:1061300},천안:{f:1288800,t:1061300},김제:{f:773100,t:677300}};
+
+// Pear specs: id,label,ctn40,ctn20,nw,gw,buj,box,rawFn(p),wk key,usRawFn(h,p),usWk
+// p={a:18-24,b:26-30,c:32-36}, h={a:6-8과,b:9-10과,c:11-12과,d:13-15과}
+const PS=[
+{id:'15a',l:'15kg 18-24s',c4:54,c2:48,nw:15,gw:17,bj:312,bx:2118,rf:p=>p.a,wk:'w15',noUS:1},
+{id:'15b',l:'15kg 26-30s',c4:54,c2:48,nw:15,gw:17,bj:390,bx:2118,rf:p=>p.b,wk:'w15',noUS:1},
+{id:'15c',l:'15kg 32-36s',c4:54,c2:48,nw:15,gw:17,bj:468,bx:2118,rf:p=>p.c,wk:'w15',noUS:1},
+{id:'75',l:'7.5kg 9-12s',c4:0,c2:54,nw:7.5,gw:9,bj:273,bx:0,rf:p=>p.a/15*7.5,wk:'w75',noUS:1},
+{id:'5a',l:'5kg 6-8s',c4:136,c2:120,nw:5,gw:6,bj:104,bx:1206,rf:p=>p.a/3,wk:'w5',
+  urf:(h)=>h.a,uwk:(raw,wc)=>wc.ua+raw*0.05},
+{id:'5b',l:'5kg 9-10s',c4:136,c2:120,nw:5,gw:6,bj:130,bx:1206,rf:p=>p.b/3,wk:'w5',
+  urf:(h)=>h.b,uwk:(raw,wc)=>wc.ua+raw*0.05},
+{id:'5ga',l:'5kg GIFT 6-8s',c4:128,c2:0,nw:5,gw:6,bj:200,bx:2580,rf:p=>p.a/3,wk:'w5',
+  urf:(h)=>h.a,uwk:(raw,wc)=>wc.ua+raw*0.05},
+{id:'5gb',l:'5kg GIFT 9-10s',c4:128,c2:0,nw:5,gw:6,bj:250,bx:2580,rf:p=>p.b/3,wk:'w5',
+  urf:(h)=>h.b,uwk:(raw,wc)=>wc.ua+raw*0.05},
+{id:'3a',l:'3kg 5s',c4:216,c2:0,nw:3,gw:4,bj:65,bx:1055,rf:p=>(p.a/24*3)+(p.b/26*2),wk:'w3a',
+  urf:(h)=>(h.a/8*3)+(h.b/9*2),uwk:(raw,wc)=>3700+raw*0.05},
+{id:'3b',l:'3kg 6s',c4:216,c2:0,nw:3,gw:4,bj:78,bx:1055,rf:p=>p.b/26*3,wk:'w3b',
+  urf:(h)=>h.b/10*6,uwk:()=>4174},
+{id:'12k',l:'12kg 5구',c4:60,c2:0,nw:12,gw:13,bj:3314,bx:0,rf:p=>((p.a/24*3)+(p.b/26*2))*4,wk:'w12',
+  urf:(h)=>((h.a/8*3)+(h.b/9*2))*4,uwk:(raw,wc)=>8500+raw*0.05},
+{id:'128',l:'12.8kg 3팩',c4:60,c2:54,nw:12.8,gw:15,bj:600,bx:1314,rf:p=>p.b/15*12.8,wk:'w128',
+  urf:(h)=>h.b/5*12.8,uwk:(raw,wc)=>wc.ub+raw*0.05},
+{id:'109',l:'10.9kg 3팩',c4:66,c2:60,nw:10.9,gw:13,bj:600,bx:1284,rf:p=>p.c/15*10.9,wk:'w109',
+  urf:(h)=>h.c/5*10.9,uwk:(raw,wc)=>wc.ub+raw*0.05},
+{id:'10d2',l:'10kg 대과2구',c4:54,c2:48,nw:10,gw:12,bj:4336,bx:1300,rf:p=>p.a/15*10,wk:'wdg',
+  urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>8000},
+{id:'10d1',l:'10kg 대과1구',c4:54,c2:48,nw:10,gw:12,bj:3120,bx:1300,rf:p=>p.a/15*10,wk:'wdg',
+  urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>8000},
+];
+const PWK={w15:10000,w75:6000,w5:5000,w3a:3700,w3b:3700,w12:8500,w128:8000,w109:8000,wdg:8000};
+const PWK_SJ={
+아리팜:{w15:10000,w75:6000,w5:5000,w3a:3500,w3b:3500,w12:8500,w128:8200,w109:8500,wdg:8200},
+전남:{w15:10000,w75:6000,w5:5500,w3a:4181,w3b:4174,w12:9000,w128:8500,w109:8700,wdg:8000},
+순천:{w15:10000,w75:6000,w5:7000,w3a:3000,w3b:3000,w12:8000,w128:9000,w109:8200,wdg:8200},
+아산:{w15:10000,w75:6000,w5:5000,w3a:3700,w3b:3700,w12:8500,w128:8200,w109:8500,wdg:8000},
+상주:{w15:11000,w75:6000,w5:5000,w3a:4181,w3b:4174,w12:8500,w128:8500,w109:8500,wdg:8000},
+고창:{w15:10000,w75:6000,w5:5000,w3a:3500,w3b:3500,w12:8500,w128:8200,w109:8200,wdg:8500},
+천안:{w15:10000,w75:6000,w5:5000,w3a:4209,w3b:4174,w12:8500,w128:8500,w109:8500,wdg:7000},
+김제:{w15:10000,w75:6000,w5:5000,w3a:3700,w3b:3700,w12:8500,w128:8000,w109:8000,wdg:8000},
 };
 
-const SPECS=[
-  {label:'2kg 250g×8',   badge:'250g',cls:'badge-250',cartons:152,gw:2.9,nw:2,   bujajai:240,priceKey:'250'},
-  {label:'2kg 500g×4',   badge:'500g',cls:'badge-500',cartons:153,gw:2.8,nw:2,   bujajai:120,priceKey:'500'},
-  {label:'1.32kg 330g×4',badge:'330g',cls:'badge-330',cartons:220,gw:2.0,nw:1.32,bujajai:120,priceKey:'500'},
+// ═══ GRAPE ═══
+const GSANJI=['초록','아리팜','전남','순천','아산','상주','고창','천안','김제'];
+const GC=[{n:'대만',f:'🇹🇼'},{n:'베트남',f:'🇻🇳'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'말레이시아',f:'🇲🇾'}];
+const GSEA={대만:{f:1860000,t:1338000},베트남:{f:2210000,t:1520000},인도네시아:{f:3190000,t:1940000},태국:{f:2210000,t:1310000},말레이시아:{f:3190000,t:1940000}};
+const GIL={초록:{f:1006900,t:877400},아리팜:{f:662500,t:583800},전남:{f:604600,t:534000},순천:{f:355900,t:310400},아산:{f:1338900,t:1188900},상주:{f:977700,t:851800},고창:{f:1181200,t:1061300},천안:{f:1288800,t:1149100},김제:{f:773100,t:677300}};
+const GS=[
+{l:'1.5kg 2b',ct:256,nw:1.5,gw:2.3,bj:60,bx:0},
+{l:'1.8kg 2b',ct:182,nw:1.8,gw:2.6,bj:40,bx:0},
+{l:'2kg 2b',ct:182,nw:2,gw:2.8,bj:60,bx:0},
+{l:'2kg 3b',ct:208,nw:2,gw:2.8,bj:90,bx:0},
+{l:'2.5kg 3b',ct:160,nw:2.5,gw:3.5,bj:0,bx:0},
+{l:'3.8kg 5-7b',ct:120,nw:3.8,gw:5.1,bj:150,bx:0},
+{l:'4kg 5b',ct:120,nw:4,gw:5.1,bj:150,bx:0},
+{l:'2.1kg 800g×3',ct:160,nw:2.1,gw:3.1,bj:0,bx:0},
+{l:'2.7kg 700g×3',ct:160,nw:2.7,gw:3.7,bj:0,bx:0},
+{l:'4.8kg gift6c',ct:56,nw:4.8,gw:6,bj:5400,bx:6300},
+{l:'3.6kg gift4c',ct:102,nw:3.6,gw:5,bj:6600,bx:9360},
+{l:'4kg gift4c',ct:102,nw:4,gw:5.4,bj:0,bx:0},
 ];
 
-const DEFAULT_PRICES={
-  vn_hcm:[22.4,null,20.2],vn_han:[24,null,20.2],th:[23.8,null,19],
-  id:[24.8,null,18.2],my:[23.5,null,23.4],hk:[19.5,null,14.4],
-  ph:[22.5,null,16.4],bn:[38.5,47,27],
-};
+// ═══ NAV ═══
+let syTimer=null;
+function go(f){F=f;$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('app').style.display='block';loadL();build();doSy();syTimer=setInterval(doSy,180000);}
+function bk(){if(syTimer){clearInterval(syTimer);syTimer=null;}$('app').style.display='none';const l=$('land');l.style.display='flex';l.classList.remove('h');F=null;pSj=null;gSj=null;}
 
-// ── 오퍼 기록 ─────────────────────────────────────────────────
-let offerLogs = [];
-let pendingLog = null;
+function build(){
+  const C={s:{ac:'#e8334a',bg:'#fff0f2',e:'🍓',nm:'딸기'},p:{ac:'#b8860b',bg:'#fdf6e3',e:'🍐',nm:'배'},g:{ac:'#7b2d8e',bg:'#faf0ff',e:'🍇',nm:'포도'}};
+  const c=C[F];document.documentElement.style.setProperty('--ac',c.ac);
+  $('hd').innerHTML=`<button class="bb" onclick="bk()">←</button><span style="font-size:20px">${c.e}</span><div><h1>${c.nm} 오퍼 계산기</h1><div class="hd-s">현농프레쉬 <span id="syt" style="color:var(--gr);font-size:8px"></span></div></div><div class="sb" onclick="doSy()">🔄</div>`;
+  $('hd').style.background=`linear-gradient(135deg,${c.bg},#fff)`;$('hd').style.borderBottomColor=c.ac;
+  $('ts').innerHTML=`<button class="tb a" onclick="sw('o',this)">📊 계산</button><button class="tb" onclick="sw('l',this)">📋 기록<span class="lc" id="lc">0</span></button>`;
+  if(F==='s')bS();else if(F==='p')bP();else bG();
+  uLC();
+}
+function sw(t,b){document.querySelectorAll('.tb').forEach(x=>x.classList.remove('a'));b.classList.add('a');$('to').classList.toggle('a',t==='o');$('tl').classList.toggle('a',t==='l');if(t==='l')rL();}
 
-function loadLogs(){
-  try{const d=localStorage.getItem('sb_offer_logs');if(d)offerLogs=JSON.parse(d);}catch(e){}
-  updateLogCount();
+// ═══ STRAWBERRY BUILD ═══
+function bS(){
+  $('bs').innerHTML=`<div class="ig"><label><em>250g</em></label><input type="number" id="sp0" value="11500" oninput="sA()"></div>
+    <div class="ig"><label><em>500/330</em></label><input type="number" id="sp1" value="13000" oninput="sA()"></div>
+    <div class="ig"><label>환율₩/$</label><input type="number" id="sfx" value="1400" oninput="sA()"></div>
+    <div class="ig"><label>SGD/₩</label><input type="number" id="ssg" value="1137" oninput="sA()"></div>`;
+  $('ex').innerHTML='';
+  const o=$('to');o.innerHTML='';
+  Object.entries(SF).forEach(([k,fd])=>{
+    const c=document.createElement('div');c.className='cc';
+    c.innerHTML=`<div class="ch"><span style="font-size:15px">${fd.f}</span>${fd.n}<span style="margin-left:auto;font-size:8px;font-weight:700;padding:2px 5px;border-radius:4px;background:${fd.sg?'rgba(196,125,0,.1)':'rgba(59,111,240,.1)'};color:${fd.sg?'#c47d00':'var(--bl)'}">${fd.sg?'SGD':'USD'}</span></div>`;
+    SS.forEach((sp,i)=>{
+      const def=SD[k]?.[i]||0;const sym=fd.sg?'S$':'$';
+      const r=document.createElement('div');r.className='sr';
+      r.innerHTML=`<div><div class="slb">${sp.l}<span class="sbg" style="${sp.cls}">${sp.b}</span></div></div>
+        <div style="display:flex;align-items:center;gap:2px"><span style="font-size:9px;color:var(--t2)">${sym}</span><input class="pi" type="number" step="0.1" id="so${k}${i}" value="${def}" oninput="sR('${k}',${i})"></div>
+        <div><div class="mv" id="sm${k}${i}">-</div><div class="mk" id="sk${k}${i}">-</div></div>
+        <button class="lb" id="sb${k}${i}" onclick="sL('${k}',${i})">📝</button>`;
+      c.appendChild(r);
+    });o.appendChild(c);
+  });sA();
+}
+function sCalc(k,i){
+  const p0=gv('sp0'),p1=gv('sp1'),fx=gv('sfx'),sg=gv('ssg'),of=gv('so'+k+i),sp=SS[i],fd=SF[k];
+  const mat=(sp.pk===0?p0:p1)*sp.nw,pb=(fd.d/sp.ct)+sp.gw*(fd.a+fd.fc),cif=mat+sp.bj+pb;
+  const rt=fd.sg?sg:fx,mb=of-cif/rt,tk=mb*rt*sp.ct;
+  return{of,mb,tk,cif,rt,sp,fd,sym:fd.sg?'S$':'$'};
+}
+function sR(k,i){
+  const r=sCalc(k,i);const e1=$('sm'+k+i),e2=$('sk'+k+i);
+  if(!r.of){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
+  const cl=mC(r.mb);
+  if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}${r.sym}</span>`;
+  if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
+}
+function sA(){Object.keys(SF).forEach(k=>SS.forEach((_,i)=>sR(k,i)));}
+function sL(k,i){
+  const r=sCalc(k,i);if(!r.of)return;const fd=SF[k],sp=SS[i];
+  cmOpen({fr:'s',co:fd.n,fl:fd.f,sp:sp.l,of:r.of,sym:r.sym,mb:r.mb,tk:r.tk,cif:r.cif,rt:r.rt,btn:'sb'+k+i},
+    `${fd.f} ${fd.n} · ${sp.l}`,`오퍼: <span>${r.sym}${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}${r.sym}</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${sp.ct}박스)</span>`);
 }
 
-function saveLogs(){
-  try{localStorage.setItem('sb_offer_logs',JSON.stringify(offerLogs));}catch(e){}
-  updateLogCount();
-}
-
-function updateLogCount(){
-  const el=document.getElementById('log-count');
-  if(el) el.textContent=offerLogs.length;
-}
-
-// 기록 버튼 클릭 → 모달 열기
-function openLogModal(key, specIdx){
-  const p250 =+document.getElementById('price250').value||0;
-  const p500 =+document.getElementById('price500').value||0;
-  const ex   =+document.getElementById('exrate').value  ||1400;
-  const sgd  =+document.getElementById('sgdrate').value ||1137;
-  const offer=+document.getElementById(`offer-${key}-${specIdx}`)?.value||0;
-  const fd   =FREIGHT[key];
-  const spec =SPECS[specIdx];
-
-  const {marginBox,marginPct,totalKrw,cifKrw}=calcMargin(offer,spec,fd,p250,p500,ex,sgd,specIdx);
-  const sym=fd.isSGD?'S$':'$';
-  const matPrice=spec.priceKey==='250'?p250:p500;
-  const rate=fd.isSGD?sgd:ex;
-
-  pendingLog={
-    id: Date.now(),
-    date: new Date().toISOString(),
-    key, specIdx,
-    country: fd.name, flag: fd.flag,
-    spec: spec.label, badge: spec.badge, badgeCls: spec.cls,
-    offer, sym, isSGD: fd.isSGD,
-    price250: p250, price500: p500,
-    matPrice, exrate: ex, sgdrate: sgd, rate,
-    marginBox, marginPct, totalKrw, cifKrw,
-    memo:''
-  };
-
-  document.getElementById('modal-sub').textContent=`${fd.flag} ${fd.name} · ${spec.label}`;
-  document.getElementById('modal-info').innerHTML=`
-    오퍼가격: <span>${sym}${offer}</span> &nbsp;|&nbsp;
-    딸기단가: <span>₩${matPrice.toLocaleString()}</span> &nbsp;|&nbsp;
-    환율: <span>₩${rate}</span><br>
-    박스당 마진: <span class="${mCls(marginBox)}">${fmt(marginBox)}${sym}</span> &nbsp;|&nbsp;
-    마진율: <span class="${mCls(marginBox)}">${fmt(marginPct,1)}%</span><br>
-    컨테이너 총마진: <span class="${mCls(totalKrw)}">${fmtKrw(totalKrw)} (${spec.cartons}박스)</span>
-  `;
-  document.getElementById('modal-memo').value='';
-  document.getElementById('modal-overlay').classList.remove('hidden');
-  setTimeout(()=>document.getElementById('modal-memo').focus(),100);
-}
-
-function closeModal(){
-  document.getElementById('modal-overlay').classList.add('hidden');
-  pendingLog=null;
-}
-
-function confirmLog(){
-  if(!pendingLog) return;
-  pendingLog.memo=document.getElementById('modal-memo').value.trim();
-  offerLogs.unshift(pendingLog); // 최신이 맨 위
-  saveLogs();
-
-  // 버튼 시각 피드백
-  const btn=document.getElementById(`logbtn-${pendingLog.key}-${pendingLog.specIdx}`);
-  if(btn){btn.classList.add('logged');setTimeout(()=>btn.classList.remove('logged'),1000);}
-
-  closeModal();
-  renderLogs();
-  updateFilterOptions();
-}
-
-function deleteLog(id){
-  offerLogs=offerLogs.filter(l=>l.id!==id);
-  saveLogs();
-  renderLogs();
-  updateFilterOptions();
-}
-
-function clearAllLogs(){
-  if(!confirm(`오퍼 기록 ${offerLogs.length}개를 전부 삭제할까요?`)) return;
-  offerLogs=[];
-  saveLogs();
-  renderLogs();
-  updateFilterOptions();
-}
-
-function renderLogs(){
-  const filter=document.getElementById('log-filter')?.value||'';
-  const list=document.getElementById('log-list');
-  const filtered=filter?offerLogs.filter(l=>l.key===filter):offerLogs;
-
-  if(filtered.length===0){
-    list.innerHTML=`<div class="log-empty"><span class="emoji">📋</span>
-      기록이 없어요.<br>오퍼 계산 탭에서 📝 버튼을 눌러 기록을 남겨보세요.</div>`;
-    return;
-  }
-
-  list.innerHTML=filtered.map(l=>{
-    const d=new Date(l.date);
-    const dateStr=`${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-    const cls=mCls(l.marginBox);
-    return `
-    <div class="log-item">
-      <div class="log-top">
-        <span class="log-flag">${l.flag}</span>
-        <div class="log-main">
-          <div class="log-country">${l.country} <span class="log-spec-badge ${l.badgeCls}">${l.badge}</span></div>
-          <div class="log-date">${dateStr}</div>
-          ${l.memo?`<div class="log-memo-text">"${l.memo}"</div>`:''}
-        </div>
-      </div>
-      <div class="log-prices">
-        <div class="log-price-item"><label>오퍼가격</label><div class="val">${l.sym}${l.offer}</div></div>
-        <div class="log-price-item"><label>딸기단가</label><div class="val">₩${(l.matPrice||0).toLocaleString()}</div></div>
-        <div class="log-price-item"><label>환율</label><div class="val">₩${l.rate}</div></div>
-        <div class="log-price-item"><label>박스당마진</label><div class="val ${cls}">${fmt(l.marginBox)}${l.sym}</div></div>
-        <div class="log-price-item"><label>마진율</label><div class="val ${cls}">${fmt(l.marginPct,1)}%</div></div>
-        <div class="log-price-item" style="grid-column:span 2"><label>총마진 (${SPECS[l.specIdx]?.cartons||'-'}박스)</label><div class="val ${cls}">${fmtKrw(l.totalKrw)}</div></div>
-        <div class="log-price-item"><label>스펙</label><div class="val" style="font-size:10px">${l.spec}</div></div>
-      </div>
-      <div class="log-actions">
-        <button class="log-action-btn del" onclick="deleteLog(${l.id})">🗑 삭제</button>
-      </div>
+// ═══ PEAR BUILD ═══
+function bP(){
+  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="pfx" value="1400" oninput="pA()"></div>
+    <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="psp" value="0" oninput="pA()"></div>
+    <div class="ig"><label>운송</label><select id="psh" onchange="pB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
+  $('ex').innerHTML=`<div class="sl">산지</div>
+    <div class="sjb" id="psb">${PSANJI.map(s=>`<button class="sj" onclick="pSl('${s}')">${s}</button>`).join('')}</div>
+    <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
+      <div class="ig"><label>18-24s</label><input type="number" id="pa" value="45000" oninput="pA()"></div>
+      <div class="ig"><label>26-30s</label><input type="number" id="pb" value="40000" oninput="pA()"></div>
+      <div class="ig"><label>32-36s</label><input type="number" id="pc" value="35000" oninput="pA()"></div>
+    </div>
+    <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
+      <div class="ig"><label>미국 6-8과</label><input type="number" id="ha" value="16300" oninput="pA()"></div>
+      <div class="ig"><label>미국 9-10과</label><input type="number" id="hb" value="15800" oninput="pA()"></div>
+      <div class="ig"><label>미국 11-12과</label><input type="number" id="hc" value="14000" oninput="pA()"></div>
+    </div>
+    <div class="sl" style="background:rgba(184,134,11,.06);border-left:3px solid #b8860b;padding-left:11px">작업비 (₩/박스) <span id="pwk_sj_label" style="font-size:8px;color:#b8860b"></span></div>
+    <div class="wg" id="pwk_grid">
+      <div class="ig"><label>15kg</label><input type="number" id="pwk_w15" value="${PWK.w15}" oninput="pA()"></div>
+      <div class="ig"><label>7.5kg</label><input type="number" id="pwk_w75" value="${PWK.w75}" oninput="pA()"></div>
+      <div class="ig"><label>5kg</label><input type="number" id="pwk_w5" value="${PWK.w5}" oninput="pA()"></div>
+      <div class="ig"><label>3kg(5s)</label><input type="number" id="pwk_w3a" value="${PWK.w3a}" oninput="pA()"></div>
+      <div class="ig"><label>3kg(6s)</label><input type="number" id="pwk_w3b" value="${PWK.w3b}" oninput="pA()"></div>
+      <div class="ig"><label>12kg</label><input type="number" id="pwk_w12" value="${PWK.w12}" oninput="pA()"></div>
+      <div class="ig"><label>12.8kg</label><input type="number" id="pwk_w128" value="${PWK.w128}" oninput="pA()"></div>
+      <div class="ig"><label>10.9kg</label><input type="number" id="pwk_w109" value="${PWK.w109}" oninput="pA()"></div>
+      <div class="ig"><label>대과</label><input type="number" id="pwk_wdg" value="${PWK.wdg}" oninput="pA()"></div>
     </div>`;
-  }).join('');
+  pB();
+}
+function pSl(s){pSj=pSj===s?null:s;document.querySelectorAll('#psb .sj').forEach(b=>{const a=b.textContent===pSj;b.classList.toggle('a',a);b.style.background=a?'linear-gradient(135deg,#daa520,#b8860b)':'';b.style.color=a?'#fff':'';b.style.borderColor=a?'#b8860b':'';});
+  // 산지별 작업비 자동 반영
+  if(pSj&&PWK_SJ[pSj]){const w=PWK_SJ[pSj];Object.keys(w).forEach(k=>{const e=$('pwk_'+k);if(e)e.value=w[k];});const lb=$('pwk_sj_label');if(lb)lb.textContent='← '+pSj+' 기준';}
+  else{const lb=$('pwk_sj_label');if(lb)lb.textContent='';}
+  pB();
 }
 
-function updateFilterOptions(){
-  const sel=document.getElementById('log-filter');
-  if(!sel)return;
-  const cur=sel.value;
-  const keys=[...new Set(offerLogs.map(l=>l.key))];
-  sel.innerHTML='<option value="">전체 나라</option>'+
-    keys.map(k=>`<option value="${k}" ${k===cur?'selected':''}>${FREIGHT[k]?.flag||''} ${FREIGHT[k]?.name||k}</option>`).join('');
-}
+function pB(){
+  const o=$('to');
+  if(!pSj){o.innerHTML='<div class="le"><span style="font-size:36px;display:block;margin-bottom:6px">🍐</span>산지를 선택하세요</div>';return;}
+  const p={a:gv('pa'),b:gv('pb'),c:gv('pc')};
+  const conv={'5kg(6-8s)':Math.round(p.a/3),'5kg(9-10s)':Math.round(p.b/3),'7.5kg':Math.round(p.a/15*7.5),
+    '12.8kg':Math.round(p.b/15*12.8),'10.9kg':Math.round(p.c/15*10.9),'3kg(5s)':Math.round((p.a/24*3)+(p.b/26*2)),
+    '3kg(6s)':Math.round(p.b/26*3),'10kg대과':Math.round(p.a/15*10)};
+  let h=`<div class="pp"><h3>📐 ${pSj} 사이즈환산</h3><div class="cv">${Object.entries(conv).map(([k,v])=>`<div class="cr"><span>${k}</span><span class="cvl">₩${fN(v)}</span></div>`).join('')}</div></div>`;
 
-// ── localStorage ──────────────────────────────────────────────
-function loadStorage(){
-  try{
-    const fr=localStorage.getItem('sb_freight_v2');
-    if(fr){const d=JSON.parse(fr);Object.keys(d).forEach(k=>{
-      if(FREIGHT[k]){
-        if(d[k].airKg) FREIGHT[k].airKg=d[k].airKg;
-        if(d[k].fsc!==undefined) FREIGHT[k].fsc=d[k].fsc;
-        if(d[k].domFreight) FREIGHT[k].domFreight=d[k].domFreight;
-      }
-    });}
-    const url=localStorage.getItem('sb_sheets_url');
-    if(url) document.getElementById('sheets-url').value=url;
-  }catch(e){}
-}
-
-function saveFreight(){
-  const snap={};
-  Object.keys(FREIGHT).forEach(k=>{
-    const a=document.getElementById(`fe-air-${k}`);
-    const f=document.getElementById(`fe-fsc-${k}`);
-    const d=document.getElementById(`fe-dom-${k}`);
-    if(a){FREIGHT[k].airKg=+a.value||0;FREIGHT[k].fsc=+f.value||0;FREIGHT[k].domFreight=+d.value||55000;}
-    snap[k]={airKg:FREIGHT[k].airKg,fsc:FREIGHT[k].fsc,domFreight:FREIGHT[k].domFreight};
+  const sh=gv('psh')==40?'f':'t';
+  const specs=PS.filter(s=>{
+    if(sh==='f'&&!s.c4)return false;
+    if(sh==='t'&&!s.c2)return false;
+    return true;
   });
-  try{localStorage.setItem('sb_freight_v2',JSON.stringify(snap));}catch(e){}
-  const btn=document.getElementById('save-btn');
-  btn.textContent='✅ 저장 완료!';btn.classList.add('saved');
-  setTimeout(()=>{btn.textContent='💾 운임 저장 (브라우저에 기억)';btn.classList.remove('saved');},2000);
-  recalcAll();
-}
 
-// ── 동기화 ────────────────────────────────────────────────────
-function flashInput(id){
-  const el=document.getElementById(id);if(!el)return;
-  el.classList.remove('updated');void el.offsetWidth;el.classList.add('updated');
-  setTimeout(()=>el.classList.remove('updated'),700);
-}
-
-function saveUrlAndSync(){
-  const url=document.getElementById('sheets-url').value.trim();
-  if(url) localStorage.setItem('sb_sheets_url',url);
-  syncFromSheets();
-}
-
-function syncFromSheets(silent=false){
-  const url=localStorage.getItem('sb_sheets_url')||document.getElementById('sheets-url')?.value?.trim();
-  if(!url){if(!silent){setBadge('idle','⚙️ URL 미설정');showSyncResult('error','⚙️ 탭에서 URL을 먼저 입력해주세요.');}return;}
-  setBadge('loading','⏳ 동기화 중...');
-
-  // JSONP 방식 - 모바일 CORS 완전 우회
-  const callbackName = 'sbSyncCallback_' + Date.now();
-  const script = document.createElement('script');
-  script.src = url + '?callback=' + callbackName;
-
-  const timer = setTimeout(()=>{
-    cleanup();
-    setBadge('error','❌ 동기화 실패');
-    if(!silent) showSyncResult('error','❌ 타임아웃: Apps Script 응답 없음');
-    else document.getElementById('last-sync').textContent='마지막 동기화: 실패';
-  }, 10000);
-
-  function cleanup(){
-    clearTimeout(timer);
-    if(script.parentNode) script.parentNode.removeChild(script);
-    delete window[callbackName];
-  }
-
-  window[callbackName] = function(d){
-    cleanup();
-    try{
-    if(d.prices){
-      if(d.prices.p250&&+d.prices.p250>0){document.getElementById('price250').value=d.prices.p250;flashInput('price250');}
-      if(d.prices.p500_330&&+d.prices.p500_330>0){document.getElementById('price500').value=d.prices.p500_330;flashInput('price500');}
-    }
-    if(d.exrate&&+d.exrate>0){document.getElementById('exrate').value=Math.round(d.exrate);flashInput('exrate');}
-    if(d.sgdrate&&+d.sgdrate>0){document.getElementById('sgdrate').value=Math.round(d.sgdrate);flashInput('sgdrate');}
-    if(d.freight){
-      const snap={};
-      Object.keys(d.freight).forEach(k=>{
-        if(FREIGHT[k]){
-          if(d.freight[k].airKg)FREIGHT[k].airKg=d.freight[k].airKg;
-          if(d.freight[k].fsc!==undefined)FREIGHT[k].fsc=d.freight[k].fsc;
-          const a=document.getElementById(`fe-air-${k}`);
-          const f=document.getElementById(`fe-fsc-${k}`);
-          if(a)a.value=FREIGHT[k].airKg;if(f)f.value=FREIGHT[k].fsc;
-          snap[k]={airKg:FREIGHT[k].airKg,fsc:FREIGHT[k].fsc,domFreight:FREIGHT[k].domFreight};
-        }
-      });
-      // 시트에서 받은 운임을 localStorage에도 저장 (다음 로드시 반영)
-      try{localStorage.setItem('sb_freight_v2',JSON.stringify(snap));}catch(e){}
-    }
-    if(d.domfreight){
-      const snap2={};
-      Object.keys(d.domfreight).forEach(k=>{
-        if(FREIGHT[k]){
-          FREIGHT[k].domFreight=d.domfreight[k];
-          const domEl=document.getElementById(`fe-dom-${k}`);
-          if(domEl) domEl.value=d.domfreight[k][0];
-          snap2[k]={domFreight:d.domfreight[k]};
-        }
-      });
-      try{
-        const existing=JSON.parse(localStorage.getItem('sb_freight_v2')||'{}');
-        Object.keys(snap2).forEach(k=>{if(existing[k])existing[k].domFreight=snap2[k].domFreight;});
-        localStorage.setItem('sb_freight_v2',JSON.stringify(existing));
-      }catch(e){}
-    }
-    recalcAll();
-    const now=new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    setBadge('ok','✅ 시트 연동 중');
-    document.getElementById('last-sync').textContent=`마지막 동기화: ${now}`;
-    if(!silent)showSyncResult('ok',`✅ 동기화 완료 (${now})`);
-    }catch(err){
-      setBadge('error','❌ 동기화 실패');
-      if(!silent)showSyncResult('error',`❌ 오류: ${err.message}`);
-      else document.getElementById('last-sync').textContent='마지막 동기화: 실패';
-    }
-  };
-
-  document.head.appendChild(script);
-}
-
-function setBadge(cls,txt){const el=document.getElementById('sync-badge');el.className='sync-badge '+cls;el.textContent=txt;}
-function showSyncResult(type,msg){const el=document.getElementById('sync-result');if(!el)return;el.style.display='block';el.className='sync-result '+type;el.textContent=msg;}
-
-// ── 계산 ─────────────────────────────────────────────────────
-function calcMargin(offer,spec,fd,p250,p500,exrate,sgdRate,specIdx=0){
-  const mat    =(spec.priceKey==='250'?p250:p500)*spec.nw;
-  const airUnit=fd.airKg+fd.fsc;
-  const domFr  =Array.isArray(fd.domFreight)?fd.domFreight[specIdx]:fd.domFreight;
-  const perBoxFr=(domFr/spec.cartons)+spec.gw*airUnit;
-  const cifKrw =mat+spec.bujajai+perBoxFr;
-  const rate   =fd.isSGD?sgdRate:exrate;
-  const marginBox=offer-cifKrw/rate;
-  const marginPct=offer>0?(marginBox/offer*100):0;
-  const totalKrw =marginBox*rate*spec.cartons;
-  return{marginBox,marginPct,totalKrw,cifKrw,perBoxFr,sym:fd.isSGD?'S$':'$'};
-}
-
-function mCls(m){return m>=1.5?'mpos':m>=0?'mmid':'mneg';}
-function fmt(n,d=2){return(n>=0?'+':'')+n.toFixed(d);}
-function fmtKrw(n){
-  const abs=Math.abs(Math.round(n));
-  return(n>=0?'+':'-')+'₩'+abs.toLocaleString()+'원';
-}
-
-// ── 빌드 ─────────────────────────────────────────────────────
-function buildOffers(){
-  const panel=document.getElementById('tab-offers');
-  panel.innerHTML='';
-  Object.entries(FREIGHT).forEach(([key,fd])=>{
-    const card=document.createElement('div');
-    card.className='country-card';
-    card.innerHTML=`
-      <div class="country-header">
-        <span class="country-flag">${fd.flag}</span>
-        <span class="country-name">${fd.name}</span>
-        <span class="country-currency ${fd.isSGD?'cur-sgd':'cur-usd'}">${fd.isSGD?'SGD':'USD'}</span>
-      </div>`;
-    SPECS.forEach((spec,i)=>{
-      const def=DEFAULT_PRICES[key][i]??(i===0?22:i===1?28:18);
-      const sym=fd.isSGD?'S$':'$';
-      const row=document.createElement('div');
-      row.className='spec-row';
-      row.innerHTML=`
-        <div>
-          <div class="spec-label">${spec.label}<span class="spec-badge ${spec.cls}">${spec.badge}</span></div>
-
-        </div>
-        <div class="price-input-wrap">
-          <span class="price-prefix">${sym}</span>
-          <input class="price-input" type="number" step="0.1"
-            id="offer-${key}-${i}" value="${def}"
-            oninput="recalcRow('${key}',${i})">
-        </div>
-        <div class="margin-display">
-          <div class="m-box-val" id="mbox-${key}-${i}">-</div>
-          <div class="m-pct"     id="mpct-${key}-${i}">-</div>
-          <div class="m-krw-total" id="mkrw-${key}-${i}">-</div>
-        </div>
-        <button class="log-btn" id="logbtn-${key}-${i}"
-          onclick="openLogModal('${key}',${i})" title="이 오퍼 기록 저장">📝</button>`;
-      card.appendChild(row);
+  h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th style="font-size:8px">작업비</th><th>$</th><th>마진</th><th>총마진</th><th></th></tr></thead><tbody>`;
+  PC.forEach(c=>{
+    const cSpecs=specs.filter(s=>!(c.us&&s.noUS));
+    cSpecs.forEach((s,si)=>{
+      const wkVal=gv('pwk_'+s.wk)||PWK[s.wk]||0;
+      h+=`<tr${si===cSpecs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${cSpecs.length}">${c.f}<br><span style="font-size:9px">${c.n}</span></td>`:'')+
+        `<td style="font-size:9px;color:#666">${s.l}</td>
+        <td style="font-size:8px;text-align:center;color:#b8860b;font-family:'JetBrains Mono',monospace" id="pw${c.n}${s.id}">${fN(wkVal)}</td>
+        <td class="ptd"><input type="number" step="0.1" id="po${c.n}${s.id}" oninput="pR('${c.n}','${s.id}')"></td>
+        <td class="mc" id="pm${c.n}${s.id}">-</td><td class="tc" id="pt${c.n}${s.id}">-</td>
+        <td><button class="lb" id="pb${c.n}${s.id}" onclick="pL('${c.n}','${s.id}')">📝</button></td></tr>`;
     });
-    panel.appendChild(card);
   });
+  h+=`</tbody></table></div>`;o.innerHTML=h;
 }
 
-function buildFreightEditor(){
-  const ed=document.getElementById('freight-editor');
-  ed.innerHTML='';
-  Object.entries(FREIGHT).forEach(([key,fd])=>{
-    const c=document.createElement('div');c.className='freight-card';
-    c.innerHTML=`
-      <div class="freight-card-header"><span>${fd.flag}</span><span>${fd.name}</span>
-        <span style="font-size:9px;color:var(--text2);margin-left:auto">${fd.route}</span></div>
-      <div class="freight-fields">
-        <div class="freight-field"><label>항공운임 (₩/kg)</label>
-          <input type="number" id="fe-air-${key}" value="${fd.airKg}" oninput="liveUpdate('${key}')"></div>
-        <div class="freight-field"><label>FSC (₩/kg)</label>
-          <input type="number" id="fe-fsc-${key}" value="${fd.fsc}" oninput="liveUpdate('${key}')"></div>
-        <div class="freight-field"><label>국내운임 (₩/box)</label>
-          <input type="number" id="fe-dom-${key}" value="${fd.domFreight}" oninput="liveUpdate('${key}')"></div>
-      </div>`;
-    ed.appendChild(c);
-  });
+function pCalc(cn,sid){
+  if(!pSj)return null;
+  const fx=gv('pfx'),sup=gv('psp'),sh=gv('psh')==40?'f':'t';
+  const sp=PS.find(s=>s.id===sid);const co=PC.find(c=>c.n===cn);if(!sp||!co)return null;
+  const of=gv('po'+cn+sid);if(!of)return null;
+  const sea=PSEA[cn],il=PIL[pSj];if(!sea||!il)return null;
+  const seaV=sea[sh],inlV=il[sh];if(!seaV)return null;
+  const ctn=sh==='f'?sp.c4:sp.c2;if(!ctn)return null;
+  const tp=sh==='f'?20:9,tb=ctn*tp;
+
+  const p={a:gv('pa'),b:gv('pb'),c:gv('pc')};
+  const h={a:gv('ha'),b:gv('hb'),c:gv('hc')};
+  const wc={ua:5500,ub:8500}; // 미국 화지/3팩 스티커미부착
+
+  let raw,wk;
+  if(co.us&&sp.urf){raw=sp.urf(h,p);wk=sp.uwk(raw,wc);}
+  else{raw=sp.rf(p);wk=gv('pwk_'+sp.wk)||PWK[sp.wk]||0;}
+
+  const pbf=(inlV+seaV)/tp/ctn;
+  const cif=raw+wk+sp.bj+sp.bx+pbf;
+  const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;
+  return{of,mb,tk,cif,tb,raw,wk,sp:sp.l};
 }
+function pR(cn,sid){const r=pCalc(cn,sid);const e1=$('pm'+cn+sid),e2=$('pt'+cn+sid),ew=$('pw'+cn+sid);if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}const cl=mC(r.mb);if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;if(ew)ew.textContent=fN(r.wk);}
+function pA(){PC.forEach(c=>PS.forEach(s=>pR(c.n,s.id)));}
+function pL(cn,sid){const r=pCalc(cn,sid);if(!r)return;const co=PC.find(c=>c.n===cn);
+  cmOpen({fr:'p',co:cn,fl:co?.f||'',sp:r.sp,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('pfx'),sj:pSj,sh:gv('psh')+'ft',btn:'pb'+cn+sid},
+    `${co?.f} ${cn} · ${r.sp} · ${pSj}`,`오퍼: <span>$${r.of}</span> | CIF: <span>₩${fN(Math.round(r.cif))}</span> (작업비 ₩${fN(r.wk)}) | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);}
 
-function liveUpdate(key){
-  FREIGHT[key].airKg     =+document.getElementById(`fe-air-${key}`).value||0;
-  FREIGHT[key].fsc       =+document.getElementById(`fe-fsc-${key}`).value||0;
-  FREIGHT[key].domFreight=+document.getElementById(`fe-dom-${key}`).value||55000;
-  SPECS.forEach((_,i)=>recalcRow(key,i));
+// ═══ GRAPE BUILD ═══
+function bG(){
+  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="gfx" value="1410" oninput="gA()"></div>
+    <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="gsp" value="0" oninput="gA()"></div>
+    <div class="ig"><label>운송</label><select id="gsh" onchange="gB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
+  $('ex').innerHTML=`<div class="sl">산지</div>
+    <div class="sjb" id="gsb">${GSANJI.map(s=>`<button class="sj" onclick="gSl('${s}')">${s}</button>`).join('')}</div>
+    <div class="sl" style="padding-top:4px">포도 단가 (₩/박스)</div>
+    <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
+      <div class="ig"><label>기본단가</label><input type="number" id="gp1" value="0" oninput="gA()" placeholder="₩"></div>
+      <div class="ig"><label>작업비</label><input type="number" id="gwk" value="0" oninput="gA()" placeholder="₩"></div>
+    </div>`;
+  gB();
 }
+function gSl(s){gSj=gSj===s?null:s;document.querySelectorAll('#gsb .sj').forEach(b=>{const a=b.textContent===gSj;b.classList.toggle('a',a);b.style.background=a?'linear-gradient(135deg,#9b59b6,#7b2d8e)':'';b.style.color=a?'#fff':'';b.style.borderColor=a?'#7b2d8e':'';});gB();}
 
-function recalcRow(key,i){
-  const p250=+document.getElementById('price250').value||0;
-  const p500=+document.getElementById('price500').value||0;
-  const ex  =+document.getElementById('exrate').value  ||1400;
-  const sgd =+document.getElementById('sgdrate').value ||1137;
-  const off =+document.getElementById(`offer-${key}-${i}`)?.value||0;
-  const {marginBox,marginPct,totalKrw,cifKrw,perBoxFr,sym}=calcMargin(off,SPECS[i],FREIGHT[key],p250,p500,ex,sgd,i);
-  const cls=mCls(marginBox);
-  document.getElementById(`mbox-${key}-${i}`).innerHTML=`<span class="${cls}">${fmt(marginBox)}${sym}</span>`;
-  document.getElementById(`mpct-${key}-${i}`).innerHTML=`<span class="${cls}">${fmt(marginPct,1)}%</span>`;
-  document.getElementById(`mkrw-${key}-${i}`).textContent=`총 ${fmtKrw(totalKrw)} (${SPECS[i].cartons}박스)`;
-
+function gB(){
+  const o=$('to');
+  if(!gSj){o.innerHTML='<div class="le"><span style="font-size:36px;display:block;margin-bottom:6px">🍇</span>산지를 선택하세요</div>';return;}
+  let h=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th>원물₩</th><th>$</th><th>마진</th><th>총마진</th><th></th></tr></thead><tbody>`;
+  GC.forEach(c=>{GS.forEach((s,si)=>{
+    h+=`<tr${si===GS.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${GS.length}">${c.f}<br><span style="font-size:9px">${c.n}</span></td>`:'')+
+      `<td style="font-size:9px;color:#555">${s.l}</td>
+      <td class="ptd"><input type="number" id="gr${c.n}${si}" oninput="gR('${c.n}',${si})" style="width:48px;font-size:9px" placeholder="원물"></td>
+      <td class="ptd"><input type="number" step="0.1" id="go${c.n}${si}" oninput="gR('${c.n}',${si})"></td>
+      <td class="mc" id="gm${c.n}${si}">-</td><td class="tc" id="gt${c.n}${si}">-</td>
+      <td><button class="lb" id="gb${c.n}${si}" onclick="gL('${c.n}',${si})">📝</button></td></tr>`;
+  });});
+  h+=`</tbody></table></div>`;o.innerHTML=h;
 }
-
-function recalcAll(){Object.keys(FREIGHT).forEach(k=>SPECS.forEach((_,i)=>recalcRow(k,i)));}
-
-function switchTab(name,btn){
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('tab-'+name).classList.add('active');
-  if(name==='logs'){renderLogs();updateFilterOptions();}
-  if(name==='memo'){const el=document.getElementById('free-memo');if(el)el.focus();}
+function gCalc(cn,si){
+  if(!gSj)return null;
+  const fx=gv('gfx'),sup=gv('gsp'),sh=gv('gsh')==40?'f':'t',of=gv('go'+cn+si);
+  if(!of)return null;
+  let raw=gv('gr'+cn+si),usedDef=false;if(!raw){raw=gv('gp1');usedDef=true;}
+  const wk=gv('gwk'),sp=GS[si];
+  const sea=GSEA[cn],il=GIL[gSj];if(!sea||!il)return null;
+  const seaV=sea[sh],inlV=il[sh];if(!seaV)return null;
+  const ct=sp.ct,tp=sh==='f'?20:9,tb=ct*tp;
+  const pbf=(inlV+seaV)/tp/ct,cif=raw+wk+sp.bj+sp.bx+pbf;
+  const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;
+  return{of,raw,mb,tk,cif,tb,usedDef};
 }
-
-// 모달 바깥 클릭 닫기
-document.getElementById('modal-overlay').addEventListener('click',function(e){
-  if(e.target===this)closeModal();
-});
-
-
-
-// ── 자유 메모 ─────────────────────────────────────────────────
-function loadMemo(){
-  const txt=localStorage.getItem('sb_free_memo')||'';
-  const el=document.getElementById('free-memo');
-  if(el) el.value=txt;
+function gR(cn,si){const r=gCalc(cn,si);const e1=$('gm'+cn+si),e2=$('gt'+cn+si);if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}const cl=mC(r.mb);if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
+  const ri=$('gr'+cn+si);if(ri){ri.style.borderColor=r.usedDef&&gv('gp1')?'#c9a0dc':'';}
 }
-let memoTimer=null;
-function saveMemo(){
-  clearTimeout(memoTimer);
-  memoTimer=setTimeout(()=>{
-    const txt=document.getElementById('free-memo')?.value||'';
-    localStorage.setItem('sb_free_memo',txt);
-    const hint=document.getElementById('memo-saved-hint');
-    if(hint){hint.textContent='저장됨 ✓';setTimeout(()=>hint.textContent='',2000);}
-  },600);
-}
-function clearMemo(){
-  if(!confirm('메모를 전부 지울까요?'))return;
-  localStorage.removeItem('sb_free_memo');
-  const el=document.getElementById('free-memo');
-  if(el) el.value='';
-}
+function gA(){GC.forEach(c=>GS.forEach((_,i)=>gR(c.n,i)));}
+function gL(cn,si){const r=gCalc(cn,si);if(!r||!r.of)return;const co=GC.find(c=>c.n===cn);
+  cmOpen({fr:'g',co:cn,fl:co?.f||'',sp:GS[si].l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('gfx'),sj:gSj,sh:gv('gsh')+'ft',btn:'gb'+cn+si},
+    `${co?.f} ${cn} · ${GS[si].l} · ${gSj}`,`오퍼: <span>$${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);}
 
-// ── 비밀번호 ─────────────────────────────────────────────────
-function checkPw(){
-  const val = document.getElementById('pw-input').value;
-  if(val === '5678'){
-    localStorage.setItem('sb_auth','ok');
-    document.getElementById('pw-overlay').classList.add('hidden');
-  } else {
-    const inp = document.getElementById('pw-input');
-    inp.classList.remove('shake');
-    void inp.offsetWidth;
-    inp.classList.add('shake');
-    document.getElementById('pw-error').textContent = '비밀번호가 틀렸어요';
-    inp.value='';
-    setTimeout(()=>document.getElementById('pw-error').textContent='',2000);
-  }
+// ═══ LOG ═══
+function loadL(){try{logs=JSON.parse(localStorage.getItem('hn4')||'[]');}catch(e){logs=[];}}
+function saveL(){try{localStorage.setItem('hn4',JSON.stringify(logs));}catch(e){}uLC();}
+function uLC(){const e=$('lc');if(e)e.textContent=logs.filter(l=>l.fr===F).length;}
+function cmOpen(d,sub,info){pnd={...d,id:Date.now(),dt:new Date().toISOString(),me:''};$('msb').textContent=sub;$('mif').innerHTML=info;$('mm').value='';$('mo').classList.remove('h');}
+function cmClose(){$('mo').classList.add('h');pnd=null;}
+function cmOk(){if(!pnd)return;pnd.me=$('mm').value.trim();logs.unshift(pnd);saveL();const b=$(pnd.btn);if(b){b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1000);}cmClose();rL();}
+function cmCopy(){if(!pnd)return;const t=`${pnd.co} ${pnd.sp||''}\nOffer: ${pnd.sym}${pnd.of}\nMargin: ${fD(pnd.mb)}${pnd.sym}/box\nTotal: ${fK(pnd.tk)}${pnd.sj?' ('+pnd.sj+')':''}${pnd.sh?' '+pnd.sh:''}`;navigator.clipboard?navigator.clipboard.writeText(t).then(()=>{const b=$('mcb');b.textContent='✅ 복사됨';setTimeout(()=>b.textContent='📋 복사',1500);}):alert(t);}
+$('mo').addEventListener('click',function(e){if(e.target===this)cmClose();});
+
+function rL(){
+  const list=$('tl'),fl=logs.filter(l=>l.fr===F);uLC();
+  if(!fl.length){list.innerHTML=`<div style="display:flex;align-items:center;gap:6px"><span style="font-size:12px;font-weight:700;flex:1">오퍼 기록</span></div><div class="le"><span style="font-size:32px;display:block;margin-bottom:6px">📋</span>기록 없음</div>`;return;}
+  let h=`<div style="display:flex;align-items:center;gap:6px"><span style="font-size:12px;font-weight:700;flex:1">기록 (${fl.length})</span><button class="cb" onclick="cL()">전체삭제</button></div>`;
+  fl.forEach(l=>{
+    const d=new Date(l.dt),ds=`${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    h+=`<div class="li"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-size:16px">${l.fl}</span><div style="flex:1"><div style="font-size:11px;font-weight:700">${l.co}${l.sj?' · '+l.sj:''}${l.sh?' · '+l.sh:''}</div><div class="ld">${ds}</div>${l.me?`<div style="font-size:9px;color:var(--t2);font-style:italic;margin-top:1px">"${l.me}"</div>`:''}</div></div>
+    <div class="lps"><div class="lp"><label>스펙</label><div class="v" style="font-size:9px">${l.sp}</div></div><div class="lp"><label>오퍼</label><div class="v">${l.sym}${l.of}</div></div><div class="lp"><label>마진</label><div class="v ${mC(l.mb)}">${fD(l.mb)}${l.sym}</div></div><div class="lp"><label>총마진</label><div class="v ${mC(l.tk)}">${fK(l.tk)}</div></div></div>
+    <button class="ldb" onclick="dL(${l.id})">🗑</button></div>`;
+  });list.innerHTML=h;
 }
+function dL(id){logs=logs.filter(l=>l.id!==id);saveL();rL();}
+function cL(){if(!confirm('전부 삭제?'))return;logs=logs.filter(l=>l.fr!==F);saveL();rL();}
 
-// 이미 인증된 경우 바로 통과
-if(localStorage.getItem('sb_auth')==='ok'){
-  document.getElementById('pw-overlay').classList.add('hidden');
-} else {
-  setTimeout(()=>document.getElementById('pw-input').focus(),300);
+// ═══ SYNC ═══
+const SU='https://script.google.com/macros/s/AKfycbyBX1Wla3JWY8uMbZtDLAgtTLHowrsSoizrsOKaNEg8T8LcGFCSMSspG0JvPxeTjx-uCg/exec';
+function doSy(){
+  const b=$('hd').querySelector('.sb');b.textContent='⏳...';
+  const cb='c'+Date.now(),s=document.createElement('script');s.src=SU+'?callback='+cb;
+  const t=setTimeout(()=>{cl();b.textContent='❌';setTimeout(()=>b.textContent='🔄',3000);},10000);
+  function cl(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
+  window[cb]=function(d){cl();try{
+
+    // ── 딸기 모드 전용: 단가 + 환율 ──
+    if(F==='s'){
+      if(d.prices?.p250)$('sp0').value=d.prices.p250;
+      if(d.prices?.p500_330)$('sp1').value=d.prices.p500_330;
+      if(d.exrate)$('sfx').value=Math.round(d.exrate);
+      if(d.sgdrate)$('ssg').value=Math.round(d.sgdrate);
+    }
+    // ── 배 모드 전용: 환율 ──
+    else if(F==='p'){
+      if(d.exrate&&$('pfx'))$('pfx').value=Math.round(d.exrate);
+    }
+    // ── 포도 모드 전용: 환율 ──
+    else if(F==='g'){
+      if(d.exrate&&$('gfx'))$('gfx').value=Math.round(d.exrate);
+    }
+
+    // ── 딸기 항공 운임 (모드 무관, 항상 동기화) ──
+    if(d.freight)Object.keys(d.freight).forEach(k=>{
+      if(SF[k]){
+        if(d.freight[k].airKg!=null)SF[k].a=d.freight[k].airKg;
+        if(d.freight[k].fsc!=null)SF[k].fc=d.freight[k].fsc;
+        if(d.freight[k].domFreight!=null)SF[k].d=d.freight[k].domFreight;
+      }
+    });
+
+    // ── 배 해운 운임 (시트에서 제공 시 동기화) ──
+    if(d.pearSea)Object.keys(d.pearSea).forEach(k=>{
+      if(PSEA[k])Object.assign(PSEA[k],d.pearSea[k]);
+    });
+    if(d.pearInland)Object.keys(d.pearInland).forEach(k=>{
+      if(PIL[k])Object.assign(PIL[k],d.pearInland[k]);
+    });
+    // ── 배 작업비 (시트에서 제공 시 동기화) ──
+    if(d.pearWk)Object.keys(d.pearWk).forEach(k=>{
+      if(PWK[k]!=null){PWK[k]=d.pearWk[k];const e=$('pwk_'+k);if(e)e.value=d.pearWk[k];}
+    });
+
+    // ── 포도 해운 운임 (시트에서 제공 시 동기화) ──
+    if(d.grapeSea)Object.keys(d.grapeSea).forEach(k=>{
+      if(GSEA[k])Object.assign(GSEA[k],d.grapeSea[k]);
+    });
+    if(d.grapeInland)Object.keys(d.grapeInland).forEach(k=>{
+      if(GIL[k])Object.assign(GIL[k],d.grapeInland[k]);
+    });
+
+    // ── 현재 모드 재계산 ──
+    if(F==='s')sA();
+    else if(F==='p')pA();
+    else if(F==='g')gA();
+
+    b.textContent='✅';setTimeout(()=>b.textContent='🔄',3000);
+    const st=$('syt');if(st){const now=new Date();st.textContent='· '+now.getHours()+':'+String(now.getMinutes()).padStart(2,'0')+' 동기화';}
+  }catch(e){b.textContent='❌';setTimeout(()=>b.textContent='🔄',3000);}};
+  document.head.appendChild(s);
 }
-
-// ── INIT ─────────────────────────────────────────────────────
-loadStorage();
-loadLogs();
-loadMemo();
-buildOffers();
-buildFreightEditor();
-recalcAll();
-
-// 항상 최신 URL로 강제 업데이트
-const HARDCODED_URL='https://script.google.com/macros/s/AKfycbzFMNp3ClkZ6lktBd33f7ShqdotbR8PrQTBZCy-RUTYVnBBX1RFCja1860EicTbSCjS/exec';
-localStorage.setItem('sb_sheets_url', HARDCODED_URL);
-const urlInput=document.getElementById('sheets-url');
-if(urlInput) urlInput.value=HARDCODED_URL;
-syncFromSheets(true);
 </script>
 </body>
 </html>

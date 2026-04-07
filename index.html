@@ -82,6 +82,9 @@ tbody td{padding:4px 3px;border-bottom:1px solid #eee;white-space:nowrap}
 .lp .v{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600}
 .ldb{background:none;border:1px solid var(--bd);color:var(--t2);font-size:9px;padding:2px 6px;border-radius:3px;cursor:pointer;margin-top:4px;font-family:inherit}
 .cb{background:none;border:1px solid var(--bd);color:var(--t3);font-size:10px;padding:4px 8px;border-radius:5px;cursor:pointer;font-family:inherit}
+.ig input.upd{border-color:var(--gr)!important;animation:flG .6s ease-out}
+@keyframes flG{0%{background:rgba(24,169,106,.15)}100%{background:var(--bg)}}
+.sync-time{font-size:8px;color:var(--gr);font-family:'JetBrains Mono',monospace}
 </style>
 </head>
 <body>
@@ -203,11 +206,11 @@ const GS=[
 // ═══ NAV ═══
 let syTimer=null;
 function go(f){F=f;$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('app').style.display='block';loadL();build();doSy();syTimer=setInterval(doSy,180000);}
-function bk(){if(syTimer){clearInterval(syTimer);syTimer=null;}$('app').style.display='none';const l=$('land');l.style.display='flex';l.classList.remove('h');F=null;pSj=null;gSj=null;}
+function bk(){if(syTimer){clearInterval(syTimer);syTimer=null;}$('app').style.display='none';const l=$('land');l.style.display='flex';l.classList.remove('h');F=null;pSj=null;gSj=null;document.body.style.background='';}
 
 function build(){
-  const C={s:{ac:'#e8334a',bg:'#fff0f2',e:'🍓',nm:'딸기'},p:{ac:'#b8860b',bg:'#fdf6e3',e:'🍐',nm:'배'},g:{ac:'#7b2d8e',bg:'#faf0ff',e:'🍇',nm:'포도'}};
-  const c=C[F];document.documentElement.style.setProperty('--ac',c.ac);
+  const C={s:{ac:'#e8334a',bg:'#fff0f2',bbg:'#fef2f4',e:'🍓',nm:'딸기'},p:{ac:'#b8860b',bg:'#fdf6e3',bbg:'#f8f4e8',e:'🍐',nm:'배'},g:{ac:'#7b2d8e',bg:'#faf0ff',bbg:'#f6f0fa',e:'🍇',nm:'포도'}};
+  const c=C[F];document.documentElement.style.setProperty('--ac',c.ac);document.body.style.background=c.bbg;
   $('hd').innerHTML=`<button class="bb" onclick="bk()">←</button><span style="font-size:20px">${c.e}</span><div><h1>${c.nm} 오퍼 계산기</h1><div class="hd-s">현농프레쉬 <span id="syt" style="color:var(--gr);font-size:8px"></span></div></div><div class="sb" onclick="doSy()">🔄</div>`;
   $('hd').style.background=`linear-gradient(135deg,${c.bg},#fff)`;$('hd').style.borderBottomColor=c.ac;
   $('ts').innerHTML=`<button class="tb a" onclick="sw('o',this)">📊 계산</button><button class="tb" onclick="sw('l',this)">📋 기록<span class="lc" id="lc">0</span></button>`;
@@ -434,6 +437,7 @@ function cL(){if(!confirm('전부 삭제?'))return;logs=logs.filter(l=>l.fr!==F)
 
 // ═══ SYNC ═══
 const SU='https://script.google.com/macros/s/AKfycbyn1XNPzfZ_vrmf9Gh69HskO-1-dd7iEu6buS3GeUHiHgL9_VqlmMR1ipdtAe0_d2gc7Q/exec';
+function flI(id){const e=$(id);if(!e)return;e.classList.remove('upd');void e.offsetWidth;e.classList.add('upd');setTimeout(()=>e.classList.remove('upd'),700);}
 function doSy(){
   const b=$('hd').querySelector('.sb');b.textContent='⏳...';
   const cb='c'+Date.now(),s=document.createElement('script');s.src=SU+'?callback='+cb;
@@ -453,16 +457,16 @@ function doSy(){
     // ── 환율 (모든 모드) ──
     const ex=pk(d,'exrate','rate','fx');
     if(ex){
-      if(F==='s'&&$('sfx')){$('sfx').value=Math.round(ex);cnt++;}
-      if(F==='p'&&$('pfx')){$('pfx').value=Math.round(ex);cnt++;}
-      if(F==='g'&&$('gfx')){$('gfx').value=Math.round(ex);cnt++;}
+      if(F==='s'&&$('sfx')){$('sfx').value=Math.round(ex);flI('sfx');cnt++;}
+      if(F==='p'&&$('pfx')){$('pfx').value=Math.round(ex);flI('pfx');cnt++;}
+      if(F==='g'&&$('gfx')){$('gfx').value=Math.round(ex);flI('gfx');cnt++;}
     }
 
     // ── 딸기 단가 ──
     if(F==='s'&&d.prices){
-      if(d.prices.p250)$('sp0').value=d.prices.p250;
-      if(d.prices.p500_330)$('sp1').value=d.prices.p500_330;
-      if(pk(d,'sgdrate','sgd'))$('ssg').value=Math.round(pk(d,'sgdrate','sgd'));
+      if(d.prices.p250){$('sp0').value=d.prices.p250;flI('sp0');}
+      if(d.prices.p500_330){$('sp1').value=d.prices.p500_330;flI('sp1');}
+      if(pk(d,'sgdrate','sgd')){$('ssg').value=Math.round(pk(d,'sgdrate','sgd'));flI('ssg');}
       cnt++;
     }
 

@@ -229,6 +229,66 @@ tbody tr:hover td{background:#fafbfd}
 .rgn{padding:6px 14px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;background:#fff;border:1.5px solid;font-family:inherit;transition:all .18s;letter-spacing:-.01em}
 .rgn:hover{transform:translateY(-1px);box-shadow:0 2px 8px rgba(0,0,0,.08)}
 .rgn.a{color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.15)}
+/* ═══ 출고리스트 ═══ */
+.elvBtn{margin-top:22px;padding:15px 34px;border-radius:16px;border:none;background:linear-gradient(135deg,#1e4ed8 0%,#3b6ff0 55%,#5b8def 100%);color:#fff;font-family:inherit;font-size:15px;font-weight:800;letter-spacing:-.01em;cursor:pointer;box-shadow:0 6px 20px rgba(30,78,216,.28),0 2px 6px rgba(30,78,216,.14);transition:transform .2s cubic-bezier(.2,.9,.3,1.3),box-shadow .2s;display:inline-flex;align-items:center;gap:8px;position:relative;z-index:1}
+.elvBtn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(30,78,216,.34),0 3px 8px rgba(30,78,216,.18)}
+.elvBtn:active{transform:translateY(0);box-shadow:0 3px 10px rgba(30,78,216,.24)}
+.elvBtn .elvBi{font-size:17px}
+.elv{position:fixed;inset:0;background:var(--bg);z-index:1500;display:flex;flex-direction:column;overflow:hidden;animation:elvIn .28s cubic-bezier(.2,.9,.3,1.05)}
+@keyframes elvIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.elvHd{display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border-bottom:1px solid var(--bd);box-shadow:0 2px 8px rgba(20,25,55,.04);flex-shrink:0}
+.elvIb{width:38px;height:38px;border-radius:11px;border:1px solid var(--bd);background:#fff;font-size:17px;font-weight:700;color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;font-family:inherit}
+.elvIb:hover{background:var(--sf2);border-color:var(--bd2)}
+.elvIb:active{transform:scale(.94)}
+.elvTt{flex:1;font-size:16px;font-weight:900;letter-spacing:-.02em;color:var(--tx)}
+.elvTt .elvTs{display:block;font-size:10px;font-weight:500;color:var(--t3);margin-top:1px;letter-spacing:.02em}
+.elvBar{padding:12px 14px 4px;background:#fff;border-bottom:1px solid var(--bd);display:flex;flex-direction:column;gap:10px;flex-shrink:0}
+.elvSe{position:relative;width:100%}
+.elvSe input{width:100%;padding:11px 14px 11px 36px;border-radius:11px;border:1px solid var(--bd);font-family:inherit;font-size:13px;background:var(--sf2);color:var(--tx);outline:none;transition:border-color .15s,background .15s;box-sizing:border-box}
+.elvSe input:focus{background:#fff;border-color:var(--ac)}
+.elvSe::before{content:"🔍";position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.6}
+.elvCh{display:flex;gap:6px;overflow-x:auto;padding:2px 0 8px;margin:0 -14px;padding-left:14px;padding-right:14px;scrollbar-width:none}
+.elvCh::-webkit-scrollbar{display:none}
+.elvCp{flex-shrink:0;padding:7px 13px;border-radius:20px;border:1px solid var(--bd);background:#fff;font-size:11.5px;font-weight:600;color:var(--t2);cursor:pointer;transition:all .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;font-family:inherit}
+.elvCp:hover{border-color:var(--bd2);background:var(--sf2)}
+.elvCp.on{background:var(--ac);color:#fff;border-color:var(--ac);box-shadow:0 2px 8px rgba(30,78,216,.2)}
+.elvCp .elvCn{background:rgba(0,0,0,.08);padding:1px 6px;border-radius:8px;font-size:10px;font-weight:700;margin-left:2px}
+.elvCp.on .elvCn{background:rgba(255,255,255,.25)}
+.elvSt{padding:9px 16px;font-size:11px;color:var(--t2);background:#fff;border-bottom:1px solid var(--bd);display:flex;gap:12px;flex-wrap:wrap;flex-shrink:0}
+.elvSt b{color:var(--ac);font-weight:800;font-family:'JetBrains Mono',monospace}
+.elvLs{flex:1;overflow-y:auto;padding:10px 12px 24px;-webkit-overflow-scrolling:touch}
+.elvMh{font-size:11px;font-weight:800;color:var(--t2);letter-spacing:.04em;padding:12px 4px 6px;display:flex;align-items:center;gap:8px;text-transform:uppercase}
+.elvMh::after{content:"";flex:1;height:1px;background:linear-gradient(to right,var(--bd),transparent)}
+.elvMh .elvMc{color:var(--t3);font-weight:600;font-size:10px}
+.elvCd{background:#fff;border:1px solid var(--bd);border-radius:13px;padding:12px 14px;box-shadow:var(--sh);margin-bottom:8px;transition:transform .15s,box-shadow .15s,border-color .15s}
+.elvCd:hover{border-color:var(--bd2);box-shadow:var(--sh2)}
+.elvCd:active{transform:scale(.985)}
+.elvCt{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
+.elvCl{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
+.elvFg{font-size:20px;line-height:1}
+.elvCn2{font-size:13px;font-weight:800;color:var(--tx);letter-spacing:-.01em}
+.elvIt{padding:3px 9px;border-radius:7px;background:linear-gradient(135deg,var(--sf2),#e8ecf3);font-size:11px;font-weight:700;color:var(--t2);display:inline-flex;align-items:center;gap:3px}
+.elvQt{font-size:16px;font-weight:900;color:var(--ac);font-family:'JetBrains Mono',monospace;letter-spacing:-.02em;white-space:nowrap}
+.elvQu{font-size:10px;color:var(--t3);font-weight:600;margin-left:2px}
+.elvMi{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;margin-bottom:10px;font-size:12px}
+.elvMl{color:var(--t3);font-size:10.5px;font-weight:600;white-space:nowrap;align-self:center}
+.elvMv{color:var(--tx);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.elvBt{display:flex;flex-wrap:wrap;gap:4px 10px;padding-top:9px;border-top:1px dashed var(--bd);font-size:10.5px;color:var(--t2)}
+.elvDt{display:inline-flex;align-items:center;gap:3px;font-variant-numeric:tabular-nums}
+.elvDt b{color:var(--tx);font-weight:700}
+.elvEm{text-align:center;padding:60px 20px;color:var(--t3);font-size:13px}
+.elvEm .elvEe{font-size:40px;margin-bottom:10px;opacity:.5}
+.elvLd{text-align:center;padding:60px 20px;color:var(--t3);font-size:13px}
+.elvLd .elvSp{display:inline-block;width:24px;height:24px;border:3px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:elvSpin .8s linear infinite;margin-bottom:12px}
+@keyframes elvSpin{to{transform:rotate(360deg)}}
+.elvEr{text-align:center;padding:40px 20px;color:var(--rd);font-size:13px;background:#fff;border:1px solid #fecaca;border-radius:12px;margin:10px}
+.elvEr small{display:block;color:var(--t3);margin-top:8px;font-size:11px;line-height:1.5}
+.elvOp{display:inline-block;margin-top:10px;padding:7px 14px;border-radius:8px;background:var(--ac);color:#fff;font-size:11px;text-decoration:none;font-weight:600}
+@media (min-width:600px){
+  .elvLs{padding:14px 20px 30px;max-width:780px;margin:0 auto;width:100%;box-sizing:border-box}
+  .elvBar,.elvSt,.elvHd{padding-left:max(20px,calc(50% - 370px));padding-right:max(20px,calc(50% - 370px))}
+  .elvCd{padding:14px 16px}
+}
 </style>
 </head>
 <body>
@@ -255,8 +315,25 @@ tbody tr:hover td{background:#fafbfd}
 <div class="fc" onclick="go('k')"><span class="e">🥝</span><span class="n">키위</span></div>
 <div class="fc" onclick="go('h')"><span class="e">🟠</span><span class="n">감</span></div>
 </div>
-<button onclick="testSync()" style="margin-top:12px;padding:6px 16px;border-radius:8px;border:1px solid #dde0e8;background:#fff;font-family:inherit;font-size:11px;color:#606080;cursor:pointer">🔌 시트 연동 테스트</button>
+<button class="elvBtn" onclick="openExL()"><span class="elvBi">📋</span>출고리스트 보기</button>
+<button onclick="testSync()" style="margin-top:10px;padding:6px 16px;border-radius:8px;border:1px solid #dde0e8;background:#fff;font-family:inherit;font-size:11px;color:#606080;cursor:pointer">🔌 시트 연동 테스트</button>
 <div id="testR" style="font-size:10px;color:#606080;margin-top:6px;max-width:300px;word-break:break-all;text-align:center"></div>
+</div>
+
+<div id="elv" class="elv" style="display:none">
+  <div class="elvHd">
+    <button class="elvIb" onclick="closeExL()" title="뒤로">←</button>
+    <div class="elvTt">📋 출고리스트<span class="elvTs" id="elvTs">오퍼시트 라이트 · 26시즌(연동중)</span></div>
+    <button class="elvIb" onclick="openExSheet()" title="시트 열기">↗</button>
+    <button class="elvIb" onclick="fetchExL()" title="새로고침">↻</button>
+  </div>
+  <div class="elvBar">
+    <div class="elvSe"><input id="elvS" placeholder="바이어, 인보이스, 제조자 검색" oninput="filterExL()"></div>
+    <div class="elvCh" id="elvCC"></div>
+    <div class="elvCh" id="elvFC"></div>
+  </div>
+  <div class="elvSt" id="elvSt">데이터를 불러오는 중...</div>
+  <div class="elvLs" id="elvLs"></div>
 </div>
 <div id="app" style="display:none">
 <div class="hd" id="hd"></div>
@@ -1123,6 +1200,140 @@ function testSync(){
   };
   document.head.appendChild(s);
 }
+// ═══ 출고리스트 (GViz 실시간 연동) ═══
+const EX_SSID='1C8mrFNjQAhjOnB1X0iNWh-FoRPpTLQ6yOw95i_0iDDs';
+const EX_GID='2075137716';
+const EX_URL='https://docs.google.com/spreadsheets/d/'+EX_SSID+'/edit?gid='+EX_GID+'#gid='+EX_GID;
+const EX_CFLG={'대만':'🇹🇼','베트남':'🇻🇳','홍콩':'🇭🇰','말레이시아':'🇲🇾','인도네시아':'🇮🇩','태국':'🇹🇭','호주':'🇦🇺','미국LA':'🇺🇸','미국NY':'🇺🇸','미국':'🇺🇸','캐나다':'🇨🇦','싱가포르':'🇸🇬','일본':'🇯🇵','중국':'🇨🇳','필리핀':'🇵🇭','몽골':'🇲🇳','브루나이':'🇧🇳'};
+const EX_FE={'딸기':'🍓','배':'🍐','포도':'🍇','귤':'🍊','키위':'🥝','감':'🟠','복숭아':'🍑','토마토':'🍅','사과':'🍎','참외':'🍈','수박':'🍉','바나나':'🍌','멜론':'🍈'};
+let exData=[],exFlt={ctry:'all',fr:'all',q:''};
+function openExL(){$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('elv').style.display='flex';if(!exData.length)fetchExL();else renderExL();}
+function closeExL(){$('elv').style.display='none';$('land').style.display='flex';requestAnimationFrame(()=>$('land').classList.remove('h'));}
+function openExSheet(){window.open(EX_URL,'_blank','noopener');}
+function fetchExL(){
+  const ls=$('elvLs'),st=$('elvSt');
+  ls.innerHTML='<div class="elvLd"><div class="elvSp"></div><div>시트에서 불러오는 중...</div></div>';
+  st.textContent='연결 중...';
+  const cb='exCb'+Date.now();
+  const s=document.createElement('script');
+  s.src='https://docs.google.com/spreadsheets/d/'+EX_SSID+'/gviz/tq?tqx=out:json;responseHandler:'+cb+'&gid='+EX_GID+'&headers=1&_='+Date.now();
+  const t=setTimeout(()=>{cln();showExErr('타임아웃','시트 응답이 없습니다. 네트워크를 확인하세요.');},15000);
+  function cln(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);try{delete window[cb];}catch(e){window[cb]=undefined;}}
+  s.onerror=()=>{cln();showExErr('로드 실패','시트를 "링크가 있는 모든 사용자 → 뷰어"로 공유해주세요.');};
+  window[cb]=function(resp){cln();try{
+    if(!resp||resp.status==='error'){
+      const msg=(resp&&resp.errors&&resp.errors[0])?(resp.errors[0].detailed_message||resp.errors[0].message):'시트 접근 불가';
+      showExErr('시트 접근 오류',msg+' — 시트 공유 설정을 "링크가 있는 모든 사용자 → 뷰어"로 해주세요.');return;
+    }
+    const tbl=resp.table;if(!tbl||!tbl.cols){showExErr('데이터 없음','시트 구조를 읽을 수 없습니다.');return;}
+    const cols=tbl.cols.map((c,i)=>(c.label&&c.label.trim())||c.id||('C'+i));
+    exData=(tbl.rows||[]).map(r=>{
+      const cs=r.c||[];const o={};
+      cols.forEach((k,i)=>{
+        const c=cs[i];
+        if(!c){o[k]='';return;}
+        if(c.f!=null&&c.f!==''){o[k]=c.f;}else if(c.v!=null){
+          if(typeof c.v==='string'&&c.v.indexOf('Date(')===0){const m=c.v.match(/\d+/g);if(m&&m.length>=3){const d=new Date(+m[0],+m[1],+m[2]);o[k]=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}else o[k]=c.v;}
+          else o[k]=c.v;
+        }else{o[k]='';}
+      });
+      return o;
+    }).filter(r=>{const vals=Object.values(r);return vals.some(v=>v!==''&&v!=null);});
+    const now=new Date();const ts=now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    const tse=$('elvTs');if(tse)tse.textContent='오퍼시트 라이트 · 마지막 동기화 '+ts;
+    renderExL();
+  }catch(e){console.error('[EXL]',e);showExErr('파싱 오류',e.message);}};
+  document.head.appendChild(s);
+}
+function showExErr(ttl,msg){
+  $('elvLs').innerHTML='<div class="elvEr"><div style="font-size:32px;margin-bottom:8px">⚠️</div><b>'+ttl+'</b><small>'+msg+'</small><a class="elvOp" href="'+EX_URL+'" target="_blank" rel="noopener">시트 직접 열기 ↗</a></div>';
+  $('elvSt').textContent='오류 발생';
+}
+function exDateObj(s){
+  if(!s)return null;
+  if(s instanceof Date)return s;
+  const str=String(s).trim();
+  let m=str.match(/^(\d{4})[.\-\/](\d{1,2})[.\-\/](\d{1,2})/);
+  if(m)return new Date(+m[1],+m[2]-1,+m[3]);
+  m=str.match(/^(\d{1,2})[.\-\/](\d{1,2})[.\-\/](\d{2,4})/);
+  if(m){let y=+m[3];if(y<100)y+=2000;return new Date(y,+m[1]-1,+m[2]);}
+  const d=new Date(str);return isNaN(d.getTime())?null:d;
+}
+function exFmtD(s){const d=exDateObj(s);if(!d)return s||'-';return(d.getMonth()+1)+'.'+d.getDate();}
+function exFmtQ(q){if(q==null||q==='')return '-';const n=parseFloat(String(q).replace(/,/g,''));return isNaN(n)?String(q):n.toLocaleString('ko-KR');}
+function exPick(r,...keys){for(const k of keys){if(r[k]!=null&&r[k]!=='')return r[k];}return '';}
+function renderExL(){
+  if(!exData.length){$('elvLs').innerHTML='<div class="elvEm"><div class="elvEe">📭</div>데이터가 없습니다</div>';$('elvSt').textContent='0건';return;}
+  const ctrs={},frs={};
+  exData.forEach(r=>{const c=exPick(r,'국가','Country');const f=exPick(r,'품목','Item','과일');if(c)ctrs[c]=(ctrs[c]||0)+1;if(f)frs[f]=(frs[f]||0)+1;});
+  const ctrList=Object.keys(ctrs).sort((a,b)=>ctrs[b]-ctrs[a]);
+  const frList=Object.keys(frs).sort((a,b)=>frs[b]-frs[a]);
+  $('elvCC').innerHTML='<div class="elvCp '+(exFlt.ctry==='all'?'on':'')+'" onclick="setExFlt(\'ctry\',\'all\')">전체<span class="elvCn">'+exData.length+'</span></div>'+
+    ctrList.map(c=>'<div class="elvCp '+(exFlt.ctry===c?'on':'')+'" onclick="setExFlt(\'ctry\',\''+c.replace(/'/g,"\\'")+'\')">'+(EX_CFLG[c]||'🏳️')+' '+c+'<span class="elvCn">'+ctrs[c]+'</span></div>').join('');
+  $('elvFC').innerHTML='<div class="elvCp '+(exFlt.fr==='all'?'on':'')+'" onclick="setExFlt(\'fr\',\'all\')">전체</div>'+
+    frList.map(f=>'<div class="elvCp '+(exFlt.fr===f?'on':'')+'" onclick="setExFlt(\'fr\',\''+f.replace(/'/g,"\\'")+'\')">'+(EX_FE[f]||'📦')+' '+f+'<span class="elvCn">'+frs[f]+'</span></div>').join('');
+  const q=exFlt.q.toLowerCase().trim();
+  let fl=exData.filter(r=>{
+    if(exFlt.ctry!=='all'&&exPick(r,'국가','Country')!==exFlt.ctry)return false;
+    if(exFlt.fr!=='all'&&exPick(r,'품목','Item','과일')!==exFlt.fr)return false;
+    if(q){const t=(exPick(r,'바이어','Buyer')+' '+exPick(r,'INVOICE','Invoice','인보이스')+' '+exPick(r,'제조자','Maker')+' '+exPick(r,'포워딩','Forwarder')+' '+exPick(r,'NO')).toLowerCase();if(!t.includes(q))return false;}
+    return true;
+  });
+  fl.sort((a,b)=>{
+    const da=exDateObj(exPick(a,'상차일','Loading','상차'));
+    const db=exDateObj(exPick(b,'상차일','Loading','상차'));
+    if(db&&da)return db-da;if(db)return 1;if(da)return -1;
+    return (+exPick(b,'NO')||0)-(+exPick(a,'NO')||0);
+  });
+  const tq=fl.reduce((s,r)=>s+(parseFloat(String(exPick(r,'수량','Qty','Quantity')).replace(/,/g,''))||0),0);
+  $('elvSt').innerHTML='총 <b>'+fl.length+'</b>건'+(fl.length!==exData.length?' / '+exData.length:'')+' · 수량 <b>'+tq.toLocaleString('ko-KR')+'</b>';
+  if(!fl.length){$('elvLs').innerHTML='<div class="elvEm"><div class="elvEe">🔍</div>검색 결과가 없습니다</div>';return;}
+  const grp={};
+  fl.forEach(r=>{
+    const d=exDateObj(exPick(r,'상차일','Loading','상차'));
+    const k=d?d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0'):'날짜 미정';
+    (grp[k]=grp[k]||[]).push(r);
+  });
+  const keys=Object.keys(grp).sort((a,b)=>{if(a==='날짜 미정')return 1;if(b==='날짜 미정')return -1;return b.localeCompare(a);});
+  $('elvLs').innerHTML=keys.map(k=>'<div class="elvMh">'+k+'<span class="elvMc">'+grp[k].length+'건</span></div>'+grp[k].map(exCard).join('')).join('');
+}
+function exCard(r){
+  const ctry=exPick(r,'국가','Country')||'-';
+  const fr=exPick(r,'품목','Item','과일')||'-';
+  const fg=EX_CFLG[ctry]||'🏳️';
+  const fe=EX_FE[fr]||'📦';
+  const qty=exFmtQ(exPick(r,'수량','Qty','Quantity'));
+  const buyer=exPick(r,'바이어','Buyer')||'-';
+  const maker=exPick(r,'제조자','Maker')||'-';
+  const inv=exPick(r,'INVOICE','Invoice','인보이스')||'-';
+  const fwd=exPick(r,'포워딩','Forwarder','Forwarding');
+  const ld=exPick(r,'상차일','Loading','상차');
+  const dp=exPick(r,'출발일','ETD','출발');
+  const ar=exPick(r,'도착일','ETA','도착');
+  const no=exPick(r,'NO');
+  return '<div class="elvCd">'+
+    '<div class="elvCt"><div class="elvCl">'+
+      '<span class="elvFg">'+fg+'</span>'+
+      '<span class="elvCn2">'+ctry+'</span>'+
+      '<span class="elvIt">'+fe+' '+fr+'</span>'+
+      (no?'<span class="elvIt" style="background:var(--sf2);color:var(--t3)">#'+no+'</span>':'')+
+    '</div><div class="elvQt">'+qty+'<span class="elvQu">건</span></div></div>'+
+    '<div class="elvMi">'+
+      '<span class="elvMl">바이어</span><span class="elvMv">'+buyer+'</span>'+
+      '<span class="elvMl">제조자</span><span class="elvMv">'+maker+'</span>'+
+      '<span class="elvMl">인보이스</span><span class="elvMv" style="font-family:\'JetBrains Mono\',monospace;font-size:11.5px">'+inv+'</span>'+
+    '</div>'+
+    '<div class="elvBt">'+
+      (ld?'<span class="elvDt">📅 상차 <b>'+exFmtD(ld)+'</b></span>':'')+
+      (dp?'<span class="elvDt">🚢 출발 <b>'+exFmtD(dp)+'</b></span>':'')+
+      (ar?'<span class="elvDt">📍 도착 <b>'+exFmtD(ar)+'</b></span>':'')+
+      (fwd?'<span class="elvDt">🏢 <b>'+fwd+'</b></span>':'')+
+    '</div></div>';
+}
+function setExFlt(k,v){exFlt[k]=v;renderExL();}
+function filterExL(){exFlt.q=$('elvS').value||'';renderExL();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('elv')&&$('elv').style.display==='flex')closeExL();});
+
 // ═══ PASSWORD ═══
 function chkPw(){
   const v=$('pwi').value;

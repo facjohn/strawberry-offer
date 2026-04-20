@@ -49,6 +49,10 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .ig input,.ig select{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:6px 8px;border-radius:7px;outline:none;transition:border-color .15s,background .15s,box-shadow .15s}
 .ig input:hover,.ig select:hover{border-color:var(--bd2)}
 .ig input:focus,.ig select:focus{border-color:var(--ac);background:#fff;box-shadow:0 0 0 3px rgba(59,111,240,.1)}
+.shtg{display:flex;gap:0;background:var(--bg);border:1px solid var(--bd);border-radius:7px;padding:2px;overflow:hidden}
+.sho{flex:1;background:transparent;border:none;color:var(--t2);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:5px 4px;border-radius:5px;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.sho:hover{color:var(--tx);background:rgba(0,0,0,.04)}
+.sho.a{background:var(--ac);color:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12)}
 
 .tabs{display:flex;background:var(--sf);border-bottom:1px solid var(--bd);padding:0 14px;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
@@ -436,6 +440,7 @@ function build(){
   uLC();
 }
 function sw(t,b){document.querySelectorAll('.tb').forEach(x=>x.classList.remove('a'));b.classList.add('a');$('to').classList.toggle('a',t==='o');$('tl').classList.toggle('a',t==='l');if(t==='l'){rL();fetchHist();}}
+function setSh(id,v){const h=$(id);if(!h||h.value===v)return;h.value=v;$(id+'_40').classList.toggle('a',v==='40');$(id+'_20').classList.toggle('a',v==='20');inpSaveAll();if(id==='psh')pB();else if(id==='gsh')gB();else if(id==='msh')mB();}
 
 // ═══ STRAWBERRY BUILD ═══
 function bS(){
@@ -498,7 +503,7 @@ function sL(k,i){
 function bP(){
   $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="pfx" value="1400" oninput="pA()"></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="psp" value="0" oninput="pA()"></div>
-    <div class="ig"><label>운송</label><select id="psh" onchange="pB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
+    <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="psh_40" onclick="setSh('psh','40')">40ft</button><button type="button" class="sho" id="psh_20" onclick="setSh('psh','20')">20ft</button></div><input type="hidden" id="psh" value="40"></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
     <div class="sjb" id="psb">${PSANJI.map(s=>`<button class="sj" onclick="pSl('${s}')">${s}</button>`).join('')}</div>
     <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
@@ -543,6 +548,7 @@ function pSl(s){pSj=pSj===s?null:s;document.querySelectorAll('#psb .sj').forEach
 
 function pSetRgn(k){pRgn=k;pB();pA();}
 function pB(){
+  inpSaveAll();
   const o=$('to');
   if(!pSj){o.innerHTML='<div class="le"><span style="font-size:36px;display:block;margin-bottom:6px">🍐</span>산지를 선택하세요</div>';return;}
   const p={a:gv('pa'),b:gv('pb'),c:gv('pc')};
@@ -566,16 +572,19 @@ function pB(){
     h+=`<div class="pp" style="background:linear-gradient(135deg,#fff5f5,#ffe8e8);border-color:#fcc"><h3 style="color:#a01818">🇺🇸 ${pSj} 미국 환산 (US 단가 기준)</h3><div class="cv" style="border-color:#fcc">${Object.entries(usConv).map(([k,v])=>`<div class="cr" style="border-color:#fee"><span style="color:#7a1a1a">${k}</span><span class="cvl" style="color:#a01818">₩${fN(v)}</span></div>`).join('')}</div></div>`;
   }
 
-  h+=`<div class="rgnb">${PRG.map(r=>`<button class="rgn${pRgn===r.k?' a':''}" style="${pRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="pSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
-
   const sh=gv('psh')==40?'f':'t';
+  if(sh==='t'&&pRgn==='ame')pRgn='all';
+  const availPRG=sh==='t'?PRG.filter(r=>r.k!=='ame'):PRG;
+  h+=`<div class="rgnb">${availPRG.map(r=>`<button class="rgn${pRgn===r.k?' a':''}" style="${pRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="pSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
+
   const specs=PS.filter(s=>{
     if(sh==='f'&&!s.c4)return false;
     if(sh==='t'&&!s.c2)return false;
     return true;
   });
   const rgn=PRG.find(r=>r.k===pRgn);
-  const filteredPC=pRgn==='all'?PC:PC.filter(c=>rgn.ns.indexOf(c.n)>=0);
+  let filteredPC=pRgn==='all'?PC:PC.filter(c=>rgn.ns.indexOf(c.n)>=0);
+  if(sh==='t')filteredPC=filteredPC.filter(c=>!c.us);
 
   h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th style="font-size:8px">작업비</th><th>$</th><th>마진</th><th>총마진</th><th></th></tr></thead><tbody>`;
   filteredPC.forEach(c=>{
@@ -652,7 +661,7 @@ function pL(cn,sid){const r=pCalc(cn,sid);if(!r)return;const co=PC.find(c=>c.n==
 function bG(){
   $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="gfx" value="1410" oninput="gA()"></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="gsp" value="0" oninput="gA()"></div>
-    <div class="ig"><label>운송</label><select id="gsh" onchange="gB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
+    <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="gsh_40" onclick="setSh('gsh','40')">40ft</button><button type="button" class="sho" id="gsh_20" onclick="setSh('gsh','20')">20ft</button></div><input type="hidden" id="gsh" value="40"></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
     <div class="sjb" id="gsb">${GSANJI.map(s=>`<button class="sj" onclick="gSl('${s}')">${s}</button>`).join('')}</div>
     <div class="sl" style="padding-top:4px">포도 단가</div>
@@ -667,6 +676,7 @@ function gSl(s){gSj=gSj===s?null:s;document.querySelectorAll('#gsb .sj').forEach
 function gSetRgn(k){gRgn=k;gB();gA();}
 function gSetSpc(k){gSpc=k;gB();gA();}
 function gB(){
+  inpSaveAll();
   const o=$('to');
   if(!gSj){o.innerHTML='<div class="le"><span style="font-size:36px;display:block;margin-bottom:6px">🍇</span>산지를 선택하세요</div>';return;}
   let h='';
@@ -675,10 +685,14 @@ function gB(){
     const showSpecs=GS.filter(s=>gSpc==='all'||s.cat===gSpc).slice(0,12);
     h+=`<div class="pp" style="border-color:#d8b3e8;background:linear-gradient(135deg,#faf0ff,#f3e0ff)"><h3 style="color:#7b2d8e">🍇 ${gSj} ₩${fN(kg)}/kg → 박스단가</h3><div class="cv" style="border-color:#d8b3e8"><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:2px">${showSpecs.map(s=>`<div class="cr" style="border-color:#f0e0f8"><span style="font-size:9px">${s.l}</span><span class="cvl" style="color:#7b2d8e">₩${fN(Math.round(kg*s.nw))}</span></div>`).join('')}</div></div></div>`;
   }
-  h+=`<div class="rgnb">${GRG.map(r=>`<button class="rgn${gRgn===r.k?' a':''}" style="${gRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="gSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
+  const gsh=gv('gsh')==40?'f':'t';
+  if(gsh==='t'&&gRgn==='ame')gRgn='all';
+  const availGRG=gsh==='t'?GRG.filter(r=>r.k!=='ame'):GRG;
+  h+=`<div class="rgnb">${availGRG.map(r=>`<button class="rgn${gRgn===r.k?' a':''}" style="${gRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="gSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
   h+=`<div class="rgnb">${GSC.map(r=>`<button class="rgn${gSpc===r.k?' a':''}" style="${gSpc===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="gSetSpc('${r.k}')">${r.l}</button>`).join('')}</div>`;
   const rgn=GRG.find(r=>r.k===gRgn);
-  const fGC=gRgn==='all'?GC:GC.filter(c=>rgn.ns.indexOf(c.n)>=0);
+  let fGC=gRgn==='all'?GC:GC.filter(c=>rgn.ns.indexOf(c.n)>=0);
+  if(gsh==='t')fGC=fGC.filter(c=>!c.us);
   const fGS=GS.map((s,i)=>({s,i})).filter(o=>gSpc==='all'||o.s.cat===gSpc);
   if(!fGC.length||!fGS.length){o.innerHTML=h+'<div class="le">조건에 맞는 항목 없음</div>';return;}
   h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th>원물₩</th><th>$</th><th>마진</th><th>총마진</th><th></th></tr></thead><tbody>`;
@@ -769,7 +783,7 @@ function bM(){
   if(!mSj[F])mSj[F]=d.defSj;
   $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="mfx" value="1400" oninput="mA()"></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="msp" value="0" oninput="mA()"></div>
-    <div class="ig"><label>운송</label><select id="msh" onchange="mB()"><option value="40">40ft</option><option value="20">20ft</option></select></div>`;
+    <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="msh_40" onclick="setSh('msh','40')">40ft</button><button type="button" class="sho" id="msh_20" onclick="setSh('msh','20')">20ft</button></div><input type="hidden" id="msh" value="40"></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
     <div class="sjb" id="msb">${d.sj.map(s=>`<button class="sj${mSj[F]===s?' a':''}" onclick="mSjSel('${s}')" style="${mSj[F]===s?'background:'+MFD[F].ac+';color:#fff;border-color:'+MFD[F].ac:''}">${s}</button>`).join('')}</div>
     <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
@@ -781,12 +795,17 @@ function bM(){
   mB();
 }
 function mB(){
+  inpSaveAll();
   const o=$('to'),d=MFD[F];
   if(!mSj[F]){o.innerHTML=`<div class="le"><span style="font-size:36px;display:block;margin-bottom:6px">${F==='o'?'🍊':F==='k'?'🥝':'🟠'}</span>산지를 선택하세요</div>`;return;}
   let h='';
-  h+=`<div class="rgnb">${PRG.map(r=>`<button class="rgn${mRgn===r.k?' a':''}" style="${mRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="mSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
+  const msh=gv('msh')==40?'f':'t';
+  if(msh==='t'&&mRgn==='ame')mRgn='all';
+  const availMRG=msh==='t'?PRG.filter(r=>r.k!=='ame'):PRG;
+  h+=`<div class="rgnb">${availMRG.map(r=>`<button class="rgn${mRgn===r.k?' a':''}" style="${mRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="mSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
   const rgn=PRG.find(r=>r.k===mRgn);
-  const fPC=mRgn==='all'?PC:PC.filter(c=>rgn.ns.indexOf(c.n)>=0);
+  let fPC=mRgn==='all'?PC:PC.filter(c=>rgn.ns.indexOf(c.n)>=0);
+  if(msh==='t')fPC=fPC.filter(c=>!c.us);
   h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th>원물₩</th><th>$</th><th>마진</th><th>총마진</th><th></th></tr></thead><tbody>`;
   fPC.forEach(c=>{
     d.specs.forEach((sp,si)=>{
@@ -855,6 +874,7 @@ function inpRestore(){
   document.querySelectorAll('input[id],select[id]').forEach(el=>{
     if(s[el.id]!=null&&s[el.id]!=='')el.value=s[el.id];
   });
+  ['psh','gsh','msh'].forEach(id=>{const h=$(id);if(!h)return;const v=h.value;const b40=$(id+'_40'),b20=$(id+'_20');if(b40)b40.classList.toggle('a',v==='40');if(b20)b20.classList.toggle('a',v==='20');});
 }
 function inpSaveAll(){
   const s={};

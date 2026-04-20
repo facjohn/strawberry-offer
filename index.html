@@ -275,7 +275,7 @@ tbody tr:hover td{background:#fafbfd}
 <div class="mfi"><label>제조자</label><input id="fmkr" type="text" placeholder="한림"></div>
 </div>
 <div class="mr">
-<div class="mfi"><label>상차일</label><input id="fld" type="text" placeholder="4/7 화"></div>
+<div class="mfi"><label>상차일</label><input id="fld" type="date" oninput="updFld()"><div id="fldDisp" style="font-size:10px;font-weight:700;color:var(--ac);margin-top:2px;min-height:12px"></div></div>
 <div class="mfi"><label>수량</label><input id="fqty" type="text" class="auto"></div>
 </div>
 <div class="mr">
@@ -352,9 +352,9 @@ const PS=[
 {id:'109',l:'10.9kg 3팩',c4:66,c2:60,nw:10.9,gw:13,bj:600,bx:1284,rf:p=>p.c/15*10.9,wk:'w109',
   urf:(h)=>h.c/5*10.9,uwk:(raw,wc)=>wc.u109+raw*0.05},
 {id:'10d2',l:'10kg 대과2구',c4:54,c2:48,nw:10,gw:12,bj:4336,bx:1300,rf:p=>p.a/15*10,wk:'wdg',
-  urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>wc.udg},
+  urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>wc.udg+raw*0.05},
 {id:'10d1',l:'10kg 대과1구',c4:54,c2:48,nw:10,gw:12,bj:3120,bx:1300,rf:p=>p.a/15*10,wk:'wdg',
-  urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>wc.udg},
+  urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>wc.udg+raw*0.05},
 ];
 const PWK={w15:10000,w75:6000,w5:5000,w3a:3700,w3b:3700,w12:8500,w128:8000,w109:8000,wdg:8000};
 const PUWK={u5:5500,u3:3700,u12:8500,u128:8500,u109:8500,udg:8000};
@@ -528,7 +528,7 @@ function bP(){
       <div class="ig"><label>10.9kg</label><input type="number" id="pwk_w109" value="${PWK.w109}" oninput="pA()"></div>
       <div class="ig"><label>대과</label><input type="number" id="pwk_wdg" value="${PWK.wdg}" oninput="pA()"></div>
     </div>
-    <div class="sl" style="background:rgba(220,38,38,.06);border-left:3px solid #dc2626;padding-left:11px;color:#dc2626">🇺🇸 미국 작업비 (기준 ₩/박스 + 5% 지원)</div>
+    <div class="sl" style="background:rgba(220,38,38,.06);border-left:3px solid #dc2626;padding-left:11px;color:#dc2626">🇺🇸 미국 작업비 (₩/박스)</div>
     <div class="wg" id="puwk_grid">
       <div class="ig"><label>5kg(화지)</label><input type="number" id="puwk_u5" value="${PUWK.u5}" oninput="pA()"></div>
       <div class="ig"><label>3kg</label><input type="number" id="puwk_u3" value="${PUWK.u3}" oninput="pA()"></div>
@@ -557,19 +557,19 @@ function pB(){
     '12.8kg':Math.round(p.b/15*12.8),'10.9kg':Math.round(p.c/15*10.9),'3kg(5s)':Math.round((p.a/24*3)+(p.b/26*2)),
     '3kg(6s)':Math.round(p.b/26*3),'10kg대과':Math.round(p.a/15*10)};
   const showUS=pRgn==='ame'||pRgn==='all';
-  const usConv=(us.a||us.b||us.c)?{
-    '미국 5kg(6-8s)':Math.round(us.a),
-    '미국 5kg(9-10s)':Math.round(us.b),
-    '미국 3kg(5s)':Math.round((us.a/8*3)+(us.b/9*2)),
-    '미국 3kg(6s)':Math.round(us.b/10*6),
-    '미국 12kg 5구':Math.round(((us.a/8*3)+(us.b/9*2))*4),
-    '미국 12.8kg':Math.round(us.b/5*12.8),
-    '미국 10.9kg':Math.round(us.c/5*10.9),
-    '미국 10kg대과':Math.round(p.a/15*10)
-  }:null;
+  const usConv=(us.a||us.b||us.c)?[
+    {l:'미국 5kg(6-8s)',raw:us.a},
+    {l:'미국 5kg(9-10s)',raw:us.b},
+    {l:'미국 3kg(5s)',raw:(us.a/8*3)+(us.b/9*2)},
+    {l:'미국 3kg(6s)',raw:us.b/10*6},
+    {l:'미국 12kg 5구',raw:((us.a/8*3)+(us.b/9*2))*4},
+    {l:'미국 12.8kg',raw:us.b/5*12.8},
+    {l:'미국 10.9kg',raw:us.c/5*10.9},
+    {l:'미국 10kg대과',raw:p.a/15*10}
+  ]:null;
   let h=`<div class="pp"><h3>📐 ${pSj} 사이즈환산</h3><div class="cv">${Object.entries(conv).map(([k,v])=>`<div class="cr"><span>${k}</span><span class="cvl">₩${fN(v)}</span></div>`).join('')}</div></div>`;
   if(showUS&&usConv){
-    h+=`<div class="pp" style="background:linear-gradient(135deg,#fff5f5,#ffe8e8);border-color:#fcc"><h3 style="color:#a01818">🇺🇸 ${pSj} 미국 환산 (US 단가 기준)</h3><div class="cv" style="border-color:#fcc">${Object.entries(usConv).map(([k,v])=>`<div class="cr" style="border-color:#fee"><span style="color:#7a1a1a">${k}</span><span class="cvl" style="color:#a01818">₩${fN(v)}</span></div>`).join('')}</div></div>`;
+    h+=`<div class="pp" style="background:linear-gradient(135deg,#fff5f5,#ffe8e8);border-color:#fcc"><h3 style="color:#a01818">🇺🇸 ${pSj} 미국 환산 (US 단가 기준)</h3><div class="cv" style="border-color:#fcc">${usConv.map(r=>`<div class="cr" style="border-color:#fee"><span style="color:#7a1a1a">${r.l}</span><span class="cvl" style="color:#a01818">₩${fN(Math.round(r.raw))}</span></div>`).join('')}</div></div>`;
   }
 
   const sh=gv('psh')==40?'f':'t';
@@ -901,7 +901,7 @@ function cmOpen(d,sub,info){
   $('msb').textContent=sub;$('mif').innerHTML=info;$('mm').value='';
   $('finv').value='';
   $('fmkr').value=d.maker||d.sj||'';
-  $('fld').value='';
+  $('fld').value='';$('fldDisp').textContent='';
   $('fqty').value=d.qty||'';
   $('ffx').value=d.rt?(d.rt+(d.fr==='s'&&d.sym==='S$'?' SGD':' ₩/$')):'';
   $('fraw').value=d.raw||'';
@@ -909,6 +909,8 @@ function cmOpen(d,sub,info){
   const b=$('msbtn');b.disabled=false;b.textContent='📤 시트 전송';
 }
 function cmClose(){$('mo').classList.add('h');pnd=null;}
+function fmtKDate(v){if(!v)return '';if(!/^\d{4}-\d{2}-\d{2}$/.test(v))return v;const d=new Date(v+'T00:00:00');if(isNaN(d))return v;const days=['일','월','화','수','목','금','토'];return `${d.getMonth()+1}/${d.getDate()} ${days[d.getDay()]}`;}
+function updFld(){const v=$('fld').value;const disp=$('fldDisp');if(disp)disp.textContent=v?fmtKDate(v):'';}
 function cmFill(){
   if(!pnd)return;
   pnd.me=$('mm').value.trim();
@@ -920,7 +922,7 @@ function cmFill(){
 }
 function cmOk(){if(!pnd)return;cmFill();logs.unshift({...pnd});saveL();const b=$(pnd.btn);if(b){b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1000);}cmClose();rL();}
 function cmCopy(){if(!pnd)return;cmFill();
-  const t=`인보이스: ${pnd.invoice||'-'}\n제조자: ${pnd.maker||'-'}\n상차일: ${pnd.loadDate||'-'}\n수량: ${pnd.qty||'-'}\n적용환율: ${pnd.rt||'-'}\n바이어단가: ${pnd.sym}${pnd.of}\n산지단가: ${pnd.raw||'-'}\n──────────\n${pnd.co} ${pnd.sp||''}\n마진: ${fD(pnd.mb)}${pnd.sym}/box · 총 ${fK(pnd.tk)}${pnd.sj?' ('+pnd.sj+')':''}${pnd.sh?' '+pnd.sh:''}${pnd.me?'\n메모: '+pnd.me:''}`;
+  const t=`인보이스: ${pnd.invoice||'-'}\n제조자: ${pnd.maker||'-'}\n상차일: ${fmtKDate(pnd.loadDate)||'-'}\n수량: ${pnd.qty||'-'}\n적용환율: ${pnd.rt||'-'}\n바이어단가: ${pnd.sym}${pnd.of}\n산지단가: ${pnd.raw||'-'}\n──────────\n${pnd.co} ${pnd.sp||''}\n마진: ${fD(pnd.mb)}${pnd.sym}/box · 총 ${fK(pnd.tk)}${pnd.sj?' ('+pnd.sj+')':''}${pnd.sh?' '+pnd.sh:''}${pnd.me?'\n메모: '+pnd.me:''}`;
   navigator.clipboard?navigator.clipboard.writeText(t).then(()=>{const b=$('mcb');b.textContent='✅ 복사됨';setTimeout(()=>b.textContent='📋 복사',1500);}):alert(t);
 }
 function cmSend(){
@@ -976,7 +978,7 @@ function rL(){
     const idAttr=l.id?`'${l.id}'`:'null';
     const rowAttr=l._row||'null';
     const isRemote=l._remote||l.sent;
-    h+=`<div class="li ${mine?'mine':''}"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">${l.fl?`<span style="font-size:16px">${l.fl}</span>`:''}<div style="flex:1"><div style="font-size:11px;font-weight:700">${l.co||l.invoice||'-'}${l.sj?' · '+l.sj:''}${l.sh?' · '+l.sh:''}${auth}${l.sent?'<span class="snt">✓ SHEET</span>':''}</div><div class="ld">${ds}${l.invoice?' · '+l.invoice:''}${l.loadDate?' · '+l.loadDate:''}</div>${l.me?`<div style="font-size:9px;color:var(--t2);font-style:italic;margin-top:1px">"${l.me}"</div>`:''}</div></div>
+    h+=`<div class="li ${mine?'mine':''}"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">${l.fl?`<span style="font-size:16px">${l.fl}</span>`:''}<div style="flex:1"><div style="font-size:11px;font-weight:700">${l.co||l.invoice||'-'}${l.sj?' · '+l.sj:''}${l.sh?' · '+l.sh:''}${auth}${l.sent?'<span class="snt">✓ SHEET</span>':''}</div><div class="ld">${ds}${l.invoice?' · '+l.invoice:''}${l.loadDate?' · '+fmtKDate(l.loadDate):''}</div>${l.me?`<div style="font-size:9px;color:var(--t2);font-style:italic;margin-top:1px">"${l.me}"</div>`:''}</div></div>
     <div class="lps"><div class="lp"><label>스펙</label><div class="v" style="font-size:9px">${l.sp||'-'}</div></div><div class="lp"><label>오퍼</label><div class="v">${l.of?(l.sym||'')+l.of:'-'}</div></div><div class="lp"><label>마진</label><div class="v ${l.mb!=null?mC(l.mb):''}">${l.mb!=null?fD(l.mb)+(l.sym||''):'-'}</div></div><div class="lp"><label>총마진</label><div class="v ${l.tk!=null?mC(l.tk):''}">${l.tk!=null?fK(l.tk):'-'}</div></div></div>
     <div style="display:flex;gap:5px;margin-top:5px">${l.id?`<button class="ldb" style="background:#fff;color:var(--bl);border-color:#cfdcf5" onclick="editLog('${l.id}')">✏️ 수정</button>`:''}<button class="ldb" onclick="dL(${idAttr},${isRemote?true:false},${rowAttr})">🗑 삭제</button></div></div>`;
   });list.innerHTML=h;
@@ -1012,7 +1014,7 @@ function editLog(id){
   $('mm').value=l.me||'';
   $('finv').value=l.invoice||'';
   $('fmkr').value=l.maker||'';
-  $('fld').value=l.loadDate||'';
+  $('fld').value=(l.loadDate&&/^\d{4}-\d{2}-\d{2}$/.test(l.loadDate))?l.loadDate:'';$('fldDisp').textContent=fmtKDate(l.loadDate)||'';
   $('fqty').value=l.qty||'';
   $('ffx').value=l.rt||'';
   $('fraw').value=l.raw||'';

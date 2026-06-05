@@ -260,22 +260,31 @@ tbody tr:hover td{background:#fafbfd}
 .elvMh{font-size:11px;font-weight:800;color:var(--t2);letter-spacing:.04em;padding:12px 4px 6px;display:flex;align-items:center;gap:8px;text-transform:uppercase}
 .elvMh::after{content:"";flex:1;height:1px;background:linear-gradient(to right,var(--bd),transparent)}
 .elvMh .elvMc{color:var(--t3);font-weight:600;font-size:10px}
-.elvCd{background:#fff;border:1px solid var(--bd);border-radius:13px;padding:12px 14px;box-shadow:var(--sh);margin-bottom:8px;transition:transform .15s,box-shadow .15s,border-color .15s}
+.elvCd{background:#fff;border:1px solid var(--bd);border-radius:16px;padding:15px 16px;box-shadow:var(--sh);margin-bottom:11px;transition:transform .15s,box-shadow .15s,border-color .15s}
 .elvCd:hover{border-color:var(--bd2);box-shadow:var(--sh2)}
-.elvCd:active{transform:scale(.985)}
-.elvCt{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px}
-.elvCl{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
-.elvFg{font-size:20px;line-height:1}
-.elvCn2{font-size:13px;font-weight:800;color:var(--tx);letter-spacing:-.01em}
-.elvIt{padding:3px 9px;border-radius:7px;background:linear-gradient(135deg,var(--sf2),#e8ecf3);font-size:11px;font-weight:700;color:var(--t2);display:inline-flex;align-items:center;gap:3px}
-.elvQt{font-size:16px;font-weight:900;color:var(--ac);font-family:'JetBrains Mono',monospace;letter-spacing:-.02em;white-space:nowrap}
-.elvQu{font-size:10px;color:var(--t3);font-weight:600;margin-left:2px}
-.elvMi{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;margin-bottom:10px;font-size:12px}
-.elvMl{color:var(--t3);font-size:10.5px;font-weight:600;white-space:nowrap;align-self:center}
-.elvMv{color:var(--tx);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.elvBt{display:flex;flex-wrap:wrap;gap:4px 10px;padding-top:9px;border-top:1px dashed var(--bd);font-size:10.5px;color:var(--t2)}
-.elvDt{display:inline-flex;align-items:center;gap:3px;font-variant-numeric:tabular-nums}
-.elvDt b{color:var(--tx);font-weight:700}
+.elvCd:active{transform:scale(.99)}
+/* 헤더: 국기+국가 / 컨테이너 뱃지 */
+.elvCt{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:13px}
+.elvCl{display:flex;align-items:flex-start;gap:10px;min-width:0}
+.elvFg{font-size:30px;line-height:1.05;flex-shrink:0}
+.elvCn2{font-size:17.5px;font-weight:800;color:var(--tx);letter-spacing:-.02em;line-height:1.2}
+.elvIt{padding:4px 11px;border-radius:9px;background:linear-gradient(135deg,var(--sf2),#e8ecf3);font-size:13px;font-weight:700;color:var(--t2);display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.elvQt{flex-shrink:0;padding:7px 14px;border-radius:11px;background:linear-gradient(135deg,#1e4ed8,#3b6ff0);color:#fff;font-size:15.5px;font-weight:800;letter-spacing:-.01em;white-space:nowrap;box-shadow:0 3px 10px rgba(30,78,216,.28)}
+/* 정보 블록 */
+.elvMi{display:grid;grid-template-columns:auto 1fr;gap:9px 14px;margin-bottom:13px;align-items:center}
+.elvMl{color:var(--t3);font-size:12.5px;font-weight:700;white-space:nowrap}
+.elvMv{color:var(--tx);font-weight:700;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.01em}
+.elvMv.mono{font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:0}
+/* 운송 타임라인 (상차→출발→도착) */
+.elvTl{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:2px;padding:13px 2px 4px;border-top:1px solid var(--bd)}
+.elvTs{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.elvTk{font-size:11.5px;font-weight:700;color:var(--t3);letter-spacing:.01em;white-space:nowrap}
+.elvTv{font-size:19px;font-weight:800;color:var(--tx);font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1}
+.elvTv.dim{color:var(--bd2);font-weight:700}
+.elvTa{color:#c2c8d6;font-size:17px;font-weight:700;padding:0 2px}
+/* 비고 메모 */
+.elvNote{margin-top:11px;padding:9px 12px;background:#fff8e8;border:1px solid #f0e0b8;border-radius:10px;font-size:12.5px;color:#7a5800;font-weight:600;line-height:1.45;display:flex;gap:6px}
+.elvNote .elvNi{flex-shrink:0}
 .elvEm{text-align:center;padding:60px 20px;color:var(--t3);font-size:13px}
 .elvEm .elvEe{font-size:40px;margin-bottom:10px;opacity:.5}
 .elvLd{text-align:center;padding:60px 20px;color:var(--t3);font-size:13px}
@@ -1413,7 +1422,7 @@ function renderExL(){
   const ctrList=Object.keys(ctrs).sort((a,b)=>ctrs[b]-ctrs[a]);
   const frList=Object.keys(frs).sort((a,b)=>frs[b]-frs[a]);
   $('elvCC').innerHTML='<div class="elvCp '+(exFlt.ctry==='all'?'on':'')+'" onclick="setExFlt(\'ctry\',\'all\')">전체<span class="elvCn">'+exData.length+'</span></div>'+
-    ctrList.map(c=>'<div class="elvCp '+(exFlt.ctry===c?'on':'')+'" onclick="setExFlt(\'ctry\',\''+c.replace(/'/g,"\\'")+'\')">'+(EX_CFLG[c]||'🏳️')+' '+c+'<span class="elvCn">'+ctrs[c]+'</span></div>').join('');
+    ctrList.map(c=>'<div class="elvCp '+(exFlt.ctry===c?'on':'')+'" onclick="setExFlt(\'ctry\',\''+c.replace(/'/g,"\\'")+'\')">'+exFlag(c)+' '+c+'<span class="elvCn">'+ctrs[c]+'</span></div>').join('');
   $('elvFC').innerHTML='<div class="elvCp '+(exFlt.fr==='all'?'on':'')+'" onclick="setExFlt(\'fr\',\'all\')">전체</div>'+
     frList.map(f=>'<div class="elvCp '+(exFlt.fr===f?'on':'')+'" onclick="setExFlt(\'fr\',\''+f.replace(/'/g,"\\'")+'\')">'+(EX_FE[f]||'📦')+' '+f+'<span class="elvCn">'+frs[f]+'</span></div>').join('');
   const q=exFlt.q.toLowerCase().trim();
@@ -1441,38 +1450,61 @@ function renderExL(){
   const keys=Object.keys(grp).sort((a,b)=>{if(a==='날짜 미정')return 1;if(b==='날짜 미정')return -1;return b.localeCompare(a);});
   $('elvLs').innerHTML=keys.map(k=>'<div class="elvMh">'+k+'<span class="elvMc">'+grp[k].length+'건</span></div>'+grp[k].map(exCard).join('')).join('');
 }
+function exFmtQty(q){
+  if(q==null||q==='')return '';
+  const s=String(q).trim();
+  // 순수 숫자면 천단위 콤마, 아니면 원문 그대로(예: "40피트","항공")
+  if(/^[\d,]+(\.\d+)?$/.test(s)){const n=parseFloat(s.replace(/,/g,''));return isNaN(n)?s:n.toLocaleString('ko-KR');}
+  return s;
+}
+// 국가명에 도시 붙어도(예: "인도네시아(자카르타)") 국기 찾기
+function exFlag(ctry){
+  if(!ctry)return '🏳️';
+  if(EX_CFLG[ctry])return EX_CFLG[ctry];
+  const base=String(ctry).replace(/[\(（].*$/,'').trim();
+  if(EX_CFLG[base])return EX_CFLG[base];
+  for(const k of Object.keys(EX_CFLG).sort((a,b)=>b.length-a.length)){if(String(ctry).startsWith(k))return EX_CFLG[k];}
+  return '🏳️';
+}
 function exCard(r){
   const ctry=exPick(r,'국가','Country')||'-';
   const fr=exPick(r,'품목','Item','과일')||'-';
-  const fg=EX_CFLG[ctry]||'🏳️';
+  const fg=exFlag(ctry);
   const fe=EX_FE[fr]||'📦';
-  const qty=exFmtQ(exPick(r,'수량','Qty','Quantity'));
-  const buyer=exPick(r,'바이어','Buyer')||'-';
-  const maker=exPick(r,'제조자','Maker')||'-';
-  const inv=exPick(r,'INVOICE','Invoice','인보이스')||'-';
+  const qty=exFmtQty(exPick(r,'수량','Qty','Quantity'));
+  const buyer=exPick(r,'바이어','Buyer');
+  const maker=exPick(r,'제조자','Maker');
+  const inv=exPick(r,'INVOICE','Invoice','인보이스');
   const fwd=exPick(r,'포워딩','Forwarder','Forwarding');
   const ld=exPick(r,'상차일','Loading','상차');
   const dp=exPick(r,'출발일','ETD','출발');
   const ar=exPick(r,'도착일','ETA','도착');
-  const no=exPick(r,'NO');
+  const no=exPick(r,'NO','NO.');
+  const note=exPick(r,'비고','Note','Remark','Remarks','메모');
+  const esc=v=>String(v).replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const row=(l,v,mono)=>v?`<span class="elvMl">${l}</span><span class="elvMv${mono?' mono':''}">${esc(v)}</span>`:'';
+  const stage=(k,e,v)=>`<div class="elvTs"><span class="elvTk">${e} ${k}</span><span class="elvTv${v?'':' dim'}">${v?exFmtD(v):'-'}</span></div>`;
   return '<div class="elvCd">'+
     '<div class="elvCt"><div class="elvCl">'+
-      '<span class="elvFg">'+fg+'</span>'+
-      '<span class="elvCn2">'+ctry+'</span>'+
-      '<span class="elvIt">'+fe+' '+fr+'</span>'+
-      (no?'<span class="elvIt" style="background:var(--sf2);color:var(--t3)">#'+no+'</span>':'')+
-    '</div><div class="elvQt">'+qty+'</div></div>'+
-    '<div class="elvMi">'+
-      '<span class="elvMl">바이어</span><span class="elvMv">'+buyer+'</span>'+
-      '<span class="elvMl">제조자</span><span class="elvMv">'+maker+'</span>'+
-      '<span class="elvMl">인보이스</span><span class="elvMv" style="font-family:\'JetBrains Mono\',monospace;font-size:11.5px">'+inv+'</span>'+
+      `<span class="elvFg">${fg}</span>`+
+      `<div style="min-width:0"><div class="elvCn2">${esc(ctry)}</div>`+
+      `<div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap"><span class="elvIt">${fe} ${esc(fr)}</span>`+
+      (no?`<span class="elvIt" style="background:var(--sf2);color:var(--t3)">#${esc(no)}</span>`:'')+`</div></div>`+
     '</div>'+
-    '<div class="elvBt">'+
-      (ld?'<span class="elvDt">📅 상차 <b>'+exFmtD(ld)+'</b></span>':'')+
-      (dp?'<span class="elvDt">🚢 출발 <b>'+exFmtD(dp)+'</b></span>':'')+
-      (ar?'<span class="elvDt">📍 도착 <b>'+exFmtD(ar)+'</b></span>':'')+
-      (fwd?'<span class="elvDt">🏢 <b>'+fwd+'</b></span>':'')+
-    '</div></div>';
+    (qty?`<div class="elvQt">${esc(qty)}</div>`:'')+'</div>'+
+    '<div class="elvMi">'+
+      row('바이어',buyer)+
+      row('인보이스',inv,true)+
+      row('포워딩',fwd)+
+      row('제조자',maker)+
+    '</div>'+
+    '<div class="elvTl">'+
+      stage('상차','📦',ld)+'<span class="elvTa">›</span>'+
+      stage('출발','🚢',dp)+'<span class="elvTa">›</span>'+
+      stage('도착','📍',ar)+
+    '</div>'+
+    (note?`<div class="elvNote"><span class="elvNi">📌</span><span>${esc(note)}</span></div>`:'')+
+  '</div>';
 }
 function setExFlt(k,v){exFlt[k]=v;renderExL();}
 function filterExL(){exFlt.q=$('elvS').value||'';renderExL();}

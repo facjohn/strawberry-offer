@@ -2,6 +2,8 @@
 gas_code_fixed.gs
 새 텍스트 문서.txt
 .claude/
+메모/
+파일/
 *.tmp
 .DS_Store
 Thumbs.db

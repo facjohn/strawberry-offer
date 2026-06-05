@@ -282,10 +282,14 @@ tbody tr:hover td{background:#fafbfd}
 .elvIt{padding:4px 11px;border-radius:9px;background:linear-gradient(135deg,var(--sf2),#e8ecf3);font-size:13px;font-weight:700;color:var(--t2);display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
 .elvQt{flex-shrink:0;padding:7px 14px;border-radius:11px;background:linear-gradient(135deg,#1e4ed8,#3b6ff0);color:#fff;font-size:15.5px;font-weight:800;letter-spacing:-.01em;white-space:nowrap;box-shadow:0 3px 10px rgba(30,78,216,.28)}
 /* 정보 블록 */
-.elvMi{display:grid;grid-template-columns:auto 1fr;gap:9px 14px;margin-bottom:13px;align-items:center}
-.elvMl{color:var(--t3);font-size:12.5px;font-weight:700;white-space:nowrap}
-.elvMv{color:var(--tx);font-weight:700;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.01em}
-.elvMv.mono{font-family:'JetBrains Mono',monospace;font-size:14px;letter-spacing:0}
+.elvMi{display:flex;flex-direction:column;gap:9px;margin-bottom:13px}
+.elvMr{display:flex;gap:12px;align-items:center;min-height:28px}
+.elvCell{display:flex;align-items:center;gap:7px;min-width:0;flex:1 1 0}
+.elvCell.inv{flex:1.6 1 0}
+.elvCell.fwd{flex:.85 1 0}
+.elvMl{color:var(--t3);font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.elvMv{color:var(--tx);font-weight:700;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.01em;min-width:0}
+.elvMv.mono{font-family:'JetBrains Mono',monospace;font-size:13.5px;letter-spacing:0}
 /* 운송 타임라인 (상차→출발→도착) */
 .elvTl{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:2px;padding:13px 2px 4px;border-top:1px solid var(--bd)}
 .elvTs{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
@@ -299,7 +303,7 @@ tbody tr:hover td{background:#fafbfd}
 /* 인보이스 복사 버튼 */
 .inv-wrap{display:flex!important;align-items:center;gap:8px;min-width:0}
 .inv-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
-.elvCpy{flex-shrink:0;width:30px;height:30px;border-radius:8px;border:1px solid var(--bd);background:#fff;color:var(--t2);font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;padding:0;line-height:1}
+.elvCpy{flex-shrink:0;width:27px;height:27px;border-radius:7px;border:1px solid var(--bd);background:#fff;color:var(--t2);font-size:13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;padding:0;line-height:1}
 .elvCpy:hover{background:var(--sf2);border-color:var(--bd2)}
 .elvCpy:active{transform:scale(.9)}
 .elvCpy.ok{border-color:var(--gr);background:rgba(22,163,104,.12)}
@@ -1537,8 +1541,8 @@ function exCard(r){
   const no=exPick(r,'NO','NO.');
   const note=exPick(r,'비고','Note','Remark','Remarks','메모');
   const esc=v=>String(v).replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  // 항상 표시 — 비면 placeholder(emptyHtml). 제조자는 "미정"(앰버)
-  const row=(l,v,mono,emptyHtml)=>`<span class="elvMl">${l}</span><span class="elvMv${mono?' mono':''}">${v?esc(v):(emptyHtml||'<span style="color:var(--t3);font-weight:600">-</span>')}</span>`;
+  // 셀: 라벨+값 (항상 표시, 비면 placeholder). 제조자는 "미정"(앰버)
+  const cell=(l,v,mono,emptyHtml,cls)=>`<div class="elvCell${cls?' '+cls:''}"><span class="elvMl">${l}</span><span class="elvMv${mono?' mono':''}">${v?esc(v):(emptyHtml||'<span style="color:var(--t3);font-weight:600">-</span>')}</span></div>`;
   const stage=(k,e,v)=>`<div class="elvTs"><span class="elvTk">${e} ${k}</span><span class="elvTv${v?'':' dim'}">${v?exFmtD(v):'-'}</span></div>`;
   return '<div class="elvCd">'+
     '<div class="elvCt"><div class="elvCl">'+
@@ -1549,13 +1553,17 @@ function exCard(r){
     '</div>'+
     (qty?`<div class="elvQt">${esc(qty)}</div>`:'')+'</div>'+
     '<div class="elvMi">'+
-      row('바이어',buyer)+
-      row('제조자',maker,false,'<span style="color:#c2860a;font-weight:800">미정</span>')+
-      '<span class="elvMl">인보이스</span><span class="elvMv mono inv-wrap">'+
-        (inv?'<span class="inv-txt">'+esc(inv)+'</span><button class="elvCpy" onclick="exCopyInv(this)" title="인보이스 복사">📋</button>'
-            :'<span class="inv-txt" style="color:var(--t3);font-weight:600">-</span>')+
-      '</span>'+
-      row('포워딩',fwd)+
+      '<div class="elvMr">'+
+        cell('바이어',buyer)+
+        cell('제조자',maker,false,'<span style="color:#c2860a;font-weight:800">미정</span>')+
+      '</div>'+
+      '<div class="elvMr">'+
+        '<div class="elvCell inv"><span class="elvMl">인보이스</span><span class="elvMv mono inv-wrap">'+
+          (inv?'<span class="inv-txt">'+esc(inv)+'</span><button class="elvCpy" onclick="exCopyInv(this)" title="인보이스 복사">📋</button>'
+              :'<span class="inv-txt" style="color:var(--t3);font-weight:600">-</span>')+
+        '</span></div>'+
+        cell('포워딩',fwd,false,null,'fwd')+
+      '</div>'+
     '</div>'+
     '<div class="elvTl">'+
       stage('상차','📦',ld)+'<span class="elvTa">›</span>'+

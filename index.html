@@ -291,11 +291,12 @@ tbody tr:hover td{background:#fafbfd}
 .elvMv{color:var(--tx);font-weight:700;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;letter-spacing:-.01em;min-width:0}
 .elvMv.mono{font-family:'JetBrains Mono',monospace;font-size:13.5px;letter-spacing:0}
 /* 운송 타임라인 (상차→출발→도착) */
-.elvTl{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:2px;padding:13px 2px 4px;border-top:1px solid var(--bd)}
+.elvTl{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:2px;padding:13px 2px 4px;border-top:1px solid var(--bd)}
 .elvTs{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
 .elvTk{font-size:11.5px;font-weight:700;color:var(--t3);letter-spacing:.01em;white-space:nowrap}
 .elvTv{font-size:19px;font-weight:800;color:var(--tx);font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1}
 .elvTv.dim{color:var(--bd2);font-weight:700}
+.elvTv.multi{font-size:12.5px;font-weight:800;white-space:normal;word-break:break-word;line-height:1.25;letter-spacing:0}
 .elvTa{color:#c2c8d6;font-size:17px;font-weight:700;padding:0 2px}
 /* 비고 메모 */
 .elvNote{margin-top:11px;padding:9px 12px;background:#fff8e8;border:1px solid #f0e0b8;border-radius:10px;font-size:12.5px;color:#7a5800;font-weight:600;line-height:1.45;display:flex;gap:6px}
@@ -1436,6 +1437,7 @@ function exDateObj(s){
   if(!s)return null;
   if(s instanceof Date)return s;
   const str=String(s).trim();
+  if(/[>＞〉→]/.test(str))return null;   // 변경이력("8/21>23")은 단일 날짜 아님 → literal 표시 + exEffDate가 정렬용 처리
   let m=str.match(/^(\d{4})[.\-\/](\d{1,2})[.\-\/](\d{1,2})/);
   if(m)return new Date(+m[1],+m[2]-1,+m[3]);
   m=str.match(/^(\d{1,2})[.\-\/](\d{1,2})[.\-\/](\d{2,4})/);
@@ -1445,6 +1447,24 @@ function exDateObj(s){
   const d=new Date(str);return isNaN(d.getTime())?null:d;
 }
 function exFmtD(s){const d=exDateObj(s);if(!d)return s||'-';return(d.getMonth()+1)+'.'+d.getDate();}
+// 변경이력 날짜("8/21>23>25" = 21→23→25로 변경)에서 최신(실제) 날짜 추출 — 정렬/그룹/필터용
+function exEffDate(s){
+  if(!s)return null;
+  if(s instanceof Date)return s;
+  const str=String(s).trim();
+  if(!/[>＞〉→]/.test(str))return exDateObj(str);
+  const parts=str.split(/[>＞〉→]/).map(p=>p.trim()).filter(Boolean);
+  const base=exDateObj(parts[0]);
+  if(!base)return exDateObj(str);
+  let yr=base.getFullYear(),mo=base.getMonth(),day=base.getDate();
+  for(let i=1;i<parts.length;i++){
+    const md=parts[i].match(/^(\d{1,2})[.\-\/](\d{1,2})$/);     // "9/2" 월까지 변경
+    if(md){mo=+md[1]-1;day=+md[2];yr=exYearFor(+md[1],+md[2]);continue;}
+    const dd=parts[i].match(/^(\d{1,2})$/);                      // "23" 일만 변경
+    if(dd&&+dd[1]>=1&&+dd[1]<=31)day=+dd[1];
+  }
+  return new Date(yr,mo,day);
+}
 function exFmtQ(q){if(q==null||q==='')return '-';const n=parseFloat(String(q).replace(/,/g,''));return isNaN(n)?String(q):n.toLocaleString('ko-KR');}
 function exPick(r,...keys){for(const k of keys){if(r[k]!=null&&r[k]!=='')return r[k];}return '';}
 function renderExL(){
@@ -1484,7 +1504,7 @@ function renderExL(){
     if(exFlt.ctry!=='all'&&exPick(r,'국가','Country')!==exFlt.ctry)return false;
     if(exFlt.fr!=='all'&&exPick(r,'품목','Item','과일')!==exFlt.fr)return false;
     if(exFlt.dmode!=='all'){
-      const ld=exDateObj(exPick(r,'상차일','Loading','상차'));
+      const ld=exEffDate(exPick(r,'상차일','Loading','상차'));
       if(!ld)return false;
       if(dLo&&ld<dLo)return false;
       if(dHi&&ld>dHi)return false;
@@ -1493,8 +1513,8 @@ function renderExL(){
     return true;
   });
   fl.sort((a,b)=>{
-    const da=exDateObj(exPick(a,'상차일','Loading','상차'));
-    const db=exDateObj(exPick(b,'상차일','Loading','상차'));
+    const da=exEffDate(exPick(a,'상차일','Loading','상차'));
+    const db=exEffDate(exPick(b,'상차일','Loading','상차'));
     if(db&&da)return db-da;if(db)return 1;if(da)return -1;
     return (+exPick(b,'NO')||0)-(+exPick(a,'NO')||0);
   });
@@ -1502,7 +1522,7 @@ function renderExL(){
   if(!fl.length){$('elvLs').innerHTML='<div class="elvEm"><div class="elvEe">🔍</div>조건에 맞는 건이 없습니다</div>';return;}
   const grp={};
   fl.forEach(r=>{
-    const d=exDateObj(exPick(r,'상차일','Loading','상차'));
+    const d=exEffDate(exPick(r,'상차일','Loading','상차'));
     const k=d?d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0'):'날짜 미정';
     (grp[k]=grp[k]||[]).push(r);
   });
@@ -1543,7 +1563,11 @@ function exCard(r){
   const esc=v=>String(v).replace(/</g,'&lt;').replace(/>/g,'&gt;');
   // 셀: 라벨+값 (항상 표시, 비면 placeholder). 제조자는 "미정"(앰버)
   const cell=(l,v,mono,emptyHtml,cls)=>`<div class="elvCell${cls?' '+cls:''}"><span class="elvMl">${l}</span><span class="elvMv${mono?' mono':''}">${v?esc(v):(emptyHtml||'<span style="color:var(--t3);font-weight:600">-</span>')}</span></div>`;
-  const stage=(k,e,v)=>`<div class="elvTs"><span class="elvTk">${e} ${k}</span><span class="elvTv${v?'':' dim'}">${v?exFmtD(v):'-'}</span></div>`;
+  const stage=(k,e,v)=>{
+    let inner='-',cls=v?'':' dim';
+    if(v){ if(exDateObj(v))inner=exFmtD(v); else{inner=esc(String(v));cls+=' multi';} } // 변경이력("8/21>23")은 그대로 작게
+    return `<div class="elvTs"><span class="elvTk">${e} ${k}</span><span class="elvTv${cls}">${inner}</span></div>`;
+  };
   return '<div class="elvCd">'+
     '<div class="elvCt"><div class="elvCl">'+
       `<span class="elvFg">${fg}</span>`+

@@ -1,0 +1,7 @@
+# GitHub Pages 배포에 불필요한 로컬 파일
+gas_code_fixed.gs
+새 텍스트 문서.txt
+.claude/
+*.tmp
+.DS_Store
+Thumbs.db

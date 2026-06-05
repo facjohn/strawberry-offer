@@ -296,6 +296,13 @@ tbody tr:hover td{background:#fafbfd}
 /* 비고 메모 */
 .elvNote{margin-top:11px;padding:9px 12px;background:#fff8e8;border:1px solid #f0e0b8;border-radius:10px;font-size:12.5px;color:#7a5800;font-weight:600;line-height:1.45;display:flex;gap:6px}
 .elvNote .elvNi{flex-shrink:0}
+/* 인보이스 복사 버튼 */
+.inv-wrap{display:flex!important;align-items:center;gap:8px;min-width:0}
+.inv-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.elvCpy{flex-shrink:0;width:30px;height:30px;border-radius:8px;border:1px solid var(--bd);background:#fff;color:var(--t2);font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s;padding:0;line-height:1}
+.elvCpy:hover{background:var(--sf2);border-color:var(--bd2)}
+.elvCpy:active{transform:scale(.9)}
+.elvCpy.ok{border-color:var(--gr);background:rgba(22,163,104,.12)}
 .elvEm{text-align:center;padding:60px 20px;color:var(--t3);font-size:13px}
 .elvEm .elvEe{font-size:40px;margin-bottom:10px;opacity:.5}
 .elvLd{text-align:center;padding:60px 20px;color:var(--t3);font-size:13px}
@@ -1544,7 +1551,10 @@ function exCard(r){
     '<div class="elvMi">'+
       row('바이어',buyer)+
       row('제조자',maker,false,'<span style="color:#c2860a;font-weight:800">미정</span>')+
-      row('인보이스',inv,true)+
+      '<span class="elvMl">인보이스</span><span class="elvMv mono inv-wrap">'+
+        (inv?'<span class="inv-txt">'+esc(inv)+'</span><button class="elvCpy" onclick="exCopyInv(this)" title="인보이스 복사">📋</button>'
+            :'<span class="inv-txt" style="color:var(--t3);font-weight:600">-</span>')+
+      '</span>'+
       row('포워딩',fwd)+
     '</div>'+
     '<div class="elvTl">'+
@@ -1573,6 +1583,15 @@ function setExDateRange(){
   if(t)exFlt.dto=t.value;
   exFlt.dmode='custom';
   renderExL();
+}
+function exCopyInv(btn){
+  const wrap=btn.closest('.inv-wrap');
+  const el=wrap&&wrap.querySelector('.inv-txt');
+  const txt=el?(el.textContent||'').trim():'';
+  if(!txt||txt==='-')return;
+  const ok=()=>{btn.classList.add('ok');btn.textContent='✅';setTimeout(()=>{btn.classList.remove('ok');btn.textContent='📋';},1200);};
+  const fb=()=>{try{const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();document.execCommand('copy');document.body.removeChild(ta);ok();}catch(e){alert('인보이스: '+txt);}};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok).catch(fb);}else{fb();}
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('elv')&&$('elv').style.display==='flex')closeExL();});
 

@@ -1460,10 +1460,10 @@ function exEffDate(s){
   for(let i=1;i<parts.length;i++){
     const md=parts[i].match(/^(\d{1,2})[.\-\/](\d{1,2})$/);     // "9/2" 월까지 변경
     if(md){mo=+md[1]-1;day=+md[2];yr=exYearFor(+md[1],+md[2]);continue;}
-    const dd=parts[i].match(/^(\d{1,2})$/);                      // "23" 일만 변경
-    if(dd&&+dd[1]>=1&&+dd[1]<=31)day=+dd[1];
+    const dd=parts[i].match(/^(\d{1,2})$/);                      // "23"=일만 변경
+    if(dd&&+dd[1]>=1&&+dd[1]<=31){const nd=+dd[1];if(nd<day)mo++;day=nd;}  // 일이 작아지면 다음달(8/25>2 = 9/2)
   }
-  return new Date(yr,mo,day);
+  return new Date(yr,mo,day);   // mo가 12 넘어가면 JS가 다음해로 자동 보정
 }
 function exFmtQ(q){if(q==null||q==='')return '-';const n=parseFloat(String(q).replace(/,/g,''));return isNaN(n)?String(q):n.toLocaleString('ko-KR');}
 function exPick(r,...keys){for(const k of keys){if(r[k]!=null&&r[k]!=='')return r[k];}return '';}

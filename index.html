@@ -289,6 +289,22 @@ tbody tr:hover td{background:#fafbfd}
   .elvBar,.elvSt,.elvHd{padding-left:max(20px,calc(50% - 370px));padding-right:max(20px,calc(50% - 370px))}
   .elvCd{padding:14px 16px}
 }
+/* === 포도 스펙별 비용 카드 === */
+.gcost{background:var(--sf);border:1px solid var(--bd);border-radius:11px;margin-bottom:8px;overflow:hidden;box-shadow:var(--sh)}
+.gcost-h{padding:8px 11px;font-size:11px;font-weight:800;background:linear-gradient(180deg,#faf0ff,#f6f0fa);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;color:#7b2d8e}
+.gpal{margin-left:auto;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--t2)}
+.gpal b{font-size:12px}
+.gcost-r{padding:7px 11px;border-bottom:1px solid #f1f3f8}
+.gcost-r:last-child{border-bottom:none}
+.gcost-l{font-size:11px;font-weight:700;color:#1a1a2e;margin-bottom:5px;letter-spacing:-.01em}
+.gcost-f{display:flex;flex-wrap:wrap;gap:6px}
+.gcost-f label{display:flex;flex-direction:column;font-size:8px;color:var(--t3);font-weight:800;gap:2px;text-transform:uppercase;letter-spacing:.02em}
+.gcost-f input{width:62px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:5px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;text-align:center;outline:none;transition:border-color .15s,background .15s}
+.gcost-f input:hover{border-color:var(--bd2)}
+.gcost-f input:focus{border-color:var(--ac);background:#fff;box-shadow:0 0 0 2px rgba(123,45,142,.12)}
+.gcost-f input::placeholder{color:#b5b9c8;font-weight:500;opacity:.8}
+.gcost-f label.pal input{border-color:#d8b3e8;background:#faf5ff}
+@media (hover:none) and (pointer:coarse){.gcost-f input{width:64px;padding:7px 5px;font-size:12px}}
 </style>
 </head>
 <body>
@@ -467,10 +483,10 @@ const PWK_SJ={
 };
 
 // ═══ GRAPE ═══
-const GSANJI=['초록','아리팜','전남','순천','아산','상주','고창','천안','김제'];
-const GC=[{n:'대만',f:'🇹🇼'},{n:'베트남',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이시아',f:'🇲🇾'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'호주',f:'🇦🇺'},{n:'미국LA',f:'🇺🇸',us:1},{n:'미국NY',f:'🇺🇸',us:1},{n:'캐나다',f:'🇨🇦',us:1}];
-const GSEA={대만:{f:2151000,t:1246000},베트남:{f:2503500,t:1528000},홍콩:{f:2080500,t:1351750},말레이시아:{f:2362500,t:1422250},인도네시아:{f:3138000,t:1915750},태국:{f:2221500,t:1387000},호주:{f:2815000,t:1669000},미국LA:{f:5141500,t:0},미국NY:{f:6481000,t:0},캐나다:{f:5241500,t:0}};
-const GIL={초록:{f:387900,t:337600},아리팜:{f:662500,t:583800},전남:{f:604600,t:534600},순천:{f:355900,t:310400},아산:{f:1338900,t:1188900},상주:{f:592000,t:528000},고창:{f:690300,t:607800},천안:{f:1288800,t:1149100},김제:{f:773100,t:677300}};
+const GSANJI=['초록','김천','천안','탑바인','모서','중화','전남','논산','경기','경남','고창'];
+const GC=[{n:'대만',f:'🇹🇼'},{n:'베트남호치민',f:'🇻🇳'},{n:'베트남하이퐁',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이시아',f:'🇲🇾'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'싱가폴',f:'🇸🇬'},{n:'미국LA',f:'🇺🇸',us:1},{n:'미국NY',f:'🇺🇸',us:1},{n:'캐나다',f:'🇨🇦',us:1}];
+const GSEA={대만:{f:2362500,t:2362500},베트남호치민:{f:2715000,t:2715000},베트남하이퐁:{f:2433000,t:2433000},홍콩:{f:1869000,t:1869000},말레이시아:{f:2362500,t:2362500},인도네시아:{f:3138000,t:3138000},태국:{f:2433000,t:2433000},싱가폴:{f:2433000,t:2433000},미국LA:{f:8102500,t:0},미국NY:{f:9935500,t:0},캐나다:{f:8202500,t:0}};
+const GIL={초록:{f:1006900,t:877400},김천:{f:883200,t:769200},천안:{f:1288800,t:1149100},탑바인:{f:971800,t:846700},모서:{f:971800,t:846700},중화:{f:1006900,t:877400},전남:{f:1178200,t:1059200},논산:{f:1053000,t:950000},경기:{f:1400000,t:1100000},경남:{f:592000,t:528000},고창:{f:1181200,t:1061300}};
 const GS=[
 // ── 송이 (Bunch) ──
 {l:'1.5kg 2송이',ct:256,nw:1.5,gw:2.3,bj:0,bx:0,cat:'bun'},
@@ -505,9 +521,8 @@ const GS=[
 ];
 const GRG=[
 {k:'all',l:'전체',c:'#7b2d8e'},
-{k:'sea',l:'동남아',c:'#16a368',ns:['베트남','말레이시아','인도네시아','태국']},
+{k:'sea',l:'동남아',c:'#16a368',ns:['베트남호치민','베트남하이퐁','말레이시아','인도네시아','태국','싱가폴']},
 {k:'nea',l:'동북아',c:'#d48a00',ns:['대만','홍콩']},
-{k:'oce',l:'오세아니아',c:'#9333ea',ns:['호주']},
 {k:'ame',l:'미주',c:'#dc2626',ns:['미국LA','미국NY','캐나다']},
 ];
 const GSC=[
@@ -516,6 +531,19 @@ const GSC=[
 {k:'mlt',l:'멀티팩',c:'#16a368'},
 {k:'lse',l:'알포도',c:'#d48a00'},
 {k:'gft',l:'기프트',c:'#dc2626'},
+];
+// 항공 (포도Air 시트 기반)
+const GAIR_C=[{n:'대만',f:'🇹🇼'},{n:'호치민',f:'🇻🇳'},{n:'하노이',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이',f:'🇲🇾'},{n:'인도네',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'싱가폴',f:'🇸🇬'},{n:'브루나이',f:'🇧🇳'},{n:'두바이',f:'🇦🇪'},{n:'코타',f:'🇲🇾'},{n:'호주',f:'🇦🇺'},{n:'뉴질랜드',f:'🇳🇿'},{n:'미국LA',f:'🇺🇸'},{n:'캐나다',f:'🇨🇦'}];
+const GAIR_KG={대만:5160,홍콩:3260,태국:3010,싱가폴:4060,말레이:4460,호치민:4260,하노이:3860,인도네:6260,호주:5870,두바이:6140,캐나다:7400,브루나이:10380,코타:10180,뉴질랜드:0,미국LA:0};
+const GAIR_SJ=['천안','초록','상주','김천'];
+let GAIR_DOM=350000; // 항공편 1편당 산지→공항 도내운송 (총액, 박스수로 분배) — 시트 sync로 갱신됨
+const GAIR_RG=[
+{k:'all',l:'전체',c:'#7b2d8e'},
+{k:'sea',l:'동남아',c:'#16a368',ns:['호치민','하노이','말레이','인도네','태국','싱가폴','브루나이','코타']},
+{k:'nea',l:'동북아',c:'#d48a00',ns:['대만','홍콩']},
+{k:'me',l:'중동',c:'#0891b2',ns:['두바이']},
+{k:'oce',l:'오세아니아',c:'#9333ea',ns:['호주','뉴질랜드']},
+{k:'ame',l:'미주',c:'#dc2626',ns:['미국LA','캐나다']},
 ];
 let gRgn='all',gSpc='all';
 
@@ -537,7 +565,10 @@ function build(){
   uLC();
 }
 function sw(t,b){document.querySelectorAll('.tb').forEach(x=>x.classList.remove('a'));b.classList.add('a');$('to').classList.toggle('a',t==='o');$('tl').classList.toggle('a',t==='l');if(t==='l'){rL();fetchHist();}}
-function setSh(id,v){const h=$(id);if(!h||h.value===v)return;h.value=v;$(id+'_40').classList.toggle('a',v==='40');$(id+'_20').classList.toggle('a',v==='20');inpSaveAll();if(id==='psh')pB();else if(id==='gsh')gB();else if(id==='msh')mB();}
+function setSh(id,v){const h=$(id);if(!h||h.value===v)return;h.value=v;['40','20','air'].forEach(k=>{const b=$(id+'_'+k);if(b)b.classList.toggle('a',v===k);});
+  // 포도 운송 모드 전환 시 실출고 초기화 (40ft~5120 / 20ft~2304 / 항공~256 등 모드별 용량이 달라 값이 새면 안 됨)
+  if(id==='gsh'){try{const st=JSON.parse(localStorage.getItem(INP_KEY)||'{}');Object.keys(st).forEach(k=>{if(k.slice(0,2)==='gq')delete st[k];});localStorage.setItem(INP_KEY,JSON.stringify(st));}catch(e){}document.querySelectorAll('input[id^="gq"]').forEach(el=>el.value='');}
+  inpSaveAll();if(id==='psh')pB();else if(id==='gsh')gB();else if(id==='msh')mB();}
 
 // ═══ STRAWBERRY BUILD ═══
 function bS(){
@@ -764,17 +795,37 @@ function pL(cn,sid){const r=pCalc(cn,sid);if(!r)return;const co=PC.find(c=>c.n==
     `${co?.f} ${cn} · ${r.sp} · ${pSj}`,`오퍼: <span>$${r.of}</span> | CIF: <span>₩${fN(Math.round(r.cif))}</span> (작업비 ₩${fN(r.wk)}) | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);}
 
 // ═══ GRAPE BUILD ═══
+// ── 포도 스펙별 비용 (원물/작업비/부자재/박스/CTNS·P/파레트) — 시트처럼 스펙마다 따로 입력 ──
+let gCost={};
+const GCOST_KEY='hn_gcost_v1';
+function loadGCost(){try{gCost=JSON.parse(localStorage.getItem(GCOST_KEY)||'{}');}catch(e){gCost={};}}
+function gcDef(si){const s=GS[si];return{ctp:s.ct,raw:0,wk:0,bj:s.bj,bx:s.bx,pal:0};}      // 기본값 (시트/하드코딩)
+function gcVal(si,f){const c=gCost[si]||{};const d=gcDef(si);return (c[f]!=null&&c[f]!=='')?+c[f]:d[f];} // 계산용 유효값
+function gcRaw(si,f){const c=gCost[si]||{};return (c[f]!=null&&c[f]!=='')?c[f]:'';}            // 입력칸 표시값(미입력=빈칸)
+function gcSet(si,f,val){
+  if(!gCost[si])gCost[si]={};
+  if(val===''||val==null)delete gCost[si][f]; else gCost[si][f]=+val;
+  if(!Object.keys(gCost[si]).length)delete gCost[si];
+  try{localStorage.setItem(GCOST_KEY,JSON.stringify(gCost));}catch(e){}
+  updGPal();gA();
+}
+function updGPal(){
+  const el=$('gPalTot');if(!el)return;
+  const shv=$('gsh')?$('gsh').value:'40';
+  if(shv==='air'){el.textContent='박스 단위';return;}
+  const cap=shv==='40'?20:9;
+  const fGS=GS.map((s,i)=>({s,i})).filter(o=>gSpc==='all'||o.s.cat===gSpc);
+  let sum=0;fGS.forEach(o=>{sum+=gcVal(o.i,'pal');});
+  const col=sum>cap?'#dc2626':(sum===cap?'#16a368':'#7b2d8e');
+  el.innerHTML=`파레트 <b style="color:${col}">${sum}</b>/${cap}`+(sum>cap?' ⚠초과':'');
+}
 function bG(){
+  loadGCost();
   $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="gfx" value="1410" oninput="gA()"></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="gsp" value="0" oninput="gA()"></div>
-    <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="gsh_40" onclick="setSh('gsh','40')">40ft</button><button type="button" class="sho" id="gsh_20" onclick="setSh('gsh','20')">20ft</button></div><input type="hidden" id="gsh" value="40"></div>`;
-  $('ex').innerHTML=`<div class="sl">산지</div>
-    <div class="sjb" id="gsb">${GSANJI.map(s=>`<button class="sj" onclick="gSl('${s}')">${s}</button>`).join('')}</div>
-    <div class="sl" style="padding-top:4px">포도 단가</div>
-    <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
-      <div class="ig"><label>기본단가 <em>₩/kg</em></label><input type="number" id="gp1" value="0" oninput="gA()" placeholder="₩/kg"></div>
-      <div class="ig"><label>작업비 <em>₩/박스</em></label><input type="number" id="gwk" value="0" oninput="gA()" placeholder="₩"></div>
-    </div>`;
+    <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="gsh_40" onclick="setSh('gsh','40')">40ft</button><button type="button" class="sho" id="gsh_20" onclick="setSh('gsh','20')">20ft</button><button type="button" class="sho" id="gsh_air" onclick="setSh('gsh','air')">항공</button></div><input type="hidden" id="gsh" value="40"></div>`;
+  $('ex').innerHTML=`<div class="sl">산지 <span id="gsjMode" style="font-size:9px;color:var(--t3);font-weight:600;margin-left:4px"></span></div>
+    <div class="sjb" id="gsb"></div>`;
   gB();
 }
 function gSl(s){gSj=gSj===s?null:s;document.querySelectorAll('#gsb .sj').forEach(b=>{const a=b.textContent===gSj;b.classList.toggle('a',a);b.style.background=a?'linear-gradient(135deg,#9b59b6,#7b2d8e)':'';b.style.color=a?'#fff':'';b.style.borderColor=a?'#7b2d8e':'';});gB();}
@@ -783,57 +834,104 @@ function gSetRgn(k){gRgn=k;gB();gA();}
 function gSetSpc(k){gSpc=k;gB();gA();}
 function gB(){
   inpSaveAll();
-  const o=$('to');
-  if(!gSj){o.innerHTML='<div class="le"><span style="font-size:36px;display:block;margin-bottom:6px">🍇</span>산지를 선택하세요</div>';return;}
-  let h='';
-  const kg=gv('gp1');
-  if(kg){
-    const showSpecs=GS.filter(s=>gSpc==='all'||s.cat===gSpc).slice(0,12);
-    h+=`<div class="pp" style="border-color:#d8b3e8;background:linear-gradient(135deg,#faf0ff,#f3e0ff)"><h3 style="color:#7b2d8e">🍇 ${gSj} ₩${fN(kg)}/kg → 박스단가</h3><div class="cv" style="border-color:#d8b3e8"><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:2px">${showSpecs.map(s=>`<div class="cr" style="border-color:#f0e0f8"><span style="font-size:9px">${s.l}</span><span class="cvl" style="color:#7b2d8e">₩${fN(Math.round(kg*s.nw))}</span></div>`).join('')}</div></div></div>`;
+  const shv=$('gsh')?$('gsh').value:'40';
+  const isAir=shv==='air';
+  const sjList=isAir?GAIR_SJ:GSANJI;
+  if(gSj&&!sjList.includes(gSj))gSj=null;
+  const sb=$('gsb');
+  if(sb){
+    sb.innerHTML=sjList.map(s=>{
+      const a=gSj===s?' a':'';
+      const st=gSj===s?' style="background:linear-gradient(135deg,#9b59b6,#7b2d8e);color:#fff;border-color:#7b2d8e"':'';
+      return `<button class="sj${a}" onclick="gSl('${s}')"${st}>${s}</button>`;
+    }).join('');
   }
-  const gsh=gv('gsh')==40?'f':'t';
-  if(gsh==='t'&&gRgn==='ame')gRgn='all';
-  const availGRG=gsh==='t'?GRG.filter(r=>r.k!=='ame'):GRG;
-  h+=`<div class="rgnb">${availGRG.map(r=>`<button class="rgn${gRgn===r.k?' a':''}" style="${gRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="gSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
+  const md=$('gsjMode');if(md)md.textContent=isAir?'✈️ 항공 산지 ('+sjList.length+')':'🚢 해운 산지 ('+sjList.length+')';
+  const o=$('to');
+  if(!gSj){o.innerHTML=`<div class="le"><span style="font-size:36px;display:block;margin-bottom:6px">🍇</span>${isAir?'AIR ':''}산지를 선택하세요</div>`;return;}
+  let h='';
+  const rgList=isAir?GAIR_RG:GRG;
+  const sh=isAir?'air':(shv==='40'?'f':'t');
+  if(sh==='t'&&gRgn==='ame')gRgn='all';
+  let availRG=sh==='t'?rgList.filter(r=>r.k!=='ame'):rgList;
+  if(!availRG.find(r=>r.k===gRgn))gRgn='all';
+  h+=`<div class="rgnb">${availRG.map(r=>`<button class="rgn${gRgn===r.k?' a':''}" style="${gRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="gSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
   h+=`<div class="rgnb">${GSC.map(r=>`<button class="rgn${gSpc===r.k?' a':''}" style="${gSpc===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="gSetSpc('${r.k}')">${r.l}</button>`).join('')}</div>`;
-  const rgn=GRG.find(r=>r.k===gRgn);
-  let fGC=gRgn==='all'?GC:GC.filter(c=>rgn.ns.indexOf(c.n)>=0);
-  if(gsh==='t')fGC=fGC.filter(c=>!c.us);
+  const cList=isAir?GAIR_C:GC;
+  const rgn=rgList.find(r=>r.k===gRgn);
+  let fGC=gRgn==='all'?cList:cList.filter(c=>rgn&&rgn.ns.indexOf(c.n)>=0);
+  if(sh==='t')fGC=fGC.filter(c=>!c.us);
   const fGS=GS.map((s,i)=>({s,i})).filter(o=>gSpc==='all'||o.s.cat===gSpc);
   if(!fGC.length||!fGS.length){o.innerHTML=h+'<div class="le">조건에 맞는 항목 없음</div>';return;}
-  h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th>원물₩</th><th>$</th><th>마진</th><th>총마진</th><th></th></tr></thead><tbody>`;
+  // ── 스펙별 비용 카드 (원물/작업비/부자재/박스/CTNS·P/파레트) ──
+  h+=`<div class="gcost"><div class="gcost-h">📦 스펙별 비용 <span style="font-weight:600;color:var(--t3);font-size:9px">${gSj}</span><span id="gPalTot" class="gpal"></span></div>`;
+  fGS.forEach(o=>{const s=o.s,si=o.i;
+    h+=`<div class="gcost-r"><div class="gcost-l">${s.l}</div><div class="gcost-f">`+
+      `<label>CTN/P<input type="number" inputmode="numeric" placeholder="${s.ct}" value="${gcRaw(si,'ctp')}" oninput="gcSet(${si},'ctp',this.value)"></label>`+
+      `<label>원물<input type="number" inputmode="numeric" placeholder="0" value="${gcRaw(si,'raw')}" oninput="gcSet(${si},'raw',this.value)"></label>`+
+      `<label>작업비<input type="number" inputmode="numeric" placeholder="0" value="${gcRaw(si,'wk')}" oninput="gcSet(${si},'wk',this.value)"></label>`+
+      `<label>부자재<input type="number" inputmode="numeric" placeholder="${s.bj}" value="${gcRaw(si,'bj')}" oninput="gcSet(${si},'bj',this.value)"></label>`+
+      `<label>박스<input type="number" inputmode="numeric" placeholder="${s.bx}" value="${gcRaw(si,'bx')}" oninput="gcSet(${si},'bx',this.value)"></label>`+
+      (isAir?'':`<label class="pal">파레트<input type="number" inputmode="numeric" placeholder="0" value="${gcRaw(si,'pal')}" oninput="gcSet(${si},'pal',this.value)"></label>`)+
+      `</div></div>`;
+  });
+  h+=`</div>`;
+  // ── 국가×스펙 마진 그리드 ──
+  h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th style="font-size:8px">CIF₩</th><th>$</th><th>마진</th><th style="font-size:8px">실출고</th><th>총마진</th><th></th></tr></thead><tbody>`;
   fGC.forEach(c=>{fGS.forEach((o,idx)=>{const s=o.s,si=o.i;
     h+=`<tr${idx===fGS.length-1?' class="cs"':''}>`+(idx===0?`<td class="ctd" rowspan="${fGS.length}">${c.f}<br><span style="font-size:9px">${c.n}</span></td>`:'')+
       `<td style="font-size:11px;color:#1a1a2e;font-weight:600">${s.l}</td>
-      <td class="ptd"><input type="number" id="gr${c.n}${si}" oninput="gR('${c.n}',${si})" style="width:48px;font-size:9px" placeholder="원물"></td>
+      <td class="mc" id="gc${c.n}${si}" style="font-size:9px;color:var(--t2)">-</td>
       <td class="ptd"><input type="number" step="0.1" id="go${c.n}${si}" oninput="gR('${c.n}',${si})"></td>
-      <td class="mc" id="gm${c.n}${si}">-</td><td class="tc" id="gt${c.n}${si}">-</td>
+      <td class="mc" id="gm${c.n}${si}">-</td>
+      <td class="ptd"><input type="number" id="gq${c.n}${si}" oninput="gR('${c.n}',${si})" style="width:50px;font-size:10px"></td>
+      <td class="tc" id="gt${c.n}${si}">-</td>
       <td><button class="lb" id="gb${c.n}${si}" onclick="gL('${c.n}',${si})">📝</button></td></tr>`;
   });});
-  h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();gA();
+  h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();updGPal();gA();
 }
 function gCalc(cn,si){
   if(!gSj)return null;
   const sp=GS[si];if(!sp)return null;
-  const fx=gv('gfx'),sup=gv('gsp'),sh=gv('gsh')==40?'f':'t';
-  let raw=gv('gr'+cn+si),usedDef=false;if(!raw){const kg=gv('gp1');if(kg){raw=Math.round(kg*sp.nw);usedDef=true;}}
-  const wk=gv('gwk');
-  const sea=GSEA[cn],il=GIL[gSj];if(!sea||!il)return null;
-  const seaV=sea[sh],inlV=il[sh];if(!seaV)return null;
-  const ct=sp.ct,tp=sh==='f'?20:9,tb=ct*tp;
-  const pbf=(inlV+seaV)/tp/ct,cif=raw+wk+sp.bj+sp.bx+pbf;
+  const fx=gv('gfx'),sup=gv('gsp');
+  const shv=$('gsh')?$('gsh').value:'40';
+  const isAir=shv==='air';
+  const sh=isAir?'air':(shv==='40'?'f':'t');
+  // 스펙별 비용 (카드에서 입력, 미입력 시 기본값)
+  const ctp=gcVal(si,'ctp')||sp.ct||1;
+  const raw=gcVal(si,'raw'),wk=gcVal(si,'wk'),buja=gcVal(si,'bj'),box=gcVal(si,'bx'),pal=gcVal(si,'pal');
+  let pbf,defTb,palBoxes=0;
+  if(isAir){
+    const airKg=GAIR_KG[cn]||0;
+    if(!airKg)return null;
+    defTb=ctp;
+    pbf=airKg*sp.gw + GAIR_DOM/Math.max(ctp,1);
+  } else {
+    const sea=GSEA[cn],il=GIL[gSj];
+    if(!sea||!il)return null;
+    const seaV=sea[sh],inlV=il[sh];
+    if(!seaV)return null;
+    const tp=sh==='f'?20:9;
+    defTb=ctp*tp;
+    palBoxes=pal>0?pal*ctp:0;        // 파레트 입력 시 박스수 = 파레트×CTNS/P
+    pbf=(inlV+seaV)/tp/ctp;
+  }
+  const qIn=gv('gq'+cn+si);
+  const tb=qIn>0?qIn:(palBoxes>0?palBoxes:defTb);   // 우선순위: 실출고 > 파레트환산 > 기본(만적)
+  const cif=raw+wk+buja+box+pbf;
   const be=fx?cif/fx:0;
   const of=gv('go'+cn+si);
-  if(!of)return{empty:true,be,cif,tb,raw,usedDef};
+  if(!of)return{empty:true,be,cif,tb,defTb,raw,ctp,pal};
   const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;
-  return{of,raw,mb,tk,cif,tb,be,usedDef};
+  return{of,raw,mb,tk,cif,tb,defTb,be,ctp,pal};
 }
 function gR(cn,si){
   const r=gCalc(cn,si);
-  const e1=$('gm'+cn+si),e2=$('gt'+cn+si),ei=$('go'+cn+si);
-  if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
+  const ec=$('gc'+cn+si),e1=$('gm'+cn+si),e2=$('gt'+cn+si),ei=$('go'+cn+si),qi=$('gq'+cn+si);
+  if(!r){if(ec)ec.textContent='-';if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
+  if(ec)ec.textContent=r.cif?'₩'+fN(Math.round(r.cif)):'-';
   if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
-  const ri=$('gr'+cn+si);if(ri){ri.style.borderColor=r.usedDef&&gv('gp1')?'#c9a0dc':'';}
+  if(qi)qi.placeholder=r.tb||r.defTb||'';     // 실출고 placeholder = 현재 적용 박스수(파레트환산/만적)
   if(r.empty){
     if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">0.00</span>`;
     if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
@@ -843,13 +941,32 @@ function gR(cn,si){
   if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;
   if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
 }
-function gA(){GC.forEach(c=>GS.forEach((_,i)=>{if($('go'+c.n+i))gR(c.n,i);}));const pairs=[];GC.forEach(c=>GS.forEach((_,i)=>pairs.push([c.n,i])));markBest('gb',gCalc,pairs);}
-function gL(cn,si){const r=gCalc(cn,si);if(!r||!r.of)return;const co=GC.find(c=>c.n===cn);
-  const sp=GS[si],tp=gv('gsh')==40?20:9;
-  const qty=`${sp.l} ${sp.ct}ctn × ${tp}p (${r.tb}ctn)`;
+function gA(){
+  const shv=$('gsh')?$('gsh').value:'40';
+  const isAir=shv==='air';
+  const cList=isAir?GAIR_C:GC;
+  cList.forEach(c=>GS.forEach((_,i)=>{if($('go'+c.n+i))gR(c.n,i);}));
+  const pairs=[];
+  cList.forEach(c=>GS.forEach((_,i)=>pairs.push([c.n,i])));
+  markBest('gb',gCalc,pairs);
+}
+function gL(cn,si){
+  const r=gCalc(cn,si);if(!r||!r.of)return;
+  const shv=$('gsh')?$('gsh').value:'40';
+  const isAir=shv==='air';
+  const cList=isAir?GAIR_C:GC;
+  const co=cList.find(c=>c.n===cn);
+  const sp=GS[si];
+  const tp=isAir?1:(shv==='40'?20:9);
+  const shLbl=isAir?'AIR':shv+'ft';
+  const ctp=r.ctp||sp.ct;
+  const palTxt=(!isAir&&r.pal>0)?` ${r.pal}pal`:'';
+  const qty=isAir?`${sp.l} 항공 (${r.tb}ctn)`:`${sp.l} ${ctp}ctn/p${palTxt} (${r.tb}ctn)`;
   const raw=fN(Math.round(r.raw))+'원/박스';
-  cmOpen({fr:'g',co:cn,fl:co?.f||'',sp:sp.l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('gfx'),sj:gSj,sh:gv('gsh')+'ft',btn:'gb'+cn+si,qty,raw,maker:gSj},
-    `${co?.f} ${cn} · ${sp.l} · ${gSj}`,`오퍼: <span>$${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);}
+  cmOpen({fr:'g',co:cn,fl:co?.f||'',sp:sp.l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('gfx'),sj:gSj,sh:shLbl,btn:'gb'+cn+si,qty,raw,maker:gSj},
+    `${co?.f} ${cn} · ${sp.l} · ${gSj}`,
+    `오퍼: <span>$${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);
+}
 
 // ═══ 일반 과수 (귤·키위·감) ═══
 const MFN={o:'귤',k:'키위',h:'감'};
@@ -980,7 +1097,7 @@ function inpRestore(){
   document.querySelectorAll('input[id],select[id]').forEach(el=>{
     if(s[el.id]!=null&&s[el.id]!=='')el.value=s[el.id];
   });
-  ['psh','gsh','msh'].forEach(id=>{const h=$(id);if(!h)return;const v=h.value;const b40=$(id+'_40'),b20=$(id+'_20');if(b40)b40.classList.toggle('a',v==='40');if(b20)b20.classList.toggle('a',v==='20');});
+  ['psh','gsh','msh'].forEach(id=>{const h=$(id);if(!h)return;const v=h.value;['40','20','air'].forEach(k=>{const b=$(id+'_'+k);if(b)b.classList.toggle('a',v===k);});});
 }
 function inpSaveAll(){
   const s={};
@@ -1185,19 +1302,17 @@ function doSy(){
     // 미국 작업비
     const puw=pk(d,'pearUWk','pUWk','usWk');
     if(puw)Object.keys(puw).forEach(k=>{if(PUWK[k]!=null){PUWK[k]=puw[k];const e=$('puwk_'+k);if(e)e.value=puw[k];cnt++;}});
-    // 포도 기본단가 ₩/kg
-    const gpr=pk(d,'grapePrice','gPrice','grapeKg');
-    if(gpr!=null&&$('gp1')){$('gp1').value=gpr;flI('gp1');cnt++;}
-    // 포도 작업비
-    const gw=pk(d,'grapeWk','gWk');
-    if(gw!=null&&$('gwk')){$('gwk').value=gw;flI('gwk');cnt++;}
+    // 포도 기본단가/작업비는 sync 안 함 — GAS가 0을 보내 사용자 입력을 덮어쓰기 때문 (수동 입력 유지)
     const fr=pk(d,'freight','strawFreight','airFreight');
     if(fr)Object.keys(fr).forEach(k=>{if(!SF[k])return;const v=fr[k];const a=pk(v,'airKg','air','a','kg');if(a!=null){SF[k].a=a;cnt++;}const fc=pk(v,'fsc','fc','fuel');if(fc!=null)SF[k].fc=fc;const dom=pk(v,'domFreight','dom','d','domestic');if(dom!=null)SF[k].d=dom;});
     const ps=pk(d,'pearSea','pSea');if(ps)Object.keys(ps).forEach(k=>{if(!PSEA[k])return;const r=parseFT(ps[k]);if(r){Object.assign(PSEA[k],r);cnt++;}});
     const pi=pk(d,'pearInland','pInland');if(pi)Object.keys(pi).forEach(k=>{if(!PIL[k])return;const r=parseFT(pi[k]);if(r){Object.assign(PIL[k],r);cnt++;}});
     const pw=pk(d,'pearWk','pWk');if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){PWK[k]=pw[k];const e=$('pwk_'+k);if(e)e.value=pw[k];cnt++;}});
+    // 포도 운임 sync — GAS가 포도/포도Air 탭을 직접 읽도록 갱신됨 (신규 산지/국가/항공운임 반영)
     const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){Object.assign(GSEA[k],r);cnt++;}});
     const gi=pk(d,'grapeInland','gInland');if(gi)Object.keys(gi).forEach(k=>{if(!GIL[k])return;const r=parseFT(gi[k]);if(r){Object.assign(GIL[k],r);cnt++;}});
+    const gak=pk(d,'grapeAirKg','gAirKg');if(gak)Object.keys(gak).forEach(k=>{if(GAIR_KG[k]!=null){const vv=+gak[k];if(vv>0){GAIR_KG[k]=vv;cnt++;}}});
+    const gad=pk(d,'grapeAirDom','gAirDom');if(gad!=null){const dv=+gad;if(dv>0)GAIR_DOM=dv;}
     if(F==='s')sA();else if(F==='p'){pB();pA();}else if(F==='g')gA();else mA();
     sBdg('ok','✅ 시트 연동 중');
     const now=new Date();const ts=now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
@@ -1233,7 +1348,7 @@ function testSync(){
 const EX_SSID='1C8mrFNjQAhjOnB1X0iNWh-FoRPpTLQ6yOw95i_0iDDs';
 const EX_GID='2075137716';
 const EX_URL='https://docs.google.com/spreadsheets/d/'+EX_SSID+'/edit?gid='+EX_GID+'#gid='+EX_GID;
-const EX_CFLG={'대만':'🇹🇼','베트남':'🇻🇳','홍콩':'🇭🇰','말레이시아':'🇲🇾','인도네시아':'🇮🇩','태국':'🇹🇭','호주':'🇦🇺','미국LA':'🇺🇸','미국NY':'🇺🇸','미국':'🇺🇸','캐나다':'🇨🇦','싱가포르':'🇸🇬','일본':'🇯🇵','중국':'🇨🇳','필리핀':'🇵🇭','몽골':'🇲🇳','브루나이':'🇧🇳'};
+const EX_CFLG={'대만':'🇹🇼','베트남':'🇻🇳','베트남호치민':'🇻🇳','베트남하이퐁':'🇻🇳','호치민':'🇻🇳','하노이':'🇻🇳','홍콩':'🇭🇰','말레이시아':'🇲🇾','말레이':'🇲🇾','인도네시아':'🇮🇩','인도네':'🇮🇩','태국':'🇹🇭','호주':'🇦🇺','뉴질랜드':'🇳🇿','미국LA':'🇺🇸','미국NY':'🇺🇸','미국':'🇺🇸','캐나다':'🇨🇦','싱가포르':'🇸🇬','싱가폴':'🇸🇬','일본':'🇯🇵','중국':'🇨🇳','필리핀':'🇵🇭','몽골':'🇲🇳','브루나이':'🇧🇳','두바이':'🇦🇪','코타':'🇲🇾'};
 const EX_FE={'딸기':'🍓','배':'🍐','포도':'🍇','귤':'🍊','키위':'🥝','감':'🟠','복숭아':'🍑','토마토':'🍅','사과':'🍎','참외':'🍈','수박':'🍉','바나나':'🍌','멜론':'🍈'};
 let exData=[],exFlt={ctry:'all',fr:'all',q:''};
 function openExL(){$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('elv').style.display='flex';if(!exData.length)fetchExL();else renderExL();}

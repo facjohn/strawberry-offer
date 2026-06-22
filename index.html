@@ -159,6 +159,7 @@ tbody tr:hover td{background:#fafbfd}
 @keyframes blk{0%,100%{opacity:1}50%{opacity:.5}}
 .lst{font-size:9px;color:var(--t3);font-family:'JetBrains Mono',monospace;text-align:right;margin-top:3px;letter-spacing:.02em}
 .sgd-hint{font-size:9px;color:#c47d00;margin-top:4px;display:flex;align-items:center;gap:5px;font-weight:600}
+.fxhint{font-size:9px;color:var(--t3);margin-top:3px;font-family:'JetBrains Mono',monospace;letter-spacing:.02em;min-height:11px}
 .dot-sgd{width:6px;height:6px;border-radius:50%;background:#c47d00;animation:pls 2s infinite;flex-shrink:0;box-shadow:0 0 0 2px rgba(196,125,0,.2)}
 @keyframes pls{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
 
@@ -321,22 +322,23 @@ tbody tr:hover td{background:#fafbfd}
   .elvBar,.elvSt,.elvHd{padding-left:max(20px,calc(50% - 370px));padding-right:max(20px,calc(50% - 370px))}
   .elvCd{padding:14px 16px}
 }
-/* === 포도 스펙별 비용 카드 === */
-.gcost{background:var(--sf);border:1px solid var(--bd);border-radius:11px;margin-bottom:8px;overflow:hidden;box-shadow:var(--sh)}
-.gcost-h{padding:8px 11px;font-size:11px;font-weight:800;background:linear-gradient(180deg,#faf0ff,#f6f0fa);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:8px;color:#7b2d8e}
-.gpal{margin-left:auto;font-size:10px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--t2)}
-.gpal b{font-size:12px}
-.gcost-r{padding:7px 11px;border-bottom:1px solid #f1f3f8}
-.gcost-r:last-child{border-bottom:none}
-.gcost-l{font-size:11px;font-weight:700;color:#1a1a2e;margin-bottom:5px;letter-spacing:-.01em}
-.gcost-f{display:flex;flex-wrap:wrap;gap:6px}
-.gcost-f label{display:flex;flex-direction:column;font-size:8px;color:var(--t3);font-weight:800;gap:2px;text-transform:uppercase;letter-spacing:.02em}
-.gcost-f input{width:62px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:5px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;text-align:center;outline:none;transition:border-color .15s,background .15s}
-.gcost-f input:hover{border-color:var(--bd2)}
-.gcost-f input:focus{border-color:var(--ac);background:#fff;box-shadow:0 0 0 2px rgba(123,45,142,.12)}
-.gcost-f input::placeholder{color:#b5b9c8;font-weight:500;opacity:.8}
-.gcost-f label.pal input{border-color:#d8b3e8;background:#faf5ff}
-@media (hover:none) and (pointer:coarse){.gcost-f input{width:64px;padding:7px 5px;font-size:12px}}
+/* === 포도 인라인 마진표 === */
+.gsp{font-size:11px;font-weight:700;color:#3a1a4e;text-align:left;background:linear-gradient(180deg,#faf0ff,#f6f0fa)!important;border-right:1px solid #e2cdec;vertical-align:middle;letter-spacing:-.01em;padding-left:8px!important;min-width:92px;white-space:normal;line-height:1.25}
+.gcell{vertical-align:middle;background:#fcf9ff;border-right:1px solid #f1e7f7;text-align:center}
+.gci{width:58px;background:#fff;border:1px solid #d9c2e6;color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:4px;border-radius:5px;outline:none;text-align:center;transition:all .15s}
+.gci:hover{border-color:#c39bd8}
+.gci:focus{border-color:#7b2d8e;background:#fff;box-shadow:0 0 0 2px rgba(123,45,142,.14)}
+.gci::placeholder{color:#bca6cb;font-weight:500;opacity:.75}
+.gci.dim{color:#8a6f99;font-weight:600}
+.gbj-btn{background:#faf0ff;border:1px solid #d9c2e6;color:#7b2d8e;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:6px 8px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:all .15s}
+.gbj-btn:hover{background:#f3e3fb;border-color:#c39bd8}
+.gbj-btn:active{transform:scale(.96)}
+.gbm-grid{display:flex;flex-direction:column;gap:10px;margin:8px 0 14px}
+.gbm-grid label{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;color:var(--tx)}
+.gbm-grid label em{font-style:normal;color:#7b2d8e;font-weight:700;font-size:9px;margin-right:auto;opacity:.8}
+.gbm-grid input{width:120px;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;padding:9px;border-radius:8px;outline:none;text-align:right}
+.gbm-grid input:focus{border-color:#7b2d8e;background:#fff;box-shadow:0 0 0 3px rgba(123,45,142,.12)}
+@media (hover:none) and (pointer:coarse){.gci{width:62px;padding:6px 5px;font-size:12px}}
 </style>
 </head>
 <body>
@@ -418,6 +420,16 @@ tbody tr:hover td{background:#fafbfd}
 </div>
 </div></div>
 
+<div class="mo h" id="gbm"><div class="ml" style="max-width:300px"><h3>📦 부자재 · 작업비 · 박스</h3>
+<div class="msb" id="gbmSub"></div>
+<div class="gbm-grid">
+<label>작업비 <em>₩/박스</em><input id="gbmWk" type="number" inputmode="numeric" placeholder="0" oninput="gBjInput('wk',this.value)"></label>
+<label>부자재 <em>₩/박스</em><input id="gbmBj" type="number" inputmode="numeric" placeholder="0" oninput="gBjInput('bj',this.value)"></label>
+<label>박스 <em>₩/박스</em><input id="gbmBx" type="number" inputmode="numeric" placeholder="0" oninput="gBjInput('bx',this.value)"></label>
+</div>
+<div class="mbs"><button class="mb k" onclick="gBjClose()">완료</button></div>
+</div></div>
+
 <script>
 let F,logs=[],pnd,pSj,gSj;
 const $=id=>document.getElementById(id),gv=id=>{const e=$(id);return e?(+e.value||0):0};
@@ -425,6 +437,9 @@ const fN=n=>n!=null&&!isNaN(n)?Math.round(n).toLocaleString('ko-KR'):'-';
 const fD=(n,d=2)=>n!=null&&!isNaN(n)?(n>=0?'+':'')+n.toFixed(d):'-';
 const fK=n=>{const a=Math.abs(Math.round(n));return(n>=0?'+':'-')+'₩'+a.toLocaleString()};
 const mC=m=>m>=1.5?'mpos':m>=0?'mmid':'mneg';
+// 마진 계산 환율 = 사용자가 '입력한 환율'(sfx/pfx/gfx). 오늘 실시간 환율은 참고용으로만 표시(입력칸 덮어쓰지 않음).
+let TODAY_FX=0;
+function setFxHint(){const t=TODAY_FX?('💱 오늘 ₩'+fN(TODAY_FX)+' (참고)'):'';['sfxToday','pfxToday','gfxToday'].forEach(id=>{const e=$(id);if(e)e.textContent=t;});}
 
 // ═══ STRAWBERRY ═══
 const SF={
@@ -567,9 +582,10 @@ const GSC=[
 ];
 // 항공 (포도Air 시트 기반)
 const GAIR_C=[{n:'대만',f:'🇹🇼'},{n:'호치민',f:'🇻🇳'},{n:'하노이',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이',f:'🇲🇾'},{n:'인도네',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'싱가폴',f:'🇸🇬'},{n:'브루나이',f:'🇧🇳'},{n:'두바이',f:'🇦🇪'},{n:'코타',f:'🇲🇾'},{n:'호주',f:'🇦🇺'},{n:'뉴질랜드',f:'🇳🇿'},{n:'미국LA',f:'🇺🇸'},{n:'캐나다',f:'🇨🇦'}];
-const GAIR_KG={대만:5160,홍콩:3260,태국:3010,싱가폴:4060,말레이:4460,호치민:4260,하노이:3860,인도네:6260,호주:5870,두바이:6140,캐나다:7400,브루나이:10380,코타:10180,뉴질랜드:0,미국LA:0};
+// 항공운임 ₩/kg — '포도Air' 국가별 항공요율표 기준 (2026시즌). ✓=시트 8행 산술검증 / ⚠=마스터운임표 추정(사용자 확인要)
+const GAIR_KG={대만:3370/*⚠*/,홍콩:1020,태국:1300,싱가폴:1900/*⚠*/,말레이:2650,호치민:2350,하노이:2070,인도네:3780,호주:5870/*⚠구값*/,두바이:6140/*⚠구값*/,캐나다:7400/*⚠구값*/,브루나이:7680,코타:10180/*⚠구값*/,뉴질랜드:0,미국LA:0};
 const GAIR_SJ=['천안','초록','상주','김천'];
-let GAIR_DOM=350000; // 항공편 1편당 산지→공항 도내운송 (총액, 박스수로 분배) — 시트 sync로 갱신됨
+let GAIR_DOM=160000; // 도내운송(산지→공항) 총액, 실출고로 분배 — '포도Air' 시트 기준 160,000 (8행 검증)
 const GAIR_RG=[
 {k:'all',l:'전체',c:'#7b2d8e'},
 {k:'sea',l:'동남아',c:'#16a368',ns:['호치민','하노이','말레이','인도네','태국','싱가폴','브루나이','코타']},
@@ -595,6 +611,7 @@ function build(){
   if(F==='s')bS();else if(F==='p')bP();else if(F==='g')bG();else bM();
   inpRestore();
   if(F==='s')sA();else if(F==='p')pA();else if(F==='g')gA();else mA();
+  setFxHint();
   uLC();
 }
 function sw(t,b){document.querySelectorAll('.tb').forEach(x=>x.classList.remove('a'));b.classList.add('a');$('to').classList.toggle('a',t==='o');$('tl').classList.toggle('a',t==='l');if(t==='l'){rL();fetchHist();}}
@@ -607,7 +624,7 @@ function setSh(id,v){const h=$(id);if(!h||h.value===v)return;h.value=v;['40','20
 function bS(){
   $('bs').innerHTML=`<div class="ig"><label><em>250g</em></label><input type="number" id="sp0" value="8000" oninput="sA()"></div>
     <div class="ig"><label><em>500/330</em></label><input type="number" id="sp1" value="11500" oninput="sA()"></div>
-    <div class="ig"><label>환율₩/$</label><input type="number" id="sfx" value="1410" oninput="sA()"></div>
+    <div class="ig"><label>환율₩/$</label><input type="number" id="sfx" value="1410" oninput="sA()"><div class="fxhint" id="sfxToday"></div></div>
     <div class="ig"><label><span style="color:#c47d00">SGD</span>/₩ (브루나이)</label><input type="number" id="ssg" value="1137" oninput="sA()"><div class="sgd-hint"><span class="dot-sgd"></span>시트 자동 반영</div></div>`;
   $('ex').innerHTML='';
   const o=$('to');o.innerHTML='';
@@ -662,7 +679,7 @@ function sL(k,i){
 
 // ═══ PEAR BUILD ═══
 function bP(){
-  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="pfx" value="1400" oninput="pA()"></div>
+  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="pfx" value="1400" oninput="pA()"><div class="fxhint" id="pfxToday"></div></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="psp" value="0" oninput="pA()"></div>
     <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="psh_40" onclick="setSh('psh','40')">40ft</button><button type="button" class="sho" id="psh_20" onclick="setSh('psh','20')">20ft</button></div><input type="hidden" id="psh" value="40"></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
@@ -750,7 +767,7 @@ function pB(){
   const sh40=sh==='f'?'40':'20';
   filteredPC=filteredPC.filter(c=>(sjMap[c.n]||[]).indexOf(sh40)>=0);
 
-  h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th style="font-size:8px">작업비</th><th>$</th><th>마진</th><th style="font-size:8px">실출고</th><th>총마진</th><th></th></tr></thead><tbody>`;
+  h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th style="font-size:8px">작업비</th><th>$</th><th>마진</th><th style="font-size:8px">실출고</th><th>총마진($)</th><th></th></tr></thead><tbody>`;
   filteredPC.forEach(c=>{
     const cSpecs=specs.filter(s=>!(c.us&&s.noUS));
     cSpecs.forEach((s,si)=>{
@@ -795,7 +812,7 @@ function pCalc(cn,sid){
   const of=gv('po'+cn+sid);
   if(!of)return{empty:true,be,cif,tb,defTb,raw,wk,sp:sp.l};
   const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;
-  return{of,mb,tk,cif,tb,defTb,raw,wk,be,sp:sp.l};
+  return{of,mb,tk,tkUsd:fx?tk/fx:0,cif,tb,defTb,raw,wk,be,sp:sp.l};
 }
 function pR(cn,sid){
   const r=pCalc(cn,sid);
@@ -810,7 +827,7 @@ function pR(cn,sid){
   }
   const cl=mC(r.mb);
   if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;
-  if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
+  if(e2)e2.innerHTML=`<span class="${cl}" style="font-size:11px">${(r.tkUsd>=0?'+':'-')}$${fN(Math.abs(r.tkUsd))}</span><br><span class="${cl}" style="font-size:8px;opacity:.85">${fK(r.tk)}</span>`;
 }
 function markBest(prefix,calcFn,iterPairs){
   let best=null;
@@ -832,29 +849,42 @@ function pL(cn,sid){const r=pCalc(cn,sid);if(!r)return;const co=PC.find(c=>c.n==
 let gCost={};
 const GCOST_KEY='hn_gcost_v1';
 function loadGCost(){try{gCost=JSON.parse(localStorage.getItem(GCOST_KEY)||'{}');}catch(e){gCost={};}}
-function gcDef(si){const s=GS[si];return{ctp:s.ct,raw:0,wk:0,bj:s.bj,bx:s.bx,pal:0};}      // 기본값 (시트/하드코딩)
-function gcVal(si,f){const c=gCost[si]||{};const d=gcDef(si);return (c[f]!=null&&c[f]!=='')?+c[f]:d[f];} // 계산용 유효값
-function gcRaw(si,f){const c=gCost[si]||{};return (c[f]!=null&&c[f]!=='')?c[f]:'';}            // 입력칸 표시값(미입력=빈칸)
+function gcMode(){return ($('gsh')&&$('gsh').value==='air')?'a':'s';}                  // 운송 모드(항공/해운) — cnt/p 등 모드별 분리
+function gcK(si){return gcMode()+'|'+(gSj||'')+'|'+si;}                                // 비용 저장 키: 모드|산지|스펙 (국가 무관 → 산지+스펙 공유)
+function gcDef(si){const s=GS[si];return{ctp:s.ct,raw:0,wk:0,bj:s.bj,bx:s.bx};}        // 기본값 (시트/하드코딩)
+function gcVal(si,f){const nk=gCost[gcK(si)]||{},ok=gCost[si]||{},d=gcDef(si);          // 계산용 유효값: 신키 > 구키(마이그레이션) > 기본
+  if(nk[f]!=null&&nk[f]!=='')return +nk[f];
+  if(ok[f]!=null&&ok[f]!=='')return +ok[f];
+  return d[f];}
+function gcRaw(si,f){const nk=gCost[gcK(si)]||{},ok=gCost[si]||{};                      // 입력칸 표시값(미입력=빈칸 → 옅은 placeholder)
+  if(nk[f]!=null&&nk[f]!=='')return nk[f];
+  if(ok[f]!=null&&ok[f]!=='')return ok[f];
+  return '';}
 function gcSet(si,f,val){
-  if(!gCost[si])gCost[si]={};
-  if(val===''||val==null)delete gCost[si][f]; else gCost[si][f]=+val;
-  if(!Object.keys(gCost[si]).length)delete gCost[si];
+  const k=gcK(si);
+  if(!gCost[k])gCost[k]={};
+  if(val===''||val==null)delete gCost[k][f]; else gCost[k][f]=+val;
+  if(!Object.keys(gCost[k]).length)delete gCost[k];
   try{localStorage.setItem(GCOST_KEY,JSON.stringify(gCost));}catch(e){}
-  updGPal();gA();
+  gA();
 }
-function updGPal(){
-  const el=$('gPalTot');if(!el)return;
-  const shv=$('gsh')?$('gsh').value:'40';
-  if(shv==='air'){el.textContent='박스 단위';return;}
-  const cap=shv==='40'?20:9;
-  const fGS=GS.map((s,i)=>({s,i})).filter(o=>gSpc==='all'||o.s.cat===gSpc);
-  let sum=0;fGS.forEach(o=>{sum+=gcVal(o.i,'pal');});
-  const col=sum>cap?'#dc2626':(sum===cap?'#16a368':'#7b2d8e');
-  el.innerHTML=`파레트 <b style="color:${col}">${sum}</b>/${cap}`+(sum>cap?' ⚠초과':'');
-}
+// ── 부자재(작업비·부자재·박스) 모달 — 산지+스펙당 공유 ──
+let gBjSi=null;
+function gBjLabel(si){const wk=gcVal(si,'wk'),bj=gcVal(si,'bj'),bx=gcVal(si,'bx'),tot=wk+bj+bx;
+  const has=gcRaw(si,'wk')!==''||gcRaw(si,'bj')!==''||gcRaw(si,'bx')!=='';
+  return `📦 <span style="${has?'':'opacity:.45'}">₩${fN(tot)}</span>`;}
+function gBjBtnRefresh(si){const b=$('gbj'+si);if(b)b.innerHTML=gBjLabel(si);}
+function gBjOpen(si){gBjSi=si;const s=GS[si];
+  $('gbmSub').textContent=(gSj||'')+' · '+s.l;
+  $('gbmWk').value=gcRaw(si,'wk');$('gbmWk').placeholder='0';
+  $('gbmBj').value=gcRaw(si,'bj');$('gbmBj').placeholder=String(s.bj||0);
+  $('gbmBx').value=gcRaw(si,'bx');$('gbmBx').placeholder=String(s.bx||0);
+  $('gbm').classList.remove('h');}
+function gBjInput(f,val){if(gBjSi==null)return;gcSet(gBjSi,f,val);gBjBtnRefresh(gBjSi);}
+function gBjClose(){$('gbm').classList.add('h');gBjSi=null;}
 function bG(){
   loadGCost();
-  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="gfx" value="1410" oninput="gA()"></div>
+  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="gfx" value="1410" oninput="gA()"><div class="fxhint" id="gfxToday"></div></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="gsp" value="0" oninput="gA()"></div>
     <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="gsh_40" onclick="setSh('gsh','40')">40ft</button><button type="button" class="sho" id="gsh_20" onclick="setSh('gsh','20')">20ft</button><button type="button" class="sho" id="gsh_air" onclick="setSh('gsh','air')">항공</button></div><input type="hidden" id="gsh" value="40"></div>`;
   $('ex').innerHTML=`<div class="sl">산지 <span id="gsjMode" style="font-size:9px;color:var(--t3);font-weight:600;margin-left:4px"></span></div>
@@ -896,32 +926,28 @@ function gB(){
   if(sh==='t')fGC=fGC.filter(c=>!c.us);
   const fGS=GS.map((s,i)=>({s,i})).filter(o=>gSpc==='all'||o.s.cat===gSpc);
   if(!fGC.length||!fGS.length){o.innerHTML=h+'<div class="le">조건에 맞는 항목 없음</div>';return;}
-  // ── 스펙별 비용 카드 (원물/작업비/부자재/박스/CTNS·P/파레트) ──
-  h+=`<div class="gcost"><div class="gcost-h">📦 스펙별 비용 <span style="font-weight:600;color:var(--t3);font-size:9px">${gSj}</span><span id="gPalTot" class="gpal"></span></div>`;
+  // ── 스펙 단위로 묶고, 산지+스펙 비용(원물·cnt/p·부자재)은 인라인 1회 입력 / 국가별로 $·실출고·총마진 ──
+  h+=`<div style="overflow-x:auto"><table><thead><tr>`+
+     `<th>스펙</th><th style="font-size:9px">원물</th><th style="font-size:9px">cnt/p</th><th style="font-size:9px">부자재</th>`+
+     `<th>국가</th><th>$</th><th style="font-size:9px">실출고</th><th>총마진($)</th><th></th></tr></thead><tbody>`;
   fGS.forEach(o=>{const s=o.s,si=o.i;
-    h+=`<div class="gcost-r"><div class="gcost-l">${s.l}</div><div class="gcost-f">`+
-      `<label>CTN/P<input type="number" inputmode="numeric" placeholder="${s.ct}" value="${gcRaw(si,'ctp')}" oninput="gcSet(${si},'ctp',this.value)"></label>`+
-      `<label>원물<input type="number" inputmode="numeric" placeholder="0" value="${gcRaw(si,'raw')}" oninput="gcSet(${si},'raw',this.value)"></label>`+
-      `<label>작업비<input type="number" inputmode="numeric" placeholder="0" value="${gcRaw(si,'wk')}" oninput="gcSet(${si},'wk',this.value)"></label>`+
-      `<label>부자재<input type="number" inputmode="numeric" placeholder="${s.bj}" value="${gcRaw(si,'bj')}" oninput="gcSet(${si},'bj',this.value)"></label>`+
-      `<label>박스<input type="number" inputmode="numeric" placeholder="${s.bx}" value="${gcRaw(si,'bx')}" oninput="gcSet(${si},'bx',this.value)"></label>`+
-      (isAir?'':`<label class="pal">파레트<input type="number" inputmode="numeric" placeholder="0" value="${gcRaw(si,'pal')}" oninput="gcSet(${si},'pal',this.value)"></label>`)+
-      `</div></div>`;
+    fGC.forEach((c,ci)=>{
+      const lastC=ci===fGC.length-1;
+      h+=`<tr${lastC?' class="cs"':''}>`;
+      if(ci===0){
+        h+=`<td class="gsp" rowspan="${fGC.length}">${s.l}</td>`+
+           `<td class="gcell" rowspan="${fGC.length}"><input class="gci" type="number" inputmode="numeric" placeholder="0" value="${gcRaw(si,'raw')}" oninput="gcSet(${si},'raw',this.value)"></td>`+
+           `<td class="gcell" rowspan="${fGC.length}"><input class="gci dim" type="number" inputmode="numeric" placeholder="${s.ct}" value="${gcRaw(si,'ctp')}" oninput="gcSet(${si},'ctp',this.value)" style="width:50px"></td>`+
+           `<td class="gcell" rowspan="${fGC.length}"><button class="gbj-btn" id="gbj${si}" onclick="gBjOpen(${si})">${gBjLabel(si)}</button></td>`;
+      }
+      h+=`<td style="font-size:11px;color:#1a1a2e;font-weight:600">${c.f} ${c.n}</td>`+
+         `<td class="ptd"><input type="number" step="0.1" id="go${c.n}${si}" oninput="gR('${c.n}',${si})"></td>`+
+         `<td class="ptd"><input type="number" id="gq${c.n}${si}" oninput="gR('${c.n}',${si})" style="width:48px;font-size:10px"></td>`+
+         `<td class="tc" id="gt${c.n}${si}">-</td>`+
+         `<td><button class="lb" id="gb${c.n}${si}" onclick="gL('${c.n}',${si})">📝</button></td></tr>`;
+    });
   });
-  h+=`</div>`;
-  // ── 국가×스펙 마진 그리드 ──
-  h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th style="font-size:8px">CIF₩</th><th>$</th><th>마진</th><th style="font-size:8px">실출고</th><th>총마진</th><th></th></tr></thead><tbody>`;
-  fGC.forEach(c=>{fGS.forEach((o,idx)=>{const s=o.s,si=o.i;
-    h+=`<tr${idx===fGS.length-1?' class="cs"':''}>`+(idx===0?`<td class="ctd" rowspan="${fGS.length}">${c.f}<br><span style="font-size:9px">${c.n}</span></td>`:'')+
-      `<td style="font-size:11px;color:#1a1a2e;font-weight:600">${s.l}</td>
-      <td class="mc" id="gc${c.n}${si}" style="font-size:9px;color:var(--t2)">-</td>
-      <td class="ptd"><input type="number" step="0.1" id="go${c.n}${si}" oninput="gR('${c.n}',${si})"></td>
-      <td class="mc" id="gm${c.n}${si}">-</td>
-      <td class="ptd"><input type="number" id="gq${c.n}${si}" oninput="gR('${c.n}',${si})" style="width:50px;font-size:10px"></td>
-      <td class="tc" id="gt${c.n}${si}">-</td>
-      <td><button class="lb" id="gb${c.n}${si}" onclick="gL('${c.n}',${si})">📝</button></td></tr>`;
-  });});
-  h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();updGPal();gA();
+  h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();gA();
 }
 function gCalc(cn,si){
   if(!gSj)return null;
@@ -930,15 +956,17 @@ function gCalc(cn,si){
   const shv=$('gsh')?$('gsh').value:'40';
   const isAir=shv==='air';
   const sh=isAir?'air':(shv==='40'?'f':'t');
-  // 스펙별 비용 (카드에서 입력, 미입력 시 기본값)
+  // 산지+스펙 비용 (인라인 입력, 미입력 시 기본값)
   const ctp=gcVal(si,'ctp')||sp.ct||1;
-  const raw=gcVal(si,'raw'),wk=gcVal(si,'wk'),buja=gcVal(si,'bj'),box=gcVal(si,'bx'),pal=gcVal(si,'pal');
-  let pbf,defTb,palBoxes=0;
+  const raw=gcVal(si,'raw'),wk=gcVal(si,'wk'),buja=gcVal(si,'bj'),box=gcVal(si,'bx');
+  const qIn=gv('gq'+cn+si);
+  let pbf,defTb,tb;
   if(isAir){
     const airKg=GAIR_KG[cn]||0;
     if(!airKg)return null;
     defTb=ctp;
-    pbf=airKg*sp.gw + GAIR_DOM/Math.max(ctp,1);
+    tb=qIn>0?qIn:defTb;
+    pbf=airKg*sp.gw + GAIR_DOM/Math.max(tb,1);    // 항공: 박스당운임 = G.W×₩/kg + 도내운송÷실출고 (시트 기준)
   } else {
     const sea=GSEA[cn],il=GIL[gSj];
     if(!sea||!il)return null;
@@ -946,33 +974,25 @@ function gCalc(cn,si){
     if(!seaV)return null;
     const tp=sh==='f'?20:9;
     defTb=ctp*tp;
-    palBoxes=pal>0?pal*ctp:0;        // 파레트 입력 시 박스수 = 파레트×CTNS/P
-    pbf=(inlV+seaV)/tp/ctp;
+    tb=qIn>0?qIn:defTb;                           // 실출고 미입력 시 만적(cnt/p×TP)
+    pbf=(inlV+seaV)/tp/ctp;                        // 해운: 박스당운임 = (내륙+해운)÷(TP×cnt/p)
   }
-  const qIn=gv('gq'+cn+si);
-  const tb=qIn>0?qIn:(palBoxes>0?palBoxes:defTb);   // 우선순위: 실출고 > 파레트환산 > 기본(만적)
   const cif=raw+wk+buja+box+pbf;
   const be=fx?cif/fx:0;
   const of=gv('go'+cn+si);
-  if(!of)return{empty:true,be,cif,tb,defTb,raw,ctp,pal};
-  const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;
-  return{of,raw,mb,tk,cif,tb,defTb,be,ctp,pal};
+  if(!of)return{empty:true,be,cif,tb,defTb,raw,ctp};
+  const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;   // 원화 총마진 = 박스당마진×실출고 + 지원(₩/kg)×N.W×실출고
+  return{of,raw,mb,tk,tkUsd:fx?tk/fx:0,cif,tb,defTb,be,ctp};
 }
 function gR(cn,si){
   const r=gCalc(cn,si);
-  const ec=$('gc'+cn+si),e1=$('gm'+cn+si),e2=$('gt'+cn+si),ei=$('go'+cn+si),qi=$('gq'+cn+si);
-  if(!r){if(ec)ec.textContent='-';if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
-  if(ec)ec.textContent=r.cif?'₩'+fN(Math.round(r.cif)):'-';
-  if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
-  if(qi)qi.placeholder=r.tb||r.defTb||'';     // 실출고 placeholder = 현재 적용 박스수(파레트환산/만적)
-  if(r.empty){
-    if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">0.00</span>`;
-    if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
-    return;
-  }
+  const e2=$('gt'+cn+si),ei=$('go'+cn+si),qi=$('gq'+cn+si);
+  if(!r){if(e2)e2.innerHTML='<span style="opacity:.3">-</span>';return;}
+  if(ei&&r.be)ei.placeholder=r.be.toFixed(2);   // $ placeholder = 손익분기 단가
+  if(qi)qi.placeholder=r.defTb||'';             // 실출고 placeholder = 만적 박스수
+  if(r.empty){if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">-</span>`;return;}
   const cl=mC(r.mb);
-  if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;
-  if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
+  if(e2)e2.innerHTML=`<span class="${cl}" style="font-size:11px">${(r.tkUsd>=0?'+':'-')}$${fN(Math.abs(r.tkUsd))}</span><br><span class="${cl}" style="font-size:8px;opacity:.85">${fK(r.tk)}</span>`;
 }
 function gA(){
   const shv=$('gsh')?$('gsh').value:'40';
@@ -993,8 +1013,7 @@ function gL(cn,si){
   const tp=isAir?1:(shv==='40'?20:9);
   const shLbl=isAir?'AIR':shv+'ft';
   const ctp=r.ctp||sp.ct;
-  const palTxt=(!isAir&&r.pal>0)?` ${r.pal}pal`:'';
-  const qty=isAir?`${sp.l} 항공 (${r.tb}ctn)`:`${sp.l} ${ctp}ctn/p${palTxt} (${r.tb}ctn)`;
+  const qty=isAir?`${sp.l} 항공 (${r.tb}ctn)`:`${sp.l} ${ctp}ctn/p (${r.tb}ctn)`;
   const raw=fN(Math.round(r.raw))+'원/박스';
   cmOpen({fr:'g',co:cn,fl:co?.f||'',sp:sp.l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('gfx'),sj:gSj,sh:shLbl,btn:'gb'+cn+si,qty,raw,maker:gSj},
     `${co?.f} ${cn} · ${sp.l} · ${gSj}`,
@@ -1135,13 +1154,13 @@ function inpRestore(){
 function inpSaveAll(){
   const s={};
   document.querySelectorAll('input[id],select[id]').forEach(el=>{
-    if(el.id&&el.value!==''&&el.id!=='pwi'&&el.id!=='mm'&&el.id!=='finv'&&el.id!=='fmkr'&&el.id!=='fld'&&el.id!=='fqty'&&el.id!=='ffx'&&el.id!=='fraw')s[el.id]=el.value;
+    if(el.id&&el.value!==''&&el.id!=='pwi'&&el.id!=='mm'&&el.id!=='finv'&&el.id!=='fmkr'&&el.id!=='fld'&&el.id!=='fqty'&&el.id!=='ffx'&&el.id!=='fraw'&&el.id!=='gbmWk'&&el.id!=='gbmBj'&&el.id!=='gbmBx')s[el.id]=el.value;
   });
   try{localStorage.setItem(INP_KEY,JSON.stringify(s));}catch(e){}
 }
 document.addEventListener('input',(e)=>{
   const t=e.target;if(!t.id||t.tagName!=='INPUT'&&t.tagName!=='SELECT')return;
-  if(['pwi','mm','finv','fmkr','fld','fqty','ffx','fraw'].includes(t.id))return;
+  if(['pwi','mm','finv','fmkr','fld','fqty','ffx','fraw','gbmWk','gbmBj','gbmBx'].includes(t.id))return;
   clearTimeout(_inpSaveT);_inpSaveT=setTimeout(inpSaveAll,300);
 });
 document.addEventListener('change',(e)=>{
@@ -1315,11 +1334,7 @@ function doSy(){
     if(d.error){sBdg('err','❌ '+d.error);return;}
     let cnt=0;
     const ex=pk(d,'exrate','rate','fx');
-    if(ex){
-      if(F==='s'&&$('sfx')){$('sfx').value=Math.round(ex);flI('sfx');cnt++;}
-      if(F==='p'&&$('pfx')){$('pfx').value=Math.round(ex);flI('pfx');cnt++;}
-      if(F==='g'&&$('gfx')){$('gfx').value=Math.round(ex);flI('gfx');cnt++;}
-    }
+    if(ex){TODAY_FX=Math.round(ex);setFxHint();}   // 마진은 '입력한 환율'로 계산 — 동기화가 입력칸을 덮어쓰지 않고 오늘 환율만 참고 표시
     if(F==='s'&&d.prices){
       if(d.prices.p250){$('sp0').value=d.prices.p250;flI('sp0');}
       if(d.prices.p500_330){$('sp1').value=d.prices.p500_330;flI('sp1');}
@@ -1344,8 +1359,9 @@ function doSy(){
     // 포도 운임 sync — GAS가 포도/포도Air 탭을 직접 읽도록 갱신됨 (신규 산지/국가/항공운임 반영)
     const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){Object.assign(GSEA[k],r);cnt++;}});
     const gi=pk(d,'grapeInland','gInland');if(gi)Object.keys(gi).forEach(k=>{if(!GIL[k])return;const r=parseFT(gi[k]);if(r){Object.assign(GIL[k],r);cnt++;}});
-    const gak=pk(d,'grapeAirKg','gAirKg');if(gak)Object.keys(gak).forEach(k=>{if(GAIR_KG[k]!=null){const vv=+gak[k];if(vv>0){GAIR_KG[k]=vv;cnt++;}}});
-    const gad=pk(d,'grapeAirDom','gAirDom');if(gad!=null){const dv=+gad;if(dv>0)GAIR_DOM=dv;}
+    // 포도 항공운임은 앱 하드코딩값(포도Air 요율표 기준)을 신뢰 — '포도Air' 레이아웃 변경 후 GAS 구(舊)열 읽기가 부정확(도내운송 350,000 등)하여 sync 비활성화
+    // const gak=pk(d,'grapeAirKg','gAirKg');if(gak)Object.keys(gak).forEach(k=>{if(GAIR_KG[k]!=null){const vv=+gak[k];if(vv>0){GAIR_KG[k]=vv;cnt++;}}});
+    // const gad=pk(d,'grapeAirDom','gAirDom');if(gad!=null){const dv=+gad;if(dv>0)GAIR_DOM=dv;}
     if(F==='s')sA();else if(F==='p'){pB();pA();}else if(F==='g')gA();else mA();
     sBdg('ok','✅ 시트 연동 중');
     const now=new Date();const ts=now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});

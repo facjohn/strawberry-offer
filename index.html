@@ -545,10 +545,10 @@ const PWK_SJ={
 };
 
 // ═══ GRAPE ═══
-const GSANJI=['초록','김천','천안','탑바인','모서','중화','전남','논산','경기','경남','고창'];
+const GSANJI=['초록','김천','천안','영동','탑바인','모서','중화','전남','논산','경기','경남','고창'];
 const GC=[{n:'대만',f:'🇹🇼'},{n:'베트남호치민',f:'🇻🇳'},{n:'베트남하이퐁',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이시아',f:'🇲🇾'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'싱가폴',f:'🇸🇬'},{n:'미국LA',f:'🇺🇸',us:1},{n:'미국NY',f:'🇺🇸',us:1},{n:'캐나다',f:'🇨🇦',us:1}];
 const GSEA={대만:{f:2362500,t:2362500},베트남호치민:{f:2715000,t:2715000},베트남하이퐁:{f:2433000,t:2433000},홍콩:{f:1869000,t:1869000},말레이시아:{f:2362500,t:2362500},인도네시아:{f:3138000,t:3138000},태국:{f:2433000,t:2433000},싱가폴:{f:2433000,t:2433000},미국LA:{f:8102500,t:0},미국NY:{f:9935500,t:0},캐나다:{f:8202500,t:0}};
-const GIL={초록:{f:1006900,t:877400},김천:{f:883200,t:769200},천안:{f:1288800,t:1149100},탑바인:{f:971800,t:846700},모서:{f:971800,t:846700},중화:{f:1006900,t:877400},전남:{f:1178200,t:1059200},논산:{f:1053000,t:950000},경기:{f:1400000,t:1100000},경남:{f:592000,t:528000},고창:{f:1181200,t:1061300}};
+const GIL={초록:{f:1030100,t:897400},김천:{f:883200,t:769200},천안:{f:1288800,t:1149100},영동:{f:945400,t:810800},탑바인:{f:971800,t:846700},모서:{f:971800,t:846700},중화:{f:1006900,t:877400},전남:{f:1178200,t:1059200},논산:{f:1053000,t:950000},경기:{f:1400000,t:1100000},경남:{f:592000,t:528000},고창:{f:1181200,t:1061300}};
 // ct=해운 cnt/p(팔레트당), ca=항공 CTNS/P(시트 포도Air 기준). 항공모드는 ca를 기본값으로 사용(없으면 ct).
 // k = 시트 매칭키(정규화 SPEC|DETAIL). GAS가 같은 키로 cnt/p·부자재·박스를 보내면 앱이 덮어씀(값만 동기화). 매칭 안 되면 앱값 유지.
 const GS=[
@@ -1382,7 +1382,8 @@ function doSy(){
     const pw=pk(d,'pearWk','pWk');if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){PWK[k]=pw[k];const e=$('pwk_'+k);if(e)e.value=pw[k];cnt++;}});
     // 포도 운임 sync — GAS가 포도/포도Air 탭을 직접 읽도록 갱신됨 (신규 산지/국가/항공운임 반영)
     const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){Object.assign(GSEA[k],r);cnt++;}});
-    const gi=pk(d,'grapeInland','gInland');if(gi)Object.keys(gi).forEach(k=>{if(!GIL[k])return;const r=parseFT(gi[k]);if(r){Object.assign(GIL[k],r);cnt++;}});
+    // 포도 내륙 sync — 기존 산지는 값 갱신 / 시트에 새 산지가 생기면 GIL+GSANJI에 자동 추가(목록에 표시). 영동처럼 신규 산지 자동 반영.
+    const gi=pk(d,'grapeInland','gInland');if(gi)Object.keys(gi).forEach(k=>{const r=parseFT(gi[k]);if(!r)return;if(!GIL[k]){GIL[k]={f:0,t:0};if(!GSANJI.includes(k))GSANJI.push(k);}Object.assign(GIL[k],r);cnt++;});
     // 포도 항공운임 sync — GAS가 'SLP 항공요율표' BLOCK A(운임 계=운임+FSC)를 읽어 국가별 전송. (도내운송 350,000은 요율표에 없어 앱 하드코딩 유지)
     const gak=pk(d,'grapeAirKg','gAirKg');if(gak)Object.keys(gak).forEach(k=>{if(GAIR_KG[k]!=null){const vv=+gak[k];if(vv>0){GAIR_KG[k]=vv;cnt++;}}});
     // 포도 스펙별 값 sync — cnt/p(ct/ca)·부자재·박스를 시트값으로 덮어쓰기(GS.k 매칭). 빈값/미매칭은 앱값 유지(안전).

@@ -1236,7 +1236,7 @@ function cmSend(){
     fruit:FRN[pnd.fr]||pnd.fr,country:pnd.co,flag:pnd.fl||'',spec:pnd.sp||'',
     invoice:pnd.invoice||'',maker:pnd.maker||'',loadDate:pnd.loadDate||'',qty:pnd.qty||'',
     fxRate:pnd.rt||'',buyerPrice:(pnd.sym||'$')+pnd.of,rawPrice:pnd.raw||'',
-    margin:Number(pnd.mb||0).toFixed(2),totalMargin:Math.round(pnd.tk||0),
+    margin:pnd.mb!=null?Number(pnd.mb).toFixed(2):'',totalMargin:pnd.tk!=null?Math.round(pnd.tk):'',
     sanji:pnd.sj||'',ship:pnd.sh||'',memo:pnd.me||'',timestamp:pnd.dt,
     author:me,id:pnd.id
   };
@@ -1292,7 +1292,7 @@ function fetchHist(){
     if(d&&d.ok&&d.rows){
       const sheetLogs=d.rows.map(r=>({
         id:r.id,_row:r.rowNum,fr:F,co:r.invoice||'-',fl:'',sj:'',sh:'',sp:'',
-        of:'',sym:'',mb:null,tk:null,
+        of:'',sym:'',mb:null,tk:(m=>isNaN(m)?null:m)(parseFloat(String(r.margin==null?'':r.margin).replace(/[^\d.\-]/g,''))),
         invoice:r.invoice,maker:r.maker,loadDate:r.loadDate,qty:r.qty,
         rt:r.fxRate,raw:r.rawPrice,me:r.memo,author:r.author,
         dt:r.date,sent:true,_remote:true

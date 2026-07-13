@@ -1,5 +1,5 @@
 // 현농프레쉬 오퍼계산기 Service Worker
-const CACHE_VERSION = 'hn-v27';
+const CACHE_VERSION = 'hn-v28';
 const CORE_CACHE = CACHE_VERSION + '-core';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 
@@ -47,6 +47,12 @@ self.addEventListener('fetch', (event) => {
   if (url.hostname.includes('script.google.com') ||
       url.hostname.includes('googleusercontent.com')) {
     return; // 브라우저 기본 처리
+  }
+
+  // 실시간 환율 API도 캐싱 안 함 — 오프라인에서 캐시된 응답이 '실시간' 환율로 표시되는 것 방지 (실패 시 앱이 시트 환율로 폴백)
+  if (url.hostname.includes('cdn.jsdelivr.net') ||
+      url.hostname.includes('currency-api.pages.dev')) {
+    return;
   }
 
   // 같은 출처가 아닌 폰트만 stale-while-revalidate

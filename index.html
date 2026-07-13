@@ -156,6 +156,48 @@ tbody tr:hover td{background:#fafbfd}
 .sbdg.err{color:var(--rd);border-color:var(--rd);background:rgba(214,59,59,.06)}
 .sbdg.idle{color:var(--t2);border-color:var(--bd);background:#fff}
 .sbdg.ld{color:var(--yw);border-color:var(--yw);background:rgba(212,138,0,.06);animation:blk 1s infinite}
+.sbdg.warn{color:#c2860a;border-color:#c2860a;background:rgba(194,134,10,.08)}
+.uptoast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;font-size:12px;font-weight:700;padding:10px 16px;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.25);z-index:9999;display:flex;gap:10px;align-items:center}
+.uptoast button{background:#16a368;border:none;color:#fff;font-family:inherit;font-size:11px;font-weight:800;padding:6px 12px;border-radius:8px;cursor:pointer}
+/* ── 출고리스트: 예정/지난 토글 + 컴팩트 행 ── */
+.exvw{display:flex;gap:6px;margin-bottom:6px}
+.exvb{flex:1;padding:7px 10px;border-radius:9px;border:1px solid var(--bd);background:#fff;font-family:inherit;font-size:11px;font-weight:800;color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s}
+.exvb.on{background:#1a1a2e;color:#fff;border-color:#1a1a2e}
+.exvb .cnt{font-size:9px;font-weight:700;background:var(--sf2);color:var(--t3);padding:1px 7px;border-radius:8px}
+.exvb.on .cnt{background:rgba(255,255,255,.22);color:#fff}
+.exgh{position:sticky;top:0;z-index:2;background:var(--sf);padding:4px 10px;font-size:9.5px;font-weight:800;color:var(--t2);border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.exgh .dday{color:#3b6ff0;font-family:'JetBrains Mono',monospace;font-size:9px}
+.exgh .dday.past{color:var(--t3)}
+.exr{display:flex;align-items:center;gap:7px;padding:6px 10px;background:#fff;border-bottom:1px solid #f0f1f5;font-size:10.5px;min-width:0}
+.exr:last-child{border-bottom:1px solid var(--bd)}
+.exrIc{font-size:13px;flex-shrink:0;letter-spacing:-1px;white-space:nowrap}
+.exrTx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.exrT1{display:flex;gap:6px;align-items:baseline;min-width:0;white-space:nowrap;overflow:hidden}
+.exrC{font-weight:800;color:var(--tx);font-size:11px;flex-shrink:0}
+.exrBy{font-weight:700;color:#3b6ff0;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.exrMk{color:var(--t2);flex-shrink:0;font-size:9.5px}
+.exrT2{display:flex;gap:8px;align-items:center;font-size:8.5px;color:var(--t3);white-space:nowrap;overflow:hidden;min-width:0}
+.exrT2>span{overflow:hidden;text-overflow:ellipsis}
+.exrInv{font-family:'JetBrains Mono',monospace;flex-shrink:1;min-width:0;display:inline-flex;align-items:center;gap:2px}
+.exrCp{border:none;background:none;cursor:pointer;font-size:9px;padding:0 1px;flex-shrink:0}
+.exrTl{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--t3);text-align:right;white-space:nowrap;line-height:1.5}
+.exrTl b{color:var(--tx);font-size:9.5px;font-weight:700}
+.exrQ{flex-shrink:0;min-width:40px;text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10px;color:var(--tx)}
+@media (max-width:420px){.exrTl{max-width:118px;white-space:normal}}
+/* ── 지난 오퍼가 힌트 ── */
+.lof{font-size:8px;color:var(--t3);cursor:pointer;margin-top:1px;white-space:nowrap;line-height:1.2;text-align:center}
+.lof b{color:#3b6ff0;font-weight:800}
+/* ── CIF 원가 팝오버 ── */
+.cifl{display:flex;justify-content:space-between;gap:12px;font-size:11.5px;padding:5px 2px;border-bottom:1px dashed var(--bd)}
+.cifl b{font-family:'JetBrains Mono',monospace;font-weight:700}
+.cifl.tot{border-bottom:none;border-top:2px solid var(--tx);margin-top:4px;padding-top:8px;font-weight:800}
+.mc,.mv{cursor:pointer}
+/* ── 국가 열 고정 (가로 스크롤 시) ── */
+#to th:first-child{position:sticky;left:0;z-index:3;background:var(--sf,#f3f4f8)}
+#to td.ctd,#to td.gctry{position:sticky;left:0;z-index:2;background:#fff;box-shadow:2px 0 4px -2px rgba(0,0,0,.08)}
+/* ── 국가별 견적 복사 버튼 ── */
+.qcopy{border:1px solid var(--bd);background:#fff;border-radius:6px;font-size:8.5px;font-weight:700;color:var(--t2);padding:2px 6px;cursor:pointer;font-family:inherit;margin-top:3px}
+.qcopy:hover{border-color:#3b6ff0;color:#3b6ff0}
 @keyframes blk{0%,100%{opacity:1}50%{opacity:.5}}
 .lst{font-size:9px;color:var(--t3);font-family:'JetBrains Mono',monospace;text-align:right;margin-top:3px;letter-spacing:.02em}
 .sgd-hint{font-size:9px;color:#c47d00;margin-top:4px;display:flex;align-items:center;gap:5px;font-weight:600}
@@ -378,6 +420,7 @@ tbody tr:hover td{background:#fafbfd}
 <div class="fc" onclick="go('h')"><span class="e">🟠</span><span class="n">감</span></div>
 </div>
 <button class="elvBtn" onclick="openExL()"><span class="elvBi">📋</span>출고리스트 보기</button>
+<button class="elvBtn" onclick="openHL()" style="margin-top:8px"><span class="elvBi">📝</span>오퍼히스토리 보기</button>
 <button onclick="testSync()" style="margin-top:10px;padding:6px 16px;border-radius:8px;border:1px solid #dde0e8;background:#fff;font-family:inherit;font-size:11px;color:#606080;cursor:pointer">🔌 시트 연동 테스트</button>
 <div id="testR" style="font-size:10px;color:#606080;margin-top:6px;max-width:300px;word-break:break-all;text-align:center"></div>
 </div>
@@ -390,6 +433,7 @@ tbody tr:hover td{background:#fafbfd}
     <button class="elvIb" onclick="fetchExL()" title="새로고침">↻</button>
   </div>
   <div class="elvBar">
+    <div class="exvw" id="elvVw"></div>
     <div class="elvSe"><input id="elvS" placeholder="바이어, 인보이스, 제조자 검색" oninput="filterExL()"></div>
     <div class="elvDate" id="elvDate"></div>
     <div class="elvCh" id="elvCC"></div>
@@ -397,6 +441,21 @@ tbody tr:hover td{background:#fafbfd}
   </div>
   <div class="elvSt" id="elvSt">데이터를 불러오는 중...</div>
   <div class="elvLs" id="elvLs"></div>
+</div>
+
+<div id="hlv" class="elv" style="display:none">
+  <div class="elvHd">
+    <button class="elvIb" onclick="closeHL()" title="뒤로">←</button>
+    <div class="elvTt">📝 오퍼히스토리<span class="elvTs" id="hlvTs">시트 최근 100건</span></div>
+    <button class="elvIb" onclick="openHLSheet()" title="시트 열기">↗</button>
+    <button class="elvIb" onclick="fetchHL()" title="새로고침">↻</button>
+  </div>
+  <div class="elvBar">
+    <div class="elvSe"><input id="hlvS" placeholder="인보이스, 제조자, 국가, 메모, 작성자 검색" oninput="filterHL()"></div>
+    <div class="elvCh" id="hlvFC"></div>
+  </div>
+  <div class="elvSt" id="hlvSt">데이터를 불러오는 중...</div>
+  <div class="elvLs" id="hlvLs"></div>
 </div>
 <div id="app" style="display:none">
 <div class="hd" id="hd"></div>
@@ -420,6 +479,9 @@ tbody tr:hover td{background:#fafbfd}
 </div>
 <div class="mr">
 <div class="mfi"><label>적용환율</label><input id="ffx" type="text" class="auto" readonly></div>
+<div class="mfi"><label>바이어단가</label><input id="fof" type="text" class="auto" placeholder="$0.00"></div>
+</div>
+<div class="mr">
 <div class="mfi"><label>산지단가</label><input id="fraw" type="text" class="auto"></div>
 </div>
 </div>
@@ -427,9 +489,15 @@ tbody tr:hover td{background:#fafbfd}
 <div class="mbs">
 <button class="mb c" onclick="cmClose()">취소</button>
 <button class="mb c" onclick="cmCopy()" id="mcb">📋 복사</button>
-<button class="mb k" onclick="cmOk()">💾 로컬</button>
+<button class="mb k" id="mokbtn" onclick="cmOk()">💾 로컬</button>
 <button class="mb s" onclick="cmSend()" id="msbtn">📤 시트 전송</button>
 </div>
+</div></div>
+
+<div class="mo h" id="cifm"><div class="ml" style="max-width:320px"><h3>💰 원가 구성 (박스당)</h3>
+<div class="msb" id="cifSub"></div>
+<div id="cifBody" style="margin:8px 0 14px"></div>
+<div class="mbs"><button class="mb k" onclick="document.getElementById('cifm').classList.add('h')">닫기</button></div>
 </div></div>
 
 <div class="mo h" id="gbm"><div class="ml" style="max-width:300px"><h3>📦 부자재 · 작업비 · 박스</h3>
@@ -450,10 +518,15 @@ const fD=(n,d=2)=>n!=null&&!isNaN(n)?(n>=0?'+':'')+n.toFixed(d):'-';
 const fK=n=>{const a=Math.abs(Math.round(n));return(n>=0?'+':'-')+'₩'+a.toLocaleString()};
 const mC=m=>m>=1.5?'mpos':m>=0?'mmid':'mneg';
 // 마진 계산 환율 = 사용자가 '입력한 환율'(sfx/pfx/gfx). 오늘 실시간 환율은 참고용으로만 표시(입력칸 덮어쓰지 않음).
-let TODAY_FX=0, TODAY_FX_SRC='';
-function setFxHint(){const t=TODAY_FX?('💱 오늘 ₩'+fN(TODAY_FX)+' ('+(TODAY_FX_SRC||'참고')+')'):'';['sfxToday','pfxToday','gfxToday'].forEach(id=>{const e=$(id);if(e)e.textContent=t;});}
-// 오늘 환율 = 실시간 USD/KRW 시세(참고용). 마진은 입력칸 환율로 계산하고 이건 표시만 함. 실패 시 시트 환율로 폴백.
-function fetchLiveFx(){var urls=['https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json','https://latest.currency-api.pages.dev/v1/currencies/usd.json'];(function tryU(i){if(i>=urls.length)return;fetch(urls[i]).then(function(r){return r.json();}).then(function(j){var k=j&&j.usd&&j.usd.krw;if(k>0){TODAY_FX=Math.round(k);TODAY_FX_SRC='실시간';setFxHint();}else tryU(i+1);}).catch(function(){tryU(i+1);});})(0);}
+let TODAY_FX=0, TODAY_FX_SRC='', TODAY_SGD=0;
+function setFxHint(){const t=TODAY_FX?('💱 오늘 ₩'+fN(TODAY_FX)+' ('+(TODAY_FX_SRC||'참고')+')'):'';['sfxToday','pfxToday','gfxToday'].forEach(id=>{const e=$(id);if(e)e.textContent=t;});
+  const se=$('sfxToday');if(se)se.textContent+=localStorage.getItem('hn_sfx_touch')?' · ✋수동(탭=자동)':' · 입력칸=시트 자동';}   // 힌트(실시간 시세)와 입력칸(시트 환율)의 출처가 다름을 명시
+// 딸기 환율 입력칸: 시트 환율 자동 반영 ↔ 직접 수정 시 수동 고정. 힌트 탭으로 전환.
+function sfxToggle(){if(localStorage.getItem('hn_sfx_touch')){localStorage.removeItem('hn_sfx_touch');setFxHint();doSy();}else{localStorage.setItem('hn_sfx_touch','1');setFxHint();}}
+// SGD/KRW 실시간 시세 → 브루나이(S$) 계산 환율 자동 반영 (직접 수정 시 수동 고정)
+function applyLiveSgd(){if(!TODAY_SGD)return;const e=$('ssg');if(e&&!localStorage.getItem('hn_ssg_touch')&&+e.value!==TODAY_SGD){e.value=TODAY_SGD;try{inpSet('ssg',String(TODAY_SGD));}catch(err){}if(typeof flI==='function')flI('ssg');if(typeof sA==='function'&&F==='s')sA();}if(typeof ssgHintR==='function')ssgHintR();}
+// 오늘 환율 = 실시간 USD/KRW 시세(참고용). 마진은 입력칸 환율로 계산하고 이건 표시만 함. 실패 시 시트 환율로 폴백. SGD/KRW도 함께 계산.
+function fetchLiveFx(){var urls=['https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json','https://latest.currency-api.pages.dev/v1/currencies/usd.json'];(function tryU(i){if(i>=urls.length)return;fetch(urls[i]).then(function(r){return r.json();}).then(function(j){var k=j&&j.usd&&j.usd.krw;var sg=j&&j.usd&&j.usd.sgd;if(k>0){TODAY_FX=Math.round(k);TODAY_FX_SRC='실시간';setFxHint();if(sg>0){TODAY_SGD=Math.round(k/sg);applyLiveSgd();}}else tryU(i+1);}).catch(function(){tryU(i+1);});})(0);}
 
 // ═══ STRAWBERRY ═══
 const SF={
@@ -478,8 +551,8 @@ const PSANJI=['아리팜','순천','아산','상주','고창','천안','김제',
 const PC=[{n:'대만',f:'🇹🇼'},{n:'베트남',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이시아',f:'🇲🇾'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'호주',f:'🇦🇺'},{n:'미국LA',f:'🇺🇸',us:1},{n:'미국NY',f:'🇺🇸',us:1},{n:'캐나다',f:'🇨🇦',us:1}];
 const PRG=[{k:'all',l:'전체',c:'#3b6ff0'},{k:'sea',l:'동남아',c:'#16a368',ns:['베트남','말레이시아','인도네시아','태국']},{k:'nea',l:'동북아',c:'#d48a00',ns:['대만','홍콩']},{k:'oce',l:'오세아니아',c:'#9333ea',ns:['호주']},{k:'ame',l:'미주',c:'#dc2626',ns:['미국LA','미국NY','캐나다']}];
 let pRgn='all';
-const PSEA={대만:{f:2151000,t:1246000},베트남:{f:2503500,t:1528000},홍콩:{f:2080500,t:1351750},말레이시아:{f:2362500,t:1422250},인도네시아:{f:3138000,t:1915750},태국:{f:2221500,t:1387000},호주:{f:2815000,t:1669000},미국LA:{f:5141500,t:0},미국NY:{f:6481000,t:0},캐나다:{f:5241500,t:0}};
-const PIL={아리팜:{f:662500,t:583800},순천:{f:355900,t:310400},아산:{f:1338900,t:1188900},상주:{f:592000,t:528000},고창:{f:690300,t:607800},천안:{f:1288800,t:1149100},김제:{f:773100,t:677300},나주금천:{f:604600,t:534600},낙안:{f:0,t:0},영농산:{f:0,t:0},송덕:{f:0,t:0},나주부덕:{f:0,t:0}};
+const PSEA={대만:{f:1728000,t:1133200},베트남:{f:3067500,t:1810000},홍콩:{f:2574000,t:1528000},말레이시아:{f:3067500,t:1951000},인도네시아:{f:2433000,t:1951000},태국:{f:2433000,t:1422250},호주:{f:5987500,t:3220000},미국LA:{f:17549500,t:0},미국NY:{f:19946500,t:0},캐나다:{f:17649500,t:0}};   // 기본값=2026-07-02 시트 실측 (sync 실패 시 폴백)
+const PIL={아리팜:{f:662500,t:583800},순천:{f:355900,t:310400},아산:{f:1338900,t:1188900},상주:{f:592000,t:528000},고창:{f:690300,t:607800},천안:{f:1288800,t:1149100},김제:{f:773100,t:677300},나주금천:{f:604600,t:534600},낙안:{f:387900,t:337600},영농산:{f:1344500,t:1193500},송덕:{f:1344500,t:1193500},나주부덕:{f:649900,t:573300}};
 // 산지별 출고 가능 (국가, 운송) 매트릭스 — 시트 배 시트 데이터 기반
 // 동남아/동북아/오세아니아: 시트 매트릭스 그대로 / 미주(미국LA/NY/캐나다): 옵션 B에 따라 모든 산지에 40ft 전용으로 추가
 const PSJ_COUNTRY={
@@ -547,7 +620,7 @@ const PWK_SJ={
 // ═══ GRAPE ═══
 const GSANJI=['초록','김천','천안','영동','탑바인','모서','중화','전남','논산','경기','경남','고창'];
 const GC=[{n:'대만',f:'🇹🇼'},{n:'베트남호치민',f:'🇻🇳'},{n:'베트남하이퐁',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이시아',f:'🇲🇾'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'싱가폴',f:'🇸🇬'},{n:'미국LA',f:'🇺🇸',us:1},{n:'미국NY',f:'🇺🇸',us:1},{n:'캐나다',f:'🇨🇦',us:1}];
-const GSEA={대만:{f:2362500,t:2362500},베트남호치민:{f:2715000,t:2715000},베트남하이퐁:{f:2433000,t:2433000},홍콩:{f:1869000,t:1869000},말레이시아:{f:2362500,t:2362500},인도네시아:{f:3138000,t:3138000},태국:{f:2433000,t:2433000},싱가폴:{f:2433000,t:2433000},미국LA:{f:8102500,t:0},미국NY:{f:9935500,t:0},캐나다:{f:8202500,t:0}};
+const GSEA={대만:{f:1728000,t:1728000},베트남호치민:{f:3067500,t:3067500},베트남하이퐁:{f:2644500,t:2644500},홍콩:{f:2574000,t:2574000},말레이시아:{f:3067500,t:3067500},인도네시아:{f:2433000,t:2433000},태국:{f:2433000,t:2433000},싱가폴:{f:2997000,t:2997000},미국LA:{f:17549500,t:0},미국NY:{f:19946500,t:0},캐나다:{f:17649500,t:0}};   // 기본값=2026-07-02 시트 실측. ※시트 포도탭 20ft가 40ft와 동일값 — 시트 확인 필요
 const GIL={초록:{f:1030100,t:897400},김천:{f:883200,t:769200},천안:{f:1288800,t:1149100},영동:{f:945400,t:810800},탑바인:{f:971800,t:846700},모서:{f:971800,t:846700},중화:{f:1006900,t:877400},전남:{f:1178200,t:1059200},논산:{f:1053000,t:950000},경기:{f:1400000,t:1100000},경남:{f:592000,t:528000},고창:{f:1181200,t:1061300}};
 // ct=해운 cnt/p(팔레트당), ca=항공 CTNS/P(시트 포도Air 기준). 항공모드는 ca를 기본값으로 사용(없으면 ct).
 // k = 시트 매칭키(정규화 SPEC|DETAIL). GAS가 같은 키로 cnt/p·부자재·박스를 보내면 앱이 덮어씀(값만 동기화). 매칭 안 되면 앱값 유지.
@@ -618,8 +691,9 @@ let gRgn='all',gSpc='all';
 
 // ═══ NAV ═══
 let syTimer=null;
-function go(f){F=f;$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('app').style.display='block';loadL();getMe();build();doSy();fetchLiveFx();syTimer=setInterval(doSy,600000);}
-function bk(){if(syTimer){clearInterval(syTimer);syTimer=null;}$('app').style.display='none';const l=$('land');l.style.display='flex';l.classList.remove('h');F=null;pSj=null;gSj=null;mSj={o:null,k:null,h:null};pRgn='all';gRgn='all';gSpc='all';mRgn='all';document.body.style.background='';document.documentElement.style.removeProperty('--ac');}
+function go(f){F=f;$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('app').style.display='block';loadL();getMe();build();applyCachedSync();doSy();fetchLiveFx();syTimer=setInterval(doSy,600000);}   // 저장 스냅샷 먼저 적용 → 라이브 sync가 덮음 (오프라인이어도 최신 시트값으로 계산)
+function bk(){try{clearTimeout(_stT);pushState();}catch(e){}   // 뒤로가기 전 마지막 편집 상태를 시트로 플러시 (F가 null 되기 전에)
+  if(syTimer){clearInterval(syTimer);syTimer=null;}$('app').style.display='none';const l=$('land');l.style.display='flex';l.classList.remove('h');F=null;pSj=null;gSj=null;mSj={o:null,k:null,h:null};pRgn='all';gRgn='all';gSpc='all';mRgn='all';document.body.style.background='';document.documentElement.style.removeProperty('--ac');}
 
 function build(){
   const C={s:{ac:'#e8334a',bg:'#fff0f2',bbg:'#fef2f4',e:'🍓',nm:'딸기'},p:{ac:'#b8860b',bg:'#fdf6e3',bbg:'#f8f4e8',e:'🍐',nm:'배'},g:{ac:'#7b2d8e',bg:'#faf0ff',bbg:'#f6f0fa',e:'🍇',nm:'포도'},o:{ac:'#f97316',bg:'#fff7ed',bbg:'#fffaf2',e:'🍊',nm:'귤'},k:{ac:'#65a30d',bg:'#f0fdf4',bbg:'#f7fff5',e:'🥝',nm:'키위'},h:{ac:'#ea580c',bg:'#fff5eb',bbg:'#fffaf3',e:'🟠',nm:'감'}};
@@ -635,28 +709,35 @@ function build(){
   uLC();
 }
 function sw(t,b){document.querySelectorAll('.tb').forEach(x=>x.classList.remove('a'));b.classList.add('a');$('to').classList.toggle('a',t==='o');$('tl').classList.toggle('a',t==='l');if(t==='l'){rL();fetchHist();}}
-function setSh(id,v){const h=$(id);if(!h||h.value===v)return;h.value=v;['40','20','air'].forEach(k=>{const b=$(id+'_'+k);if(b)b.classList.toggle('a',v===k);});
-  // 포도 운송 모드 전환 시 실출고 초기화 (40ft~5120 / 20ft~2304 / 항공~256 등 모드별 용량이 달라 값이 새면 안 됨)
-  if(id==='gsh'){try{const st=JSON.parse(localStorage.getItem(INP_KEY)||'{}');Object.keys(st).forEach(k=>{if(k.slice(0,2)==='gq')delete st[k];});localStorage.setItem(INP_KEY,JSON.stringify(st));}catch(e){}document.querySelectorAll('input[id^="gq"]').forEach(el=>el.value='');}
+function setSh(id,v){const h=$(id);if(!h||h.value===v)return;const prev=h.value;h.value=v;['40','20','air'].forEach(k=>{const b=$(id+'_'+k);if(b)b.classList.toggle('a',v===k);});
+  // 운송 모드 전환 시 실출고 초기화 (모드별 만적 용량이 달라 값이 새면 계산이 왜곡됨) — 포도(gq)·배(pq) 공통
+  const clearPrefixes=[];
+  if(id==='gsh'){clearPrefixes.push('gq');if(prev==='air'||v==='air')clearPrefixes.push('go');}   // 해운↔항공 전환은 오퍼가($)도 초기화 (운임 구조가 달라 이전 오퍼가가 무의미)
+  if(id==='psh')clearPrefixes.push('pq');
+  if(clearPrefixes.length){
+    try{const st=JSON.parse(localStorage.getItem(INP_KEY)||'{}');Object.keys(st).forEach(k=>{if(clearPrefixes.some(p=>k.slice(0,p.length)===p))delete st[k];});localStorage.setItem(INP_KEY,JSON.stringify(st));}catch(e){}
+    clearPrefixes.forEach(p=>document.querySelectorAll('input[id^="'+p+'"]').forEach(el=>el.value=''));
+  }
   inpSaveAll();if(id==='psh')pB();else if(id==='gsh')gB();else if(id==='msh')mB();}
 
 // ═══ STRAWBERRY BUILD ═══
 function bS(){
   $('bs').innerHTML=`<div class="ig"><label><em>250g</em></label><input type="number" id="sp0" value="8000" oninput="sA()"></div>
     <div class="ig"><label><em>500/330</em></label><input type="number" id="sp1" value="11500" oninput="sA()"></div>
-    <div class="ig"><label>환율₩/$</label><input type="number" id="sfx" value="1410" oninput="sA()"><div class="fxhint" id="sfxToday"></div></div>
-    <div class="ig"><label><span style="color:#c47d00">SGD</span>/₩ (브루나이)</label><input type="number" id="ssg" value="1137" oninput="sA()"><div class="sgd-hint"><span class="dot-sgd"></span>시트 자동 반영</div></div>`;
+    <div class="ig"><label>환율₩/$</label><input type="number" id="sfx" value="1410" oninput="sA()"><div class="fxhint" id="sfxToday" onclick="sfxToggle()" style="cursor:pointer"></div></div>
+    <div class="ig"><label><span style="color:#c47d00">SGD</span>/₩ (브루나이)</label><input type="number" id="ssg" value="1137" oninput="sA()"><div class="sgd-hint" id="ssgHint" onclick="ssgToggle()" style="cursor:pointer"><span class="dot-sgd"></span>시트 자동 반영</div></div>`;
+  ssgHintR();
   $('ex').innerHTML='';
   const o=$('to');o.innerHTML='';
   Object.entries(SF).forEach(([k,fd])=>{
     const c=document.createElement('div');c.className='cc';
-    c.innerHTML=`<div class="ch"><span style="font-size:15px">${fd.f}</span>${fd.n}<span style="margin-left:auto;font-size:8px;font-weight:700;padding:2px 5px;border-radius:4px;background:${fd.sg?'rgba(196,125,0,.1)':'rgba(59,111,240,.1)'};color:${fd.sg?'#c47d00':'var(--bl)'}">${fd.sg?'SGD':'USD'}</span></div>`;
+    c.innerHTML=`<div class="ch"><span style="font-size:15px">${fd.f}</span>${fd.n}<button class="qcopy" style="margin:0 0 0 6px" onclick="copyQuote('${k}')" title="이 국가 견적 전체 복사">📄 견적</button><span style="margin-left:auto;font-size:8px;font-weight:700;padding:2px 5px;border-radius:4px;background:${fd.sg?'rgba(196,125,0,.1)':'rgba(59,111,240,.1)'};color:${fd.sg?'#c47d00':'var(--bl)'}">${fd.sg?'SGD':'USD'}</span></div>`;
     SS.forEach((sp,i)=>{
       const def=SD[k]?.[i]||0;const sym=fd.sg?'S$':'$';
       const r=document.createElement('div');r.className='sr';
       r.innerHTML=`<div><div class="slb">${sp.l}<span class="sbg" style="${sp.cls}">${sp.b}</span></div></div>
-        <div style="display:flex;align-items:center;gap:2px"><span style="font-size:9px;color:var(--t2)">${sym}</span><input class="pi" type="number" step="0.1" id="so${k}${i}" value="${def}" oninput="sR('${k}',${i})"></div>
-        <div><div class="mv" id="sm${k}${i}">-</div><div class="mk" id="sk${k}${i}">-</div></div>
+        <div><div style="display:flex;align-items:center;gap:2px"><span style="font-size:9px;color:var(--t2)">${sym}</span><input class="pi" type="number" step="0.1" id="so${k}${i}" value="${def}" oninput="sR('${k}',${i})"></div><div class="lof" id="lofso${k}${i}"></div></div>
+        <div onclick="sCif('${k}',${i})" title="탭하면 원가 내역"><div class="mv" id="sm${k}${i}">-</div><div class="mk" id="sk${k}${i}">-</div></div>
         <button class="lb" id="sb${k}${i}" onclick="sL('${k}',${i})">📝</button>`;
       c.appendChild(r);
     });o.appendChild(c);
@@ -669,15 +750,16 @@ function sCalc(k,i){
   const be=rt?cif/rt:0;
   const of=gv('so'+k+i);
   const sym=fd.sg?'S$':'$';
-  if(!of)return{empty:true,be,cif,rt,sp,fd,sym};
+  if(!of||!rt)return{empty:true,be,cif,rt,sp,fd,sym,mat,pb};   // 환율 0이면 마진 -Infinity → 차단
   const mb=of-cif/rt,tk=mb*rt*sp.ct;
-  return{of,mb,tk,cif,rt,sp,fd,be,sym};
+  return{of,mb,tk,cif,rt,sp,fd,be,sym,mat,pb};
 }
 function sR(k,i){
   const r=sCalc(k,i);
   const e1=$('sm'+k+i),e2=$('sk'+k+i),ei=$('so'+k+i);
   if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
   if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
+  lofR('lofso'+k+i,'so'+k+i,'s',SF[k].n,SS[i].l,()=>sR(k,i));
   if(r.empty){
     if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">0.00${r.sym}</span>`;
     if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
@@ -794,11 +876,11 @@ function pB(){
       const wkVal=gv('pwk_'+s.wk)||PWK[s.wk]||0;
       const sCtn=sh==='f'?s.c4:s.c2;
       const sTb=sCtn*(sh==='f'?20:9);
-      h+=`<tr${si===cSpecs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${cSpecs.length}">${c.f}<br><span style="font-size:9px">${c.n}</span></td>`:'')+
+      h+=`<tr${si===cSpecs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${cSpecs.length}">${c.f}<br><span style="font-size:9px">${c.n}</span><br><button class="qcopy" onclick="copyQuote('${c.n}')" title="이 국가 견적 전체 복사">📄</button></td>`:'')+
         `<td style="font-size:11px;color:#1a1a2e;font-weight:600">${s.l}</td>
         <td style="font-size:8px;text-align:center;color:#b8860b;font-family:'JetBrains Mono',monospace" id="pw${c.n}${s.id}">${fN(wkVal)}</td>
-        <td class="ptd"><input type="number" step="0.1" id="po${c.n}${s.id}" oninput="pR('${c.n}','${s.id}')"></td>
-        <td class="mc" id="pm${c.n}${s.id}">-</td>
+        <td class="ptd"><input type="number" step="0.1" id="po${c.n}${s.id}" oninput="pR('${c.n}','${s.id}')"><div class="lof" id="lofpo${c.n}${s.id}"></div></td>
+        <td class="mc" id="pm${c.n}${s.id}" onclick="pCif('${c.n}','${s.id}')" title="탭하면 원가 내역">-</td>
         <td class="ptd"><input type="number" id="pq${c.n}${s.id}" placeholder="${sTb}" oninput="pR('${c.n}','${s.id}')" style="width:50px;font-size:10px"></td>
         <td class="tc" id="pt${c.n}${s.id}">-</td>
         <td><button class="lb" id="pb${c.n}${s.id}" onclick="pL('${c.n}','${s.id}')">📝</button></td></tr>`;
@@ -812,7 +894,7 @@ function pCalc(cn,sid){
   const fx=gv('pfx'),sup=gv('psp'),sh=gv('psh')==40?'f':'t';
   const sp=PS.find(s=>s.id===sid);const co=PC.find(c=>c.n===cn);if(!sp||!co)return null;
   const sea=PSEA[cn],il=PIL[pSj];if(!sea||!il)return null;
-  const seaV=sea[sh],inlV=il[sh];if(!seaV)return null;
+  const seaV=sea[sh],inlV=il[sh];if(!seaV||!inlV)return null;   // 내륙운임 0(미수신)이면 CIF 과소계산 → 계산 차단('-' 표시)
   const ctn=sh==='f'?sp.c4:sp.c2;if(!ctn)return null;
   const tp=sh==='f'?20:9,defTb=ctn*tp;
   const qIn=gv('pq'+cn+sid);
@@ -830,9 +912,9 @@ function pCalc(cn,sid){
   const cif=raw+wk+sp.bj+sp.bx+pbf;
   const be=fx?cif/fx:0;
   const of=gv('po'+cn+sid);
-  if(!of)return{empty:true,be,cif,tb,defTb,raw,wk,sp:sp.l};
+  if(!of||!fx)return{empty:true,be,cif,tb,defTb,raw,wk,pbf,sp:sp.l};   // 환율 0이면 마진이 -Infinity가 되므로 차단
   const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;
-  return{of,mb,tk,tkUsd:fx?tk/fx:0,cif,tb,defTb,raw,wk,be,sp:sp.l};
+  return{of,mb,tk,tkUsd:fx?tk/fx:0,cif,tb,defTb,raw,wk,pbf,be,sp:sp.l};
 }
 function pR(cn,sid){
   const r=pCalc(cn,sid);
@@ -840,6 +922,7 @@ function pR(cn,sid){
   if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
   if(ew)ew.textContent=fN(r.wk||0);
   if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
+  lofR('lofpo'+cn+sid,'po'+cn+sid,'p',cn,r.sp,()=>pR(cn,sid));
   if(r.empty){
     if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">0.00</span>`;
     if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
@@ -861,22 +944,38 @@ function pL(cn,sid){const r=pCalc(cn,sid);if(!r)return;const co=PC.find(c=>c.n==
   const sp=PS.find(s=>s.id===sid),sh=gv('psh')==40?'f':'t',ctn=sh==='f'?sp.c4:sp.c2,tp=sh==='f'?20:9;
   const qty=`${r.sp} ${ctn}ctn × ${tp}p (${r.tb}ctn)`;
   const raw=fN(Math.round(r.raw))+'원/박스';
-  cmOpen({fr:'p',co:cn,fl:co?.f||'',sp:r.sp,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('pfx'),sj:pSj,sh:gv('psh')+'ft',btn:'pb'+cn+sid,qty,raw,maker:pSj},
+  cmOpen({fr:'p',co:cn,fl:co?.f||'',sp:r.sp,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('pfx'),sj:pSj,sh:gv('psh')+'ft',btn:'pb'+cn+sid,qty,raw,maker:pSj,tb:r.tb,defTb:r.defTb},
     `${co?.f} ${cn} · ${r.sp} · ${pSj}`,`오퍼: <span>$${r.of}</span> | CIF: <span>₩${fN(Math.round(r.cif))}</span> (작업비 ₩${fN(r.wk)}) | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);}
 
 // ═══ GRAPE BUILD ═══
 // ── 포도 스펙별 비용 (원물/작업비/부자재/박스/CTNS·P/파레트) — 시트처럼 스펙마다 따로 입력 ──
 let gCost={};
-const GCOST_KEY='hn_gcost_v1';
-function loadGCost(){try{gCost=JSON.parse(localStorage.getItem(GCOST_KEY)||'{}');}catch(e){gCost={};}}
+const GCOST_KEY='hn_gcost_v2';   // v2: 키를 배열 순번(si) 대신 스펙 고유키(GS[si].k)로 — 스펙 추가/재정렬돼도 저장값이 엉뚱한 스펙에 붙지 않음
+function loadGCost(){
+  try{
+    const v2=localStorage.getItem(GCOST_KEY);
+    if(v2!=null){gCost=JSON.parse(v2)||{};return;}
+    // v1 → v2 일회성 마이그레이션: '모드|산지|순번' → '모드|산지|스펙키', 순번 단독(레거시 전역) → 'g:스펙키'
+    const v1=JSON.parse(localStorage.getItem('hn_gcost_v1')||'{}');
+    gCost={};
+    Object.keys(v1).forEach(k=>{
+      const m=k.match(/^([as])\|(.*)\|(\d+)$/);
+      if(m&&GS[+m[3]]&&GS[+m[3]].k)gCost[m[1]+'|'+m[2]+'|'+GS[+m[3]].k]=v1[k];
+      else if(/^\d+$/.test(k)&&GS[+k]&&GS[+k].k)gCost['g:'+GS[+k].k]=v1[k];
+      else gCost[k]=v1[k];
+    });
+    try{localStorage.setItem(GCOST_KEY,JSON.stringify(gCost));}catch(e){}
+  }catch(e){gCost={};}
+}
 function gcMode(){return ($('gsh')&&$('gsh').value==='air')?'a':'s';}                  // 운송 모드(항공/해운) — cnt/p 등 모드별 분리
-function gcK(si){return gcMode()+'|'+(gSj||'')+'|'+si;}                                // 비용 저장 키: 모드|산지|스펙 (국가 무관 → 산지+스펙 공유)
+function gcK(si){return gcMode()+'|'+(gSj||'')+'|'+(GS[si].k||si);}                    // 비용 저장 키: 모드|산지|스펙키 (국가 무관 → 산지+스펙 공유)
+function gcGK(si){return 'g:'+(GS[si].k||si);}                                          // 레거시 전역 폴백 키 (v1 순번 단독 키에서 이관됨)
 function gcDef(si){const s=GS[si];return{ctp:(gcMode()==='a'&&s.ca)?s.ca:s.ct,raw:0,wk:0,bj:s.bj,bx:s.bx};}  // 기본값 (cnt/p는 모드별: 항공=ca / 해운=ct)
-function gcVal(si,f){const nk=gCost[gcK(si)]||{},ok=gCost[si]||{},d=gcDef(si);          // 계산용 유효값: 신키 > 구키(마이그레이션) > 기본
+function gcVal(si,f){const nk=gCost[gcK(si)]||{},ok=gCost[gcGK(si)]||{},d=gcDef(si);    // 계산용 유효값: 신키 > 전역 폴백 > 기본
   if(nk[f]!=null&&nk[f]!=='')return +nk[f];
   if(ok[f]!=null&&ok[f]!=='')return +ok[f];
   return d[f];}
-function gcRaw(si,f){const nk=gCost[gcK(si)]||{},ok=gCost[si]||{};                      // 입력칸 표시값(미입력=빈칸 → 옅은 placeholder)
+function gcRaw(si,f){const nk=gCost[gcK(si)]||{},ok=gCost[gcGK(si)]||{};                // 입력칸 표시값(미입력=빈칸 → 옅은 placeholder)
   if(nk[f]!=null&&nk[f]!=='')return nk[f];
   if(ok[f]!=null&&ok[f]!=='')return ok[f];
   return '';}
@@ -885,7 +984,7 @@ function gcSet(si,f,val){
   if(!gCost[k])gCost[k]={};
   if(val===''||val==null)delete gCost[k][f]; else gCost[k][f]=+val;
   if(!Object.keys(gCost[k]).length)delete gCost[k];
-  try{localStorage.setItem(GCOST_KEY,JSON.stringify(gCost));}catch(e){}
+  try{localStorage.setItem(GCOST_KEY,JSON.stringify(gCost));}catch(e){alert('⚠ 저장공간이 부족해 입력값이 저장되지 않았습니다');}
   gA();
 }
 // ── 부자재(작업비·부자재·박스) 모달 — 산지+스펙당 공유 ──
@@ -963,10 +1062,10 @@ function gB(){
        `</div></td></tr>`;
     fGC.forEach((c)=>{
       h+=`<tr class="gc${si}${op?'':' ghide'}">`+
-         `<td class="gctry">${c.f} ${c.n}</td>`+
-         `<td class="ptd"><input type="number" step="0.1" id="go${c.n}${si}" oninput="gR('${c.n}',${si})"></td>`+
+         `<td class="gctry">${c.f} ${c.n} <button class="qcopy" style="margin:0;padding:1px 4px" onclick="copyQuote('${c.n}')" title="이 국가 견적 전체 복사">📄</button></td>`+
+         `<td class="ptd"><input type="number" step="0.1" id="go${c.n}${si}" oninput="gR('${c.n}',${si})"><div class="lof" id="lofgo${c.n}${si}"></div></td>`+
          `<td class="ptd"><input type="number" id="gq${c.n}${si}" oninput="gR('${c.n}',${si})" style="width:48px;font-size:10px"></td>`+
-         `<td class="tc" id="gt${c.n}${si}">-</td>`+
+         `<td class="tc" id="gt${c.n}${si}" onclick="gCif('${c.n}',${si})" title="탭하면 원가 내역">-</td>`+
          `<td><button class="lb" id="gb${c.n}${si}" onclick="gL('${c.n}',${si})">📝</button></td></tr>`;
     });
   });
@@ -995,7 +1094,7 @@ function gCalc(cn,si){
     const sea=GSEA[cn],il=GIL[gSj];
     if(!sea||!il)return null;
     const seaV=sea[sh],inlV=il[sh];
-    if(!seaV)return null;
+    if(!seaV||!inlV)return null;   // 내륙운임 0(미수신/신규산지)이면 CIF 과소계산 → 계산 차단
     const tp=sh==='f'?20:9;
     defTb=ctp*tp;
     tb=qIn>0?qIn:defTb;                           // 실출고 미입력 시 만적(cnt/p×TP)
@@ -1004,9 +1103,9 @@ function gCalc(cn,si){
   const cif=raw+wk+buja+box+pbf;
   const be=fx?cif/fx:0;
   const of=gv('go'+cn+si);
-  if(!of)return{empty:true,be,cif,tb,defTb,raw,ctp};
+  if(!of||!fx)return{empty:true,be,cif,tb,defTb,raw,wk,buja,box,pbf,ctp};   // 환율 0이면 마진 -Infinity → 차단
   const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;   // 원화 총마진 = 박스당마진×실출고 + 지원(₩/kg)×N.W×실출고
-  return{of,raw,mb,tk,tkUsd:fx?tk/fx:0,cif,tb,defTb,be,ctp};
+  return{of,raw,wk,buja,box,pbf,mb,tk,tkUsd:fx?tk/fx:0,cif,tb,defTb,be,ctp};
 }
 function gR(cn,si){
   const r=gCalc(cn,si);
@@ -1014,6 +1113,7 @@ function gR(cn,si){
   if(!r){if(e2)e2.innerHTML='<span style="opacity:.3">-</span>';return;}
   if(ei&&r.be)ei.placeholder=r.be.toFixed(2);   // $ placeholder = 손익분기 단가
   if(qi)qi.placeholder=r.defTb||'';             // 실출고 placeholder = 만적 박스수
+  lofR('lofgo'+cn+si,'go'+cn+si,'g',cn,GS[si].l,()=>gR(cn,si));
   if(r.empty){if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">-</span>`;return;}
   const cl=mC(r.mb);
   if(e2)e2.innerHTML=`<span class="${cl}" style="font-size:11px">${(r.tkUsd>=0?'+':'-')}$${fN(Math.abs(r.tkUsd))}</span><br><span class="${cl}" style="font-size:8px;opacity:.85">${fK(r.tk)}</span>`;
@@ -1039,7 +1139,7 @@ function gL(cn,si){
   const ctp=r.ctp||sp.ct;
   const qty=isAir?`${sp.l} 항공 (${r.tb}ctn)`:`${sp.l} ${ctp}ctn/p (${r.tb}ctn)`;
   const raw=fN(Math.round(r.raw))+'원/박스';
-  cmOpen({fr:'g',co:cn,fl:co?.f||'',sp:sp.l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('gfx'),sj:gSj,sh:shLbl,btn:'gb'+cn+si,qty,raw,maker:gSj},
+  cmOpen({fr:'g',co:cn,fl:co?.f||'',sp:sp.l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('gfx'),sj:gSj,sh:shLbl,btn:'gb'+cn+si,qty,raw,maker:gSj,tb:r.tb,defTb:r.defTb},
     `${co?.f} ${cn} · ${sp.l} · ${gSj}`,
     `오퍼: <span>$${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);
 }
@@ -1047,14 +1147,14 @@ function gL(cn,si){
 // ═══ 일반 과수 (귤·키위·감) ═══
 const MFN={o:'귤',k:'키위',h:'감'};
 const MFD={
-  o:{nw:10,gw:11.5,ct:80,wk:5000,sj:['제주도'],defSj:'제주도',specs:[
+  o:{ac:'#f97316',nw:10,gw:11.5,ct:80,wk:5000,sj:['제주도'],defSj:'제주도',specs:[
     {l:'10kg 2L',raw:90000},
     {l:'10kg L',raw:87700},
     {l:'10kg M',raw:82700},
     {l:'10kg S',raw:75000},
     {l:'10kg 2S',raw:68000},
   ]},
-  k:{nw:5,gw:6,ct:168,wk:5000,sj:['제주','순천'],defSj:'제주',specs:[
+  k:{ac:'#65a30d',nw:5,gw:6,ct:168,wk:5000,sj:['제주','순천'],defSj:'제주',specs:[
     {l:'5kg 35과(32-36)',raw:40500},
     {l:'5kg 40과(36-41)',raw:39000},
     {l:'5kg 45과(42-47)',raw:37500},
@@ -1066,7 +1166,7 @@ const MFD={
     {l:'3.5kg 4-5과×10팩(레드)',raw:36000},
     {l:'2kg 18-20과',raw:14000},
   ]},
-  h:{nw:10,gw:11,ct:100,wk:4000,sj:['창원','순천'],defSj:'창원',specs:[
+  h:{ac:'#ea580c',nw:10,gw:11,ct:100,wk:4000,sj:['창원','순천'],defSj:'창원',specs:[
     {l:'10kg 2L',raw:38850},
     {l:'10kg L',raw:30450},
     {l:'10kg M',raw:23625},
@@ -1084,13 +1184,14 @@ function bM(){
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="msp" value="0" oninput="mA()"></div>
     <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="msh_40" onclick="setSh('msh','40')">40ft</button><button type="button" class="sho" id="msh_20" onclick="setSh('msh','20')">20ft</button></div><input type="hidden" id="msh" value="40"></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
-    <div class="sjb" id="msb">${d.sj.map(s=>`<button class="sj${mSj[F]===s?' a':''}" onclick="mSjSel('${s}')" style="${mSj[F]===s?'background:'+MFD[F].ac+';color:#fff;border-color:'+MFD[F].ac:''}">${s}</button>`).join('')}</div>
+    <div class="sjb" id="msjb">${d.sj.map(s=>`<button class="sj${mSj[F]===s?' a':''}" onclick="mSjSel('${s}')" style="${mSj[F]===s?'background:'+MFD[F].ac+';color:#fff;border-color:'+MFD[F].ac:''}">${s}</button>`).join('')}</div>
     <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
-      <div class="ig"><label>NW <em>kg</em></label><input type="number" step="0.1" id="mnw" value="${d.nw}" oninput="mA()"></div>
-      <div class="ig"><label>GW <em>kg</em></label><input type="number" step="0.1" id="mgw" value="${d.gw}" oninput="mA()"></div>
-      <div class="ig"><label>박스/팔레트</label><input type="number" id="mct" value="${d.ct}" oninput="mA()"></div>
-      <div class="ig"><label>작업비 <em>₩/박스</em></label><input type="number" id="mwk" value="${d.wk}" oninput="mA()"></div>
+      <div class="ig"><label>NW <em>kg</em></label><input type="number" step="0.1" id="mnw${F}" value="${d.nw}" oninput="mA()"></div>
+      <div class="ig"><label>GW <em>kg</em></label><input type="number" step="0.1" id="mgw${F}" value="${d.gw}" oninput="mA()"></div>
+      <div class="ig"><label>박스/팔레트</label><input type="number" id="mct${F}" value="${d.ct}" oninput="mA()"></div>
+      <div class="ig"><label>작업비 <em>₩/박스</em></label><input type="number" id="mwk${F}" value="${d.wk}" oninput="mA()"></div>
     </div>`;
+  // ※ 귤/키위/감 입력 id에 과일코드(F)를 포함 — 입력 자동복원이 다른 과일의 원물가/제원을 가져오는 계산 왜곡 방지
   mB();
 }
 function mB(){
@@ -1108,12 +1209,12 @@ function mB(){
   h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th>원물₩</th><th>$</th><th>마진</th><th>총마진</th><th></th></tr></thead><tbody>`;
   fPC.forEach(c=>{
     d.specs.forEach((sp,si)=>{
-      h+=`<tr${si===d.specs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${d.specs.length}">${c.f}<br><span style="font-size:9px">${c.n}</span></td>`:'')+
+      h+=`<tr${si===d.specs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${d.specs.length}">${c.f}<br><span style="font-size:9px">${c.n}</span><br><button class="qcopy" onclick="copyQuote('${c.n}')" title="이 국가 견적 전체 복사">📄</button></td>`:'')+
         `<td style="font-size:11px;color:#1a1a2e;font-weight:600">${sp.l}</td>
-        <td class="ptd"><input type="number" id="mr${c.n}${si}" value="${sp.raw}" oninput="mR('${c.n}',${si})" style="width:54px;font-size:9px"></td>
-        <td class="ptd"><input type="number" step="0.1" id="mo${c.n}${si}" oninput="mR('${c.n}',${si})"></td>
-        <td class="mc" id="mm${c.n}${si}">-</td><td class="tc" id="mt${c.n}${si}">-</td>
-        <td><button class="lb" id="mbtn${c.n}${si}" onclick="mL('${c.n}',${si})">📝</button></td></tr>`;
+        <td class="ptd"><input type="number" id="mr${F}${c.n}${si}" value="${sp.raw}" oninput="mR('${c.n}',${si})" style="width:54px;font-size:9px"></td>
+        <td class="ptd"><input type="number" step="0.1" id="mo${F}${c.n}${si}" oninput="mR('${c.n}',${si})"><div class="lof" id="lofmo${F}${c.n}${si}"></div></td>
+        <td class="mc" id="mm${F}${c.n}${si}" onclick="mCif('${c.n}',${si})" title="탭하면 원가 내역">-</td><td class="tc" id="mt${F}${c.n}${si}">-</td>
+        <td><button class="lb" id="mbtn${F}${c.n}${si}" onclick="mL('${c.n}',${si})">📝</button></td></tr>`;
     });
   });
   h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();mA();
@@ -1122,23 +1223,24 @@ function mCalc(cn,si){
   if(!mSj[F])return null;
   const d=MFD[F],sp=d.specs[si];if(!sp)return null;
   const fx=gv('mfx'),sup=gv('msp'),sh=gv('msh')==40?'f':'t';
-  const raw=gv('mr'+cn+si)||sp.raw,wk=gv('mwk'),nw=gv('mnw')||1,ct=gv('mct')||1;
+  const raw=gv('mr'+F+cn+si)||sp.raw,wk=gv('mwk'+F),nw=gv('mnw'+F)||1,ct=gv('mct'+F)||1;
   const sea=PSEA[cn];if(!sea)return null;
   const seaV=sea[sh];if(!seaV)return null;
   const tp=sh==='f'?20:9,tb=ct*tp;
   const pbf=seaV/tp/ct;
   const cif=raw+wk+pbf;
   const be=fx?cif/fx:0;
-  const of=gv('mo'+cn+si);
-  if(!of)return{empty:true,be,cif,tb,raw};
+  const of=gv('mo'+F+cn+si);
+  if(!of||!fx)return{empty:true,be,cif,tb,raw,wk,pbf};   // 환율 0이면 마진 -Infinity → 차단
   const mb=of-(cif/fx),tk=mb*tb*fx+tb*nw*sup;
-  return{of,raw,mb,tk,cif,tb,be};
+  return{of,raw,mb,tk,cif,tb,be,wk,pbf};
 }
 function mR(cn,si){
   const r=mCalc(cn,si);
-  const e1=$('mm'+cn+si),e2=$('mt'+cn+si),ei=$('mo'+cn+si);
+  const e1=$('mm'+F+cn+si),e2=$('mt'+F+cn+si),ei=$('mo'+F+cn+si);
   if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
   if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
+  lofR('lofmo'+F+cn+si,'mo'+F+cn+si,F,cn,MFN[F]+' '+MFD[F].specs[si].l,()=>mR(cn,si));
   if(r.empty){
     if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">0.00$</span>`;
     if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
@@ -1148,21 +1250,147 @@ function mR(cn,si){
   if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}$</span>`;
   if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
 }
-function mA(){const d=MFD[F];if(!d)return;PC.forEach(c=>d.specs.forEach((_,i)=>{if($('mo'+c.n+i))mR(c.n,i);}));const pairs=[];PC.forEach(c=>d.specs.forEach((_,i)=>pairs.push([c.n,i])));markBest('mbtn',mCalc,pairs);}
+function mA(){const d=MFD[F];if(!d)return;PC.forEach(c=>d.specs.forEach((_,i)=>{if($('mo'+F+c.n+i))mR(c.n,i);}));const pairs=[];PC.forEach(c=>d.specs.forEach((_,i)=>pairs.push([c.n,i])));markBest('mbtn'+F,mCalc,pairs);}
 function mL(cn,si){
   const r=mCalc(cn,si);if(!r||!r.of)return;
   const co=PC.find(c=>c.n===cn),d=MFD[F],sp=d.specs[si];
-  const nm=MFN[F],nw=gv('mnw'),ct=gv('mct'),tp=gv('msh')==40?20:9;
+  const nm=MFN[F],nw=gv('mnw'+F),ct=gv('mct'+F),tp=gv('msh')==40?20:9;
   const qty=`${nm} ${sp.l} ${ct}ctn × ${tp}p (${r.tb}ctn)`;
   const raw=fN(Math.round(r.raw))+'원/박스';
-  cmOpen({fr:F,co:cn,fl:co?.f||'',sp:nm+' '+sp.l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('mfx'),sj:mSj[F],sh:gv('msh')+'ft',btn:'mbtn'+cn+si,qty,raw,maker:mSj[F]},
+  cmOpen({fr:F,co:cn,fl:co?.f||'',sp:nm+' '+sp.l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('mfx'),sj:mSj[F],sh:gv('msh')+'ft',btn:'mbtn'+F+cn+si,qty,raw,maker:mSj[F]},
     `${co?.f} ${cn} · ${nm} · ${sp.l} · ${mSj[F]}`,
     `오퍼: <span>$${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);
 }
 
 // ═══ LOG ═══
+const FRN={s:'딸기',p:'배',g:'포도',o:'귤',k:'키위',h:'감'};
+const FR_CODE={'딸기':'s','배':'p','포도':'g','귤':'o','키위':'k','감':'h'};
+// 시트에서 온 상차일을 앱 표준(yyyy-MM-dd)으로 정규화 — 구버전 GAS의 'M/d' 응답도 기록일 연도 기준으로 복원
+function normLoadDate(v,ref){
+  if(!v)return '';
+  const s=String(v).trim();
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;
+  const m=s.match(/^(\d{1,2})\/(\d{1,2})$/);
+  if(m){
+    let y=new Date().getFullYear();const rd=ref?new Date(ref):null;
+    if(rd&&!isNaN(rd.getTime())){
+      y=rd.getFullYear();
+      // 상차일은 기록일보다 과거일 수 없음(보통 근미래) — 12월 기록의 1월 상차일은 이듬해로 보정
+      const cand=new Date(y,+m[1]-1,+m[2]);
+      if(cand.getTime()-rd.getTime()<-90*86400000)y+=1;
+    }
+    return y+'-'+String(+m[1]).padStart(2,'0')+'-'+String(+m[2]).padStart(2,'0');
+  }
+  return s;
+}
+// 바이어단가 문자열('$12.5','S$8','$1,234') → {sym,of} 분리. 콤마는 천단위 구분자로 취급(한국 운영 기준)
+function parseBuyerPrice(s){
+  const m=String(s==null?'':s).trim().match(/^([^\d\-+]*)([\-+]?[\d,]+(?:\.\d+)?)/);
+  if(!m)return null;
+  const of=parseFloat(m[2].replace(/,/g,''));
+  if(isNaN(of))return null;
+  return{sym:(m[1].trim()||'$'),of};
+}
+// JSONP 정리: 콜백을 즉시 지우지 않고 no-op로 바꿔 늦은 응답의 ReferenceError 방지
+function jsonpDone(cb,s){if(s&&s.parentNode)s.parentNode.removeChild(s);window[cb]=function(){};setTimeout(function(){try{delete window[cb];}catch(e){}},120000);}
+let _cbSeq=0;
+function jsonpCb(prefix){return prefix+Date.now()+'_'+(_cbSeq++);}   // 동일 ms 콜백명 충돌 방지
 function loadL(){try{logs=JSON.parse(localStorage.getItem('hn4')||'[]');}catch(e){logs=[];}}
-function saveL(){try{localStorage.setItem('hn4',JSON.stringify(logs));}catch(e){}uLC();}
+function saveL(){try{localStorage.setItem('hn4',JSON.stringify(logs));}catch(e){alert('⚠ 저장공간이 부족해 기록이 저장되지 않았습니다. 오래된 기록을 정리해주세요.');}uLC();}
+
+// ═══ 지난 오퍼가 힌트 — 같은 과일·국가·스펙의 최근 기록 오퍼가를 $ 입력칸 밑에 표시 (탭하면 채움) ═══
+function lastOffer(fr,co,spl){
+  let best=null;
+  for(const l of logs){
+    if(l.fr!==fr||l.co!==co||l.sp!==spl||l.of==null||l.of==='')continue;
+    const t=l.dt?Date.parse(l.dt):0;
+    if(!best||t>best.t)best={of:l.of,sym:l.sym||'$',t};
+  }
+  return best;
+}
+function lofR(lofId,inpId,fr,co,spl,recalc){
+  const lo=$(lofId);if(!lo)return;
+  const b=lastOffer(fr,co,spl);
+  if(!b){if(lo.innerHTML)lo.innerHTML='';lo.onclick=null;return;}
+  const d=b.t?new Date(b.t):null;
+  lo.innerHTML='↩ 지난 <b>'+b.sym+b.of+'</b>'+(d&&!isNaN(d.getTime())?'<span style="opacity:.7"> '+(d.getMonth()+1)+'/'+d.getDate()+'</span>':'');
+  lo.title='탭하면 이 값으로 채움';
+  lo.onclick=()=>{const e=$(inpId);if(e){e.value=b.of;recalc();inpSaveAll();}};
+}
+
+// ═══ CIF 원가 구성 팝오버 — 마진 칸을 탭하면 박스당 원가 내역 표시 ═══
+function cifOpen(sub,rows){
+  $('cifSub').textContent=sub;
+  $('cifBody').innerHTML=rows.filter(Boolean).map(r=>'<div class="cifl'+(r[2]==='tot'?' tot':'')+'"><span>'+r[0]+'</span><b>'+r[1]+'</b></div>').join('');
+  $('cifm').classList.remove('h');
+}
+function sCif(k,i){const r=sCalc(k,i);if(!r)return;const sp=SS[i],fd=SF[k];
+  cifOpen(fd.f+' '+fd.n+' · '+sp.l,[
+    ['원물 ('+sp.nw+'kg)','₩'+fN(r.mat)],['부자재','₩'+fN(sp.bj)],['물류(항공+국내)','₩'+fN(r.pb)],
+    ['CIF 합계','₩'+fN(r.cif),'tot'],
+    ['손익분기',(r.sym||'$')+(r.be?r.be.toFixed(2):'-')],
+    r.empty?null:['오퍼 → 마진/박스',(r.sym)+r.of+' → '+fD(r.mb)+(r.sym)],
+    r.empty?null:['총마진 ('+sp.ct+'박스)',fK(r.tk)]
+  ]);}
+function pCif(cn,sid){const r=pCalc(cn,sid);if(!r)return;const sp=PS.find(s=>s.id===sid);
+  cifOpen(cn+' · '+sp.l+(pSj?' · '+pSj:''),[
+    ['원물','₩'+fN(r.raw)],['작업비','₩'+fN(r.wk)],['부자재','₩'+fN(sp.bj)],['박스','₩'+fN(sp.bx)],['물류(박스당)','₩'+fN(r.pbf)],
+    ['CIF 합계','₩'+fN(r.cif),'tot'],
+    ['손익분기','$'+(r.be?r.be.toFixed(2):'-')],
+    r.empty?null:['오퍼 → 마진/박스','$'+r.of+' → '+fD(r.mb)+'$'],
+    r.empty?['만적',fN(r.defTb)+'박스']:['총마진 ('+fN(r.tb)+'박스)',fK(r.tk)]
+  ]);}
+function gCif(cn,si){const r=gCalc(cn,si);if(!r)return;const sp=GS[si];
+  cifOpen(cn+' · '+sp.l+(gSj?' · '+gSj:''),[
+    ['원물','₩'+fN(r.raw)],['작업비','₩'+fN(r.wk)],['부자재','₩'+fN(r.buja)],['박스','₩'+fN(r.box)],['물류(박스당)','₩'+fN(r.pbf)],
+    ['CIF 합계','₩'+fN(r.cif),'tot'],
+    ['손익분기','$'+(r.be?r.be.toFixed(2):'-')],
+    r.empty?null:['오퍼 → 마진/박스','$'+r.of+' → '+fD(r.mb)+'$'],
+    r.empty?['만적',fN(r.defTb)+'박스']:['총마진 ('+fN(r.tb)+'박스)',fK(r.tk)]
+  ]);}
+function mCif(cn,si){const r=mCalc(cn,si);if(!r)return;const sp=MFD[F].specs[si];
+  cifOpen(cn+' · '+MFN[F]+' '+sp.l+(mSj[F]?' · '+mSj[F]:''),[
+    ['원물','₩'+fN(r.raw)],['작업비','₩'+fN(r.wk)],['물류(박스당)','₩'+fN(r.pbf)],
+    ['CIF 합계','₩'+fN(r.cif),'tot'],
+    ['손익분기','$'+(r.be?r.be.toFixed(2):'-')],
+    r.empty?null:['오퍼 → 마진/박스','$'+r.of+' → '+fD(r.mb)+'$'],
+    r.empty?null:['총마진 ('+fN(r.tb)+'박스)',fK(r.tk)]
+  ]);}
+
+// ═══ 국가별 일괄 견적 복사 — 한 국가에 입력된 전 스펙 오퍼를 견적 텍스트로 ═══
+function copyQuote(cn){
+  const st=inpStore();
+  const sv=id=>{const e=$(id);if(e)return +e.value||0;return +(st[id]||0)||0;};
+  const now=new Date();const ds=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+  const lines=[];let head='';
+  if(F==='s'){
+    const fd=SF[cn];if(!fd)return;
+    head='🍓 딸기 · '+fd.f+' '+fd.n+' · '+ds;
+    SS.forEach((sp,i)=>{const of=sv('so'+cn+i);if(of)lines.push('- '+sp.l+': '+(fd.sg?'S$':'$')+of);});
+    lines.push('','적용환율 '+(fd.sg?'SGD ₩'+fN(sv('ssg')):'₩'+fN(sv('sfx'))+'/$'));
+  }else if(F==='p'){
+    const co=PC.find(c=>c.n===cn);
+    head='🍐 배 · '+(co?co.f+' ':'')+cn+(pSj?' · '+pSj:'')+' · '+($('psh')?$('psh').value:'40')+'ft · '+ds;
+    PS.forEach(s=>{const of=sv('po'+cn+s.id);if(of){const q=sv('pq'+cn+s.id);lines.push('- '+s.l+': $'+of+(q?' ('+fN(q)+'박스)':''));}});
+    lines.push('','적용환율 ₩'+fN(sv('pfx'))+'/$');
+  }else if(F==='g'){
+    const shv=$('gsh')?$('gsh').value:'40';
+    const cl=(shv==='air')?GAIR_C:GC;const co=cl.find(c=>c.n===cn);
+    head='🍇 포도 · '+(co?co.f+' ':'')+cn+(gSj?' · '+gSj:'')+' · '+(shv==='air'?'항공':shv+'ft')+' · '+ds;
+    GS.forEach((s,i)=>{const of=sv('go'+cn+i);if(of){const q=sv('gq'+cn+i);lines.push('- '+s.l+': $'+of+(q?' ('+fN(q)+'박스)':''));}});
+    lines.push('','적용환율 ₩'+fN(sv('gfx'))+'/$');
+  }else{
+    const d=MFD[F];if(!d)return;const co=PC.find(c=>c.n===cn);
+    head=(F==='o'?'🍊':F==='k'?'🥝':'🟠')+' '+MFN[F]+' · '+(co?co.f+' ':'')+cn+(mSj[F]?' · '+mSj[F]:'')+' · '+($('msh')?$('msh').value:'40')+'ft · '+ds;
+    d.specs.forEach((sp,i)=>{const of=sv('mo'+F+cn+i);if(of)lines.push('- '+sp.l+': $'+of);});
+    lines.push('','적용환율 ₩'+fN(sv('mfx'))+'/$');
+  }
+  if(!lines.some(l=>l.indexOf('- ')===0)){alert(cn+'에 입력된 오퍼가가 없습니다');return;}
+  const txt='[현농프레쉬 오퍼]\n'+head+'\n'+lines.join('\n');
+  const toast=m=>{const t=document.createElement('div');t.className='uptoast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>{if(t.parentNode)t.parentNode.removeChild(t);},2000);};
+  const fb=()=>{try{const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('📋 '+cn+' 견적 복사됨');}catch(e){alert(txt);}};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(txt).then(()=>toast('📋 '+cn+' 견적 복사됨')).catch(fb);else fb();
+}
 // ━━━ 입력값 자동 저장/복원 ━━━
 const INP_KEY='hn_inp_v1';
 let _inpSaveT=null;
@@ -1175,35 +1403,43 @@ function inpRestore(){
   });
   ['psh','gsh','msh'].forEach(id=>{const h=$(id);if(!h)return;const v=h.value;['40','20','air'].forEach(k=>{const b=$(id+'_'+k);if(b)b.classList.toggle('a',v===k);});});
 }
+const INP_EXCLUDE=['pwi','mm','finv','fmkr','fld','fqty','ffx','fof','fraw','gbmWk','gbmBj','gbmBx'];   // 모달/비밀번호 입력은 자동저장 제외
+let _stPushing=false;   // pushState→inpSaveAll 재귀로 무한 타이머가 걸리지 않게
 function inpSaveAll(){
-  const s={};
+  const s=inpStore();   // ★ 병합 저장 — 현재 화면에 없는 다른 과일 탭의 저장값을 지우지 않음
   document.querySelectorAll('input[id],select[id]').forEach(el=>{
-    if(el.id&&el.value!==''&&el.id!=='pwi'&&el.id!=='mm'&&el.id!=='finv'&&el.id!=='fmkr'&&el.id!=='fld'&&el.id!=='fqty'&&el.id!=='ffx'&&el.id!=='fraw'&&el.id!=='gbmWk'&&el.id!=='gbmBj'&&el.id!=='gbmBx')s[el.id]=el.value;
+    if(!el.id||INP_EXCLUDE.includes(el.id))return;
+    if(el.value==='')delete s[el.id];else s[el.id]=el.value;
   });
   try{localStorage.setItem(INP_KEY,JSON.stringify(s));}catch(e){}
+  if(!_stPushing&&typeof schedPush==='function')schedPush();   // 산지 선택·운송 토글·필터 변경(pB/gB/mB 경유)도 시트 상태 저장 트리거
 }
 document.addEventListener('input',(e)=>{
   const t=e.target;if(!t.id||t.tagName!=='INPUT'&&t.tagName!=='SELECT')return;
-  if(['pwi','mm','finv','fmkr','fld','fqty','ffx','fraw','gbmWk','gbmBj','gbmBx'].includes(t.id))return;
+  if(t.id==='ssg'){localStorage.setItem('hn_ssg_touch','1');ssgHintR();}   // SGD 직접 수정 = 수동 고정 (sync가 덮지 않음)
+  if(t.id==='sfx'){localStorage.setItem('hn_sfx_touch','1');setFxHint();}  // 딸기 환율 직접 수정 = 수동 고정
+  if(INP_EXCLUDE.includes(t.id))return;
   clearTimeout(_inpSaveT);_inpSaveT=setTimeout(inpSaveAll,300);
 });
 document.addEventListener('change',(e)=>{
   const t=e.target;if(!t.id||t.tagName!=='SELECT')return;
   clearTimeout(_inpSaveT);_inpSaveT=setTimeout(inpSaveAll,100);
 });
-function uLC(){const e=$('lc');if(e)e.textContent=logs.filter(l=>l.fr===F).length;}
+function uLC(){const e=$('lc');if(e)e.textContent=logs.filter(l=>!l.fr||l.fr===F).length;}   // 과일 미상(fr='') 기록도 포함 — rL 필터와 동일 기준
 function getMe(){let n=localStorage.getItem('cur_user')||'';if(!n){n=(prompt('내 이름을 입력하세요 (기록 작성자 표시용)','')||'').trim();if(n)localStorage.setItem('cur_user',n);}return n;}
 function setMe(){const cur=localStorage.getItem('cur_user')||'';const n=(prompt('내 이름 변경',cur)||'').trim();if(n){localStorage.setItem('cur_user',n);rL();}}
 function genId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
 function cmOpen(d,sub,info){
-  pnd={...d,id:Date.now(),dt:new Date().toISOString(),me:''};
+  pnd={...d,id:genId(),dt:new Date().toISOString(),me:''};   // genId=타임스탬프+랜덤 — 기기 간 동시 저장 id 충돌 방지
   $('msb').textContent=sub;$('mif').innerHTML=info;$('mm').value='';
   $('finv').value='';
   $('fmkr').value=d.maker||d.sj||'';
   $('fld').value='';$('fldDisp').textContent='';
   $('fqty').value=d.qty||'';
   $('ffx').value=d.rt?(d.rt+(d.fr==='s'&&d.sym==='S$'?' SGD':' ₩/$')):'';
+  $('fof').value=(d.of!=null&&d.of!=='')?((d.sym||'$')+d.of):'';$('fof').readOnly=true;   // 신규 기록: 계산기 값 고정(수정은 편집 화면에서)
   $('fraw').value=d.raw||'';
+  const ok=$('mokbtn');if(ok)ok.style.display='';
   $('mo').classList.remove('h');
   const b=$('msbtn');b.disabled=false;b.textContent='📤 시트 전송';
 }
@@ -1212,62 +1448,82 @@ function fmtKDate(v){if(!v)return '';if(!/^\d{4}-\d{2}-\d{2}$/.test(v))return v;
 function updFld(){const v=$('fld').value;const disp=$('fldDisp');if(disp)disp.textContent=v?fmtKDate(v):'';}
 function cmFill(){
   if(!pnd)return;
-  pnd.me=$('mm').value.trim();
+  pnd.me=$('mm').value.trim().slice(0,500);   // 메모 500자 제한 — JSONP GET URL 길이 초과로 전송 실패하는 것 방지
   pnd.invoice=$('finv').value.trim();
   pnd.maker=$('fmkr').value.trim();
   pnd.loadDate=$('fld').value.trim();
   pnd.qty=$('fqty').value.trim();
   pnd.raw=$('fraw').value.trim();
+  const bp=parseBuyerPrice($('fof')?$('fof').value:'');   // 수정 화면에서 고친 바이어단가 반영
+  if(bp){pnd.sym=bp.sym;pnd.of=bp.of;}
 }
-function cmOk(){if(!pnd)return;cmFill();logs.unshift({...pnd});saveL();const b=$(pnd.btn);if(b){b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1000);}cmClose();rL();}
+function cmOk(){if(!pnd)return;cmFill();if(pnd._edit)logs=logs.filter(l=>String(l.id)!==String(pnd.id));logs.unshift({...pnd});saveL();const b=$(pnd.btn);if(b){b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1000);}cmClose();rL();}
 function cmCopy(){if(!pnd)return;cmFill();
   const t=`인보이스: ${pnd.invoice||'-'}\n제조자: ${pnd.maker||'-'}\n상차일: ${fmtKDate(pnd.loadDate)||'-'}\n수량: ${pnd.qty||'-'}\n적용환율: ${pnd.rt||'-'}\n바이어단가: ${pnd.sym}${pnd.of}\n산지단가: ${pnd.raw||'-'}\n──────────\n${pnd.co} ${pnd.sp||''}\n마진: ${fD(pnd.mb)}${pnd.sym}/box · 총 ${fK(pnd.tk)}${pnd.sj?' ('+pnd.sj+')':''}${pnd.sh?' '+pnd.sh:''}${pnd.me?'\n메모: '+pnd.me:''}`;
   navigator.clipboard?navigator.clipboard.writeText(t).then(()=>{const b=$('mcb');b.textContent='✅ 복사됨';setTimeout(()=>b.textContent='📋 복사',1500);}):alert(t);
+}
+function buildLogPayload(l,me){
+  return{
+    fruit:FRN[l.fr]||l.fr||'',country:l.co||'',flag:l.fl||'',spec:l.sp||'',
+    invoice:l.invoice||'',maker:l.maker||'',loadDate:l.loadDate||'',qty:l.qty||'',
+    fxRate:l.rt||'',buyerPrice:(l.of!=null&&l.of!=='')?((l.sym||'$')+l.of):'',rawPrice:l.raw||'',
+    margin:l.mb!=null?Number(l.mb).toFixed(2):'',totalMargin:l.tk!=null?Math.round(l.tk):'',
+    sanji:l.sj||'',ship:l.sh||'',memo:l.me||'',timestamp:l.dt,
+    author:me||l.author||'',id:l.id
+  };
+}
+// 전송 전 이상치 점검 — 실수 방지 (마이너스 마진 / 환율 괴리 / 실출고 초과)
+function sendGuard(l){
+  const warns=[];
+  if(l.mb!=null&&l.mb<0)warns.push('박스당 마진이 마이너스('+fD(l.mb)+(l.sym||'$')+')입니다');
+  const refFx=(l.sym==='S$')?TODAY_SGD:TODAY_FX;
+  const rtN=parseFloat(l.rt);
+  if(refFx>0&&rtN>0&&Math.abs(rtN-refFx)/refFx>0.03)warns.push('적용환율(₩'+fN(rtN)+')이 오늘 시세(₩'+fN(refFx)+')와 '+(Math.abs(rtN-refFx)/refFx*100).toFixed(1)+'% 차이납니다');
+  if(l.tb&&l.defTb&&+l.tb>+l.defTb)warns.push('실출고('+fN(l.tb)+'박스)가 만적('+fN(l.defTb)+'박스)을 초과합니다');
+  if(!warns.length)return true;
+  return confirm('⚠ 전송 전 확인해주세요:\n\n· '+warns.join('\n· ')+'\n\n그래도 전송할까요?');
 }
 function cmSend(){
   if(!pnd)return;cmFill();
   const me=getMe();if(!me){alert('이름을 먼저 입력하세요');return;}
   if(!pnd.id)pnd.id=genId();
   pnd.author=me;
+  if(!sendGuard(pnd))return;   // 이상치 경고에서 취소하면 전송 중단 (모달 유지)
   const btn=$('msbtn');btn.disabled=true;btn.textContent='⏳ 전송 중...';
-  const FRN={s:'딸기',p:'배',g:'포도',o:'귤',k:'키위',h:'감'};
-  const isEdit=pnd._edit;
-  const payload={
-    fruit:FRN[pnd.fr]||pnd.fr,country:pnd.co,flag:pnd.fl||'',spec:pnd.sp||'',
-    invoice:pnd.invoice||'',maker:pnd.maker||'',loadDate:pnd.loadDate||'',qty:pnd.qty||'',
-    fxRate:pnd.rt||'',buyerPrice:(pnd.sym||'$')+pnd.of,rawPrice:pnd.raw||'',
-    margin:pnd.mb!=null?Number(pnd.mb).toFixed(2):'',totalMargin:pnd.tk!=null?Math.round(pnd.tk):'',
-    sanji:pnd.sj||'',ship:pnd.sh||'',memo:pnd.me||'',timestamp:pnd.dt,
-    author:me,id:pnd.id
-  };
-  const cb='snd'+Date.now();
+  const isEdit=pnd._edit&&(pnd.sent||pnd._remote);   // 시트에 있는 기록만 update — 로컬 전용 기록의 수정은 신규 저장(log)
+  const payload=buildLogPayload(pnd,me);
+  const cb=jsonpCb('snd');
   const s=document.createElement('script');
   s.src=SU+'?action='+(isEdit?'update':'log')+'&callback='+cb+'&data='+encodeURIComponent(JSON.stringify(payload));
-  const t=setTimeout(()=>{cl();btn.disabled=false;btn.textContent='❌ 타임아웃';setTimeout(()=>{btn.textContent='📤 시트 전송';btn.disabled=false;},2500);},12000);
-  function cl(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
-  s.onerror=function(){cl();btn.disabled=false;btn.textContent='❌ 연결실패';setTimeout(()=>btn.textContent='📤 시트 전송',2500);};
+  const myPnd=pnd;   // 응답 대기 중 모달이 닫히거나 다른 기록이 열려도(전역 pnd 변경) 이 전송 건을 정확히 처리
+  const idleLbl=isEdit?'💾 수정 저장':'📤 시트 전송';
+  const t=setTimeout(()=>{cl();btn.disabled=false;btn.textContent='⚠ 응답없음 — 기록탭에서 확인 후 재시도';setTimeout(()=>{btn.textContent=idleLbl;btn.disabled=false;},3500);},20000);
+  function cl(){clearTimeout(t);jsonpDone(cb,s);}
+  s.onerror=function(){cl();btn.disabled=false;btn.textContent='❌ 연결실패';setTimeout(()=>btn.textContent=idleLbl,2500);};
   window[cb]=function(d){cl();
     if(d&&(d.ok||d.success)){
-      pnd.sent=true;pnd.sentAt=new Date().toISOString();
-      if(isEdit){logs=logs.filter(l=>l.id!==pnd.id);}
-      logs.unshift({...pnd});saveL();
-      btn.textContent=isEdit?'✅ 수정 완료':'✅ 전송 완료';
-      const lb=$(pnd.btn);if(lb){lb.classList.add('ok');setTimeout(()=>lb.classList.remove('ok'),1000);}
-      setTimeout(()=>{cmClose();fetchHist();},900);
+      myPnd.sent=true;myPnd.sentAt=new Date().toISOString();
+      logs=logs.filter(l=>String(l.id)!==String(myPnd.id));   // 수정이든 재전송(dup)이든 같은 id의 옛 사본 제거
+      logs.unshift({...myPnd});saveL();
+      btn.textContent=isEdit?'✅ 수정 완료':(d.dup?'✅ 전송 확인됨':'✅ 전송 완료');
+      const lb=$(myPnd.btn);if(lb){lb.classList.add('ok');setTimeout(()=>lb.classList.remove('ok'),1000);}
+      setTimeout(()=>{if(pnd===myPnd)cmClose();fetchHist();},900);   // 그 사이 다른 모달이 열렸으면 닫지 않음
     } else {
       btn.disabled=false;btn.textContent='❌ '+(d&&d.error||'GAS 미지원');
-      setTimeout(()=>btn.textContent='📤 시트 전송',3000);
+      setTimeout(()=>btn.textContent=idleLbl,3000);
     }
   };
   document.head.appendChild(s);
 }
 $('mo').addEventListener('click',function(e){if(e.target===this)cmClose();});
+$('cifm').addEventListener('click',function(e){if(e.target===this)this.classList.add('h');});
 
-let histLoading=false;
+let histLoading=false,_histSeq=0;
 function rL(){
   const list=$('tl'),me=localStorage.getItem('cur_user')||'';
   const fl=logs.filter(l=>!F||!l.fr||l.fr===F);uLC();
-  const hdr=`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-size:12px;font-weight:700;flex:1">📋 공유 기록 ${histLoading?'<span style="color:var(--yw);font-size:10px">⏳</span>':'('+fl.length+')'}</span><span style="font-size:9px;color:var(--t2);cursor:pointer" onclick="setMe()">👤 ${me||'이름설정'}</span><button class="cb" onclick="fetchHist()">🔄 새로고침</button></div>`;
+  const unsent=logs.filter(l=>!l.sent&&!l._remote&&l.id!=null).length;
+  const hdr=`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-size:12px;font-weight:700;flex:1">📋 공유 기록 ${histLoading?'<span style="color:var(--yw);font-size:10px">⏳</span>':'('+fl.length+')'}</span>${unsent?'<button class="cb" style="color:#c2860a;border-color:#e3c27a;font-weight:800" onclick="resendAll()">⚠ 미전송 '+unsent+'건 전송</button>':''}<span style="font-size:9px;color:var(--t2);cursor:pointer" onclick="setMe()">👤 ${me||'이름설정'}</span><button class="cb" onclick="fetchHist()">🔄 새로고침</button></div><div style="font-size:8px;color:var(--t3);margin:2px 0 4px">시트 기록은 최근 100건까지 표시 · 전체는 오퍼시트의 오퍼히스토리 탭 참고</div>`;
   if(!fl.length){list.innerHTML=hdr+`<div class="le"><span style="font-size:32px;display:block;margin-bottom:6px">📋</span>${histLoading?'불러오는 중...':'기록 없음'}</div>`;return;}
   let h=hdr;
   fl.forEach(l=>{
@@ -1279,26 +1535,44 @@ function rL(){
     const isRemote=l._remote||l.sent;
     h+=`<div class="li ${mine?'mine':''}"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">${l.fl?`<span style="font-size:16px">${l.fl}</span>`:''}<div style="flex:1"><div style="font-size:11px;font-weight:700">${l.co||l.invoice||'-'}${l.sj?' · '+l.sj:''}${l.sh?' · '+l.sh:''}${auth}${l.sent?'<span class="snt">✓ SHEET</span>':''}</div><div class="ld">${ds}${l.invoice?' · '+l.invoice:''}${l.loadDate?' · '+fmtKDate(l.loadDate):''}</div>${l.me?`<div style="font-size:9px;color:var(--t2);font-style:italic;margin-top:1px">"${l.me}"</div>`:''}</div></div>
     <div class="lps"><div class="lp"><label>스펙</label><div class="v" style="font-size:9px">${l.sp||'-'}</div></div><div class="lp"><label>오퍼</label><div class="v">${l.of?(l.sym||'')+l.of:'-'}</div></div><div class="lp"><label>마진</label><div class="v ${l.mb!=null?mC(l.mb):''}">${l.mb!=null?fD(l.mb)+(l.sym||''):'-'}</div></div><div class="lp"><label>총마진</label><div class="v ${l.tk!=null?mC(l.tk):''}">${l.tk!=null?fK(l.tk):'-'}</div></div></div>
-    <div style="display:flex;gap:5px;margin-top:5px">${l.id?`<button class="ldb" style="background:#fff;color:var(--bl);border-color:#cfdcf5" onclick="editLog('${l.id}')">✏️ 수정</button>`:''}<button class="ldb" onclick="dL(${idAttr},${isRemote?true:false},${rowAttr})">🗑 삭제</button></div></div>`;
+    <div style="display:flex;gap:5px;margin-top:5px">${l.id?`<button class="ldb" style="background:#fff;color:var(--bl);border-color:#cfdcf5" onclick="editLog('${l.id}')">✏️ 수정</button>`:''}<button class="ldb" onclick="dL(${idAttr},${isRemote?true:false},${rowAttr},'${encodeURIComponent(l.invoice||'').replace(/'/g,'%27')}')">🗑 삭제</button></div></div>`;
   });list.innerHTML=h;
 }
 function fetchHist(){
   histLoading=true;rL();
-  const cb='hst'+Date.now(),s=document.createElement('script');
+  const mySeq=++_histSeq;   // 이중 실행 시 늦게 도착한 옛 응답이 최신 상태를 덮지 않도록
+  const cb=jsonpCb('hst'),s=document.createElement('script');
   const t=setTimeout(()=>{cl();histLoading=false;rL();},20000);
-  function cl(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
+  function cl(){clearTimeout(t);jsonpDone(cb,s);}
   s.onerror=function(){cl();histLoading=false;rL();};
   window[cb]=function(d){cl();histLoading=false;
+    if(mySeq!==_histSeq){rL();return;}   // stale 응답 폐기
     if(d&&d.ok&&d.rows){
-      const sheetLogs=d.rows.map(r=>({
-        id:r.id,_row:r.rowNum,fr:F,co:r.invoice||'-',fl:'',sj:'',sh:'',sp:'',
-        of:'',sym:'',mb:null,tk:(m=>isNaN(m)?null:m)(parseFloat(String(r.margin==null?'':r.margin).replace(/[^\d.\-]/g,''))),
-        invoice:r.invoice,maker:r.maker,loadDate:r.loadDate,qty:r.qty,
-        rt:r.fxRate,raw:r.rawPrice,me:r.memo,author:r.author,
-        dt:r.date,sent:true,_remote:true
-      }));
-      const localOnly=logs.filter(l=>!l.id);
-      logs=[...sheetLogs,...localOnly];saveL();
+      // 같은 id의 로컬 사본이 있으면 시트에 저장되지 않는 풍부한 필드(국가/스펙/오퍼가/마진 등)를 로컬에서 승계
+      const localById={};logs.forEach(l=>{if(l.id!=null&&l.id!=='')localById[String(l.id)]=l;});
+      const sheetLogs=d.rows.map(r=>{
+        const loc=localById[String(r.id)]||{};
+        const bp=parseBuyerPrice(r.buyerPrice);   // 시트 G열 '$12.5' → sym/of 복원 (신 GAS), 없으면 로컬 사본 유지
+        return{
+          id:r.id,_row:r.rowNum,
+          fr:(r.fruit&&FR_CODE[r.fruit]!=null)?FR_CODE[r.fruit]:(loc.fr||''),   // 시트 M열(과일) 우선 → 로컬 사본 → 미상(모든 탭 표시)
+          co:(r.country&&r.country!=='')?r.country:(loc.co||r.invoice||'-'),
+          fl:loc.fl||'',sj:loc.sj||'',sh:loc.sh||'',
+          sp:(r.spec&&r.spec!=='')?r.spec:(loc.sp||''),
+          of:bp?bp.of:(loc.of!=null?loc.of:''),sym:bp?bp.sym:(loc.sym||''),
+          mb:loc.mb!=null?loc.mb:null,
+          tk:(m=>isNaN(m)?null:m)(parseFloat(String(r.margin==null?'':r.margin).replace(/[^\d.\-]/g,''))),
+          invoice:r.invoice,maker:r.maker,loadDate:normLoadDate(r.loadDate,r.date),qty:r.qty,
+          rt:r.fxRate,raw:r.rawPrice,me:r.memo,author:r.author,
+          dt:r.date,sent:true,_remote:true
+        };
+      });
+      // 로컬 보존 원칙: '시트에 전송된 적 없는 기록'은 절대 지우지 않는다 (💾 로컬 저장 기록 보호)
+      //  - 전송된(sent) 기록은 시트가 진실원천 → 시트 응답으로 대체 (시트에서 지워졌으면 여기서도 사라짐 = 정상)
+      //  - 미전송 기록이라도 같은 id가 시트에 있으면(타임아웃 후 실제로는 저장된 경우) 시트판 사용
+      const sheetIds=new Set(sheetLogs.map(l=>String(l.id)).filter(x=>x!==''&&x!=='undefined'&&x!=='null'));
+      const localKeep=logs.filter(l=>!l.sent&&!l._remote&&!(l.id!=null&&sheetIds.has(String(l.id))));
+      logs=[...localKeep,...sheetLogs];saveL();   // 미전송 로컬 기록(가장 최근 작업)을 목록 위에 유지
     }
     rL();
   };
@@ -1306,96 +1580,229 @@ function fetchHist(){
   document.head.appendChild(s);
 }
 function editLog(id){
-  const l=logs.find(x=>x.id===id);if(!l)return;
+  const l=logs.find(x=>String(x.id)===String(id));if(!l)return;   // 로컬 id는 숫자, 시트 id는 문자열 — 타입 불문 매칭
   pnd={...l,_edit:true};
   $('msb').textContent='✏️ 기록 수정';
   $('mif').innerHTML=`ID: <span>${id}</span> · 작성자: <span>${l.author||'-'}</span>`;
   $('mm').value=l.me||'';
   $('finv').value=l.invoice||'';
   $('fmkr').value=l.maker||'';
-  $('fld').value=(l.loadDate&&/^\d{4}-\d{2}-\d{2}$/.test(l.loadDate))?l.loadDate:'';$('fldDisp').textContent=fmtKDate(l.loadDate)||'';
+  const ld=normLoadDate(l.loadDate,l.dt);
+  $('fld').value=(ld&&/^\d{4}-\d{2}-\d{2}$/.test(ld))?ld:'';$('fldDisp').textContent=fmtKDate(ld)||'';
   $('fqty').value=l.qty||'';
   $('ffx').value=l.rt||'';
+  $('fof').value=(l.of!=null&&l.of!=='')?((l.sym||'$')+l.of):'';$('fof').readOnly=false;   // 수정 화면에서는 바이어단가 직접 편집 가능
   $('fraw').value=l.raw||'';
+  // 시트 기록의 수정은 반드시 시트로 — 💾 로컬만 하면 다음 새로고침 때 시트값으로 되돌아가 수정이 유실되므로 버튼 숨김
+  const ok=$('mokbtn');if(ok)ok.style.display=(l.sent||l._remote)?'none':'';
   $('mo').classList.remove('h');
   const b=$('msbtn');b.disabled=false;b.textContent='💾 수정 저장';
 }
-function dL(id,remote,row){
+function dL(id,remote,row,invEnc){
   if(!confirm('이 기록을 삭제하시겠습니까?'))return;
   if(remote&&(id||row)){
-    const cb='del'+Date.now(),s=document.createElement('script');
+    const cb=jsonpCb('del'),s=document.createElement('script');
     const t=setTimeout(()=>{cl();alert('삭제 타임아웃');},15000);
-    function cl(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
+    function cl(){clearTimeout(t);jsonpDone(cb,s);}
     s.onerror=function(){cl();alert('삭제 실패 (네트워크)');};
     window[cb]=function(d){cl();
-      if(d&&d.ok){if(id)logs=logs.filter(l=>l.id!==id);saveL();fetchHist();}
+      if(d&&d.ok){if(id)logs=logs.filter(l=>String(l.id)!==String(id));saveL();fetchHist();}
       else alert('삭제 실패: '+(d&&d.error||'알 수 없는 오류'));
     };
     let url=SU+'?action=delete&callback='+cb;
+    // id가 있으면 id로만 삭제 — row를 같이 보내면 구버전 GAS가 id 미발견 시 행번호로 엉뚱한 기록을 지울 수 있음
     if(id)url+='&id='+encodeURIComponent(id);
-    if(row)url+='&row='+row;
+    else if(row){url+='&row='+row;if(invEnc)url+='&inv='+invEnc;}   // 레거시 무ID 행만 행번호+인보이스 대조 삭제
     s.src=url;
     document.head.appendChild(s);
   } else {
-    logs=logs.filter(l=>l.id!==id);saveL();rL();
+    logs=logs.filter(l=>String(l.id)!==String(id));saveL();rL();
   }
 }
 function cL(){if(!confirm('로컬 캐시만 비웁니다. 시트 데이터는 그대로입니다. 계속?'))return;logs=[];saveL();rL();}
 
+// ═══ 미전송 기록 일괄 재전송 — '💾 로컬'로만 저장된 기록을 순차로 시트에 올림 (GAS 멱등이라 중복 안전) ═══
+let _rsBusy=false;
+function resendAll(){
+  if(_rsBusy)return;
+  const me=getMe();if(!me){alert('이름을 먼저 입력하세요');return;}
+  const pend=logs.filter(l=>!l.sent&&!l._remote&&l.id!=null);
+  if(!pend.length)return;
+  if(!confirm('미전송 기록 '+pend.length+'건을 시트로 전송할까요?'))return;
+  _rsBusy=true;histLoading=true;rL();
+  let i=0,ok=0,fail=0;
+  (function next(){
+    if(i>=pend.length){
+      _rsBusy=false;histLoading=false;saveL();
+      alert('전송 완료: '+ok+'건'+(fail?' · 실패 '+fail+'건 (미전송으로 남음 — 다시 시도 가능)':''));
+      fetchHist();return;
+    }
+    const l=pend[i++];
+    const cb=jsonpCb('rsd'),sc=document.createElement('script');
+    const t=setTimeout(()=>{cl();fail++;next();},15000);
+    function cl(){clearTimeout(t);jsonpDone(cb,sc);}
+    sc.onerror=function(){cl();fail++;setTimeout(next,300);};
+    window[cb]=function(d){cl();
+      if(d&&(d.ok||d.success)){l.sent=true;l.sentAt=new Date().toISOString();ok++;}
+      else fail++;
+      setTimeout(next,300);   // GAS 부하 방지 간격
+    };
+    sc.src=SU+'?action=log&callback='+cb+'&data='+encodeURIComponent(JSON.stringify(buildLogPayload(l,me)));
+    document.head.appendChild(sc);
+  })();
+}
+
 // ═══ SYNC ═══
 const SU='https://script.google.com/macros/s/AKfycbyn1XNPzfZ_vrmf9Gh69HskO-1-dd7iEu6buS3GeUHiHgL9_VqlmMR1ipdtAe0_d2gc7Q/exec';
 function flI(id){const e=$(id);if(!e)return;e.classList.remove('upd');void e.offsetWidth;e.classList.add('upd');setTimeout(()=>e.classList.remove('upd'),700);}
+const SYNC_SNAP_KEY='hn_sync_v1';   // 마지막 성공 sync 데이터 보존 — 오프라인/GAS 실패 시에도 하드코딩 대신 최신 시트값 사용
+function syncPk(o,...keys){for(const k of keys){if(o[k]!=null)return o[k];}return null;}
+function syncParseFT(o){if(!o||typeof o!=='object')return null;const f=syncPk(o,'f','full','forty','ft40','40');const t=syncPk(o,'t','twenty','ft20','20');if(f==null&&t==null)return null;const r={};if(f!=null)r.f=f;if(t!=null)r.t=t;return r;}
+// 포도Air(항공)탭과 포도(해운)탭이 같은 물리 스펙을 다른 표기로 쓰는 경우의 별칭 — 항공 ca 미동기화 방지
+const GSPEC_ALIAS={'2.7kg|300g*9pack':'2.7kg|300g*9pack(종이팩)','3kg|300g*10pack':'3kg|300g*10pack(도시락)','3.6kg(종이)|400g*9pack':'3.6kg|400g*9pack'};
+function applySyncData(d,src){
+  const pk=syncPk,parseFT=syncParseFT;
+  if(!d||d.error)return false;
+  let cnt=0;
+  const ex=pk(d,'exrate','rate','fx');
+  if(ex&&TODAY_FX_SRC!=='실시간'){TODAY_FX=Math.round(ex);TODAY_FX_SRC=(src==='cache'?'저장':'시트');setFxHint();}   // 실시간 시세 실패 시에만 시트 환율로 폴백 (마진은 항상 입력칸 환율로 계산)
+  if(F==='s'){
+    if(d.prices){
+      if(d.prices.p250){$('sp0').value=d.prices.p250;if(src!=='cache')flI('sp0');}
+      if(d.prices.p500_330){$('sp1').value=d.prices.p500_330;if(src!=='cache')flI('sp1');}
+      cnt++;
+    }
+    const sgd=pk(d,'sgdrate','sgd');
+    // SGD 우선순위: 수동 고정 > 실시간 시세 > 시트값 — 사용자가 직접 고친 값은 sync가 덮지 않음
+    if(sgd&&!localStorage.getItem('hn_ssg_touch')&&!TODAY_SGD&&$('ssg')){$('ssg').value=Math.round(sgd);inpSet('ssg',$('ssg').value);if(src!=='cache')flI('ssg');}
+    // 딸기 달러환율: 시트 환율을 입력칸에 자동 반영 (직접 수정하면 ✋수동 고정, 힌트 탭으로 자동 복귀)
+    // 안전장치: 현재값이 '마지막으로 자동 반영한 값'과 다르면(플래그 없이 벗어난 값) 덮지 않음 — 작성 중 마진이 몰래 바뀌는 것 방지
+    if(ex&&!localStorage.getItem('hn_sfx_touch')&&$('sfx')){
+      const tgt=Math.round(ex),cur=+$('sfx').value||0,last=+(localStorage.getItem('hn_sfx_last')||0);
+      if(cur!==tgt&&(!cur||cur===last||src==='cache')){$('sfx').value=tgt;inpSet('sfx',String(tgt));if(src!=='cache')flI('sfx');}
+      localStorage.setItem('hn_sfx_last',String(tgt));
+    }
+    ssgHintR();
+  }
+  // 배 단가 (한국 + 미국)
+  const pp=pk(d,'pearPrice','pPrice','pearPrices');
+  if(pp){
+    const map={a:'pa',b:'pb',c:'pc',ha:'ha',hb:'hb',hc:'hc'};
+    Object.keys(map).forEach(k=>{const v=pk(pp,k);if(v!=null&&$(map[k])){$(map[k]).value=v;if(src!=='cache')flI(map[k]);cnt++;}});
+  }
+  // 미국 작업비
+  const puw=pk(d,'pearUWk','pUWk','usWk');
+  if(puw)Object.keys(puw).forEach(k=>{if(PUWK[k]!=null){PUWK[k]=puw[k];const e=$('puwk_'+k);if(e)e.value=puw[k];cnt++;}});
+  // 포도 기본단가/작업비는 sync 안 함 — GAS가 0을 보내 사용자 입력을 덮어쓰기 때문 (수동 입력 유지)
+  const fr=pk(d,'freight','strawFreight','airFreight');
+  if(fr)Object.keys(fr).forEach(k=>{if(!SF[k])return;const v=fr[k];const a=pk(v,'airKg','air','a','kg');if(a!=null){SF[k].a=a;cnt++;}const fc=pk(v,'fsc','fc','fuel');if(fc!=null)SF[k].fc=fc;const dom=pk(v,'domFreight','dom','d','domestic');if(dom!=null)SF[k].d=dom;});
+  const ps=pk(d,'pearSea','pSea');if(ps)Object.keys(ps).forEach(k=>{if(!PSEA[k])return;const r=parseFT(ps[k]);if(r){Object.assign(PSEA[k],r);cnt++;}});
+  const pi=pk(d,'pearInland','pInland');if(pi)Object.keys(pi).forEach(k=>{if(!PIL[k])return;const r=parseFT(pi[k]);if(r){Object.assign(PIL[k],r);cnt++;}});
+  // 배 작업비: 내부 기본값(PWK)은 항상 갱신하되, 산지 선택 중이면 입력칸은 산지 기준(PWK_SJ)을 유지 — '← 산지 기준' 라벨과 실제 계산값이 어긋나지 않게
+  const pw=pk(d,'pearWk','pWk');if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){PWK[k]=pw[k];if(!pSj){const e=$('pwk_'+k);if(e&&String(e.value)!==String(pw[k])){e.value=pw[k];if(src!=='cache')flI('pwk_'+k);}}cnt++;}});
+  // 포도 운임 sync — GAS가 포도/포도Air 탭을 직접 읽도록 갱신됨 (신규 산지/국가/항공운임 반영)
+  const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){Object.assign(GSEA[k],r);cnt++;}});
+  // 포도 내륙 sync — 기존 산지는 값 갱신 / 시트에 새 산지가 생기면 GIL+GSANJI에 자동 추가(목록에 표시). 영동처럼 신규 산지 자동 반영.
+  const gi=pk(d,'grapeInland','gInland');if(gi)Object.keys(gi).forEach(k=>{const r=parseFT(gi[k]);if(!r)return;if(!GIL[k]){GIL[k]={f:0,t:0};if(!GSANJI.includes(k))GSANJI.push(k);}Object.assign(GIL[k],r);cnt++;});
+  // 포도 항공운임 sync — GAS가 'SLP 항공요율표' BLOCK A(운임 계=운임+FSC)를 읽어 국가별 전송. (도내운송 350,000은 요율표에 없어 앱 하드코딩 유지)
+  const gak=pk(d,'grapeAirKg','gAirKg');if(gak)Object.keys(gak).forEach(k=>{if(GAIR_KG[k]!=null){const vv=+gak[k];if(vv>0){GAIR_KG[k]=vv;cnt++;}}});
+  // 포도 스펙별 값 sync — cnt/p(ct/ca)·부자재·박스를 시트값으로 덮어쓰기(GS.k 매칭, 별칭 보조). 빈값/미매칭은 앱값 유지(안전).
+  const gsp2=pk(d,'grapeSpecs','gSpecs');
+  if(gsp2){GS.forEach(sp=>{if(!sp.k)return;const ali=GSPEC_ALIAS[sp.k];const dd={...(ali&&gsp2[ali]?gsp2[ali]:{}),...(gsp2[sp.k]||{})};if(!Object.keys(dd).length)return;if(dd.ct>0)sp.ct=dd.ct;if(dd.ca>0)sp.ca=dd.ca;if(dd.bj>0)sp.bj=dd.bj;if(dd.bx>0)sp.bx=dd.bx;cnt++;});}
+  if(F==='s')sA();else if(F==='p'){pB();pA();}else if(F==='g')gB();else mA();
+  // ── 카테고리별 수신 검증: 하나라도 실질값 0이면 배지로 즉시 경고 (조용한 sync 실패 방지) ──
+  // 키 개수가 아니라 '0보다 큰 값이 하나라도 있는가'로 판정 — GAS가 {f:0,t:0}로 채워 보내는 경우도 미수신으로 감지
+  const hasVals=o=>{if(!o)return false;return Object.keys(o).some(k=>{const v=o[k];if(v&&typeof v==='object')return Object.keys(v).some(x=>+v[x]>0);return +v>0;});};
+  const cats=[['배해운',d.pearSea],['배내륙',d.pearInland],['포도해운',d.grapeSea],['포도내륙',d.grapeInland],['포도항공',d.grapeAirKg],['포도스펙',d.grapeSpecs],['딸기운임',d.freight]];
+  const missing=cats.filter(c=>!hasVals(c[1])).map(c=>c[0]);
+  const metaErrs=(d.meta&&d.meta.errors)||[];   // GAS가 감지한 부분 파싱 손실(국가 누락 등) — 카테고리 전멸이 아니어도 경고
+  if(src==='cache'){/* 배지는 applyCachedSync에서 설정 */}
+  else if(missing.length)sBdg('warn','⚠ 미수신: '+missing.join('·'));
+  else if(metaErrs.length)sBdg('warn','⚠ 시트 파싱 주의 '+metaErrs.length+'건');
+  else sBdg('ok','✅ 시트 연동 중');
+  const bgEl=$('sbdg');if(bgEl)bgEl.title='수신 현황 — '+cats.map(c=>c[0]+':'+(c[1]?Object.keys(c[1]).length:0)).join(', ')
+    +(d.meta&&d.meta.generated?' · 데이터 생성 '+d.meta.generated:'')
+    +(d.meta&&d.meta.freightUpdated?' · 운임표 '+d.meta.freightUpdated:'')
+    +(metaErrs.length?' · ⚠ '+metaErrs.join(' / '):'')
+    +(d.meta?(d.meta.stateReady?'':' · ⚠ 앱상태 저장: GAS 새 버전 필요'):' · ⚠ GAS 구버전 — 새 버전 배포 필요');
+  if(src!=='cache'&&d.meta&&d.meta.freightUpdated){const lt2=$('lst');if(lt2&&lt2.textContent.indexOf('운임표')<0)lt2.textContent+=' · 운임표 '+d.meta.freightUpdated;}
+  return true;
+}
+// SGD 환율 수동고정 상태 표시/토글 (자동 모드 소스: 실시간 시세 > 시트값)
+function ssgHintR(){const e=$('ssgHint');if(!e)return;const manual=!!localStorage.getItem('hn_ssg_touch');e.innerHTML='<span class="dot-sgd"></span>'+(manual?'✋ 수동 고정 · 탭하면 자동':(TODAY_SGD?'실시간 자동 반영':'시트 자동 반영'));}
+function ssgToggle(){if(localStorage.getItem('hn_ssg_touch')){localStorage.removeItem('hn_ssg_touch');ssgHintR();applyLiveSgd();doSy();}else{localStorage.setItem('hn_ssg_touch','1');ssgHintR();}}
+// 부팅 직후: 마지막 성공 sync 스냅샷을 먼저 적용 (라이브 sync 도착 시 자동으로 덮임)
+function applyCachedSync(){
+  try{
+    const snap=JSON.parse(localStorage.getItem(SYNC_SNAP_KEY)||'null');
+    if(!snap||!snap.d)return;
+    applySyncData(snap.d,'cache');
+    const dt=new Date(snap.t||0);
+    sBdg('idle','💾 저장 데이터');
+    const lt=$('lst');if(lt)lt.textContent='저장 데이터 기준: '+(dt.getMonth()+1)+'/'+dt.getDate()+' '+String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');
+  }catch(e){console.warn('[SYNC-CACHE]',e);}
+}
 function doSy(){
   const bg=$('sbdg');if(bg){bg.className='sbdg ld';bg.textContent='⏳ 동기화 중...';}
-  const cb='c'+Date.now(),s=document.createElement('script');s.src=SU+'?callback='+cb;
+  const cb=jsonpCb('sy'),s=document.createElement('script');s.src=SU+'?callback='+cb;
   const t=setTimeout(()=>{cl();sBdg('err','❌ 타임아웃');},30000);
-  function cl(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
+  function cl(){clearTimeout(t);jsonpDone(cb,s);}
   s.onerror=function(){cl();sBdg('err','❌ 연결실패');};
-  function pk(o,...keys){for(const k of keys){if(o[k]!=null)return o[k];}return null;}
-  function parseFT(o){if(!o||typeof o!=='object')return null;const f=pk(o,'f','full','forty','ft40','40');const t=pk(o,'t','twenty','ft20','20');if(f==null&&t==null)return null;const r={};if(f!=null)r.f=f;if(t!=null)r.t=t;return r;}
   window[cb]=function(d){cl();try{
     console.log('[SYNC]',JSON.stringify(d).substring(0,500));
     if(d.error){sBdg('err','❌ '+d.error);return;}
-    let cnt=0;
-    const ex=pk(d,'exrate','rate','fx');
-    if(ex&&TODAY_FX_SRC!=='실시간'){TODAY_FX=Math.round(ex);TODAY_FX_SRC='시트';setFxHint();}   // 실시간 시세 실패 시에만 시트 환율로 폴백 (마진은 항상 입력칸 환율로 계산)
-    if(F==='s'&&d.prices){
-      if(d.prices.p250){$('sp0').value=d.prices.p250;flI('sp0');}
-      if(d.prices.p500_330){$('sp1').value=d.prices.p500_330;flI('sp1');}
-      if(pk(d,'sgdrate','sgd')){$('ssg').value=Math.round(pk(d,'sgdrate','sgd'));flI('ssg');}
-      cnt++;
-    }
-    // 배 단가 (한국 + 미국)
-    const pp=pk(d,'pearPrice','pPrice','pearPrices');
-    if(pp){
-      const map={a:'pa',b:'pb',c:'pc',ha:'ha',hb:'hb',hc:'hc'};
-      Object.keys(map).forEach(k=>{const v=pk(pp,k);if(v!=null&&$(map[k])){$(map[k]).value=v;flI(map[k]);cnt++;}});
-    }
-    // 미국 작업비
-    const puw=pk(d,'pearUWk','pUWk','usWk');
-    if(puw)Object.keys(puw).forEach(k=>{if(PUWK[k]!=null){PUWK[k]=puw[k];const e=$('puwk_'+k);if(e)e.value=puw[k];cnt++;}});
-    // 포도 기본단가/작업비는 sync 안 함 — GAS가 0을 보내 사용자 입력을 덮어쓰기 때문 (수동 입력 유지)
-    const fr=pk(d,'freight','strawFreight','airFreight');
-    if(fr)Object.keys(fr).forEach(k=>{if(!SF[k])return;const v=fr[k];const a=pk(v,'airKg','air','a','kg');if(a!=null){SF[k].a=a;cnt++;}const fc=pk(v,'fsc','fc','fuel');if(fc!=null)SF[k].fc=fc;const dom=pk(v,'domFreight','dom','d','domestic');if(dom!=null)SF[k].d=dom;});
-    const ps=pk(d,'pearSea','pSea');if(ps)Object.keys(ps).forEach(k=>{if(!PSEA[k])return;const r=parseFT(ps[k]);if(r){Object.assign(PSEA[k],r);cnt++;}});
-    const pi=pk(d,'pearInland','pInland');if(pi)Object.keys(pi).forEach(k=>{if(!PIL[k])return;const r=parseFT(pi[k]);if(r){Object.assign(PIL[k],r);cnt++;}});
-    const pw=pk(d,'pearWk','pWk');if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){PWK[k]=pw[k];const e=$('pwk_'+k);if(e)e.value=pw[k];cnt++;}});
-    // 포도 운임 sync — GAS가 포도/포도Air 탭을 직접 읽도록 갱신됨 (신규 산지/국가/항공운임 반영)
-    const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){Object.assign(GSEA[k],r);cnt++;}});
-    // 포도 내륙 sync — 기존 산지는 값 갱신 / 시트에 새 산지가 생기면 GIL+GSANJI에 자동 추가(목록에 표시). 영동처럼 신규 산지 자동 반영.
-    const gi=pk(d,'grapeInland','gInland');if(gi)Object.keys(gi).forEach(k=>{const r=parseFT(gi[k]);if(!r)return;if(!GIL[k]){GIL[k]={f:0,t:0};if(!GSANJI.includes(k))GSANJI.push(k);}Object.assign(GIL[k],r);cnt++;});
-    // 포도 항공운임 sync — GAS가 'SLP 항공요율표' BLOCK A(운임 계=운임+FSC)를 읽어 국가별 전송. (도내운송 350,000은 요율표에 없어 앱 하드코딩 유지)
-    const gak=pk(d,'grapeAirKg','gAirKg');if(gak)Object.keys(gak).forEach(k=>{if(GAIR_KG[k]!=null){const vv=+gak[k];if(vv>0){GAIR_KG[k]=vv;cnt++;}}});
-    // 포도 스펙별 값 sync — cnt/p(ct/ca)·부자재·박스를 시트값으로 덮어쓰기(GS.k 매칭). 빈값/미매칭은 앱값 유지(안전).
-    const gsp2=pk(d,'grapeSpecs','gSpecs');if(gsp2){GS.forEach(sp=>{if(!sp.k)return;const dd=gsp2[sp.k];if(!dd)return;if(dd.ct>0)sp.ct=dd.ct;if(dd.ca>0)sp.ca=dd.ca;if(dd.bj>0)sp.bj=dd.bj;if(dd.bx>0)sp.bx=dd.bx;cnt++;});}
-    if(F==='s')sA();else if(F==='p'){pB();pA();}else if(F==='g')gB();else mA();
-    sBdg('ok','✅ 시트 연동 중');
+    applySyncData(d,'live');
+    try{localStorage.setItem(SYNC_SNAP_KEY,JSON.stringify({t:Date.now(),d}));}catch(e){}
     const now=new Date();const ts=now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
     const lt=$('lst');if(lt)lt.textContent='마지막 동기화: '+ts;
   }catch(e){console.error('[SYNC]',e);sBdg('err','❌ 오류');}};
   document.head.appendChild(s);
 }
 function sBdg(cls,txt){const e=$('sbdg');if(e){e.className='sbdg '+cls;e.textContent=txt;}}
+
+// ═══ 앱 상태 → 시트 역방향 저장 ═══
+// 앱에서 계산 중인 값(환율/산지/운송/오퍼가/실출고/작업비/스펙별 비용)을 시트 '앱상태' 탭에 과일당 1행으로 자동 기록.
+// 시트에서 이어서 확인/계산할 수 있게 사람이 읽는 요약 + 상세 JSON을 함께 저장. (입력 후 10초 debounce, 화면 이탈 시 즉시)
+let _stT=null,_stLast='';
+function shipLabel(){if(F==='s')return '항공';const h=$(F==='p'?'psh':F==='g'?'gsh':'msh');const vv=h?h.value:'';return vv==='air'?'항공':(vv?vv+'ft':'');}
+function schedPush(){try{clearTimeout(_stT);_stT=setTimeout(pushState,10000);}catch(e){}}
+function stateSummary(st){
+  const rows=[];
+  st=st||inpStore();
+  const sv=id=>{const e=$(id);if(e)return +e.value||0;return +(st[id]||0)||0;};   // 필터로 숨겨진 입력은 저장소에서 읽음 — 화면에 안 보여도 요약에 포함
+  const add=(co,sp,of,sym,q)=>rows.push(co+' '+sp+' '+(sym||'$')+of+(q?' ×'+q+'박스':''));
+  if(F==='s'){Object.keys(SF).forEach(k=>SS.forEach((sp,i)=>{const of=sv('so'+k+i);const def=(SD[k]||[])[i]||0;if(of&&of!==def)add(SF[k].n,sp.l,of,SF[k].sg?'S$':'$','');}));}   // 기본단가 그대로인 항목은 제외(노이즈 방지)
+  else if(F==='p'){PC.forEach(c=>PS.forEach(s=>{const of=sv('po'+c.n+s.id);if(of)add(c.n,s.l,of,'$',sv('pq'+c.n+s.id)||'');}));}
+  else if(F==='g'){const cl=($('gsh')&&$('gsh').value==='air')?GAIR_C:GC;cl.forEach(c=>GS.forEach((s,i)=>{const of=sv('go'+c.n+i);if(of)add(c.n,s.l,of,'$',sv('gq'+c.n+i)||'');}));}
+  else if(MFD[F]){PC.forEach(c=>MFD[F].specs.forEach((sp,i)=>{const of=sv('mo'+F+c.n+i);if(of)add(c.n,sp.l,of,'$','');}));}
+  return rows.join(' | ').slice(0,1900);
+}
+function pushState(){
+  if(!F)return;
+  try{
+    _stPushing=true;try{inpSaveAll();}finally{_stPushing=false;}   // debounce 대기 중인 입력까지 저장소에 반영 후 수집 (요약과 상세의 시점 불일치 방지)
+    const fxId=F==='s'?'sfx':F==='p'?'pfx':F==='g'?'gfx':'mfx';
+    const supId=F==='p'?'psp':F==='g'?'gsp':(F==='s'?null:'msp');
+    const sj=F==='p'?(pSj||''):F==='g'?(gSj||''):(F==='s'?'':(mSj[F]||''));
+    const st=inpStore();
+    let keys={s:['sp0','sp1','sfx','ssg','so'],p:['pa','pb','pc','ha','hb','hc','pwk_','puwk_','pfx','psp','po','pq'],g:['gfx','gsp','go','gq']}[F];
+    if(!keys)keys=['mfx','msp','mr'+F,'mo'+F,'mnw'+F,'mgw'+F,'mct'+F,'mwk'+F];
+    const inputs={};Object.keys(st).forEach(k=>{if(keys.some(p=>k.slice(0,p.length)===p))inputs[k]=st[k];});
+    const detail={inputs};
+    if(F==='g')detail.gcost=gCost;   // 포도 스펙별 원물/작업비/부자재/박스
+    let detailStr=JSON.stringify(detail);
+    if(detailStr.length>40000&&detail.gcost){delete detail.gcost;detail._note='스펙별 비용은 용량 초과로 생략';detailStr=JSON.stringify(detail);}   // 중간 절단으로 JSON이 깨지지 않게 통째로 생략
+    if(detailStr.length>40000)detailStr=JSON.stringify({_note:'용량 초과로 상세 생략'});
+    const payload={action:'state',fruit:FRN[F]||F,author:localStorage.getItem('cur_user')||'',sanji:sj,ship:shipLabel(),fx:gv(fxId)||'',sup:supId?(gv(supId)||''):'',summary:stateSummary(st),detail:detailStr};
+    const key=JSON.stringify(payload);
+    if(key===_stLast)return;   // 내용이 안 바뀌었으면 전송 생략
+    fetch(SU,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})
+      .then(()=>{_stLast=key;})   // 네트워크 성공 후에만 '보냈음' 처리 — 실패하면 다음 트리거에서 자동 재전송
+      .catch(()=>{});
+  }catch(e){console.warn('[STATE]',e);}
+}
+document.addEventListener('input',(e)=>{const t=e.target;if(!t.id||(t.tagName!=='INPUT'&&t.tagName!=='TEXTAREA'&&t.tagName!=='SELECT')||t.id==='pwi')return;schedPush();});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&F){clearTimeout(_stT);pushState();}});
 
 function testSync(){
   const r=$('testR');r.innerHTML='⏳ 연결 중...';
@@ -1414,7 +1821,10 @@ function testSync(){
     info+='배 해운: '+(d.pearSea?Object.keys(d.pearSea).length+'개국':'없음')+'<br>';
     info+='배 내륙: '+(d.pearInland?Object.keys(d.pearInland).length+'개 산지':'없음')+'<br>';
     info+='포도 해운: '+(d.grapeSea?Object.keys(d.grapeSea).length+'개국':'없음')+'<br>';
-    info+='포도 내륙: '+(d.grapeInland?Object.keys(d.grapeInland).length+'개 산지':'없음');
+    info+='포도 내륙: '+(d.grapeInland?Object.keys(d.grapeInland).length+'개 산지':'없음')+'<br>';
+    const gac=d.grapeAirKg?Object.keys(d.grapeAirKg).length:0;
+    info+='포도 항공: '+(gac?gac+'개국':'<span style="color:#c2860a;font-weight:700">0건 ⚠ (시트 포도Air 요율표 확인 필요)</span>')+'<br>';
+    info+='포도 스펙: '+(d.grapeSpecs?Object.keys(d.grapeSpecs).length+'개':'없음');
     r.innerHTML=info;
   };
   document.head.appendChild(s);
@@ -1425,7 +1835,7 @@ const EX_GID='2075137716';
 const EX_URL='https://docs.google.com/spreadsheets/d/'+EX_SSID+'/edit?gid='+EX_GID+'#gid='+EX_GID;
 const EX_CFLG={'대만':'🇹🇼','베트남':'🇻🇳','베트남호치민':'🇻🇳','베트남하이퐁':'🇻🇳','호치민':'🇻🇳','하노이':'🇻🇳','홍콩':'🇭🇰','말레이시아':'🇲🇾','말레이':'🇲🇾','인도네시아':'🇮🇩','인도네':'🇮🇩','태국':'🇹🇭','호주':'🇦🇺','뉴질랜드':'🇳🇿','미국LA':'🇺🇸','미국NY':'🇺🇸','미국':'🇺🇸','캐나다':'🇨🇦','싱가포르':'🇸🇬','싱가폴':'🇸🇬','일본':'🇯🇵','중국':'🇨🇳','필리핀':'🇵🇭','몽골':'🇲🇳','브루나이':'🇧🇳','두바이':'🇦🇪','코타':'🇲🇾'};
 const EX_FE={'딸기':'🍓','배':'🍐','포도':'🍇','귤':'🍊','키위':'🥝','감':'🟠','복숭아':'🍑','토마토':'🍅','사과':'🍎','참외':'🍈','수박':'🍉','바나나':'🍌','멜론':'🍈'};
-let exData=[],exFlt={ctry:'all',fr:'all',q:'',dmode:'all',dfrom:'',dto:''};
+let exData=[],exFlt={view:'up',ctry:'all',fr:'all',q:'',dmode:'all',dfrom:'',dto:''};   // view: 'up'=예정(상차일 안 지남) / 'past'=지난(상차일 하루 경과)
 function openExL(){$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('elv').style.display='flex';if(!exData.length)fetchExL();else renderExL();}
 function closeExL(){$('elv').style.display='none';$('land').style.display='flex';requestAnimationFrame(()=>$('land').classList.remove('h'));}
 function openExSheet(){window.open(EX_URL,'_blank','noopener');}
@@ -1509,13 +1919,22 @@ function exEffDate(s){
 }
 function exFmtQ(q){if(q==null||q==='')return '-';const n=parseFloat(String(q).replace(/,/g,''));return isNaN(n)?String(q):n.toLocaleString('ko-KR');}
 function exPick(r,...keys){for(const k of keys){if(r[k]!=null&&r[k]!=='')return r[k];}return '';}
+function setExView(vw){exFlt.view=vw;exFlt.ctry='all';exFlt.fr='all';renderExL();}
 function renderExL(){
-  if(!exData.length){$('elvLs').innerHTML='<div class="elvEm"><div class="elvEe">📭</div>데이터가 없습니다</div>';$('elvSt').textContent='0건';return;}
+  if(!exData.length){$('elvVw').innerHTML='';$('elvLs').innerHTML='<div class="elvEm"><div class="elvEe">📭</div>데이터가 없습니다</div>';$('elvSt').textContent='0건';return;}
+  const now=new Date();const T0=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
+  const effOf=r=>exEffDate(exPick(r,'상차일','Loading','상차'));
+  const isPast=r=>{const d=effOf(r);return !!d&&d.getTime()<T0;};   // 상차일 다음날부터 '지난 출고'
+  const upAll=exData.filter(r=>!isPast(r)),pastAll=exData.filter(isPast);
+  const vw=exFlt.view==='past'?'past':'up';
+  $('elvVw').innerHTML='<button class="exvb '+(vw==='up'?'on':'')+'" onclick="setExView(\'up\')">🚚 예정 출고<span class="cnt">'+upAll.length+'</span></button>'+
+    '<button class="exvb '+(vw==='past'?'on':'')+'" onclick="setExView(\'past\')">✅ 지난 출고<span class="cnt">'+pastAll.length+'</span></button>';
+  const base=vw==='past'?pastAll:upAll;
   const ctrs={},frs={};
-  exData.forEach(r=>{const c=exPick(r,'국가','Country');const f=exPick(r,'품목','Item','과일');if(c)ctrs[c]=(ctrs[c]||0)+1;if(f)frs[f]=(frs[f]||0)+1;});
+  base.forEach(r=>{const c=exPick(r,'국가','Country');const f=exPick(r,'품목','Item','과일');if(c)ctrs[c]=(ctrs[c]||0)+1;if(f)frs[f]=(frs[f]||0)+1;});
   const ctrList=Object.keys(ctrs).sort((a,b)=>ctrs[b]-ctrs[a]);
   const frList=Object.keys(frs).sort((a,b)=>frs[b]-frs[a]);
-  $('elvCC').innerHTML='<div class="elvCp '+(exFlt.ctry==='all'?'on':'')+'" onclick="setExFlt(\'ctry\',\'all\')">전체<span class="elvCn">'+exData.length+'</span></div>'+
+  $('elvCC').innerHTML='<div class="elvCp '+(exFlt.ctry==='all'?'on':'')+'" onclick="setExFlt(\'ctry\',\'all\')">전체<span class="elvCn">'+base.length+'</span></div>'+
     ctrList.map(c=>'<div class="elvCp '+(exFlt.ctry===c?'on':'')+'" onclick="setExFlt(\'ctry\',\''+c.replace(/'/g,"\\'")+'\')">'+exFlag(c)+' '+c+'<span class="elvCn">'+ctrs[c]+'</span></div>').join('');
   $('elvFC').innerHTML='<div class="elvCp '+(exFlt.fr==='all'?'on':'')+'" onclick="setExFlt(\'fr\',\'all\')">전체</div>'+
     frList.map(f=>'<div class="elvCp '+(exFlt.fr===f?'on':'')+'" onclick="setExFlt(\'fr\',\''+f.replace(/'/g,"\\'")+'\')">'+(EX_FE[f]||'📦')+' '+f+'<span class="elvCn">'+frs[f]+'</span></div>').join('');
@@ -1536,17 +1955,17 @@ function renderExL(){
       if(exFlt.dfrom)dLo=new Date(exFlt.dfrom+'T00:00:00');
       if(exFlt.dto)dHi=new Date(exFlt.dto+'T23:59:59');
     }else{
-      const N=+exFlt.dmode,now=new Date();
+      const N=+exFlt.dmode;
       dHi=new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59);
       dLo=new Date(now.getFullYear(),now.getMonth(),now.getDate()-N+1,0,0,0);
     }
   }
   const q=exFlt.q.toLowerCase().trim();
-  let fl=exData.filter(r=>{
+  let fl=base.filter(r=>{
     if(exFlt.ctry!=='all'&&exPick(r,'국가','Country')!==exFlt.ctry)return false;
     if(exFlt.fr!=='all'&&exPick(r,'품목','Item','과일')!==exFlt.fr)return false;
     if(exFlt.dmode!=='all'){
-      const ld=exEffDate(exPick(r,'상차일','Loading','상차'));
+      const ld=effOf(r);
       if(!ld)return false;
       if(dLo&&ld<dLo)return false;
       if(dHi&&ld>dHi)return false;
@@ -1554,22 +1973,38 @@ function renderExL(){
     if(q){const t=(exPick(r,'바이어','Buyer')+' '+exPick(r,'INVOICE','Invoice','인보이스')+' '+exPick(r,'제조자','Maker')+' '+exPick(r,'포워딩','Forwarder')+' '+exPick(r,'NO')).toLowerCase();if(!t.includes(q))return false;}
     return true;
   });
+  // 정렬: 예정=임박한 날짜부터(미정은 마지막) / 지난=최근 지난 것부터
   fl.sort((a,b)=>{
-    const da=exEffDate(exPick(a,'상차일','Loading','상차'));
-    const db=exEffDate(exPick(b,'상차일','Loading','상차'));
-    if(db&&da)return db-da;if(db)return 1;if(da)return -1;
+    const da=effOf(a),db=effOf(b);
+    if(vw==='past'){if(db&&da)return db-da;if(db)return 1;if(da)return -1;}
+    else{if(da&&db)return da-db;if(da)return -1;if(db)return 1;}
     return (+exPick(b,'NO')||0)-(+exPick(a,'NO')||0);
   });
-  $('elvSt').innerHTML='총 <b>'+fl.length+'</b>건'+(fl.length!==exData.length?' <span style="color:var(--t3)">/ 전체 '+exData.length+'건</span>':'');
-  if(!fl.length){$('elvLs').innerHTML='<div class="elvEm"><div class="elvEe">🔍</div>조건에 맞는 건이 없습니다</div>';return;}
-  const grp={};
+  $('elvSt').innerHTML='총 <b>'+fl.length+'</b>건'+(fl.length!==base.length?' <span style="color:var(--t3)">/ '+(vw==='past'?'지난':'예정')+' '+base.length+'건</span>':'');
+  if(!fl.length){
+    $('elvLs').innerHTML='<div class="elvEm"><div class="elvEe">'+(vw==='up'?'🚚':'🔍')+'</div>'+(vw==='up'&&!upAll.length?'예정된 출고가 없습니다':'조건에 맞는 건이 없습니다')+
+      (vw==='up'&&pastAll.length?'<div style="margin-top:10px"><button class="exvb" style="flex:none;padding:8px 16px" onclick="setExView(\'past\')">✅ 지난 출고 '+pastAll.length+'건 보기</button></div>':'')+'</div>';
+    return;
+  }
+  // 상차일 날짜별 그룹 + D-day
+  const grp={},order=[];
   fl.forEach(r=>{
-    const d=exEffDate(exPick(r,'상차일','Loading','상차'));
-    const k=d?d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0'):'날짜 미정';
-    (grp[k]=grp[k]||[]).push(r);
+    const d=effOf(r);
+    const k=d?exFmtYmd(d):'날짜 미정';
+    if(!grp[k]){grp[k]=[];order.push(k);}
+    grp[k].push(r);
   });
-  const keys=Object.keys(grp).sort((a,b)=>{if(a==='날짜 미정')return 1;if(b==='날짜 미정')return -1;return b.localeCompare(a);});
-  $('elvLs').innerHTML=keys.map(k=>'<div class="elvMh">'+k+'<span class="elvMc">'+grp[k].length+'건</span></div>'+grp[k].map(exCard).join('')).join('');
+  const days=['일','월','화','수','목','금','토'];
+  $('elvLs').innerHTML=order.map(k=>{
+    let hdrL='날짜 미정',hdrR='';
+    if(k!=='날짜 미정'){
+      const d=new Date(k+'T00:00:00');
+      const dd=Math.round((d.getTime()-T0)/86400000);
+      hdrL='📦 '+(d.getMonth()+1)+'/'+d.getDate()+' ('+days[d.getDay()]+') · '+grp[k].length+'건';
+      hdrR=dd===0?'오늘 상차':dd===1?'내일':dd>1?'D-'+dd:dd===-1?'어제':(-dd)+'일 전';
+    }else hdrL='날짜 미정 · '+grp[k].length+'건';
+    return '<div class="exgh"><span>'+hdrL+'</span><span class="dday'+(vw==='past'?' past':'')+'">'+hdrR+'</span></div>'+grp[k].map(exRow).join('');
+  }).join('');
 }
 function exFmtQty(q){
   if(q==null||q==='')return '';
@@ -1587,56 +2022,34 @@ function exFlag(ctry){
   for(const k of Object.keys(EX_CFLG).sort((a,b)=>b.length-a.length)){if(String(ctry).startsWith(k))return EX_CFLG[k];}
   return '🏳️';
 }
-function exCard(r){
+// 컴팩트 행 — 한 줄에 국기/품목·국가·바이어·제조자·인보이스·일정(상차›출발›도착)·수량까지 압축 표시
+function exRow(r){
+  const esc=v=>String(v==null?'':v).replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const ctry=exPick(r,'국가','Country')||'-';
-  const fr=exPick(r,'품목','Item','과일')||'-';
-  const fg=exFlag(ctry);
-  const fe=EX_FE[fr]||'📦';
+  const fr=exPick(r,'품목','Item','과일')||'';
   const qty=exFmtQty(exPick(r,'수량','Qty','Quantity'));
   const buyer=exPick(r,'바이어','Buyer');
   const maker=exPick(r,'제조자','Maker');
   const inv=exPick(r,'INVOICE','Invoice','인보이스');
   const fwd=exPick(r,'포워딩','Forwarder','Forwarding');
-  const ld=exPick(r,'상차일','Loading','상차');
-  const dp=exPick(r,'출발일','ETD','출발');
-  const ar=exPick(r,'도착일','ETA','도착');
-  const no=exPick(r,'NO','NO.');
+  const dp=exPick(r,'출발일','ETD','출발'),ar=exPick(r,'도착일','ETA','도착');
   const note=exPick(r,'비고','Note','Remark','Remarks','메모');
-  const esc=v=>String(v).replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  // 셀: 라벨+값 (항상 표시, 비면 placeholder). 제조자는 "미정"(앰버)
-  const cell=(l,v,mono,emptyHtml,cls)=>`<div class="elvCell${cls?' '+cls:''}"><span class="elvMl">${l}</span><span class="elvMv${mono?' mono':''}">${v?esc(v):(emptyHtml||'<span style="color:var(--t3);font-weight:600">-</span>')}</span></div>`;
-  const stage=(k,e,v)=>{
-    let inner='-',cls=v?'':' dim';
-    if(v){ if(exDateObj(v))inner=exFmtD(v); else{inner=esc(String(v));cls+=' multi';} } // 변경이력("8/21>23")은 그대로 작게
-    return `<div class="elvTs"><span class="elvTk">${e} ${k}</span><span class="elvTv${cls}">${inner}</span></div>`;
-  };
-  return '<div class="elvCd">'+
-    '<div class="elvCt"><div class="elvCl">'+
-      `<span class="elvFg">${fg}</span>`+
-      `<div style="min-width:0"><div class="elvCn2">${esc(ctry)}</div>`+
-      `<div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap"><span class="elvIt">${fe} ${esc(fr)}</span>`+
-      (no?`<span class="elvIt" style="background:var(--sf2);color:var(--t3)">#${esc(no)}</span>`:'')+`</div></div>`+
-    '</div>'+
-    (qty?`<div class="elvQt">${esc(qty)}</div>`:'')+'</div>'+
-    '<div class="elvMi">'+
-      '<div class="elvMr">'+
-        cell('바이어',buyer)+
-        cell('제조자',maker,false,'<span style="color:#c2860a;font-weight:800">미정</span>')+
+  const dtxt=x=>{if(!x)return '·';if(exDateObj(x))return exFmtD(x);return esc(String(x));};   // 변경이력("8/21>23")은 원문 그대로
+  return '<div class="exr">'+
+    '<div class="exrIc">'+exFlag(ctry)+(fr?(EX_FE[fr]||'📦'):'')+'</div>'+
+    '<div class="exrTx">'+
+      '<div class="exrT1"><span class="exrC">'+esc(ctry)+'</span>'+
+        (buyer?'<span class="exrBy">'+esc(buyer)+'</span>':'')+
+        (maker?'<span class="exrMk">'+esc(maker)+'</span>':'<span class="exrMk" style="color:#c2860a;font-weight:800">제조자 미정</span>')+
       '</div>'+
-      '<div class="elvMr">'+
-        '<div class="elvCell inv"><span class="elvMl">인보이스</span><span class="elvMv mono inv-wrap">'+
-          (inv?'<span class="inv-txt">'+esc(inv)+'</span><button class="elvCpy" onclick="exCopyInv(this)" title="인보이스 복사">📋</button>'
-              :'<span class="inv-txt" style="color:var(--t3);font-weight:600">-</span>')+
-        '</span></div>'+
-        cell('포워딩',fwd,false,null,'fwd')+
+      '<div class="exrT2">'+
+        (inv?'<span class="inv-wrap exrInv"><span class="inv-txt">'+esc(inv)+'</span><button class="elvCpy exrCp" onclick="exCopyInv(this)" title="인보이스 복사">📋</button></span>':'')+
+        (fwd?'<span>🚛'+esc(fwd)+'</span>':'')+
+        (note?'<span>📌'+esc(note)+'</span>':'')+
       '</div>'+
     '</div>'+
-    '<div class="elvTl">'+
-      stage('상차','📦',ld)+'<span class="elvTa">›</span>'+
-      stage('출발','🚢',dp)+'<span class="elvTa">›</span>'+
-      stage('도착','📍',ar)+
-    '</div>'+
-    (note?`<div class="elvNote"><span class="elvNi">📌</span><span>${esc(note)}</span></div>`:'')+
+    '<div class="exrTl">🚢'+dtxt(dp)+' › 📍'+dtxt(ar)+'</div>'+
+    '<div class="exrQ"'+(qty?'':' style="color:var(--t3)"')+'>'+(qty?esc(qty):'-')+'</div>'+
   '</div>';
 }
 function setExFlt(k,v){exFlt[k]=v;renderExL();}
@@ -1667,7 +2080,75 @@ function exCopyInv(btn){
   const fb=()=>{try{const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();document.execCommand('copy');document.body.removeChild(ta);ok();}catch(e){alert('인보이스: '+txt);}};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok).catch(fb);}else{fb();}
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('elv')&&$('elv').style.display==='flex')closeExL();});
+document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if($('elv')&&$('elv').style.display==='flex')closeExL();if($('hlv')&&$('hlv').style.display==='flex')closeHL();});
+
+// ═══ 오퍼히스토리 뷰어 (첫 화면) — 시트 '오퍼히스토리' 탭 최근 100건을 전 과일 통합으로 표시 ═══
+let hlData=[],hlFlt={fr:'all',q:''};
+function openHL(){$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('hlv').style.display='flex';if(hlData.length){renderHL();fetchHL(true);}else fetchHL();}   // 캐시 먼저 보여주고 백그라운드 갱신
+function closeHL(){$('hlv').style.display='none';$('land').style.display='flex';requestAnimationFrame(()=>$('land').classList.remove('h'));}
+function openHLSheet(){window.open('https://docs.google.com/spreadsheets/d/'+EX_SSID+'/edit','_blank','noopener');}
+function fetchHL(bg){
+  if(!bg){
+    $('hlvLs').innerHTML='<div class="elvLd"><div class="elvSp"></div><div>시트에서 불러오는 중...</div></div>';
+    $('hlvSt').textContent='연결 중...';
+  }
+  const cb=jsonpCb('hlv'),sc=document.createElement('script');
+  const t=setTimeout(()=>{cl();if(!bg){$('hlvLs').innerHTML='<div class="elvEr"><div style="font-size:32px;margin-bottom:8px">⚠️</div><b>타임아웃</b><small>네트워크를 확인하고 새로고침(↻) 해주세요.</small></div>';$('hlvSt').textContent='오류';}},20000);
+  function cl(){clearTimeout(t);jsonpDone(cb,sc);}
+  sc.onerror=function(){cl();if(!bg){$('hlvLs').innerHTML='<div class="elvEr"><div style="font-size:32px;margin-bottom:8px">⚠️</div><b>연결 실패</b><small>GAS 연결을 확인해주세요.</small></div>';$('hlvSt').textContent='오류';}};
+  window[cb]=function(d){cl();
+    if(!(d&&d.ok&&d.rows)){if(!bg){$('hlvLs').innerHTML='<div class="elvEr"><div style="font-size:32px;margin-bottom:8px">⚠️</div><b>불러오기 실패</b><small>'+((d&&d.error)||'응답 형식 오류')+'</small></div>';$('hlvSt').textContent='오류';}return;}
+    hlData=d.rows.map(r=>({date:r.date,invoice:r.invoice,maker:r.maker,loadDate:normLoadDate(r.loadDate,r.date),qty:r.qty,fx:r.fxRate,bp:r.buyerPrice,raw:r.rawPrice,memo:r.memo,
+      margin:(m=>isNaN(m)?null:m)(parseFloat(String(r.margin==null?'':r.margin).replace(/[^\d.\-]/g,''))),
+      author:r.author,fruit:r.fruit||'',country:r.country||'',spec:r.spec||''}));
+    const ts=new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});
+    $('hlvTs').textContent='시트 최근 100건 · '+ts+' 갱신';
+    renderHL();
+  };
+  sc.src=SU+'?action=history&callback='+cb;
+  document.head.appendChild(sc);
+}
+function filterHL(){hlFlt.q=$('hlvS').value||'';renderHL();}
+function setHLFr(f){hlFlt.fr=f;renderHL();}
+function hlEsc(v){return String(v==null?'':v).replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function hlCell(l,v){return '<div class="elvCell"><span class="elvMl">'+l+'</span><span class="elvMv">'+(v?hlEsc(v):'<span style="color:var(--t3);font-weight:600">-</span>')+'</span></div>';}
+function renderHL(){
+  if(!hlData.length){$('hlvLs').innerHTML='<div class="elvEm"><div class="elvEe">📭</div>기록이 없습니다</div>';$('hlvSt').textContent='0건';$('hlvFC').innerHTML='';return;}
+  const frs={};hlData.forEach(r=>{const f=r.fruit||'기타';frs[f]=(frs[f]||0)+1;});
+  $('hlvFC').innerHTML='<div class="elvCp '+(hlFlt.fr==='all'?'on':'')+'" onclick="setHLFr(\'all\')">전체<span class="elvCn">'+hlData.length+'</span></div>'+
+    Object.keys(frs).map(f=>'<div class="elvCp '+(hlFlt.fr===f?'on':'')+'" onclick="setHLFr(\''+f.replace(/'/g,"\\'")+'\')">'+(EX_FE[f]||'📦')+' '+f+'<span class="elvCn">'+frs[f]+'</span></div>').join('');
+  const q=hlFlt.q.toLowerCase().trim();
+  const fl=hlData.filter(r=>{
+    if(hlFlt.fr!=='all'&&(r.fruit||'기타')!==hlFlt.fr)return false;
+    if(q){const t=((r.invoice||'')+' '+(r.maker||'')+' '+(r.bp||'')+' '+(r.memo||'')+' '+(r.author||'')+' '+(r.country||'')+' '+(r.spec||'')).toLowerCase();if(!t.includes(q))return false;}
+    return true;
+  });
+  $('hlvSt').innerHTML='총 <b>'+fl.length+'</b>건'+(fl.length!==hlData.length?' <span style="color:var(--t3)">/ 전체 '+hlData.length+'건</span>':'')+' · 수정/삭제는 각 과일의 기록탭에서';
+  if(!fl.length){$('hlvLs').innerHTML='<div class="elvEm"><div class="elvEe">🔍</div>조건에 맞는 기록이 없습니다</div>';return;}
+  $('hlvLs').innerHTML=fl.map(r=>{
+    const d=r.date?new Date(r.date):null;
+    const ds=(d&&!isNaN(d.getTime()))?(d.getMonth()+1)+'/'+d.getDate()+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'):'-';
+    const fe=EX_FE[r.fruit]||'📦';
+    const hasMg=r.margin!=null;
+    return '<div class="elvCd">'+
+      '<div class="elvCt"><div class="elvCl"><span class="elvFg">'+fe+'</span>'+
+        '<div style="min-width:0"><div class="elvCn2">'+hlEsc(r.invoice||'-')+'</div>'+
+        '<div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap">'+
+        (r.fruit?'<span class="elvIt">'+fe+' '+hlEsc(r.fruit)+'</span>':'')+
+        (r.country?'<span class="elvIt">'+exFlag(r.country)+' '+hlEsc(r.country)+'</span>':'')+
+        (r.spec?'<span class="elvIt" style="background:var(--sf2);color:var(--t3)">'+hlEsc(r.spec)+'</span>':'')+
+        '</div></div></div>'+
+        '<div style="text-align:right;flex-shrink:0"><div class="'+(hasMg?mC(r.margin):'')+'" style="font-size:13px;font-weight:800">'+(hasMg?fK(r.margin):'-')+'</div><div style="font-size:9px;color:var(--t3);margin-top:2px">'+ds+(r.author?' · '+hlEsc(r.author):'')+'</div></div>'+
+      '</div>'+
+      '<div class="elvMi">'+
+        '<div class="elvMr">'+hlCell('제조자',r.maker)+hlCell('상차일',r.loadDate?fmtKDate(r.loadDate):'')+'</div>'+
+        '<div class="elvMr">'+hlCell('수량',r.qty)+hlCell('바이어단가',r.bp)+'</div>'+
+        '<div class="elvMr">'+hlCell('산지단가',r.raw)+hlCell('적용환율',r.fx)+'</div>'+
+      '</div>'+
+      (r.memo?'<div class="elvNote"><span class="elvNi">📌</span><span>'+hlEsc(r.memo)+'</span></div>':'')+
+    '</div>';
+  }).join('');
+}
 
 // ═══ PASSWORD ═══
 function chkPw(){
@@ -1685,6 +2166,9 @@ function chkPw(){
 }
 if(localStorage.getItem('hn_auth')==='ok'){
   $('pwo').classList.add('h');$('land').style.display='flex';
+  // 홈 화면 바로가기(manifest shortcuts: #s/#p/#g 등) → 해당 과일로 바로 진입
+  const hf=(location.hash||'').replace('#','');
+  if(FRN[hf])setTimeout(()=>go(hf),50);
 } else {
   setTimeout(()=>$('pwi').focus(),300);
 }
@@ -1702,6 +2186,17 @@ if('serviceWorker' in navigator){
         setInterval(()=>reg.update().catch(()=>{}),3600000);
       })
       .catch(err=>console.warn('[PWA] SW failed',err));
+  });
+  // 새 버전 SW 활성화 시 알림 — 열어둔 화면이 구버전으로 계속 돌지 않게 (최초 설치의 controllerchange는 업데이트가 아니므로 무시)
+  let _swReloaded=false,_swHadCtrl=!!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(!_swHadCtrl){_swHadCtrl=true;return;}
+    if(_swReloaded||!navigator.serviceWorker.controller)return;_swReloaded=true;
+    if(document.getElementById('uptoast'))return;
+    const tst=document.createElement('div');tst.id='uptoast';tst.className='uptoast';
+    tst.innerHTML='🔄 새 버전이 준비되었습니다 <button onclick="location.reload()">새로고침</button>';
+    document.body.appendChild(tst);
+    setTimeout(()=>{if(tst.parentNode)tst.parentNode.removeChild(tst);},30000);
   });
 }
 window.addEventListener('beforeinstallprompt',(e)=>{

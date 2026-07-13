@@ -1,6 +1,11 @@
 # GitHub Pages 배포에 불필요한 로컬 파일
 gas_code_fixed.gs
 새 텍스트 문서.txt
+# 내부 보고서/백업 — 공개 저장소에 올리지 않음 (운임·마진 정보 포함)
+검토보고서_*.md
+수정내역_*.md
+*.bak-*
+index.html.bak*
 .claude/
 메모/
 파일/

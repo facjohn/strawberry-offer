@@ -49,10 +49,20 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .ig input,.ig select{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;padding:6px 8px;border-radius:7px;outline:none;transition:border-color .15s,background .15s,box-shadow .15s}
 .ig input:hover,.ig select:hover{border-color:var(--bd2)}
 .ig input:focus,.ig select:focus{border-color:var(--ac);background:#fff;box-shadow:0 0 0 3px rgba(59,111,240,.1)}
-.shtg{display:flex;gap:0;background:var(--bg);border:1px solid var(--bd);border-radius:7px;padding:2px;overflow:hidden}
-.sho{flex:1;background:transparent;border:none;color:var(--t2);font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:5px 4px;border-radius:5px;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.shtg{display:flex;gap:0;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:2px;overflow:hidden}
+.sho{flex:1;background:transparent;border:none;color:var(--t2);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:800;padding:6px 3px;border-radius:6px;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent;touch-action:manipulation;letter-spacing:-.02em;white-space:nowrap}
 .sho:hover{color:var(--tx);background:rgba(0,0,0,.04)}
 .sho.a{background:var(--ac);color:#fff;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+/* 운송 모드별 고정 색 — 40ft=파랑, 20ft=청록, 항공=보라 (출고리스트 수량 배지와 동일 팔레트, 어느 과일이든 색만 봐도 모드 인지) */
+.sho[id$="_40"].a{background:#1d4ed8}
+.sho[id$="_20"].a{background:#0f766e}
+.sho[id$="_air"].a{background:#7b2d8e}
+/* 모드 스플래시 — 탭 진입/모드 전환 시 화면 중앙에 크게 떴다가 사라짐 (40↔20피트 착각 계산 방지) */
+.modeSplash{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:9998;color:#fff;font-family:'JetBrains Mono',monospace;font-size:44px;font-weight:900;letter-spacing:-.02em;padding:20px 36px;border-radius:24px;opacity:.92;pointer-events:none;display:flex;align-items:center;gap:14px;box-shadow:0 12px 44px rgba(0,0,0,.3);animation:msIn .18s ease-out;white-space:nowrap}
+.modeSplash .msIc{font-size:40px}
+.modeSplash .msSub{font-size:15px;font-weight:800;opacity:.85;font-family:'Noto Sans KR',sans-serif;align-self:flex-end;margin-bottom:8px}
+.modeSplash.out{opacity:0;transition:opacity .4s ease-in}
+@keyframes msIn{0%{transform:translate(-50%,-50%) scale(.82);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:.92}}
 
 .tabs{display:flex;background:var(--sf);border-bottom:1px solid var(--bd);padding:0 14px;overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
@@ -165,25 +175,49 @@ tbody tr:hover td{background:#fafbfd}
 .exvb.on{background:#1a1a2e;color:#fff;border-color:#1a1a2e}
 .exvb .cnt{font-size:9px;font-weight:700;background:var(--sf2);color:var(--t3);padding:1px 7px;border-radius:8px}
 .exvb.on .cnt{background:rgba(255,255,255,.22);color:#fff}
-.exgh{position:sticky;top:0;z-index:2;background:var(--sf);padding:4px 10px;font-size:9.5px;font-weight:800;color:var(--t2);border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
-.exgh .dday{color:#3b6ff0;font-family:'JetBrains Mono',monospace;font-size:9px}
-.exgh .dday.past{color:var(--t3)}
-.exr{display:flex;align-items:center;gap:7px;padding:6px 10px;background:#fff;border-bottom:1px solid #f0f1f5;font-size:10.5px;min-width:0}
-.exr:last-child{border-bottom:1px solid var(--bd)}
-.exrIc{font-size:13px;flex-shrink:0;letter-spacing:-1px;white-space:nowrap}
-.exrTx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
-.exrT1{display:flex;gap:6px;align-items:baseline;min-width:0;white-space:nowrap;overflow:hidden}
-.exrC{font-weight:800;color:var(--tx);font-size:11px;flex-shrink:0}
-.exrBy{font-weight:700;color:#3b6ff0;overflow:hidden;text-overflow:ellipsis;min-width:0}
-.exrMk{color:var(--t2);flex-shrink:0;font-size:9.5px}
-.exrT2{display:flex;gap:8px;align-items:center;font-size:8.5px;color:var(--t3);white-space:nowrap;overflow:hidden;min-width:0}
-.exrT2>span{overflow:hidden;text-overflow:ellipsis}
-.exrInv{font-family:'JetBrains Mono',monospace;flex-shrink:1;min-width:0;display:inline-flex;align-items:center;gap:2px}
-.exrCp{border:none;background:none;cursor:pointer;font-size:9px;padding:0 1px;flex-shrink:0}
-.exrTl{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--t3);text-align:right;white-space:nowrap;line-height:1.5}
-.exrTl b{color:var(--tx);font-size:9.5px;font-weight:700}
-.exrQ{flex-shrink:0;min-width:40px;text-align:right;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:10px;color:var(--tx)}
-@media (max-width:420px){.exrTl{max-width:118px;white-space:normal}}
+/* ── 출고리스트: 날짜 그룹 헤더 — 날짜가 한눈에 들어오게 크고 진하게, 그룹 사이는 여백+색띠로 명확히 분리 ── */
+.exg{margin-top:14px}
+.exg:first-child{margin-top:0}
+.exgh{position:sticky;top:0;z-index:2;background:linear-gradient(135deg,#edf2fd,#f8faff);padding:9px 13px;border-top:3px solid #3b6ff0;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;border-radius:12px 12px 0 0;box-shadow:0 -1px 0 rgba(59,111,240,.15)}
+.exgh.today{border-top-color:#e8334a;background:linear-gradient(135deg,#fdeef1,#fff8f9)}
+.exgh.tmrw{border-top-color:#f97316;background:linear-gradient(135deg,#fef1e6,#fffaf5)}
+.exgh.pastg{border-top-color:#b9bfce;background:linear-gradient(135deg,#f0f1f5,#f8f9fb)}
+.exghD{font-size:16px;font-weight:900;color:#1a1a2e;letter-spacing:-.02em;display:flex;align-items:baseline;gap:6px}
+.exghD .wd{font-size:11px;font-weight:800;color:var(--t2)}
+.exghD .gcnt{font-size:10px;font-weight:800;color:var(--t3);background:#fff;border:1px solid var(--bd);padding:1px 8px;border-radius:9px;align-self:center}
+.exgh .dday{font-size:12px;font-weight:900;padding:3px 10px;border-radius:9px;background:#3b6ff0;color:#fff;font-family:'JetBrains Mono',monospace;letter-spacing:-.01em}
+.exgh.today .dday{background:#e8334a}
+.exgh.tmrw .dday{background:#f97316}
+.exgh .dday.past{background:#e4e6ee;color:var(--t2)}
+/* ── 카드: 품목·국가·산지(제조자)·인보이스가 메인, 수량(컨테이너)은 큰 배지 ── */
+.exr{display:flex;align-items:stretch;gap:10px;padding:10px 13px;background:#fff;border-bottom:1px solid #eef0f5;min-width:0}
+.exr:nth-child(even){background:#fcfcfe}
+.exr:last-child{border-bottom:1px solid var(--bd);border-radius:0 0 12px 12px}
+.exrIc{font-size:20px;flex-shrink:0;letter-spacing:-2px;white-space:nowrap;display:flex;align-items:center}
+.exrTx{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;justify-content:center}
+.exrT1{display:flex;gap:7px;align-items:baseline;min-width:0;white-space:nowrap;overflow:hidden}
+.exrFr{font-weight:900;color:var(--tx);font-size:14.5px;flex-shrink:0;letter-spacing:-.02em}
+.exrC{font-weight:800;color:var(--tx);font-size:13px;flex-shrink:0}
+.exrMk{font-size:12px;font-weight:800;color:#7b2d8e;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.exrMk.none{color:#c2860a}
+.exrT2{display:flex;gap:9px;align-items:center;font-size:10.5px;color:var(--t2);white-space:nowrap;overflow:hidden;min-width:0}
+.exrT2>span{overflow:hidden;text-overflow:ellipsis;flex-shrink:1}
+.exrBy{font-weight:700;color:#3b6ff0;flex-shrink:0}
+.exrInv{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--tx);flex-shrink:0;display:inline-flex;align-items:center;gap:2px;background:var(--sf);border:1px solid var(--bd);border-radius:6px;padding:1px 6px}
+.exrCp{border:none;background:none;cursor:pointer;font-size:10px;padding:0 1px;flex-shrink:0}
+.exrT3{display:flex;gap:9px;align-items:center;font-size:9.5px;color:var(--t3);white-space:nowrap;overflow:hidden;min-width:0}
+.exrT3 .exrTl{font-family:'JetBrains Mono',monospace;flex-shrink:0}
+.exrT3 .exrTl b{color:var(--t2);font-weight:700}
+.exrSide{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:5px}
+.exrQ{font-family:'JetBrains Mono',monospace;font-weight:900;font-size:13.5px;letter-spacing:-.03em;padding:4px 10px;border-radius:9px;background:var(--sf);color:var(--t2);border:1px solid var(--bd);white-space:nowrap}
+.exrQ.ft40{background:#e7edfd;color:#1d4ed8;border-color:#c4d3f8}
+.exrQ.ft20{background:#e2f6f2;color:#0f766e;border-color:#bfe8e0}
+.exrQ.air{background:#f5eafb;color:#7b2d8e;border-color:#e5cdf2}
+.exrQ.none{background:none;border:none;color:var(--t3);font-weight:700}
+.exrDn{border:1px solid var(--bd);background:#fff;color:var(--t3);border-radius:8px;font-size:9.5px;font-weight:800;padding:3px 9px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s}
+.exrDn:hover{border-color:var(--gr);color:var(--gr)}
+.exrDn.undo:hover{border-color:#3b6ff0;color:#3b6ff0}
+@media (max-width:420px){.exrT2,.exrT3{flex-wrap:wrap;white-space:normal}.exrFr{font-size:13.5px}.exrQ{font-size:12px}}
 /* ── 지난 오퍼가 힌트 ── */
 .lof{font-size:8px;color:var(--t3);cursor:pointer;margin-top:1px;white-space:nowrap;line-height:1.2;text-align:center}
 .lof b{color:#3b6ff0;font-weight:800}
@@ -195,9 +229,15 @@ tbody tr:hover td{background:#fafbfd}
 /* ── 국가 열 고정 (가로 스크롤 시) ── */
 #to th:first-child{position:sticky;left:0;z-index:3;background:var(--sf,#f3f4f8)}
 #to td.ctd,#to td.gctry{position:sticky;left:0;z-index:2;background:#fff;box-shadow:2px 0 4px -2px rgba(0,0,0,.08)}
+/* 추천(★best) 행의 반투명 그라데이션이 고정 셀을 투명하게 만들어 스크롤 시 뒤 내용이 비치는 것 방지 — 불투명 배경으로 재지정 */
+#to tr.best td.ctd,#to tr.best td.gctry{background:linear-gradient(90deg,#e5f4ec,#f7fbf9)!important}
 /* ── 국가별 견적 복사 버튼 ── */
 .qcopy{border:1px solid var(--bd);background:#fff;border-radius:6px;font-size:8.5px;font-weight:700;color:var(--t2);padding:2px 6px;cursor:pointer;font-family:inherit;margin-top:3px}
 .qcopy:hover{border-color:#3b6ff0;color:#3b6ff0}
+/* 커스텀 내륙운임 선택 버튼 (시트 동기화 값) */
+.cinOpt{border:1px solid var(--bd);background:#fff;border-radius:9px;padding:7px 11px;font-family:inherit;font-size:11px;font-weight:700;color:var(--tx);cursor:pointer;display:flex;flex-direction:column;gap:2px;align-items:flex-start;transition:all .15s}
+.cinOpt b{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#0e7490}
+.cinOpt:hover{border-color:#0e7490;box-shadow:0 2px 8px rgba(14,116,144,.12)}
 @keyframes blk{0%,100%{opacity:1}50%{opacity:.5}}
 .lst{font-size:9px;color:var(--t3);font-family:'JetBrains Mono',monospace;text-align:right;margin-top:3px;letter-spacing:.02em}
 .sgd-hint{font-size:9px;color:#c47d00;margin-top:4px;display:flex;align-items:center;gap:5px;font-weight:600}
@@ -419,6 +459,9 @@ tbody tr:hover td{background:#fafbfd}
 <div class="fc" onclick="go('k')"><span class="e">🥝</span><span class="n">키위</span></div>
 <div class="fc" onclick="go('h')"><span class="e">🟠</span><span class="n">감</span></div>
 </div>
+<div class="fcs" style="margin-top:8px">
+<div class="fc" onclick="go('c')" style="width:100%;height:auto;flex-direction:row;justify-content:flex-start;gap:14px;padding:15px 20px"><span class="e" style="font-size:28px">✨</span><span style="min-width:0;text-align:left"><span class="n" style="font-size:14px;white-space:nowrap">커스텀 아이템</span><span style="display:block;font-size:10px;font-weight:600;color:var(--t3);margin-top:3px;white-space:nowrap">복숭아 등 새 품목 직접 계산</span></span></div>
+</div>
 <button class="elvBtn" onclick="openExL()"><span class="elvBi">📋</span>출고리스트 보기</button>
 <button class="elvBtn" onclick="openHL()" style="margin-top:8px"><span class="elvBi">📝</span>오퍼히스토리 보기</button>
 <button onclick="testSync()" style="margin-top:10px;padding:6px 16px;border-radius:8px;border:1px solid #dde0e8;background:#fff;font-family:inherit;font-size:11px;color:#606080;cursor:pointer">🔌 시트 연동 테스트</button>
@@ -522,7 +565,10 @@ let TODAY_FX=0, TODAY_FX_SRC='', TODAY_SGD=0;
 function setFxHint(){const t=TODAY_FX?('💱 오늘 ₩'+fN(TODAY_FX)+' ('+(TODAY_FX_SRC||'참고')+')'):'';['sfxToday','pfxToday','gfxToday'].forEach(id=>{const e=$(id);if(e)e.textContent=t;});
   const se=$('sfxToday');if(se)se.textContent+=localStorage.getItem('hn_sfx_touch')?' · ✋수동(탭=자동)':' · 입력칸=시트 자동';}   // 힌트(실시간 시세)와 입력칸(시트 환율)의 출처가 다름을 명시
 // 딸기 환율 입력칸: 시트 환율 자동 반영 ↔ 직접 수정 시 수동 고정. 힌트 탭으로 전환.
-function sfxToggle(){if(localStorage.getItem('hn_sfx_touch')){localStorage.removeItem('hn_sfx_touch');setFxHint();doSy();}else{localStorage.setItem('hn_sfx_touch','1');setFxHint();}}
+function sfxToggle(){if(localStorage.getItem('hn_sfx_touch')){localStorage.removeItem('hn_sfx_touch');
+  // 자동 복귀: 가드 기준(hn_sfx_last)을 현재 수동값에 맞춰 다음 sync가 시트값을 즉시 적용할 수 있게 함 — 이게 없으면 cur≠last라 영원히 적용 거부됨
+  try{localStorage.setItem('hn_sfx_last',String(+($('sfx')&&$('sfx').value)||0));}catch(e){}
+  setFxHint();doSy(1);}else{localStorage.setItem('hn_sfx_touch','1');setFxHint();}}
 // SGD/KRW 실시간 시세 → 브루나이(S$) 계산 환율 자동 반영 (직접 수정 시 수동 고정)
 function applyLiveSgd(){if(!TODAY_SGD)return;const e=$('ssg');if(e&&!localStorage.getItem('hn_ssg_touch')&&+e.value!==TODAY_SGD){e.value=TODAY_SGD;try{inpSet('ssg',String(TODAY_SGD));}catch(err){}if(typeof flI==='function')flI('ssg');if(typeof sA==='function'&&F==='s')sA();}if(typeof ssgHintR==='function')ssgHintR();}
 // 오늘 환율 = 실시간 USD/KRW 시세(참고용). 마진은 입력칸 환율로 계산하고 이건 표시만 함. 실패 시 시트 환율로 폴백. SGD/KRW도 함께 계산.
@@ -691,34 +737,55 @@ let gRgn='all',gSpc='all';
 
 // ═══ NAV ═══
 let syTimer=null;
-function go(f){F=f;$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('app').style.display='block';loadL();getMe();build();applyCachedSync();doSy();fetchLiveFx();syTimer=setInterval(doSy,600000);}   // 저장 스냅샷 먼저 적용 → 라이브 sync가 덮음 (오프라인이어도 최신 시트값으로 계산)
+// land 숨김 지연 타이머 공용 핸들 — 300ms 안에 닫기(bk/closeExL/closeHL)가 실행되면 취소. 취소하지 않으면 복원된 land를 뒤늦게 숨겨 전 화면이 빈 화면이 됨.
+let _landT=null;
+function landHide(){clearTimeout(_landT);$('land').classList.add('h');_landT=setTimeout(()=>{if($('land').classList.contains('h'))$('land').style.display='none';},300);}
+function landShow(){clearTimeout(_landT);const l=$('land');l.style.display='flex';requestAnimationFrame(()=>l.classList.remove('h'));}
+function go(f){F=f;landHide();$('app').style.display='block';loadL();getMe();build();applyCachedSync();doSy();fetchLiveFx();syTimer=setInterval(doSy,600000);}   // 저장 스냅샷 먼저 적용 → 라이브 sync가 덮음 (오프라인이어도 최신 시트값으로 계산)
 function bk(){try{clearTimeout(_stT);pushState();}catch(e){}   // 뒤로가기 전 마지막 편집 상태를 시트로 플러시 (F가 null 되기 전에)
-  if(syTimer){clearInterval(syTimer);syTimer=null;}$('app').style.display='none';const l=$('land');l.style.display='flex';l.classList.remove('h');F=null;pSj=null;gSj=null;mSj={o:null,k:null,h:null};pRgn='all';gRgn='all';gSpc='all';mRgn='all';document.body.style.background='';document.documentElement.style.removeProperty('--ac');}
+  if(syTimer){clearInterval(syTimer);syTimer=null;}$('app').style.display='none';landShow();F=null;pSj=null;gSj=null;mSj={o:null,k:null,h:null};pRgn='all';gRgn='all';gSpc='all';mRgn='all';document.body.style.background='';document.documentElement.style.removeProperty('--ac');}
 
 function build(){
-  const C={s:{ac:'#e8334a',bg:'#fff0f2',bbg:'#fef2f4',e:'🍓',nm:'딸기'},p:{ac:'#b8860b',bg:'#fdf6e3',bbg:'#f8f4e8',e:'🍐',nm:'배'},g:{ac:'#7b2d8e',bg:'#faf0ff',bbg:'#f6f0fa',e:'🍇',nm:'포도'},o:{ac:'#f97316',bg:'#fff7ed',bbg:'#fffaf2',e:'🍊',nm:'귤'},k:{ac:'#65a30d',bg:'#f0fdf4',bbg:'#f7fff5',e:'🥝',nm:'키위'},h:{ac:'#ea580c',bg:'#fff5eb',bbg:'#fffaf3',e:'🟠',nm:'감'}};
+  const C={s:{ac:'#e8334a',bg:'#fff0f2',bbg:'#fef2f4',e:'🍓',nm:'딸기'},p:{ac:'#b8860b',bg:'#fdf6e3',bbg:'#f8f4e8',e:'🍐',nm:'배'},g:{ac:'#7b2d8e',bg:'#faf0ff',bbg:'#f6f0fa',e:'🍇',nm:'포도'},o:{ac:'#f97316',bg:'#fff7ed',bbg:'#fffaf2',e:'🍊',nm:'귤'},k:{ac:'#65a30d',bg:'#f0fdf4',bbg:'#f7fff5',e:'🥝',nm:'키위'},h:{ac:'#ea580c',bg:'#fff5eb',bbg:'#fffaf3',e:'🟠',nm:'감'},c:{ac:'#0e7490',bg:'#effafc',bbg:'#f5fcfd',e:'✨',nm:'커스텀'}};
   const c=C[F];document.documentElement.style.setProperty('--ac',c.ac);document.body.style.background=c.bbg;
-  $('hd').innerHTML=`<button class="bb" onclick="bk()">←</button><span style="font-size:20px">${c.e}</span><div><h1>${c.nm} 오퍼 계산기</h1><div class="hd-s">현농프레쉬</div></div><div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><div class="sbdg idle" id="sbdg" onclick="doSy()">🔄 수동 동기화</div><div class="lst" id="lst">마지막 동기화: -</div></div>`;
+  $('hd').innerHTML=`<button class="bb" onclick="bk()">←</button><span style="font-size:20px">${c.e}</span><div><h1>${c.nm} 오퍼 계산기</h1><div class="hd-s">현농프레쉬</div></div><div style="margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:2px"><div class="sbdg idle" id="sbdg" onclick="doSy(1)">🔄 수동 동기화</div><div class="lst" id="lst">마지막 동기화: -</div></div>`;
   $('hd').style.background=`linear-gradient(135deg,${c.bg},#fff)`;$('hd').style.borderBottomColor=c.ac;
   $('ts').innerHTML=`<button class="tb a" onclick="sw('o',this)">📊 계산</button><button class="tb" onclick="sw('l',this)">📋 기록<span class="lc" id="lc">0</span></button>`;
   $('to').classList.add('a');$('tl').classList.remove('a');
-  if(F==='s')bS();else if(F==='p')bP();else if(F==='g')bG();else bM();
+  if(F==='s')bS();else if(F==='p')bP();else if(F==='g')bG();else if(F==='c')bC();else bM();
   inpRestore();
-  if(F==='s')sA();else if(F==='p')pA();else if(F==='g')gA();else mA();
+  if(F==='s')sA();else if(F==='p')pA();else if(F==='g')gA();else if(F==='c')cA();else mA();
   setFxHint();
   uLC();
+  // 탭 진입 시 현재 운송 모드를 크게 표시 — 지난번 쓰던 모드(복원값)를 모르고 계산하는 실수 방지 (딸기는 항공 고정이라 제외)
+  if(F!=='s'){const h=$(F==='p'?'psh':F==='g'?'gsh':F==='c'?'csh':'msh');if(h&&h.value)showModeSplash(h.value);}
 }
 function sw(t,b){document.querySelectorAll('.tb').forEach(x=>x.classList.remove('a'));b.classList.add('a');$('to').classList.toggle('a',t==='o');$('tl').classList.toggle('a',t==='l');if(t==='l'){rL();fetchHist();}}
+// 운송 모드 스플래시 — 탭 진입/모드 전환 시 현재 모드를 화면 중앙에 크게 표시 후 1초 뒤 소멸 (40↔20피트 착각 계산 방지)
+let _msT=null,_msT2=null;
+function showModeSplash(v){
+  const cfg={'40':['🚢','40FT','#1d4ed8','해운 컨테이너'],'20':['🚢','20FT','#0f766e','해운 컨테이너'],'air':['✈️','AIR','#7b2d8e','항공']}[String(v)];
+  if(!cfg)return;
+  const old=document.getElementById('modeSplash');if(old)old.remove();
+  const e=document.createElement('div');e.id='modeSplash';e.className='modeSplash';
+  e.style.background=cfg[2];
+  e.innerHTML='<span class="msIc">'+cfg[0]+'</span>'+cfg[1]+'<span class="msSub">'+cfg[3]+'</span>';
+  document.body.appendChild(e);
+  clearTimeout(_msT);clearTimeout(_msT2);
+  _msT=setTimeout(()=>{e.classList.add('out');_msT2=setTimeout(()=>{if(e.parentNode)e.remove();},450);},1000);
+}
 function setSh(id,v){const h=$(id);if(!h||h.value===v)return;const prev=h.value;h.value=v;['40','20','air'].forEach(k=>{const b=$(id+'_'+k);if(b)b.classList.toggle('a',v===k);});
   // 운송 모드 전환 시 실출고 초기화 (모드별 만적 용량이 달라 값이 새면 계산이 왜곡됨) — 포도(gq)·배(pq) 공통
   const clearPrefixes=[];
   if(id==='gsh'){clearPrefixes.push('gq');if(prev==='air'||v==='air')clearPrefixes.push('go');}   // 해운↔항공 전환은 오퍼가($)도 초기화 (운임 구조가 달라 이전 오퍼가가 무의미)
   if(id==='psh')clearPrefixes.push('pq');
+  if(id==='csh'){clearPrefixes.push('cq');if(prev==='air'||v==='air')clearPrefixes.push('cof');}   // 커스텀도 포도와 동일 규칙
   if(clearPrefixes.length){
     try{const st=JSON.parse(localStorage.getItem(INP_KEY)||'{}');Object.keys(st).forEach(k=>{if(clearPrefixes.some(p=>k.slice(0,p.length)===p))delete st[k];});localStorage.setItem(INP_KEY,JSON.stringify(st));}catch(e){}
     clearPrefixes.forEach(p=>document.querySelectorAll('input[id^="'+p+'"]').forEach(el=>el.value=''));
   }
-  inpSaveAll();if(id==='psh')pB();else if(id==='gsh')gB();else if(id==='msh')mB();}
+  inpSaveAll();if(id==='psh')pB();else if(id==='gsh')gB();else if(id==='csh')cB();else if(id==='msh')mB();
+  showModeSplash(v);}   // 모드 전환 즉시 화면 중앙에 크게 표시
 
 // ═══ STRAWBERRY BUILD ═══
 function bS(){
@@ -817,6 +884,7 @@ function bP(){
       <div class="ig"><label>10.9kg(3팩)</label><input type="number" id="puwk_u109" value="${PUWK.u109}" oninput="pA()"></div>
       <div class="ig"><label>대과</label><input type="number" id="puwk_udg" value="${PUWK.udg}" oninput="pA()"></div>
     </div>`;
+  inpRestore();   // ★ 테이블 빌드 전에 저장값 복원 — pB() 첫 줄 inpSaveAll()이 방금 만든 기본값 입력칸을 저장소에 커밋해 사용자 값(환율/지원/운송모드/단가/작업비)을 파괴하던 순서 결함 수정
   pB();
 }
 function pSl(s){pSj=pSj===s?null:s;document.querySelectorAll('#psb .sj').forEach(b=>{const a=b.textContent===pSj;b.classList.toggle('a',a);b.style.background=a?'linear-gradient(135deg,#daa520,#b8860b)':'';b.style.color=a?'#fff':'';b.style.borderColor=a?'#b8860b':'';});
@@ -922,7 +990,7 @@ function pR(cn,sid){
   if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
   if(ew)ew.textContent=fN(r.wk||0);
   if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
-  lofR('lofpo'+cn+sid,'po'+cn+sid,'p',cn,r.sp,()=>pR(cn,sid));
+  lofR('lofpo'+cn+sid,'po'+cn+sid,'p',cn,r.sp,()=>pR(cn,sid),gv('psh')+'ft');
   if(r.empty){
     if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">0.00</span>`;
     if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
@@ -1012,6 +1080,7 @@ function bG(){
     <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="gsh_40" onclick="setSh('gsh','40')">40ft</button><button type="button" class="sho" id="gsh_20" onclick="setSh('gsh','20')">20ft</button><button type="button" class="sho" id="gsh_air" onclick="setSh('gsh','air')">항공</button></div><input type="hidden" id="gsh" value="40"></div>`;
   $('ex').innerHTML=`<div class="sl">산지 <span id="gsjMode" style="font-size:9px;color:var(--t3);font-weight:600;margin-left:4px"></span></div>
     <div class="sjb" id="gsb"></div>`;
+  inpRestore();   // ★ 테이블 빌드 전에 저장값 복원 — gB() 첫 줄 inpSaveAll()의 기본값 커밋으로부터 사용자 값(환율/지원/운송모드) 보호
   gB();
 }
 function gSl(s){gSj=gSj===s?null:s;document.querySelectorAll('#gsb .sj').forEach(b=>{const a=b.textContent===gSj;b.classList.toggle('a',a);b.style.background=a?'linear-gradient(135deg,#9b59b6,#7b2d8e)':'';b.style.color=a?'#fff':'';b.style.borderColor=a?'#7b2d8e':'';});gB();}
@@ -1113,7 +1182,7 @@ function gR(cn,si){
   if(!r){if(e2)e2.innerHTML='<span style="opacity:.3">-</span>';return;}
   if(ei&&r.be)ei.placeholder=r.be.toFixed(2);   // $ placeholder = 손익분기 단가
   if(qi)qi.placeholder=r.defTb||'';             // 실출고 placeholder = 만적 박스수
-  lofR('lofgo'+cn+si,'go'+cn+si,'g',cn,GS[si].l,()=>gR(cn,si));
+  lofR('lofgo'+cn+si,'go'+cn+si,'g',cn,GS[si].l,()=>gR(cn,si),($('gsh')&&$('gsh').value==='air')?'AIR':gv('gsh')+'ft');
   if(r.empty){if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">-</span>`;return;}
   const cl=mC(r.mb);
   if(e2)e2.innerHTML=`<span class="${cl}" style="font-size:11px">${(r.tkUsd>=0?'+':'-')}$${fN(Math.abs(r.tkUsd))}</span><br><span class="${cl}" style="font-size:8px;opacity:.85">${fK(r.tk)}</span>`;
@@ -1192,6 +1261,7 @@ function bM(){
       <div class="ig"><label>작업비 <em>₩/박스</em></label><input type="number" id="mwk${F}" value="${d.wk}" oninput="mA()"></div>
     </div>`;
   // ※ 귤/키위/감 입력 id에 과일코드(F)를 포함 — 입력 자동복원이 다른 과일의 원물가/제원을 가져오는 계산 왜곡 방지
+  inpRestore();   // ★ 테이블 빌드 전에 저장값 복원 — mB() 첫 줄 inpSaveAll()의 기본값 커밋으로부터 사용자 값(환율/지원/운송모드/제원) 보호
   mB();
 }
 function mB(){
@@ -1240,7 +1310,7 @@ function mR(cn,si){
   const e1=$('mm'+F+cn+si),e2=$('mt'+F+cn+si),ei=$('mo'+F+cn+si);
   if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
   if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
-  lofR('lofmo'+F+cn+si,'mo'+F+cn+si,F,cn,MFN[F]+' '+MFD[F].specs[si].l,()=>mR(cn,si));
+  lofR('lofmo'+F+cn+si,'mo'+F+cn+si,F,cn,MFN[F]+' '+MFD[F].specs[si].l,()=>mR(cn,si),gv('msh')+'ft');
   if(r.empty){
     if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">0.00$</span>`;
     if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
@@ -1262,8 +1332,182 @@ function mL(cn,si){
     `오퍼: <span>$${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);
 }
 
+// ═══ CUSTOM ITEM (커스텀 아이템 계산기) ═══
+// 새 품목(복숭아 등)을 즉석에서 오퍼: 아이템명·제원(원물/작업비/부자재/박스/NW/GW/박스수)을 직접 입력하고
+// 운임은 기존 국가별 데이터 재사용 — 해운=DATA 40/20ft 표(GSEA, 부족분 PSEA 폴백), 항공=DATA 일반(냉장) 요율(GAIR_KG).
+// 계산 규칙은 귤/키위/감과 동일: CIF=원물+작업비+부자재+박스+박스당물류, 마진$=오퍼가-CIF/환율, 총마진₩=마진×실출고×환율+지원(₩/kg)×NW×실출고.
+const C_SEA_ORDER=['대만','베트남호치민','베트남하이퐁','홍콩','말레이시아','인도네시아','태국','싱가폴','호주','미국LA','미국NY','캐나다'];
+function cSeaVal(cn,leg){
+  if(GSEA[cn]&&GSEA[cn][leg]>0)return GSEA[cn][leg];
+  if(PSEA[cn]&&PSEA[cn][leg]>0)return PSEA[cn][leg];
+  if(cn==='베트남호치민'&&PSEA['베트남']&&PSEA['베트남'][leg]>0)return PSEA['베트남'][leg];   // 배 해운의 일반 '베트남'=호치민
+  if(cn==='호주'&&PSEA['호주']&&PSEA['호주'][leg]>0)return PSEA['호주'][leg];
+  return 0;
+}
+function cCountries(){
+  const shv=$('csh')?$('csh').value:'40';
+  if(shv==='air')return Object.keys(GAIR_KG).filter(k=>+GAIR_KG[k]>0);
+  const leg=shv==='40'?'f':'t';
+  return C_SEA_ORDER.filter(cn=>cSeaVal(cn,leg)>0);
+}
+function cName(){const e=$('cnm');const v=e?String(e.value).trim():'';return v||'커스텀';}
+function bC(){
+  $('bs').innerHTML=`<div class="ig" style="flex:1.4;min-width:104px"><label>아이템명</label><input type="text" id="cnm" placeholder="예: 복숭아" oninput="cA()" style="font-family:inherit"></div>
+    <div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="cfx" value="1400" oninput="cA()"><div class="fxhint" id="cfxToday"></div></div>
+    <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="csp" value="0" oninput="cA()"></div>
+    <div class="ig" style="min-width:168px"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="csh_40" onclick="setSh('csh','40')">40ft</button><button type="button" class="sho" id="csh_20" onclick="setSh('csh','20')">20ft</button><button type="button" class="sho" id="csh_air" onclick="setSh('csh','air')">항공</button></div><input type="hidden" id="csh" value="40"></div>`;
+  $('ex').innerHTML=`<div class="sl" style="background:rgba(14,116,144,.1);border-left:3px solid #0e7490;padding-left:11px">💰 원물가 <span style="font-size:8px;color:#0e7490">박스당 매입가 — 마진 계산의 기준</span></div>
+    <div style="padding:9px 14px;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px">
+      <input type="number" id="craw" value="0" oninput="cA()" placeholder="0" style="flex:1;max-width:230px;background:#fff;border:2px solid #0e7490;border-radius:11px;padding:11px 13px;font-size:19px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#0e7490;outline:none;letter-spacing:-.02em">
+      <span style="font-size:13px;font-weight:800;color:var(--t2)">₩/박스</span>
+    </div>
+    <div class="sl">제원 · 비용 (박스당 ₩)</div>
+    <div class="wg">
+      <div class="ig"><label>NW <em>kg</em></label><input type="number" step="0.1" id="cnw" value="10" oninput="cA()"></div>
+      <div class="ig" id="cgwWrap"><label>GW <em>kg</em></label><input type="number" step="0.1" id="cgw" value="11" oninput="cA()"></div>
+      <div class="ig"><label>박스/팔레트</label><input type="number" id="cct" value="100" oninput="cA()"></div>
+      <div class="ig"><label>작업비</label><input type="number" id="cwk" value="0" oninput="cA()"></div>
+      <div class="ig"><label>부자재</label><input type="number" id="cbj" value="0" oninput="cA()"></div>
+      <div class="ig"><label>박스</label><input type="number" id="cbx" value="0" oninput="cA()"></div>
+    </div>
+    <div id="cinWrap" style="padding:8px 14px;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap">
+      <div class="ig" style="flex:none;width:132px"><label>내륙운임 <em>₩ 컨테이너당</em></label><input type="number" id="cin" value="0" oninput="cInManual()"></div>
+      <button type="button" onclick="cInOpen()" style="border:1px solid #0e7490;background:#fff;color:#0e7490;border-radius:9px;font-size:10.5px;font-weight:800;padding:8px 12px;cursor:pointer;font-family:inherit">📋 시트에서 선택</button>
+      <span id="cinSel" style="font-size:9.5px;font-weight:700;color:#0e7490;padding-bottom:8px"></span>
+      <input type="hidden" id="cinsj">
+    </div>
+    <div id="cdmWrap" style="padding:8px 14px;background:var(--sf);border-bottom:1px solid var(--bd)">
+      <div class="ig" style="max-width:190px"><label>국내운송 <em>₩ 총액 (공항까지)</em></label><input type="number" id="cdm" value="350000" oninput="cA()"></div>
+    </div>`;
+  inpRestore();   // 테이블 빌드 전에 저장값 복원 (배/포도/귤키위감과 동일 — 기본값이 저장값을 덮지 않게)
+  cB();
+}
+// 시트 내륙운임 선택 — DATA 시트에서 sync된 배(PIL)/포도(GIL) 산지별 내륙운임을 현재 모드(40/20ft) 다리로 표시·선택.
+// 시트가 갱신되면 sync가 PIL/GIL을 덮으므로 선택기와 적용값 모두 자동 최신화.
+function cInOpen(){
+  const shv=$('csh')?$('csh').value:'40';if(shv==='air')return;
+  const leg=shv==='40'?'f':'t';
+  let h='<h3>🚚 내륙운임 선택</h3><div style="font-size:9px;color:var(--t3);margin:2px 0 8px">'+shv+'ft · 부산항 기준 · 시트(DATA) 동기화 값</div>';
+  [['🍐 배 산지','p',PIL],['🍇 포도 산지','g',GIL]].forEach(sec=>{
+    const items=Object.keys(sec[2]).filter(k=>sec[2][k]&&+sec[2][k][leg]>0);
+    if(!items.length)return;
+    h+='<div style="font-size:10px;font-weight:800;color:var(--t2);margin:9px 0 5px">'+sec[0]+'</div><div style="display:flex;flex-wrap:wrap;gap:6px">';
+    h+=items.map(k=>'<button type="button" class="cinOpt" onclick="cInPick(\''+sec[1]+'\',decodeURIComponent(\''+jsArg(k)+'\'))">'+hlEsc(k)+'<b>₩'+fN(+sec[2][k][leg])+'</b></button>').join('');
+    h+='</div>';
+  });
+  h+='<div style="margin-top:12px;display:flex;justify-content:flex-end"><button class="mb k" onclick="cInClose()">닫기</button></div>';
+  let ov=$('cinm');
+  if(!ov){ov=document.createElement('div');ov.id='cinm';ov.className='mo h';ov.addEventListener('click',function(e){if(e.target===this)cInClose();});document.body.appendChild(ov);}
+  ov.innerHTML='<div class="ml" style="max-width:360px;max-height:80vh;overflow-y:auto">'+h+'</div>';
+  ov.classList.remove('h');
+}
+function cInPick(src,name){const sj=$('cinsj');if(sj){sj.value=src+'|'+name;inpSet('cinsj',sj.value);}cInClose();cA();inpSaveAll();}
+function cInClose(){const ov=$('cinm');if(ov)ov.classList.add('h');}
+function cInManual(){const sj=$('cinsj');if(sj){sj.value='';inpSet('cinsj','');}const lb=$('cinSel');if(lb)lb.textContent='';cA();}
+// 선택된 산지의 내륙운임을 현재 모드(40/20)의 다리 값으로 적용 — 모드 전환·sync 갱신 시 자동 추종
+function cInApply(){
+  const sj=$('cinsj'),lb=$('cinSel');if(!sj||!sj.value)return;
+  const shv=$('csh')?$('csh').value:'40';if(shv==='air')return;
+  const parts=sj.value.split('|'),map=parts[0]==='g'?GIL:PIL,name=parts[1]||'';
+  const leg=shv==='40'?'f':'t';
+  const v=map[name]?+map[name][leg]:0;
+  const e=$('cin');
+  if(v>0){if(e&&String(e.value)!==String(v)){e.value=v;inpSet('cin',String(v));}if(lb)lb.textContent='📍 '+(parts[0]==='g'?'포도·':'배·')+name+' ('+shv+'ft)';}
+  else if(lb)lb.textContent='⚠ '+name+' '+shv+'ft 값 없음 — 직접 입력';
+}
+function cB(){
+  inpSaveAll();
+  const o=$('to');if(!o||F!=='c')return;
+  const shv=$('csh')?$('csh').value:'40';
+  const air=shv==='air';
+  // 모드별 필요 항목만 표시 — GW·국내운송=항공 전용, 내륙운임=해운 전용 (값은 숨겨져도 보존됨)
+  const gwW=$('cgwWrap');if(gwW)gwW.style.display=air?'':'none';
+  const inW=$('cinWrap');if(inW)inW.style.display=air?'none':'flex';
+  const dmW=$('cdmWrap');if(dmW)dmW.style.display=air?'':'none';
+  const list=cCountries();
+  const nm=cName();
+  let h=`<div style="padding:7px 14px;font-size:10px;color:var(--t2);background:var(--sf);border-bottom:1px solid var(--bd)">✨ <b>${hlEsc(nm)}</b> · ${air?'✈️ 항공 (일반냉장 요율 ₩/kg × GW + 국내운송)':'🚢 '+shv+'ft 해운 (국가별 컨테이너 운임 + 내륙운임)'} · 원물가를 입력해야 마진이 계산됩니다</div>`;
+  h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th style="font-size:8px">${air?'₩/kg':'운임₩'}</th><th>$</th><th>마진</th><th style="font-size:8px">실출고</th><th>총마진</th><th></th></tr></thead><tbody>`;
+  list.forEach(cn=>{
+    const frv=air?GAIR_KG[cn]:cSeaVal(cn,shv==='40'?'f':'t');
+    h+=`<tr class="cs"><td class="ctd">${exFlag(cn)}<br><span style="font-size:9px">${hlEsc(cn)}</span><br><button class="qcopy" onclick="copyQuote('${cn}')" title="이 국가 견적 복사">📄</button></td>
+      <td style="font-size:8px;text-align:center;color:#0e7490;font-family:'JetBrains Mono',monospace">${fN(frv)}</td>
+      <td class="ptd"><input type="number" step="0.1" id="cof${cn}" oninput="cR('${cn}')"><div class="lof" id="lofcof${cn}"></div></td>
+      <td class="mc" id="cmm${cn}" onclick="cCif('${cn}')" title="탭하면 원가 내역">-</td>
+      <td class="ptd"><input type="number" id="cq${cn}" oninput="cR('${cn}')" style="width:50px;font-size:10px"></td>
+      <td class="tc" id="ctt${cn}">-</td>
+      <td><button class="lb" id="cbtn${cn}" onclick="cLg('${cn}')">📝</button></td></tr>`;
+  });
+  h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();cA();
+}
+function cCalc(cn){
+  const fx=gv('cfx');
+  const shv=$('csh')?$('csh').value:'40';
+  const air=shv==='air';
+  const nw=gv('cnw')||1,gw=gv('cgw')||nw,ct=gv('cct')||1;
+  const raw=gv('craw'),wk=gv('cwk'),bj=gv('cbj'),bx=gv('cbx'),sup=gv('csp');
+  let defTb,pbf;
+  if(air){
+    const rate=+GAIR_KG[cn];if(!(rate>0))return null;
+    defTb=ct;   // 항공은 팔레트 1개 기준 — 실출고 입력 시 그 수량으로 국내운송 분배 (포도 항공과 동일)
+    const tb0=gv('cq'+cn)||defTb;if(!(tb0>0))return null;
+    pbf=rate*gw+(gv('cdm')||0)/tb0;
+  }else{
+    const seaV=cSeaVal(cn,shv==='40'?'f':'t');if(!(seaV>0))return null;
+    const tp=shv==='40'?20:9;defTb=ct*tp;
+    const tb0=gv('cq'+cn)||defTb;if(!(tb0>0))return null;
+    pbf=(seaV+(gv('cin')||0))/tb0;
+  }
+  const tb=gv('cq'+cn)||defTb;
+  const cif=raw+wk+bj+bx+pbf;
+  const be=fx?cif/fx:0;
+  const of=gv('cof'+cn);
+  if(!of||!fx||!raw)return{empty:true,be,cif,tb,defTb,raw,wk,bj,bx,pbf};   // 환율/원물 미입력이면 계산 차단 — 과대 마진 방지
+  const mb=of-(cif/fx),tk=mb*tb*fx+tb*nw*sup;
+  return{of,raw,wk,bj,bx,mb,tk,cif,tb,defTb,be,pbf};
+}
+function cR(cn){
+  const r=cCalc(cn);
+  const e1=$('cmm'+cn),e2=$('ctt'+cn),ei=$('cof'+cn);
+  const shv=$('csh')?$('csh').value:'40';
+  lofR('lofcof'+cn,'cof'+cn,'c',cn,cName(),()=>cR(cn),shv==='air'?'AIR':shv+'ft');
+  if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';return;}
+  if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
+  const qi=$('cq'+cn);if(qi)qi.placeholder=String(r.defTb);
+  if(r.empty){
+    if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">${r.raw?'0.00$':'원물?'}</span>`;
+    if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
+    return;
+  }
+  const cl=mC(r.mb);
+  if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}$</span>`;
+  if(e2)e2.innerHTML=`<span class="${cl}">${fK(r.tk)}</span>`;
+}
+function cA(){if(F!=='c')return;cInApply();cCountries().forEach(cn=>{if($('cof'+cn))cR(cn);});}
+function cCif(cn){
+  const r=cCalc(cn);if(!r)return;
+  const shv=$('csh')?$('csh').value:'40';
+  cifOpen(cName()+' · '+cn+' · '+(shv==='air'?'항공':shv+'ft'),[
+    ['원물','₩'+fN(r.raw)],['작업비','₩'+fN(r.wk)],['부자재','₩'+fN(r.bj)],['박스','₩'+fN(r.bx)],['물류(박스당)','₩'+fN(r.pbf)],
+    ['CIF 합계','₩'+fN(r.cif),'tot'],
+    ['손익분기','$'+(r.be?r.be.toFixed(2):'-')],
+    r.empty?['만적/기준',fN(r.defTb)+'박스']:['오퍼 → 마진/박스','$'+r.of+' → '+fD(r.mb)+'$'],
+    r.empty?null:['총마진 ('+fN(r.tb)+'박스)',fK(r.tk)]
+  ]);
+}
+function cLg(cn){
+  const r=cCalc(cn);if(!r||!r.of)return;
+  const nm=cName(),shv=$('csh')?$('csh').value:'40',air=shv==='air';
+  const nw=gv('cnw'),ct=gv('cct');
+  const qty=air?`${nm} ${nw?nw+'kg ':''}항공 (${r.tb}ctn)`:`${nm} ${nw?nw+'kg ':''}${ct}ctn/p (${r.tb}ctn)`;
+  const raw=fN(Math.round(r.raw))+'원/박스';
+  cmOpen({fr:'c',frName:nm,co:cn,fl:exFlag(cn),sp:nm,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('cfx'),sj:'',sh:air?'AIR':shv+'ft',btn:'cbtn'+cn,qty,raw,maker:'',tb:r.tb,defTb:r.defTb},
+    `${exFlag(cn)} ${cn} · ${nm} · ${air?'항공':shv+'ft'}`,
+    `오퍼: <span>$${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);
+}
+
 // ═══ LOG ═══
-const FRN={s:'딸기',p:'배',g:'포도',o:'귤',k:'키위',h:'감'};
+const FRN={s:'딸기',p:'배',g:'포도',o:'귤',k:'키위',h:'감',c:'커스텀'};
 const FR_CODE={'딸기':'s','배':'p','포도':'g','귤':'o','키위':'k','감':'h'};
 // 시트에서 온 상차일을 앱 표준(yyyy-MM-dd)으로 정규화 — 구버전 GAS의 'M/d' 응답도 기록일 연도 기준으로 복원
 function normLoadDate(v,ref){
@@ -1295,26 +1539,33 @@ function parseBuyerPrice(s){
 function jsonpDone(cb,s){if(s&&s.parentNode)s.parentNode.removeChild(s);window[cb]=function(){};setTimeout(function(){try{delete window[cb];}catch(e){}},120000);}
 let _cbSeq=0;
 function jsonpCb(prefix){return prefix+Date.now()+'_'+(_cbSeq++);}   // 동일 ms 콜백명 충돌 방지
-function loadL(){try{logs=JSON.parse(localStorage.getItem('hn4')||'[]');}catch(e){logs=[];}}
+function loadL(){try{logs=JSON.parse(localStorage.getItem('hn4')||'[]');}catch(e){logs=[];}
+  // 레거시 무ID '로컬' 기록에만 id 백필 — dL의 id 비교(String(null)) 무음 실패/일괄 오삭제 방지.
+  // 시트 유래(_remote/sent) 기록은 제외: 시트에 없는 가짜 id를 만들면 수정/삭제가 'ID not found'로 죽고 행번호+인보이스 대조 삭제 경로가 막힘
+  let bf=false;logs.forEach(l=>{if(l&&!l._remote&&!l.sent&&(l.id==null||l.id==='')){l.id=genId();bf=true;}});
+  if(bf)try{localStorage.setItem('hn4',JSON.stringify(logs));}catch(e){}
+}
 function saveL(){try{localStorage.setItem('hn4',JSON.stringify(logs));}catch(e){alert('⚠ 저장공간이 부족해 기록이 저장되지 않았습니다. 오래된 기록을 정리해주세요.');}uLC();}
 
-// ═══ 지난 오퍼가 힌트 — 같은 과일·국가·스펙의 최근 기록 오퍼가를 $ 입력칸 밑에 표시 (탭하면 채움) ═══
-function lastOffer(fr,co,spl){
+// ═══ 지난 오퍼가 힌트 — 같은 과일·국가·스펙(+운송모드)의 최근 기록 오퍼가를 $ 입력칸 밑에 표시 (탭하면 채움) ═══
+function lastOffer(fr,co,spl,sh){
   let best=null;
   for(const l of logs){
     if(l.fr!==fr||l.co!==co||l.sp!==spl||l.of==null||l.of==='')continue;
+    if(sh&&l.sh&&l.sh!==sh)continue;   // 운송모드가 다른 기록 제외 — 항공 오퍼가가 해운 행에 뜨거나 40ft에 20ft 가격이 주입되지 않게
     const t=l.dt?Date.parse(l.dt):0;
-    if(!best||t>best.t)best={of:l.of,sym:l.sym||'$',t};
+    if(!best||t>best.t)best={of:l.of,sym:l.sym||'$',t,sh:l.sh||''};
   }
   return best;
 }
-function lofR(lofId,inpId,fr,co,spl,recalc){
+function lofR(lofId,inpId,fr,co,spl,recalc,sh){
   const lo=$(lofId);if(!lo)return;
-  const b=lastOffer(fr,co,spl);
+  const b=lastOffer(fr,co,spl,sh);
   if(!b){if(lo.innerHTML)lo.innerHTML='';lo.onclick=null;return;}
   const d=b.t?new Date(b.t):null;
-  lo.innerHTML='↩ 지난 <b>'+b.sym+b.of+'</b>'+(d&&!isNaN(d.getTime())?'<span style="opacity:.7"> '+(d.getMonth()+1)+'/'+d.getDate()+'</span>':'');
-  lo.title='탭하면 이 값으로 채움';
+  lo.innerHTML='↩ 지난 <b>'+b.sym+b.of+'</b>'+(d&&!isNaN(d.getTime())?'<span style="opacity:.7"> '+(d.getMonth()+1)+'/'+d.getDate()+'</span>':'')
+    +(sh&&!b.sh?'<span style="opacity:.55"> 모드?</span>':'');   // 모드 미상(구버전 시트 왕복) 기록은 표시로 구분
+  lo.title='탭하면 이 값으로 채움'+(sh&&!b.sh?' (기록 당시 운송모드 미상 — 확인 후 사용)':'');
   lo.onclick=()=>{const e=$(inpId);if(e){e.value=b.of;recalc();inpSaveAll();}};
 }
 
@@ -1370,8 +1621,10 @@ function copyQuote(cn){
     lines.push('','적용환율 '+(fd.sg?'SGD ₩'+fN(sv('ssg')):'₩'+fN(sv('sfx'))+'/$'));
   }else if(F==='p'){
     const co=PC.find(c=>c.n===cn);
-    head='🍐 배 · '+(co?co.f+' ':'')+cn+(pSj?' · '+pSj:'')+' · '+($('psh')?$('psh').value:'40')+'ft · '+ds;
-    PS.forEach(s=>{const of=sv('po'+cn+s.id);if(of){const q=sv('pq'+cn+s.id);lines.push('- '+s.l+': $'+of+(q?' ('+fN(q)+'박스)':''));}});
+    const shp=($('psh')?$('psh').value:'40');
+    head='🍐 배 · '+(co?co.f+' ':'')+cn+(pSj?' · '+pSj:'')+' · '+shp+'ft · '+ds;
+    // 현재 운송모드에 표시되는 스펙만 포함(pB와 동일 필터) — 다른 모드에서 입력한 저장값이 헤더와 다른 기준의 가격으로 견적에 섞이지 않게
+    PS.filter(s=>(shp==='40'?s.c4:s.c2)&&!(co&&co.us&&s.noUS)).forEach(s=>{const of=sv('po'+cn+s.id);if(of){const q=sv('pq'+cn+s.id);lines.push('- '+s.l+': $'+of+(q?' ('+fN(q)+'박스)':''));}});
     lines.push('','적용환율 ₩'+fN(sv('pfx'))+'/$');
   }else if(F==='g'){
     const shv=$('gsh')?$('gsh').value:'40';
@@ -1379,6 +1632,11 @@ function copyQuote(cn){
     head='🍇 포도 · '+(co?co.f+' ':'')+cn+(gSj?' · '+gSj:'')+' · '+(shv==='air'?'항공':shv+'ft')+' · '+ds;
     GS.forEach((s,i)=>{const of=sv('go'+cn+i);if(of){const q=sv('gq'+cn+i);lines.push('- '+s.l+': $'+of+(q?' ('+fN(q)+'박스)':''));}});
     lines.push('','적용환율 ₩'+fN(sv('gfx'))+'/$');
+  }else if(F==='c'){
+    const shv=$('csh')?$('csh').value:'40';
+    head='✨ '+cName()+' · '+exFlag(cn)+' '+cn+' · '+(shv==='air'?'항공':shv+'ft')+' · '+ds;
+    const of=sv('cof'+cn);if(of){const q=sv('cq'+cn);lines.push('- '+cName()+': $'+of+(q?' ('+fN(q)+'박스)':''));}
+    lines.push('','적용환율 ₩'+fN(sv('cfx'))+'/$');
   }else{
     const d=MFD[F];if(!d)return;const co=PC.find(c=>c.n===cn);
     head=(F==='o'?'🍊':F==='k'?'🥝':'🟠')+' '+MFN[F]+' · '+(co?co.f+' ':'')+cn+(mSj[F]?' · '+mSj[F]:'')+' · '+($('msh')?$('msh').value:'40')+'ft · '+ds;
@@ -1395,29 +1653,42 @@ function copyQuote(cn){
 const INP_KEY='hn_inp_v1';
 let _inpSaveT=null;
 function inpStore(){try{return JSON.parse(localStorage.getItem(INP_KEY)||'{}');}catch(e){return{};}}
-function inpSet(id,val){const s=inpStore();if(val===''||val==null)delete s[id];else s[id]=String(val);try{localStorage.setItem(INP_KEY,JSON.stringify(s));}catch(e){}}
+function inpSet(id,val){const s=inpStore();if(val===''||val==null)delete s[id];else s[id]=String(val);inpPersist(s);}
 function inpRestore(){
   const s=inpStore();
   document.querySelectorAll('input[id],select[id]').forEach(el=>{
+    if(INP_EXCLUDE.includes(el.id))return;   // 제외 목록은 복원도 금지 — 과거 버전이 저장해둔 뷰어 검색어 등이 계속 살아나는 것 방지
     if(s[el.id]!=null&&s[el.id]!=='')el.value=s[el.id];
   });
-  ['psh','gsh','msh'].forEach(id=>{const h=$(id);if(!h)return;const v=h.value;['40','20','air'].forEach(k=>{const b=$(id+'_'+k);if(b)b.classList.toggle('a',v===k);});});
+  ['psh','gsh','msh','csh'].forEach(id=>{const h=$(id);if(!h)return;const v=h.value;['40','20','air'].forEach(k=>{const b=$(id+'_'+k);if(b)b.classList.toggle('a',v===k);});});
 }
-const INP_EXCLUDE=['pwi','mm','finv','fmkr','fld','fqty','ffx','fof','fraw','gbmWk','gbmBj','gbmBx'];   // 모달/비밀번호 입력은 자동저장 제외
+const INP_EXCLUDE=['pwi','mm','finv','fmkr','fld','fqty','ffx','fof','fraw','gbmWk','gbmBj','gbmBx','elvS','hlvS','elvDF','elvDT'];   // 모달/비밀번호/뷰어 검색·필터 입력은 자동저장 제외 (뷰어 필터 상태와 어긋난 검색어가 복원되는 것 방지)
+// 과거 버전이 저장해둔 제외 대상 키를 1회 정리 — 이미 검색어가 저장된 기기에서 증상이 계속되는 것 방지
+try{const s0=inpStore();let d0=false;INP_EXCLUDE.forEach(k=>{if(k in s0){delete s0[k];d0=true;}});if(d0)localStorage.setItem(INP_KEY,JSON.stringify(s0));}catch(e){}
 let _stPushing=false;   // pushState→inpSaveAll 재귀로 무한 타이머가 걸리지 않게
+let _inpSaveWarned=false;
+// 저장 실패 시 무음 금지: 가장 큰 항목(동기화 스냅샷)을 비워 1회 재시도, 그래도 실패하면 세션당 1회 경고 (gcSet/saveL과 동일 정책)
+function inpPersist(s){
+  try{localStorage.setItem(INP_KEY,JSON.stringify(s));}
+  catch(e){
+    try{localStorage.removeItem('hn_sync_v1');localStorage.setItem(INP_KEY,JSON.stringify(s));}
+    catch(e2){if(!_inpSaveWarned){_inpSaveWarned=true;alert('⚠ 저장공간이 부족해 입력값이 저장되지 않습니다. 오래된 기록을 정리해주세요.');}}
+  }
+}
 function inpSaveAll(){
   const s=inpStore();   // ★ 병합 저장 — 현재 화면에 없는 다른 과일 탭의 저장값을 지우지 않음
   document.querySelectorAll('input[id],select[id]').forEach(el=>{
     if(!el.id||INP_EXCLUDE.includes(el.id))return;
     if(el.value==='')delete s[el.id];else s[el.id]=el.value;
   });
-  try{localStorage.setItem(INP_KEY,JSON.stringify(s));}catch(e){}
+  inpPersist(s);
   if(!_stPushing&&typeof schedPush==='function')schedPush();   // 산지 선택·운송 토글·필터 변경(pB/gB/mB 경유)도 시트 상태 저장 트리거
 }
 document.addEventListener('input',(e)=>{
   const t=e.target;if(!t.id||t.tagName!=='INPUT'&&t.tagName!=='SELECT')return;
   if(t.id==='ssg'){localStorage.setItem('hn_ssg_touch','1');ssgHintR();}   // SGD 직접 수정 = 수동 고정 (sync가 덮지 않음)
   if(t.id==='sfx'){localStorage.setItem('hn_sfx_touch','1');setFxHint();}  // 딸기 환율 직접 수정 = 수동 고정
+  try{_userEdited.add(t.id);}catch(err){}   // 사용자 직접 편집 표시 — sync가 세션 중 조정값을 덮지 않게 (syncSetVal 가드)
   if(INP_EXCLUDE.includes(t.id))return;
   clearTimeout(_inpSaveT);_inpSaveT=setTimeout(inpSaveAll,300);
 });
@@ -1454,32 +1725,43 @@ function cmFill(){
   pnd.loadDate=$('fld').value.trim();
   pnd.qty=$('fqty').value.trim();
   pnd.raw=$('fraw').value.trim();
-  const bp=parseBuyerPrice($('fof')?$('fof').value:'');   // 수정 화면에서 고친 바이어단가 반영
-  if(bp){pnd.sym=bp.sym;pnd.of=bp.of;}
+  const fofV=$('fof')?$('fof').value:'';
+  const bp=parseBuyerPrice(fofV);   // 수정 화면에서 고친 바이어단가 반영
+  if(bp){
+    // 수정 화면에서 단가가 바뀌면 기존 마진(mb/tk)은 옛 단가 기준이라 무효 — null 처리하고 시트 J열도 비우도록 플래그 (새 단가+옛 마진 조합이 시트에 남는 것 방지)
+    if(pnd._edit&&pnd.of!=null&&String(pnd.of)!==String(bp.of)){pnd.mb=null;pnd.tk=null;pnd._mstale=true;}
+    pnd.sym=bp.sym;pnd.of=bp.of;
+  }else if(pnd._edit&&fofV.trim()!==''){alert('바이어단가를 해석할 수 없습니다: "'+fofV+'" — 기존 값('+(pnd.sym||'$')+(pnd.of!=null?pnd.of:'-')+')이 유지됩니다');}
 }
-function cmOk(){if(!pnd)return;cmFill();if(pnd._edit)logs=logs.filter(l=>String(l.id)!==String(pnd.id));logs.unshift({...pnd});saveL();const b=$(pnd.btn);if(b){b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1000);}cmClose();rL();}
+function cmOk(){if(!pnd)return;cmFill();logs=logs.filter(l=>String(l.id)!==String(pnd.id));logs.unshift({...pnd});saveL();const b=$(pnd.btn);if(b){b.classList.add('ok');setTimeout(()=>b.classList.remove('ok'),1000);}cmClose();rL();}   // 같은 id는 항상 1장 — 전송 타임아웃(queueLocal) 후 💾 로컬을 눌러도 중복 편입되지 않게
 function cmCopy(){if(!pnd)return;cmFill();
   const t=`인보이스: ${pnd.invoice||'-'}\n제조자: ${pnd.maker||'-'}\n상차일: ${fmtKDate(pnd.loadDate)||'-'}\n수량: ${pnd.qty||'-'}\n적용환율: ${pnd.rt||'-'}\n바이어단가: ${pnd.sym}${pnd.of}\n산지단가: ${pnd.raw||'-'}\n──────────\n${pnd.co} ${pnd.sp||''}\n마진: ${fD(pnd.mb)}${pnd.sym}/box · 총 ${fK(pnd.tk)}${pnd.sj?' ('+pnd.sj+')':''}${pnd.sh?' '+pnd.sh:''}${pnd.me?'\n메모: '+pnd.me:''}`;
-  navigator.clipboard?navigator.clipboard.writeText(t).then(()=>{const b=$('mcb');b.textContent='✅ 복사됨';setTimeout(()=>b.textContent='📋 복사',1500);}):alert(t);
+  // 복사 실패도 반드시 피드백 — 무음 실패 시 클립보드의 이전 내용(다른 바이어 견적일 수 있음)을 붙여넣는 사고 방지 (copyQuote와 동일 패턴)
+  const ok=()=>{const b=$('mcb');if(b){b.textContent='✅ 복사됨';setTimeout(()=>b.textContent='📋 복사',1500);}};
+  const fb=()=>{try{const ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();document.execCommand('copy');document.body.removeChild(ta);ok();}catch(e){alert(t);}};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(fb);}else{fb();}
 }
 function buildLogPayload(l,me){
   return{
-    fruit:FRN[l.fr]||l.fr||'',country:l.co||'',flag:l.fl||'',spec:l.sp||'',
+    fruit:(l.fr==='c'&&l.frName)?l.frName:(FRN[l.fr]||l.fr||''),country:l.co||'',flag:l.fl||'',spec:l.sp||'',   // 커스텀은 사용자가 입력한 아이템명이 시트 M열(과일)에 기록됨
     invoice:l.invoice||'',maker:l.maker||'',loadDate:l.loadDate||'',qty:l.qty||'',
     fxRate:l.rt||'',buyerPrice:(l.of!=null&&l.of!=='')?((l.sym||'$')+l.of):'',rawPrice:l.raw||'',
     margin:l.mb!=null?Number(l.mb).toFixed(2):'',totalMargin:l.tk!=null?Math.round(l.tk):'',
     sanji:l.sj||'',ship:l.sh||'',memo:l.me||'',timestamp:l.dt,
-    author:me||l.author||'',id:l.id
+    author:me||l.author||'',id:l.id,
+    marginStale:l._mstale?'1':''   // 수정에서 단가가 바뀌어 기존 마진이 무효 — 신 GAS가 J열을 비움 (구 GAS는 무시)
   };
 }
-// 전송 전 이상치 점검 — 실수 방지 (마이너스 마진 / 환율 괴리 / 실출고 초과)
+// 전송 전 이상치 점검 — 실수 방지 (마이너스 마진 / 환율 괴리 / 실출고 초과 / 원물 미입력)
 function sendGuard(l){
   const warns=[];
   if(l.mb!=null&&l.mb<0)warns.push('박스당 마진이 마이너스('+fD(l.mb)+(l.sym||'$')+')입니다');
   const refFx=(l.sym==='S$')?TODAY_SGD:TODAY_FX;
   const rtN=parseFloat(l.rt);
   if(refFx>0&&rtN>0&&Math.abs(rtN-refFx)/refFx>0.03)warns.push('적용환율(₩'+fN(rtN)+')이 오늘 시세(₩'+fN(refFx)+')와 '+(Math.abs(rtN-refFx)/refFx*100).toFixed(1)+'% 차이납니다');
-  if(l.tb&&l.defTb&&+l.tb>+l.defTb)warns.push('실출고('+fN(l.tb)+'박스)가 만적('+fN(l.defTb)+'박스)을 초과합니다');
+  // 항공은 만적 개념이 없음(팔레트 단위 defTb) — 팔레트 초과 출고가 정상 사용이므로 이 검사는 해운만
+  if(l.tb&&l.defTb&&+l.tb>+l.defTb&&!/air|항공/i.test(String(l.sh||'')))warns.push('실출고('+fN(l.tb)+'박스)가 만적('+fN(l.defTb)+'박스)을 초과합니다');
+  if(l.fr==='g'&&/^0원/.test(String(l.raw||'')))warns.push('원물가가 0원입니다 — 스펙별 비용(원물)을 입력했는지 확인하세요 (마진이 과대 표시됨)');
   if(!warns.length)return true;
   return confirm('⚠ 전송 전 확인해주세요:\n\n· '+warns.join('\n· ')+'\n\n그래도 전송할까요?');
 }
@@ -1497,9 +1779,11 @@ function cmSend(){
   s.src=SU+'?action='+(isEdit?'update':'log')+'&callback='+cb+'&data='+encodeURIComponent(JSON.stringify(payload));
   const myPnd=pnd;   // 응답 대기 중 모달이 닫히거나 다른 기록이 열려도(전역 pnd 변경) 이 전송 건을 정확히 처리
   const idleLbl=isEdit?'💾 수정 저장':'📤 시트 전송';
-  const t=setTimeout(()=>{cl();btn.disabled=false;btn.textContent='⚠ 응답없음 — 기록탭에서 확인 후 재시도';setTimeout(()=>{btn.textContent=idleLbl;btn.disabled=false;},3500);},20000);
+  // 전송 실패/타임아웃 시 신규 기록을 미전송 상태로 로컬 큐에 보관 — 모달을 닫거나 앱이 종료돼도 기록이 유실되지 않게 (GAS 멱등이라 늦은 성공+재전송도 중복 안전)
+  function queueLocal(){if(isEdit)return;try{logs=logs.filter(l=>String(l.id)!==String(myPnd.id));logs.unshift({...myPnd});saveL();rL();}catch(e){}}
+  const t=setTimeout(()=>{cl();queueLocal();btn.disabled=false;btn.textContent=isEdit?'⚠ 응답없음 — 저장 안 됨, 다시 시도':'⚠ 응답없음 — 기록탭에 미전송 보관됨';setTimeout(()=>{btn.textContent=idleLbl;btn.disabled=false;},3500);},20000);
   function cl(){clearTimeout(t);jsonpDone(cb,s);}
-  s.onerror=function(){cl();btn.disabled=false;btn.textContent='❌ 연결실패';setTimeout(()=>btn.textContent=idleLbl,2500);};
+  s.onerror=function(){cl();queueLocal();btn.disabled=false;btn.textContent=isEdit?'❌ 연결실패 — 저장 안 됨, 다시 시도':'❌ 연결실패 — 기록탭에 미전송 보관됨';setTimeout(()=>btn.textContent=idleLbl,2500);};
   window[cb]=function(d){cl();
     if(d&&(d.ok||d.success)){
       myPnd.sent=true;myPnd.sentAt=new Date().toISOString();
@@ -1518,36 +1802,41 @@ function cmSend(){
 $('mo').addEventListener('click',function(e){if(e.target===this)cmClose();});
 $('cifm').addEventListener('click',function(e){if(e.target===this)this.classList.add('h');});
 
-let histLoading=false,_histSeq=0;
+let histLoading=false,_histSeq=0,histErrAt=null;
 function rL(){
   const list=$('tl'),me=localStorage.getItem('cur_user')||'';
   const fl=logs.filter(l=>!F||!l.fr||l.fr===F);uLC();
   const unsent=logs.filter(l=>!l.sent&&!l._remote&&l.id!=null).length;
-  const hdr=`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-size:12px;font-weight:700;flex:1">📋 공유 기록 ${histLoading?'<span style="color:var(--yw);font-size:10px">⏳</span>':'('+fl.length+')'}</span>${unsent?'<button class="cb" style="color:#c2860a;border-color:#e3c27a;font-weight:800" onclick="resendAll()">⚠ 미전송 '+unsent+'건 전송</button>':''}<span style="font-size:9px;color:var(--t2);cursor:pointer" onclick="setMe()">👤 ${me||'이름설정'}</span><button class="cb" onclick="fetchHist()">🔄 새로고침</button></div><div style="font-size:8px;color:var(--t3);margin:2px 0 4px">시트 기록은 최근 100건까지 표시 · 전체는 오퍼시트의 오퍼히스토리 탭 참고</div>`;
+  const hdr=`<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap"><span style="font-size:12px;font-weight:700;flex:1">📋 공유 기록 ${histLoading?'<span style="color:var(--yw);font-size:10px">⏳</span>':'('+fl.length+')'}</span>${unsent?'<button class="cb" style="color:#c2860a;border-color:#e3c27a;font-weight:800" onclick="resendAll()">⚠ 미전송 '+unsent+'건 전송</button>':''}<span style="font-size:9px;color:var(--t2);cursor:pointer" onclick="setMe()">👤 ${hlEsc(me)||'이름설정'}</span><button class="cb" onclick="fetchHist()">🔄 새로고침</button></div>${histErrAt?'<div style="font-size:9px;color:#c2860a;font-weight:700;margin:2px 0">⚠ 시트 연결 실패 — 이전 데이터를 표시 중입니다 (새로고침으로 재시도)</div>':''}<div style="font-size:8px;color:var(--t3);margin:2px 0 4px">시트 기록은 최근 100건까지 표시 · 전체는 오퍼시트의 오퍼히스토리 탭 참고</div>`;
   if(!fl.length){list.innerHTML=hdr+`<div class="le"><span style="font-size:32px;display:block;margin-bottom:6px">📋</span>${histLoading?'불러오는 중...':'기록 없음'}</div>`;return;}
   let h=hdr;
   fl.forEach(l=>{
     const d=new Date(l.dt||Date.now()),ds=`${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
     const mine=l.author&&me&&l.author===me;
-    const auth=l.author?`<span class="auth ${mine?'me':''}">${mine?'나':l.author}</span>`:'';
-    const idAttr=l.id?`'${l.id}'`:'null';
+    const auth=l.author?`<span class="auth ${mine?'me':''}">${mine?'나':hlEsc(l.author)}</span>`:'';
+    // 시트/사용자 유래 텍스트는 전부 이스케이프, onclick 인자는 URI 인코딩 — 메모의 '<' 하나로 카드가 깨지거나 시트 셀의 HTML이 실행되는 것(저장형 XSS) 방지
+    const idArg=l.id!=null?`decodeURIComponent('${jsArg(l.id)}')`:'null';
     const rowAttr=l._row||'null';
     const isRemote=l._remote||l.sent;
-    h+=`<div class="li ${mine?'mine':''}"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">${l.fl?`<span style="font-size:16px">${l.fl}</span>`:''}<div style="flex:1"><div style="font-size:11px;font-weight:700">${l.co||l.invoice||'-'}${l.sj?' · '+l.sj:''}${l.sh?' · '+l.sh:''}${auth}${l.sent?'<span class="snt">✓ SHEET</span>':''}</div><div class="ld">${ds}${l.invoice?' · '+l.invoice:''}${l.loadDate?' · '+fmtKDate(l.loadDate):''}</div>${l.me?`<div style="font-size:9px;color:var(--t2);font-style:italic;margin-top:1px">"${l.me}"</div>`:''}</div></div>
-    <div class="lps"><div class="lp"><label>스펙</label><div class="v" style="font-size:9px">${l.sp||'-'}</div></div><div class="lp"><label>오퍼</label><div class="v">${l.of?(l.sym||'')+l.of:'-'}</div></div><div class="lp"><label>마진</label><div class="v ${l.mb!=null?mC(l.mb):''}">${l.mb!=null?fD(l.mb)+(l.sym||''):'-'}</div></div><div class="lp"><label>총마진</label><div class="v ${l.tk!=null?mC(l.tk):''}">${l.tk!=null?fK(l.tk):'-'}</div></div></div>
-    <div style="display:flex;gap:5px;margin-top:5px">${l.id?`<button class="ldb" style="background:#fff;color:var(--bl);border-color:#cfdcf5" onclick="editLog('${l.id}')">✏️ 수정</button>`:''}<button class="ldb" onclick="dL(${idAttr},${isRemote?true:false},${rowAttr},'${encodeURIComponent(l.invoice||'').replace(/'/g,'%27')}')">🗑 삭제</button></div></div>`;
+    h+=`<div class="li ${mine?'mine':''}"><div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">${l.fl?`<span style="font-size:16px">${hlEsc(l.fl)}</span>`:''}<div style="flex:1"><div style="font-size:11px;font-weight:700">${hlEsc(l.co||l.invoice||'-')}${l.sj?' · '+hlEsc(l.sj):''}${l.sh?' · '+hlEsc(l.sh):''}${auth}${l.sent?'<span class="snt">✓ SHEET</span>':''}</div><div class="ld">${ds}${l.invoice?' · '+hlEsc(l.invoice):''}${l.loadDate?' · '+hlEsc(fmtKDate(l.loadDate)):''}</div>${l.me?`<div style="font-size:9px;color:var(--t2);font-style:italic;margin-top:1px">"${hlEsc(l.me)}"</div>`:''}</div></div>
+    <div class="lps"><div class="lp"><label>스펙</label><div class="v" style="font-size:9px">${hlEsc(l.sp||'-')}</div></div><div class="lp"><label>오퍼</label><div class="v">${l.of?hlEsc((l.sym||'')+l.of):'-'}</div></div><div class="lp"><label>마진</label><div class="v ${l.mb!=null?mC(l.mb):''}">${l.mb!=null?fD(l.mb)+hlEsc(l.sym||''):'-'}</div></div><div class="lp"><label>총마진</label><div class="v ${l.tk!=null?mC(l.tk):''}">${l.tk!=null?fK(l.tk):'-'}</div></div></div>
+    <div style="display:flex;gap:5px;margin-top:5px">${l.id?`<button class="ldb" style="background:#fff;color:var(--bl);border-color:#cfdcf5" onclick="editLog(${idArg})">✏️ 수정</button>`:''}<button class="ldb" onclick="dL(${idArg},${isRemote?true:false},${rowAttr},'${jsArg(l.invoice||'')}')">🗑 삭제</button></div></div>`;
   });list.innerHTML=h;
 }
 function fetchHist(){
   histLoading=true;rL();
   const mySeq=++_histSeq;   // 이중 실행 시 늦게 도착한 옛 응답이 최신 상태를 덮지 않도록
   const cb=jsonpCb('hst'),s=document.createElement('script');
-  const t=setTimeout(()=>{cl();histLoading=false;rL();},20000);
+  // 실패도 헤더에 표시 — 낡은 목록이 '새로고침된 것처럼' 보이지 않게. 단 stale 요청(재실행됨)의 실패는 무시 — 최신 성공 위에 거짓 실패 배너 방지
+  const t=setTimeout(()=>{cl();if(mySeq!==_histSeq)return;histLoading=false;histErrAt=new Date();rL();},20000);
   function cl(){clearTimeout(t);jsonpDone(cb,s);}
-  s.onerror=function(){cl();histLoading=false;rL();};
-  window[cb]=function(d){cl();histLoading=false;
+  s.onerror=function(){cl();if(mySeq!==_histSeq)return;histLoading=false;histErrAt=new Date();rL();};
+  window[cb]=function(d){cl();
     if(mySeq!==_histSeq){rL();return;}   // stale 응답 폐기
+    histLoading=false;
+    if(!(d&&d.ok&&d.rows))histErrAt=new Date();   // GAS 오류 응답({error:...})도 실패로 표시
     if(d&&d.ok&&d.rows){
+      histErrAt=null;
       // 같은 id의 로컬 사본이 있으면 시트에 저장되지 않는 풍부한 필드(국가/스펙/오퍼가/마진 등)를 로컬에서 승계
       const localById={};logs.forEach(l=>{if(l.id!=null&&l.id!=='')localById[String(l.id)]=l;});
       const sheetLogs=d.rows.map(r=>{
@@ -1555,9 +1844,10 @@ function fetchHist(){
         const bp=parseBuyerPrice(r.buyerPrice);   // 시트 G열 '$12.5' → sym/of 복원 (신 GAS), 없으면 로컬 사본 유지
         return{
           id:r.id,_row:r.rowNum,
-          fr:(r.fruit&&FR_CODE[r.fruit]!=null)?FR_CODE[r.fruit]:(loc.fr||''),   // 시트 M열(과일) 우선 → 로컬 사본 → 미상(모든 탭 표시)
+          fr:(r.fruit&&FR_CODE[r.fruit]!=null)?FR_CODE[r.fruit]:(loc.fr||''),   // 시트 M열(과일) 우선 → 로컬 사본 → 미상(모든 탭 표시). 커스텀 품목명은 FR_CODE에 없어 로컬 fr('c') 유지
+          frName:loc.frName||((r.fruit&&FR_CODE[r.fruit]==null)?r.fruit:''),   // 커스텀 아이템명 승계 — 수정 재전송 시 시트 M열이 '커스텀'으로 덮이지 않게
           co:(r.country&&r.country!=='')?r.country:(loc.co||r.invoice||'-'),
-          fl:loc.fl||'',sj:loc.sj||'',sh:loc.sh||'',
+          fl:loc.fl||'',sj:loc.sj||'',sh:(r.ship&&r.ship!=='')?r.ship:(loc.sh||''),   // 시트 P열(운송) 우선 — 지난 오퍼가 힌트의 모드 매칭이 시트 왕복 후에도 유지되게
           sp:(r.spec&&r.spec!=='')?r.spec:(loc.sp||''),
           of:bp?bp.of:(loc.of!=null?loc.of:''),sym:bp?bp.sym:(loc.sym||''),
           mb:loc.mb!=null?loc.mb:null,
@@ -1583,7 +1873,7 @@ function editLog(id){
   const l=logs.find(x=>String(x.id)===String(id));if(!l)return;   // 로컬 id는 숫자, 시트 id는 문자열 — 타입 불문 매칭
   pnd={...l,_edit:true};
   $('msb').textContent='✏️ 기록 수정';
-  $('mif').innerHTML=`ID: <span>${id}</span> · 작성자: <span>${l.author||'-'}</span>`;
+  $('mif').innerHTML=`ID: <span>${hlEsc(id)}</span> · 작성자: <span>${hlEsc(l.author||'-')}</span>`;
   $('mm').value=l.me||'';
   $('finv').value=l.invoice||'';
   $('fmkr').value=l.maker||'';
@@ -1616,6 +1906,7 @@ function dL(id,remote,row,invEnc){
     s.src=url;
     document.head.appendChild(s);
   } else {
+    if(id==null){alert('기록을 특정할 수 없어 삭제하지 못했습니다. 새로고침 후 다시 시도해주세요.');return;}   // String(null)==='null' 매칭으로 엉뚱한 기록이 지워지는 것 방지 (loadL이 id를 백필하므로 정상 경로에선 발생 안 함)
     logs=logs.filter(l=>String(l.id)!==String(id));saveL();rL();
   }
 }
@@ -1637,7 +1928,10 @@ function resendAll(){
       alert('전송 완료: '+ok+'건'+(fail?' · 실패 '+fail+'건 (미전송으로 남음 — 다시 시도 가능)':''));
       fetchHist();return;
     }
-    const l=pend[i++];
+    const snap=pend[i++];
+    // 진행 중 삭제/수정 반영 — 시작 시점 스냅샷이 아니라 현재 logs의 최신 객체를 전송. 삭제된 기록이 시트에 부활하거나 수정 전 옛 값이 올라가는 것 방지.
+    const l=logs.find(x=>String(x.id)===String(snap.id)&&!x.sent&&!x._remote);
+    if(!l){setTimeout(next,50);return;}
     const cb=jsonpCb('rsd'),sc=document.createElement('script');
     const t=setTimeout(()=>{cl();fail++;next();},15000);
     function cl(){clearTimeout(t);jsonpDone(cb,sc);}
@@ -1660,17 +1954,40 @@ function syncPk(o,...keys){for(const k of keys){if(o[k]!=null)return o[k];}retur
 function syncParseFT(o){if(!o||typeof o!=='object')return null;const f=syncPk(o,'f','full','forty','ft40','40');const t=syncPk(o,'t','twenty','ft20','20');if(f==null&&t==null)return null;const r={};if(f!=null)r.f=f;if(t!=null)r.t=t;return r;}
 // 포도Air(항공)탭과 포도(해운)탭이 같은 물리 스펙을 다른 표기로 쓰는 경우의 별칭 — 항공 ca 미동기화 방지
 const GSPEC_ALIAS={'2.7kg|300g*9pack':'2.7kg|300g*9pack(종이팩)','3kg|300g*10pack':'3kg|300g*10pack(도시락)','3.6kg(종이)|400g*9pack':'3.6kg|400g*9pack'};
+// 표 재구축 시 포커스/가로 스크롤 보존 래퍼 — sync가 입력 중 표를 갈아엎어도 흐름이 끊기지 않게
+function syncRebuild(fn){
+  const aeId=document.activeElement&&document.activeElement.id;
+  const sc=$('to')?$('to').querySelector('div[style*="overflow-x"]'):null;
+  const sl=sc?sc.scrollLeft:0;
+  fn();
+  if(aeId){const el=$(aeId);if(el&&el.focus){try{el.focus();}catch(e){}}}
+  const sc2=$('to')?$('to').querySelector('div[style*="overflow-x"]'):null;
+  if(sc2&&sl)sc2.scrollLeft=sl;
+}
+// 시트→입력칸 반영 가드: 이 세션에서 sync가 마지막으로 쓴 값과 현재값이 다르면(=사용자가 직접 수정한 것) 덮지 않음.
+// 부팅 직후(_syncApplied가 빈 상태)에는 시트값이 진실원천으로 적용되고, 세션 중 조정한 단가만 보호된다 — 10분 주기 sync가 협상용 조정값을 무음 회귀시키던 문제 방지.
+const _syncApplied={};
+const _userEdited=new Set();   // 이 세션에서 사용자가 직접 타이핑한 입력 id — 스냅샷 시드 전(첫 sync 실패 등)에도 보호되도록
+function syncSetVal(id,val,src){
+  const e=$(id);if(!e||val==null)return false;
+  const applied=_syncApplied[id],cur=+e.value||0;
+  if(_userEdited.has(id)&&cur&&cur!==+val)return false;   // 사용자가 세션 중 직접 편집 — _syncApplied가 비어 있어도 보호
+  if(applied!=null&&cur&&cur!==+applied)return false;   // 사용자가 세션 중 직접 고친 값 보호
+  _syncApplied[id]=val;
+  const chg=String(e.value)!==String(val);
+  if(chg){e.value=val;if(src!=='cache')flI(id);}
+  return chg;   // '실제로 값이 바뀐 경우'만 true — 무변경 sync가 배 탭 표를 매번 재구축(chgP 오탐)하지 않게
+}
 function applySyncData(d,src){
   const pk=syncPk,parseFT=syncParseFT;
   if(!d||d.error)return false;
-  let cnt=0;
+  let cnt=0,chgP=false,chgG=false;   // 배/포도 표 재구축 필요 여부 — 값이 실제로 바뀐 경우에만 rebuild (입력 중 포커스/키보드/스크롤 보존)
   const ex=pk(d,'exrate','rate','fx');
   if(ex&&TODAY_FX_SRC!=='실시간'){TODAY_FX=Math.round(ex);TODAY_FX_SRC=(src==='cache'?'저장':'시트');setFxHint();}   // 실시간 시세 실패 시에만 시트 환율로 폴백 (마진은 항상 입력칸 환율로 계산)
   if(F==='s'){
     if(d.prices){
-      if(d.prices.p250){$('sp0').value=d.prices.p250;if(src!=='cache')flI('sp0');}
-      if(d.prices.p500_330){$('sp1').value=d.prices.p500_330;if(src!=='cache')flI('sp1');}
-      cnt++;
+      if(d.prices.p250&&syncSetVal('sp0',d.prices.p250,src))cnt++;
+      if(d.prices.p500_330&&syncSetVal('sp1',d.prices.p500_330,src))cnt++;
     }
     const sgd=pk(d,'sgdrate','sgd');
     // SGD 우선순위: 수동 고정 > 실시간 시세 > 시트값 — 사용자가 직접 고친 값은 sync가 덮지 않음
@@ -1678,38 +1995,46 @@ function applySyncData(d,src){
     // 딸기 달러환율: 시트 환율을 입력칸에 자동 반영 (직접 수정하면 ✋수동 고정, 힌트 탭으로 자동 복귀)
     // 안전장치: 현재값이 '마지막으로 자동 반영한 값'과 다르면(플래그 없이 벗어난 값) 덮지 않음 — 작성 중 마진이 몰래 바뀌는 것 방지
     if(ex&&!localStorage.getItem('hn_sfx_touch')&&$('sfx')){
-      const tgt=Math.round(ex),cur=+$('sfx').value||0,last=+(localStorage.getItem('hn_sfx_last')||0);
-      if(cur!==tgt&&(!cur||cur===last||src==='cache')){$('sfx').value=tgt;inpSet('sfx',String(tgt));if(src!=='cache')flI('sfx');}
+      const tgt=Math.round(ex),cur=+$('sfx').value||0,lastRaw=localStorage.getItem('hn_sfx_last'),last=+(lastRaw||0);
+      // lastRaw==null(최초 설치 첫 세션)도 적용 대상 — 기본값 1410이 시트 환율로 한 번도 교체되지 않던 문제 방지
+      if(cur!==tgt&&(!cur||lastRaw==null||cur===last||src==='cache')){$('sfx').value=tgt;inpSet('sfx',String(tgt));if(src!=='cache')flI('sfx');}
       localStorage.setItem('hn_sfx_last',String(tgt));
     }
     ssgHintR();
   }
-  // 배 단가 (한국 + 미국)
+  // 배 단가 (한국 + 미국) — syncSetVal 가드: 세션 중 직접 조정한 단가는 sync가 덮지 않음
   const pp=pk(d,'pearPrice','pPrice','pearPrices');
   if(pp){
     const map={a:'pa',b:'pb',c:'pc',ha:'ha',hb:'hb',hc:'hc'};
-    Object.keys(map).forEach(k=>{const v=pk(pp,k);if(v!=null&&$(map[k])){$(map[k]).value=v;if(src!=='cache')flI(map[k]);cnt++;}});
+    Object.keys(map).forEach(k=>{const v=pk(pp,k);if(v!=null&&syncSetVal(map[k],v,src)){chgP=true;cnt++;}});
   }
-  // 미국 작업비
+  // 미국 작업비 — 내부 기본값(PUWK)은 항상 갱신, 입력칸은 syncSetVal 가드
   const puw=pk(d,'pearUWk','pUWk','usWk');
-  if(puw)Object.keys(puw).forEach(k=>{if(PUWK[k]!=null){PUWK[k]=puw[k];const e=$('puwk_'+k);if(e)e.value=puw[k];cnt++;}});
+  if(puw)Object.keys(puw).forEach(k=>{if(PUWK[k]!=null){if(PUWK[k]!==puw[k])chgP=true;PUWK[k]=puw[k];syncSetVal('puwk_'+k,puw[k],src);cnt++;}});
   // 포도 기본단가/작업비는 sync 안 함 — GAS가 0을 보내 사용자 입력을 덮어쓰기 때문 (수동 입력 유지)
   const fr=pk(d,'freight','strawFreight','airFreight');
   if(fr)Object.keys(fr).forEach(k=>{if(!SF[k])return;const v=fr[k];const a=pk(v,'airKg','air','a','kg');if(a!=null){SF[k].a=a;cnt++;}const fc=pk(v,'fsc','fc','fuel');if(fc!=null)SF[k].fc=fc;const dom=pk(v,'domFreight','dom','d','domestic');if(dom!=null)SF[k].d=dom;});
-  const ps=pk(d,'pearSea','pSea');if(ps)Object.keys(ps).forEach(k=>{if(!PSEA[k])return;const r=parseFT(ps[k]);if(r){Object.assign(PSEA[k],r);cnt++;}});
-  const pi=pk(d,'pearInland','pInland');if(pi)Object.keys(pi).forEach(k=>{if(!PIL[k])return;const r=parseFT(pi[k]);if(r){Object.assign(PIL[k],r);cnt++;}});
+  const ps=pk(d,'pearSea','pSea');if(ps)Object.keys(ps).forEach(k=>{if(!PSEA[k])return;const r=parseFT(ps[k]);if(r){if(Object.keys(r).some(x=>PSEA[k][x]!==r[x]))chgP=true;Object.assign(PSEA[k],r);cnt++;}});
+  // 배 내륙: 내륙운임에 0은 정상값이 될 수 없음 — 0/음수 다리는 무시(기존값 유지). 시트 빈 셀이 산지 계산을 조용히 죽이고 스냅샷에 고착되는 것 방지.
+  const pi=pk(d,'pearInland','pInland');if(pi)Object.keys(pi).forEach(k=>{if(!PIL[k])return;const r=parseFT(pi[k]);if(!r)return;const rr={};if(r.f>0)rr.f=r.f;if(r.t>0)rr.t=r.t;if(Object.keys(rr).length){if(Object.keys(rr).some(x=>PIL[k][x]!==rr[x]))chgP=true;Object.assign(PIL[k],rr);cnt++;}});
   // 배 작업비: 내부 기본값(PWK)은 항상 갱신하되, 산지 선택 중이면 입력칸은 산지 기준(PWK_SJ)을 유지 — '← 산지 기준' 라벨과 실제 계산값이 어긋나지 않게
-  const pw=pk(d,'pearWk','pWk');if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){PWK[k]=pw[k];if(!pSj){const e=$('pwk_'+k);if(e&&String(e.value)!==String(pw[k])){e.value=pw[k];if(src!=='cache')flI('pwk_'+k);}}cnt++;}});
+  const pw=pk(d,'pearWk','pWk');if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){if(PWK[k]!==pw[k])chgP=true;PWK[k]=pw[k];if(!pSj){const e=$('pwk_'+k);if(e&&String(e.value)!==String(pw[k])){e.value=pw[k];if(src!=='cache')flI('pwk_'+k);}}cnt++;}});
   // 포도 운임 sync — GAS가 포도/포도Air 탭을 직접 읽도록 갱신됨 (신규 산지/국가/항공운임 반영)
-  const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){Object.assign(GSEA[k],r);cnt++;}});
-  // 포도 내륙 sync — 기존 산지는 값 갱신 / 시트에 새 산지가 생기면 GIL+GSANJI에 자동 추가(목록에 표시). 영동처럼 신규 산지 자동 반영.
-  const gi=pk(d,'grapeInland','gInland');if(gi)Object.keys(gi).forEach(k=>{const r=parseFT(gi[k]);if(!r)return;if(!GIL[k]){GIL[k]={f:0,t:0};if(!GSANJI.includes(k))GSANJI.push(k);}Object.assign(GIL[k],r);cnt++;});
+  const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){if(Object.keys(r).some(x=>GSEA[k][x]!==r[x]))chgG=true;Object.assign(GSEA[k],r);cnt++;}});
+  // 포도 내륙 sync — 기존 산지는 값 갱신 / 시트에 새 산지가 생기면 GIL+GSANJI에 자동 추가(목록에 표시). 0인 다리는 무시(내륙 0은 비정상 — 기존값 유지).
+  const gi=pk(d,'grapeInland','gInland');if(gi)Object.keys(gi).forEach(k=>{const r=parseFT(gi[k]);if(!r)return;const rr={};if(r.f>0)rr.f=r.f;if(r.t>0)rr.t=r.t;if(!Object.keys(rr).length)return;if(!GIL[k]){GIL[k]={f:0,t:0};if(!GSANJI.includes(k))GSANJI.push(k);chgG=true;}if(Object.keys(rr).some(x=>GIL[k][x]!==rr[x]))chgG=true;Object.assign(GIL[k],rr);cnt++;});
   // 포도 항공운임 sync — GAS가 'SLP 항공요율표' BLOCK A(운임 계=운임+FSC)를 읽어 국가별 전송. (도내운송 350,000은 요율표에 없어 앱 하드코딩 유지)
-  const gak=pk(d,'grapeAirKg','gAirKg');if(gak)Object.keys(gak).forEach(k=>{if(GAIR_KG[k]!=null){const vv=+gak[k];if(vv>0){GAIR_KG[k]=vv;cnt++;}}});
+  const gak=pk(d,'grapeAirKg','gAirKg');if(gak)Object.keys(gak).forEach(k=>{if(GAIR_KG[k]!=null){const vv=+gak[k];if(vv>0){if(GAIR_KG[k]!==vv)chgG=true;GAIR_KG[k]=vv;cnt++;}}});
   // 포도 스펙별 값 sync — cnt/p(ct/ca)·부자재·박스를 시트값으로 덮어쓰기(GS.k 매칭, 별칭 보조). 빈값/미매칭은 앱값 유지(안전).
   const gsp2=pk(d,'grapeSpecs','gSpecs');
-  if(gsp2){GS.forEach(sp=>{if(!sp.k)return;const ali=GSPEC_ALIAS[sp.k];const dd={...(ali&&gsp2[ali]?gsp2[ali]:{}),...(gsp2[sp.k]||{})};if(!Object.keys(dd).length)return;if(dd.ct>0)sp.ct=dd.ct;if(dd.ca>0)sp.ca=dd.ca;if(dd.bj>0)sp.bj=dd.bj;if(dd.bx>0)sp.bx=dd.bx;cnt++;});}
-  if(F==='s')sA();else if(F==='p'){pB();pA();}else if(F==='g')gB();else mA();
+  if(gsp2){GS.forEach(sp=>{if(!sp.k)return;const ali=GSPEC_ALIAS[sp.k];const dd={...(ali&&gsp2[ali]?gsp2[ali]:{}),...(gsp2[sp.k]||{})};if(!Object.keys(dd).length)return;if(dd.ct>0&&sp.ct!==dd.ct){sp.ct=dd.ct;chgG=true;}if(dd.ca>0&&sp.ca!==dd.ca){sp.ca=dd.ca;chgG=true;}if(dd.bj>0&&sp.bj!==dd.bj){sp.bj=dd.bj;chgG=true;}if(dd.bx>0&&sp.bx!==dd.bx){sp.bx=dd.bx;chgG=true;}cnt++;});}
+  // ★ 표 재구축은 값이 실제로 바뀐 경우에만 — sync 응답마다 innerHTML을 갈아엎어 입력 포커스/모바일 키보드/가로 스크롤이 날아가던 문제 방지.
+  //   재구축 시에도 포커스·가로 스크롤 위치를 보존.
+  if(F==='s')sA();
+  else if(F==='p'){if(chgP)syncRebuild(pB);pA();}
+  else if(F==='g'){if(chgG)syncRebuild(gB);else gA();}
+  else if(F==='c'){if(chgG)syncRebuild(cB);else cA();}   // 커스텀은 포도 해운/항공 운임을 공유 — 같은 변경 신호로 갱신
+  else mA();
   // ── 카테고리별 수신 검증: 하나라도 실질값 0이면 배지로 즉시 경고 (조용한 sync 실패 방지) ──
   // 키 개수가 아니라 '0보다 큰 값이 하나라도 있는가'로 판정 — GAS가 {f:0,t:0}로 채워 보내는 경우도 미수신으로 감지
   const hasVals=o=>{if(!o)return false;return Object.keys(o).some(k=>{const v=o[k];if(v&&typeof v==='object')return Object.keys(v).some(x=>+v[x]>0);return +v>0;});};
@@ -1728,8 +2053,9 @@ function applySyncData(d,src){
   return true;
 }
 // SGD 환율 수동고정 상태 표시/토글 (자동 모드 소스: 실시간 시세 > 시트값)
-function ssgHintR(){const e=$('ssgHint');if(!e)return;const manual=!!localStorage.getItem('hn_ssg_touch');e.innerHTML='<span class="dot-sgd"></span>'+(manual?'✋ 수동 고정 · 탭하면 자동':(TODAY_SGD?'실시간 자동 반영':'시트 자동 반영'));}
-function ssgToggle(){if(localStorage.getItem('hn_ssg_touch')){localStorage.removeItem('hn_ssg_touch');ssgHintR();applyLiveSgd();doSy();}else{localStorage.setItem('hn_ssg_touch','1');ssgHintR();}}
+// SGD 라벨: 시트는 더 이상 SGD를 보내지 않으므로(GAS sgdrate 전송 중단) 실시간 시세가 없으면 '미수신' 경고 표시 — '시트 자동 반영'으로 오인해 낡은 값으로 계산하는 것 방지
+function ssgHintR(){const e=$('ssgHint');if(!e)return;const manual=!!localStorage.getItem('hn_ssg_touch');e.innerHTML='<span class="dot-sgd"></span>'+(manual?'✋ 수동 고정 · 탭하면 자동':(TODAY_SGD?'실시간 자동 반영':'⚠ 시세 미수신 — 값 직접 확인'));}
+function ssgToggle(){if(localStorage.getItem('hn_ssg_touch')){localStorage.removeItem('hn_ssg_touch');ssgHintR();applyLiveSgd();doSy(1);}else{localStorage.setItem('hn_ssg_touch','1');ssgHintR();}}
 // 부팅 직후: 마지막 성공 sync 스냅샷을 먼저 적용 (라이브 sync 도착 시 자동으로 덮임)
 function applyCachedSync(){
   try{
@@ -1741,9 +2067,10 @@ function applyCachedSync(){
     const lt=$('lst');if(lt)lt.textContent='저장 데이터 기준: '+(dt.getMonth()+1)+'/'+dt.getDate()+' '+String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');
   }catch(e){console.warn('[SYNC-CACHE]',e);}
 }
-function doSy(){
+function doSy(force){
+  // force=1(수동 동기화·자동 복귀 탭): GAS 5분 캐시를 우회(nocache=1)해 시트 최신값을 즉시 수신 — 자동 주기/부팅은 캐시 사용(GAS 부하 절약)
   const bg=$('sbdg');if(bg){bg.className='sbdg ld';bg.textContent='⏳ 동기화 중...';}
-  const cb=jsonpCb('sy'),s=document.createElement('script');s.src=SU+'?callback='+cb;
+  const cb=jsonpCb('sy'),s=document.createElement('script');s.src=SU+'?callback='+cb+(force?'&nocache=1':'');
   const t=setTimeout(()=>{cl();sBdg('err','❌ 타임아웃');},30000);
   function cl(){clearTimeout(t);jsonpDone(cb,s);}
   s.onerror=function(){cl();sBdg('err','❌ 연결실패');};
@@ -1763,7 +2090,7 @@ function sBdg(cls,txt){const e=$('sbdg');if(e){e.className='sbdg '+cls;e.textCon
 // 앱에서 계산 중인 값(환율/산지/운송/오퍼가/실출고/작업비/스펙별 비용)을 시트 '앱상태' 탭에 과일당 1행으로 자동 기록.
 // 시트에서 이어서 확인/계산할 수 있게 사람이 읽는 요약 + 상세 JSON을 함께 저장. (입력 후 10초 debounce, 화면 이탈 시 즉시)
 let _stT=null,_stLast='';
-function shipLabel(){if(F==='s')return '항공';const h=$(F==='p'?'psh':F==='g'?'gsh':'msh');const vv=h?h.value:'';return vv==='air'?'항공':(vv?vv+'ft':'');}
+function shipLabel(){if(F==='s')return '항공';const h=$(F==='p'?'psh':F==='g'?'gsh':F==='c'?'csh':'msh');const vv=h?h.value:'';return vv==='air'?'항공':(vv?vv+'ft':'');}
 function schedPush(){try{clearTimeout(_stT);_stT=setTimeout(pushState,10000);}catch(e){}}
 function stateSummary(st){
   const rows=[];
@@ -1773,6 +2100,7 @@ function stateSummary(st){
   if(F==='s'){Object.keys(SF).forEach(k=>SS.forEach((sp,i)=>{const of=sv('so'+k+i);const def=(SD[k]||[])[i]||0;if(of&&of!==def)add(SF[k].n,sp.l,of,SF[k].sg?'S$':'$','');}));}   // 기본단가 그대로인 항목은 제외(노이즈 방지)
   else if(F==='p'){PC.forEach(c=>PS.forEach(s=>{const of=sv('po'+c.n+s.id);if(of)add(c.n,s.l,of,'$',sv('pq'+c.n+s.id)||'');}));}
   else if(F==='g'){const cl=($('gsh')&&$('gsh').value==='air')?GAIR_C:GC;cl.forEach(c=>GS.forEach((s,i)=>{const of=sv('go'+c.n+i);if(of)add(c.n,s.l,of,'$',sv('gq'+c.n+i)||'');}));}
+  else if(F==='c'){cCountries().forEach(cn=>{const of=sv('cof'+cn);if(of)add(cn,cName(),of,'$',sv('cq'+cn)||'');});}
   else if(MFD[F]){PC.forEach(c=>MFD[F].specs.forEach((sp,i)=>{const of=sv('mo'+F+c.n+i);if(of)add(c.n,sp.l,of,'$','');}));}
   return rows.join(' | ').slice(0,1900);
 }
@@ -1780,11 +2108,11 @@ function pushState(){
   if(!F)return;
   try{
     _stPushing=true;try{inpSaveAll();}finally{_stPushing=false;}   // debounce 대기 중인 입력까지 저장소에 반영 후 수집 (요약과 상세의 시점 불일치 방지)
-    const fxId=F==='s'?'sfx':F==='p'?'pfx':F==='g'?'gfx':'mfx';
-    const supId=F==='p'?'psp':F==='g'?'gsp':(F==='s'?null:'msp');
-    const sj=F==='p'?(pSj||''):F==='g'?(gSj||''):(F==='s'?'':(mSj[F]||''));
+    const fxId=F==='s'?'sfx':F==='p'?'pfx':F==='g'?'gfx':F==='c'?'cfx':'mfx';
+    const supId=F==='p'?'psp':F==='g'?'gsp':F==='c'?'csp':(F==='s'?null:'msp');
+    const sj=F==='p'?(pSj||''):F==='g'?(gSj||''):(F==='s'||F==='c'?'':(mSj[F]||''));
     const st=inpStore();
-    let keys={s:['sp0','sp1','sfx','ssg','so'],p:['pa','pb','pc','ha','hb','hc','pwk_','puwk_','pfx','psp','po','pq'],g:['gfx','gsp','go','gq']}[F];
+    let keys={s:['sp0','sp1','sfx','ssg','so'],p:['pa','pb','pc','ha','hb','hc','pwk_','puwk_','pfx','psp','po','pq'],g:['gfx','gsp','go','gq'],c:['cnm','cfx','csp','cnw','cgw','cct','craw','cwk','cbj','cbx','cin','cdm','cof','cq']}[F];
     if(!keys)keys=['mfx','msp','mr'+F,'mo'+F,'mnw'+F,'mgw'+F,'mct'+F,'mwk'+F];
     const inputs={};Object.keys(st).forEach(k=>{if(keys.some(p=>k.slice(0,p.length)===p))inputs[k]=st[k];});
     const detail={inputs};
@@ -1805,11 +2133,12 @@ document.addEventListener('visibilitychange',()=>{if(document.visibilityState===
 
 function testSync(){
   const r=$('testR');r.innerHTML='⏳ 연결 중...';
-  const cb='test'+Date.now(),s=document.createElement('script');
+  const cb=jsonpCb('test'),s=document.createElement('script');
   s.src=SU+'?callback='+cb;
-  const t=setTimeout(()=>{cln();r.innerHTML='❌ <b>타임아웃</b> — GAS URL이 응답하지 않습니다.<br>확인사항:<br>1) Apps Script → 배포 → 접근: "모든 사용자"<br>2) URL이 /exec 로 끝나는지';},8000);
+  // 25초 — GAS 콜드스타트+시트 전체 파싱이 8초를 넘겨 정상 연동이 '타임아웃'으로 오판되던 것 방지
+  const t=setTimeout(()=>{cln();r.innerHTML='❌ <b>타임아웃</b> — GAS URL이 응답하지 않습니다.<br>확인사항:<br>1) Apps Script → 배포 → 접근: "모든 사용자"<br>2) URL이 /exec 로 끝나는지';},25000);
   s.onerror=function(){cln();r.innerHTML='❌ <b>스크립트 로드 실패</b> — URL을 확인하세요';};
-  function cln(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);delete window[cb];}
+  function cln(){clearTimeout(t);jsonpDone(cb,s);}   // 콜백 즉시 삭제 금지 — 늦은 응답의 ReferenceError 방지
   window[cb]=function(d){cln();
     if(d.error){r.innerHTML='❌ GAS 에러: '+d.error;return;}
     const keys=Object.keys(d);
@@ -1835,18 +2164,30 @@ const EX_URL='https://docs.google.com/spreadsheets/d/'+EX_SSID+'/edit?gid='+EX_G
 const EX_CFLG={'대만':'🇹🇼','베트남':'🇻🇳','베트남호치민':'🇻🇳','베트남하이퐁':'🇻🇳','호치민':'🇻🇳','하노이':'🇻🇳','홍콩':'🇭🇰','말레이시아':'🇲🇾','말레이':'🇲🇾','인도네시아':'🇮🇩','인도네':'🇮🇩','태국':'🇹🇭','호주':'🇦🇺','뉴질랜드':'🇳🇿','미국LA':'🇺🇸','미국NY':'🇺🇸','미국':'🇺🇸','캐나다':'🇨🇦','싱가포르':'🇸🇬','싱가폴':'🇸🇬','일본':'🇯🇵','중국':'🇨🇳','필리핀':'🇵🇭','몽골':'🇲🇳','브루나이':'🇧🇳','두바이':'🇦🇪','코타':'🇲🇾'};
 const EX_FE={'딸기':'🍓','배':'🍐','포도':'🍇','귤':'🍊','키위':'🥝','감':'🟠','복숭아':'🍑','토마토':'🍅','사과':'🍎','참외':'🍈','수박':'🍉','바나나':'🍌','멜론':'🍈'};
 let exData=[],exFlt={view:'up',ctry:'all',fr:'all',q:'',dmode:'all',dfrom:'',dto:''};   // view: 'up'=예정(상차일 안 지남) / 'past'=지난(상차일 하루 경과)
-function openExL(){$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('elv').style.display='flex';if(!exData.length)fetchExL();else renderExL();}
-function closeExL(){$('elv').style.display='none';$('land').style.display='flex';requestAnimationFrame(()=>$('land').classList.remove('h'));}
+// ── 수동 완료(지난 출고함 이동) — 출고 시트는 GViz 읽기 전용이라 완료 표시는 이 기기의 localStorage에 보관 ──
+//    상차일 다음날 자동 이동은 기존대로, ✓완료 버튼으로 날짜 전에 미리 보낼 수도 있음 (↩예정으로 복원 가능)
+const EXDONE_KEY='hn_exdone_v1';
+function exDoneMap(){try{return JSON.parse(localStorage.getItem(EXDONE_KEY)||'{}');}catch(e){return{};}}
+function exRowKey(r){return [exPick(r,'INVOICE','Invoice','인보이스'),exPick(r,'제조자','Maker'),exPick(r,'품목','Item','과일'),exPick(r,'국가','Country'),exPick(r,'상차일','Loading','상차'),exPick(r,'바이어','Buyer')].join('|');}
+function exMarkDone(keyEnc,done){
+  const m=exDoneMap(),k=decodeURIComponent(keyEnc);
+  if(done)m[k]=Date.now();else delete m[k];
+  const cut=Date.now()-180*86400000;Object.keys(m).forEach(x=>{if(m[x]<cut)delete m[x];});   // 오래된 완료 표시 정리
+  try{localStorage.setItem(EXDONE_KEY,JSON.stringify(m));}catch(e){}
+  renderExL();
+}
+function openExL(){landHide();$('elv').style.display='flex';if(!exData.length)fetchExL();else renderExL();}
+function closeExL(){$('elv').style.display='none';landShow();}
 function openExSheet(){window.open(EX_URL,'_blank','noopener');}
 function fetchExL(){
   const ls=$('elvLs'),st=$('elvSt');
   ls.innerHTML='<div class="elvLd"><div class="elvSp"></div><div>시트에서 불러오는 중...</div></div>';
   st.textContent='연결 중...';
-  const cb='exCb'+Date.now();
+  const cb=jsonpCb('exCb');
   const s=document.createElement('script');
   s.src='https://docs.google.com/spreadsheets/d/'+EX_SSID+'/gviz/tq?tqx=out:json;responseHandler:'+cb+'&gid='+EX_GID+'&headers=1&_='+Date.now();
   const t=setTimeout(()=>{cln();showExErr('타임아웃','시트 응답이 없습니다. 네트워크를 확인하세요.');},15000);
-  function cln(){clearTimeout(t);if(s.parentNode)s.parentNode.removeChild(s);try{delete window[cb];}catch(e){window[cb]=undefined;}}
+  function cln(){clearTimeout(t);jsonpDone(cb,s);}   // 콜백 즉시 삭제 금지 — 타임아웃 직후 도착한 늦은 응답이 ReferenceError를 던지지 않게 no-op 처리
   s.onerror=()=>{cln();showExErr('로드 실패','시트를 "링크가 있는 모든 사용자 → 뷰어"로 공유해주세요.');};
   window[cb]=function(resp){cln();try{
     if(!resp||resp.status==='error'){
@@ -1912,7 +2253,8 @@ function exEffDate(s){
     const md=parts[i].match(/^(\d{1,2})[.\-\/](\d{1,2})$/);     // "9/2" 월까지 변경
     if(md){mo=+md[1]-1;day=+md[2];yr=exYearFor(+md[1],+md[2]);continue;}
     const dd=parts[i].match(/^(\d{1,2})$/);                      // "23"=일만 변경
-    if(dd&&+dd[1]>=1&&+dd[1]<=31){const nd=+dd[1];if(nd<day)mo++;day=nd;}  // 일이 작아지면 다음달(8/25>2 = 9/2)
+    // 일이 작아지면: 며칠(7일 이내) 앞당김은 같은 달("8/25>24"=8/24), 크게 작아지면 다음달("8/25>2"=9/2)
+    if(dd&&+dd[1]>=1&&+dd[1]<=31){const nd=+dd[1];if(nd<day&&day-nd>7)mo++;day=nd;}
   }
   return new Date(yr,mo,day);   // mo가 12 넘어가면 JS가 다음해로 자동 보정
 }
@@ -1923,8 +2265,10 @@ function renderExL(){
   if(!exData.length){$('elvVw').innerHTML='';$('elvLs').innerHTML='<div class="elvEm"><div class="elvEe">📭</div>데이터가 없습니다</div>';$('elvSt').textContent='0건';return;}
   const now=new Date();const T0=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime();
   const effOf=r=>exEffDate(exPick(r,'상차일','Loading','상차'));
-  const isPast=r=>{const d=effOf(r);return !!d&&d.getTime()<T0;};   // 상차일 다음날부터 '지난 출고'
-  const upAll=exData.filter(r=>!isPast(r)),pastAll=exData.filter(isPast);
+  const isPast=r=>{const d=effOf(r);return !!d&&d.getTime()<T0;};   // 상차일 다음날부터 '지난 출고' (자동)
+  const doneMap=exDoneMap();
+  const isDoneR=r=>doneMap[exRowKey(r)]!=null;   // ✓완료 버튼으로 수동 이동한 건
+  const upAll=exData.filter(r=>!isPast(r)&&!isDoneR(r)),pastAll=exData.filter(r=>isPast(r)||isDoneR(r));
   const vw=exFlt.view==='past'?'past':'up';
   $('elvVw').innerHTML='<button class="exvb '+(vw==='up'?'on':'')+'" onclick="setExView(\'up\')">🚚 예정 출고<span class="cnt">'+upAll.length+'</span></button>'+
     '<button class="exvb '+(vw==='past'?'on':'')+'" onclick="setExView(\'past\')">✅ 지난 출고<span class="cnt">'+pastAll.length+'</span></button>';
@@ -1933,10 +2277,11 @@ function renderExL(){
   base.forEach(r=>{const c=exPick(r,'국가','Country');const f=exPick(r,'품목','Item','과일');if(c)ctrs[c]=(ctrs[c]||0)+1;if(f)frs[f]=(frs[f]||0)+1;});
   const ctrList=Object.keys(ctrs).sort((a,b)=>ctrs[b]-ctrs[a]);
   const frList=Object.keys(frs).sort((a,b)=>frs[b]-frs[a]);
+  // 칩 텍스트는 이스케이프, onclick 인자는 URI 인코딩 — 시트 셀의 따옴표/<가 속성 탈출·레이아웃 파괴로 이어지지 않게
   $('elvCC').innerHTML='<div class="elvCp '+(exFlt.ctry==='all'?'on':'')+'" onclick="setExFlt(\'ctry\',\'all\')">전체<span class="elvCn">'+base.length+'</span></div>'+
-    ctrList.map(c=>'<div class="elvCp '+(exFlt.ctry===c?'on':'')+'" onclick="setExFlt(\'ctry\',\''+c.replace(/'/g,"\\'")+'\')">'+exFlag(c)+' '+c+'<span class="elvCn">'+ctrs[c]+'</span></div>').join('');
+    ctrList.map(c=>'<div class="elvCp '+(exFlt.ctry===c?'on':'')+'" onclick="setExFlt(\'ctry\',decodeURIComponent(\''+jsArg(c)+'\'))">'+exFlag(c)+' '+hlEsc(c)+'<span class="elvCn">'+ctrs[c]+'</span></div>').join('');
   $('elvFC').innerHTML='<div class="elvCp '+(exFlt.fr==='all'?'on':'')+'" onclick="setExFlt(\'fr\',\'all\')">전체</div>'+
-    frList.map(f=>'<div class="elvCp '+(exFlt.fr===f?'on':'')+'" onclick="setExFlt(\'fr\',\''+f.replace(/'/g,"\\'")+'\')">'+(EX_FE[f]||'📦')+' '+f+'<span class="elvCn">'+frs[f]+'</span></div>').join('');
+    frList.map(f=>'<div class="elvCp '+(exFlt.fr===f?'on':'')+'" onclick="setExFlt(\'fr\',decodeURIComponent(\''+jsArg(f)+'\'))">'+(EX_FE[f]||'📦')+' '+hlEsc(f)+'<span class="elvCn">'+frs[f]+'</span></div>').join('');
   // 날짜(상차일) 필터 — 기간 칩 + 달력
   (function(){
     const dm=exFlt.dmode;
@@ -1994,15 +2339,19 @@ function renderExL(){
     grp[k].push(r);
   });
   const days=['일','월','화','수','목','금','토'];
+  const rowOf=r=>exRow(r,vw,isDoneR(r),isPast(r));
   $('elvLs').innerHTML=order.map(k=>{
-    let hdrL='날짜 미정',hdrR='';
+    let cls=vw==='past'?' pastg':'',main='날짜 미정',wd='',hdrR='';
     if(k!=='날짜 미정'){
       const d=new Date(k+'T00:00:00');
       const dd=Math.round((d.getTime()-T0)/86400000);
-      hdrL='📦 '+(d.getMonth()+1)+'/'+d.getDate()+' ('+days[d.getDay()]+') · '+grp[k].length+'건';
+      main='📦 '+(d.getMonth()+1)+'/'+d.getDate();
+      wd=days[d.getDay()]+'요일';
       hdrR=dd===0?'오늘 상차':dd===1?'내일':dd>1?'D-'+dd:dd===-1?'어제':(-dd)+'일 전';
-    }else hdrL='날짜 미정 · '+grp[k].length+'건';
-    return '<div class="exgh"><span>'+hdrL+'</span><span class="dday'+(vw==='past'?' past':'')+'">'+hdrR+'</span></div>'+grp[k].map(exRow).join('');
+      if(vw!=='past'){if(dd===0)cls=' today';else if(dd===1)cls=' tmrw';}   // 오늘=빨강, 내일=주황 강조
+    }
+    // 그룹 래퍼 — sticky 헤더가 자기 그룹을 벗어나지 않게(다음 그룹에 밀려 올라감), 스택 누적/라운드 코너 비침 방지
+    return '<div class="exg"><div class="exgh'+cls+'"><span class="exghD">'+main+(wd?'<span class="wd">'+wd+'</span>':'')+'<span class="gcnt">'+grp[k].length+'건</span></span><span class="dday'+(vw==='past'?' past':'')+'">'+hdrR+'</span></div>'+grp[k].map(rowOf).join('')+'</div>';
   }).join('');
 }
 function exFmtQty(q){
@@ -2021,9 +2370,9 @@ function exFlag(ctry){
   for(const k of Object.keys(EX_CFLG).sort((a,b)=>b.length-a.length)){if(String(ctry).startsWith(k))return EX_CFLG[k];}
   return '🏳️';
 }
-// 컴팩트 행 — 한 줄에 국기/품목·국가·바이어·제조자·인보이스·일정(상차›출발›도착)·수량까지 압축 표시
-function exRow(r){
-  const esc=v=>String(v==null?'':v).replace(/</g,'&lt;').replace(/>/g,'&gt;');
+// 카드 — 메인(품목·국가·산지(제조자)·인보이스)이 한눈에, 수량(20피트/40피트/1P)은 색깔 큰 배지, ✓완료로 수동 이동
+function exRow(r,vw,done,autoPast){
+  const esc=hlEsc;
   const ctry=exPick(r,'국가','Country')||'-';
   const fr=exPick(r,'품목','Item','과일')||'';
   const qty=exFmtQty(exPick(r,'수량','Qty','Quantity'));
@@ -2034,21 +2383,32 @@ function exRow(r){
   const dp=exPick(r,'출발일','ETD','출발'),ar=exPick(r,'도착일','ETA','도착');
   const note=exPick(r,'비고','Note','Remark','Remarks','메모');
   const dtxt=x=>{if(!x)return '·';if(exDateObj(x))return exFmtD(x);return esc(String(x));};   // 변경이력("8/21>23")은 원문 그대로
+  const qs=String(qty||'');
+  let qcls='';
+  if(!qs)qcls=' none';
+  else if(/40\s*(피트|FT|ft)/.test(qs)||qs.trim()==='40')qcls=' ft40';
+  else if(/20\s*(피트|FT|ft)/.test(qs)||qs.trim()==='20')qcls=' ft20';
+  else if(/1\s*P|항공|AIR/i.test(qs))qcls=' air';
+  const key=jsArg(exRowKey(r));
+  let btn='';
+  if(vw==='up')btn='<button class="exrDn" onclick="exMarkDone(\''+key+'\',true)" title="지난 출고함으로 이동">✓ 완료</button>';
+  else if(done&&!autoPast)btn='<button class="exrDn undo" onclick="exMarkDone(\''+key+'\',false)" title="예정 출고로 복원">↩ 예정</button>';
   return '<div class="exr">'+
     '<div class="exrIc">'+exFlag(ctry)+(fr?(EX_FE[fr]||'📦'):'')+'</div>'+
     '<div class="exrTx">'+
-      '<div class="exrT1"><span class="exrC">'+esc(ctry)+'</span>'+
-        (buyer?'<span class="exrBy">'+esc(buyer)+'</span>':'')+
-        (maker?'<span class="exrMk">'+esc(maker)+'</span>':'<span class="exrMk" style="color:#c2860a;font-weight:800">제조자 미정</span>')+
-      '</div>'+
+      '<div class="exrT1">'+(fr?'<span class="exrFr">'+esc(fr)+'</span>':'')+'<span class="exrC">'+esc(ctry)+'</span></div>'+
       '<div class="exrT2">'+
+        (maker?'<span class="exrMk">🌱 '+esc(maker)+'</span>':'<span class="exrMk none">🌱 산지·제조자 미정</span>')+
+        (buyer?'<span class="exrBy">'+esc(buyer)+'</span>':'')+
         (inv?'<span class="inv-wrap exrInv"><span class="inv-txt">'+esc(inv)+'</span><button class="elvCpy exrCp" onclick="exCopyInv(this)" title="인보이스 복사">📋</button></span>':'')+
+      '</div>'+
+      '<div class="exrT3">'+
+        '<span class="exrTl">🚢출발 <b>'+dtxt(dp)+'</b> › 📍도착 <b>'+dtxt(ar)+'</b></span>'+
         (fwd?'<span>🚛'+esc(fwd)+'</span>':'')+
         (note?'<span>📌'+esc(note)+'</span>':'')+
       '</div>'+
     '</div>'+
-    '<div class="exrTl">🚢'+dtxt(dp)+' › 📍'+dtxt(ar)+'</div>'+
-    '<div class="exrQ"'+(qty?'':' style="color:var(--t3)"')+'>'+(qty?esc(qty):'-')+'</div>'+
+    '<div class="exrSide"><span class="exrQ'+qcls+'">'+(qs?esc(qs):'—')+'</span>'+btn+'</div>'+
   '</div>';
 }
 function setExFlt(k,v){exFlt[k]=v;renderExL();}
@@ -2083,8 +2443,8 @@ document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if($('elv')&&
 
 // ═══ 오퍼히스토리 뷰어 (첫 화면) — 시트 '오퍼히스토리' 탭 최근 100건을 전 과일 통합으로 표시 ═══
 let hlData=[],hlFlt={fr:'all',q:''};
-function openHL(){$('land').classList.add('h');setTimeout(()=>$('land').style.display='none',300);$('hlv').style.display='flex';if(hlData.length){renderHL();fetchHL(true);}else fetchHL();}   // 캐시 먼저 보여주고 백그라운드 갱신
-function closeHL(){$('hlv').style.display='none';$('land').style.display='flex';requestAnimationFrame(()=>$('land').classList.remove('h'));}
+function openHL(){landHide();$('hlv').style.display='flex';if(hlData.length){renderHL();fetchHL(true);}else fetchHL();}   // 캐시 먼저 보여주고 백그라운드 갱신
+function closeHL(){$('hlv').style.display='none';landShow();}
 function openHLSheet(){window.open('https://docs.google.com/spreadsheets/d/'+EX_SSID+'/edit','_blank','noopener');}
 function fetchHL(bg){
   if(!bg){
@@ -2109,13 +2469,15 @@ function fetchHL(bg){
 }
 function filterHL(){hlFlt.q=$('hlvS').value||'';renderHL();}
 function setHLFr(f){hlFlt.fr=f;renderHL();}
-function hlEsc(v){return String(v==null?'':v).replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function hlEsc(v){return String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+// 인라인 onclick의 문자열 인자용 인코딩 — 따옴표 포함 어떤 값도 속성을 탈출하지 못하게 (decodeURIComponent로 복원)
+function jsArg(v){return encodeURIComponent(String(v==null?'':v)).replace(/'/g,'%27');}
 function hlCell(l,v){return '<div class="elvCell"><span class="elvMl">'+l+'</span><span class="elvMv">'+(v?hlEsc(v):'<span style="color:var(--t3);font-weight:600">-</span>')+'</span></div>';}
 function renderHL(){
   if(!hlData.length){$('hlvLs').innerHTML='<div class="elvEm"><div class="elvEe">📭</div>기록이 없습니다</div>';$('hlvSt').textContent='0건';$('hlvFC').innerHTML='';return;}
   const frs={};hlData.forEach(r=>{const f=r.fruit||'기타';frs[f]=(frs[f]||0)+1;});
   $('hlvFC').innerHTML='<div class="elvCp '+(hlFlt.fr==='all'?'on':'')+'" onclick="setHLFr(\'all\')">전체<span class="elvCn">'+hlData.length+'</span></div>'+
-    Object.keys(frs).map(f=>'<div class="elvCp '+(hlFlt.fr===f?'on':'')+'" onclick="setHLFr(\''+f.replace(/'/g,"\\'")+'\')">'+(EX_FE[f]||'📦')+' '+f+'<span class="elvCn">'+frs[f]+'</span></div>').join('');
+    Object.keys(frs).map(f=>'<div class="elvCp '+(hlFlt.fr===f?'on':'')+'" onclick="setHLFr(decodeURIComponent(\''+jsArg(f)+'\'))">'+(EX_FE[f]||'📦')+' '+hlEsc(f)+'<span class="elvCn">'+frs[f]+'</span></div>').join('');
   const q=hlFlt.q.toLowerCase().trim();
   const fl=hlData.filter(r=>{
     if(hlFlt.fr!=='all'&&(r.fruit||'기타')!==hlFlt.fr)return false;
@@ -2150,6 +2512,8 @@ function renderHL(){
 }
 
 // ═══ PASSWORD ═══
+// 홈 화면 바로가기(manifest shortcuts: #s/#p/#g 등) → 해당 과일로 바로 진입 — 인증 직후에도 동일 적용
+function routeHash(){const hf=(location.hash||'').replace('#','');if(FRN[hf])setTimeout(()=>go(hf),50);}
 function chkPw(){
   const v=$('pwi').value;
   if(v==='love'){
@@ -2157,6 +2521,7 @@ function chkPw(){
     $('pwo').classList.add('h');
     $('land').style.display='flex';
     setTimeout(()=>$('pwi').value='',300);
+    routeHash();   // 첫 로그인 경로에서도 바로가기(#s/#p/#g)가 무시되지 않게
   } else {
     const inp=$('pwi');inp.classList.remove('shake');void inp.offsetWidth;inp.classList.add('shake');
     $('pwe').textContent='비밀번호가 틀렸어요';inp.value='';
@@ -2165,13 +2530,23 @@ function chkPw(){
 }
 if(localStorage.getItem('hn_auth')==='ok'){
   $('pwo').classList.add('h');$('land').style.display='flex';
-  // 홈 화면 바로가기(manifest shortcuts: #s/#p/#g 등) → 해당 과일로 바로 진입
-  const hf=(location.hash||'').replace('#','');
-  if(FRN[hf])setTimeout(()=>go(hf),50);
+  routeHash();
 } else {
   setTimeout(()=>$('pwi').focus(),300);
 }
 try{fetchLiveFx();}catch(e){}  // 로드 시 실시간 환율 미리 받아두기
+// 포도 스펙 순서 지문 — 앱 업데이트로 GS 순서/구성이 바뀌면 순번 기반 저장 키(go/gq)가 엉뚱한 스펙에 붙으므로 해당 키만 폐기
+try{
+  const gsFp=GS.map(s=>s.k||s.l).join(',');
+  const prevFp=localStorage.getItem('hn_gspec_fp');
+  if(prevFp==null){localStorage.setItem('hn_gspec_fp',gsFp);}
+  else if(prevFp!==gsFp){
+    const st=inpStore();let dirty=false;
+    Object.keys(st).forEach(k=>{if(/^g[oq]/.test(k)){delete st[k];dirty=true;}});
+    if(dirty)inpPersist(st);
+    localStorage.setItem('hn_gspec_fp',gsFp);
+  }
+}catch(e){}
 
 // ═══════════ PWA Service Worker ═══════════
 let deferredPrompt=null;
@@ -2186,16 +2561,20 @@ if('serviceWorker' in navigator){
       })
       .catch(err=>console.warn('[PWA] SW failed',err));
   });
-  // 새 버전 SW 활성화 시 알림 — 열어둔 화면이 구버전으로 계속 돌지 않게 (최초 설치의 controllerchange는 업데이트가 아니므로 무시)
-  let _swReloaded=false,_swHadCtrl=!!navigator.serviceWorker.controller;
+  // 새 버전 SW 활성화 시 알림 — 열어둔 화면이 구버전으로 계속 돌지 않게.
+  // (1) 최초 설치의 controllerchange는 업데이트가 아니므로 무시
+  // (2) 페이지 로드 직후 10초 내 교체도 무시 — index.html은 network-first라 이미 최신 코드인데 매 배포 첫 실행마다 무의미한 토스트가 뜨던 오탐 방지
+  // (3) 자동 소멸/1회 잠금 제거 — 토스트를 놓치면 세션 내내 구버전으로 도는 문제 방지 (수동 닫기 버튼 제공, 다음 배포에도 재표시)
+  let _swHadCtrl=!!navigator.serviceWorker.controller;
+  const _swBootAt=Date.now();
   navigator.serviceWorker.addEventListener('controllerchange',()=>{
     if(!_swHadCtrl){_swHadCtrl=true;return;}
-    if(_swReloaded||!navigator.serviceWorker.controller)return;_swReloaded=true;
+    if(!navigator.serviceWorker.controller)return;
+    if(Date.now()-_swBootAt<10000)return;
     if(document.getElementById('uptoast'))return;
     const tst=document.createElement('div');tst.id='uptoast';tst.className='uptoast';
-    tst.innerHTML='🔄 새 버전이 준비되었습니다 <button onclick="location.reload()">새로고침</button>';
+    tst.innerHTML='🔄 새 버전이 준비되었습니다 <button onclick="location.reload()">새로고침</button> <button onclick="this.parentNode.remove()" style="opacity:.7">나중에</button>';
     document.body.appendChild(tst);
-    setTimeout(()=>{if(tst.parentNode)tst.parentNode.removeChild(tst);},30000);
   });
 }
 window.addEventListener('beforeinstallprompt',(e)=>{

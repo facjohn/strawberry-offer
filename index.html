@@ -1725,7 +1725,6 @@ function applySyncData(d,src){
     +(d.meta&&d.meta.freightUpdated?' · 운임표 '+d.meta.freightUpdated:'')
     +(metaErrs.length?' · ⚠ '+metaErrs.join(' / '):'')
     +(d.meta?(d.meta.stateReady?'':' · ⚠ 앱상태 저장: GAS 새 버전 필요'):' · ⚠ GAS 구버전 — 새 버전 배포 필요');
-  if(src!=='cache'&&d.meta&&d.meta.freightUpdated){const lt2=$('lst');if(lt2&&lt2.textContent.indexOf('운임표')<0)lt2.textContent+=' · 운임표 '+d.meta.freightUpdated;}
   return true;
 }
 // SGD 환율 수동고정 상태 표시/토글 (자동 모드 소스: 실시간 시세 > 시트값)
@@ -1754,7 +1753,7 @@ function doSy(){
     applySyncData(d,'live');
     try{localStorage.setItem(SYNC_SNAP_KEY,JSON.stringify({t:Date.now(),d}));}catch(e){}
     const now=new Date();const ts=now.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    const lt=$('lst');if(lt)lt.textContent='마지막 동기화: '+ts;
+    const lt=$('lst');if(lt)lt.textContent='마지막 동기화: '+ts+(d.meta&&d.meta.freightUpdated?' · 운임표 '+d.meta.freightUpdated:'');
   }catch(e){console.error('[SYNC]',e);sBdg('err','❌ 오류');}};
   document.head.appendChild(s);
 }

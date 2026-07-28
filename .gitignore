@@ -4,6 +4,7 @@ gas_code_fixed.gs
 # 내부 보고서/백업 — 공개 저장소에 올리지 않음 (운임·마진 정보 포함)
 검토보고서_*.md
 수정내역_*.md
+*감사보고서_*.md
 *.bak-*
 index.html.bak*
 .claude/

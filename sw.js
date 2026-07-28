@@ -1,5 +1,5 @@
 // 현농프레쉬 오퍼계산기 Service Worker
-const CACHE_VERSION = 'hn-v33';   // v33: 포도 20ft 적재수량·TP 시트 연동(ct2/tp2/tp4) + 4kg 5송이(2등급) 키 교정
+const CACHE_VERSION = 'hn-v34';   // v34: 포도 스펙 N.W/GW 시트 연동(S·T열) — 중량 수정도 시트에서 하면 앱 자동 반영
 const CORE_CACHE = CACHE_VERSION + '-core';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 

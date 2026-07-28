@@ -1,5 +1,5 @@
 // 현농프레쉬 오퍼계산기 Service Worker
-const CACHE_VERSION = 'hn-v31';   // v31: sync 값 반올림(작업비·단가 수식 셀 소수점 표시 제거)
+const CACHE_VERSION = 'hn-v32';   // v32: 배 3kg(6s) 원물환산 ×3→×6 (원물 절반 누락 교정, 시트와 동시)
 const CORE_CACHE = CACHE_VERSION + '-core';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 

@@ -633,7 +633,7 @@ const PS=[
   ud:['b'],urf:(h)=>h.b,uwk:(raw,wc)=>wc.u5+raw*0.05},
 {id:'3a',l:'3kg 5s',c4:216,c2:0,nw:3,gw:4,bj:65,bx:1055,kd:['a','b'],rf:p=>(p.a/24*3)+(p.b/26*2),wk:'w3a',
   ud:['a','b'],urf:(h)=>(h.a/8*3)+(h.b/9*2),uwk:(raw,wc)=>wc.u3a+raw*0.05},
-{id:'3b',l:'3kg 6s',c4:216,c2:0,nw:3,gw:4,bj:78,bx:1055,rf:p=>p.b/26*3,wk:'w3b',
+{id:'3b',l:'3kg 6s',c4:216,c2:0,nw:3,gw:4,bj:78,bx:1055,rf:p=>p.b/26*6,wk:'w3b',   // 6알 전량 계상 — 종전 ×3은 원물 절반 누락(2026-07-28 사용자 확인, 시트 수식도 ×6로 동시 수정)
   ud:['b'],urf:(h)=>h.b/10*6,uwk:(raw,wc)=>wc.u3b+raw*0.05},
 {id:'12k',l:'12kg 5구',c4:60,c2:0,nw:12,gw:13,bj:3314,bx:0,kd:['a','b'],rf:p=>((p.a/24*3)+(p.b/26*2))*4,wk:'w12',
   ud:['a','b'],urf:(h)=>((h.a/8*3)+(h.b/9*2))*4,uwk:(raw,wc)=>wc.u12+raw*0.05},
@@ -937,7 +937,7 @@ function pB(){
   const us={a:gv('ha'),b:gv('hb'),c:gv('hc')};
   const conv={'5kg(6-8s)':Math.round(p.a/3),'5kg(9-10s)':Math.round(p.b/3),'7.5kg':Math.round(p.a/15*7.5),
     '12.8kg':Math.round(p.b/15*12.8),'10.9kg':Math.round(p.c/15*10.9),'3kg(5s)':Math.round((p.a/24*3)+(p.b/26*2)),
-    '3kg(6s)':Math.round(p.b/26*3),'10kg대과':Math.round(p.a/15*10)};
+    '3kg(6s)':Math.round(p.b/26*6),'10kg대과':Math.round(p.a/15*10)};   // 3kg(6s)=6알 전량 (시트와 동시 수정)
   const showUS=pRgn==='ame'||pRgn==='all';
   // 필요한 단가 축이 전부 입력된 행만 표시 — 일부만 입력 시 부분합·₩0이 정상값처럼 보이던 문제 방지 (계산표의 ud 차단과 동일 기준)
   const usRows=[

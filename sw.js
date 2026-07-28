@@ -1,5 +1,5 @@
 // 현농프레쉬 오퍼계산기 Service Worker
-const CACHE_VERSION = 'hn-v32';   // v32: 배 3kg(6s) 원물환산 ×3→×6 (원물 절반 누락 교정, 시트와 동시)
+const CACHE_VERSION = 'hn-v33';   // v33: 포도 20ft 적재수량·TP 시트 연동(ct2/tp2/tp4) + 4kg 5송이(2등급) 키 교정
 const CORE_CACHE = CACHE_VERSION + '-core';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 

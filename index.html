@@ -683,7 +683,7 @@ const GS=[
 {l:'2.5kg 3송이',k:'2.5kg|3bunch',ct:160,ca:100,nw:2.5,gw:3.5,bj:0,bx:0,cat:'bun'},
 {l:'3.8kg 5-7송이',k:'3.8kg|5-7bunch',ct:120,nw:3.8,gw:5.1,bj:180,bx:0,cat:'bun'},
 {l:'4kg 5송이',k:'4kg|5bunch',ct:120,ca:80,nw:4,gw:5.1,bj:150,bx:0,cat:'bun'},
-{l:'4kg 6송이',k:'4kg|6bunch',ct:120,ca:80,nw:4,gw:5.1,bj:150,bx:0,cat:'bun'},
+{l:'4kg 5송이(2등급)',k:'4kg(b)|5bunch',ct:120,ca:80,nw:4,gw:5.1,bj:150,bx:0,cat:'bun'},   // 구 '4kg 6송이' — 실제는 4kg 5송이 2등급(시트 표기 4kg(b))으로 확인(2026-07-28), 키 교정으로 시트 동기화 연결
 // ── 멀티팩 (Multipack) ──
 {l:'2.1kg 800g×3',k:'2.1kg|800g*3pack',ct:160,ca:100,nw:2.1,gw:3.1,bj:0,bx:0,cat:'mlt'},
 {l:'2.4kg 700g×3',k:'2.4kg|700g*3pack',ct:160,ca:100,nw:2.4,gw:3.4,bj:0,bx:0,cat:'mlt'},
@@ -1087,7 +1087,8 @@ function loadGCost(){
 function gcMode(){return ($('gsh')&&$('gsh').value==='air')?'a':'s';}                  // 운송 모드(항공/해운) — cnt/p 등 모드별 분리
 function gcK(si){return gcMode()+'|'+(gSj||'')+'|'+(GS[si].k||si);}                    // 비용 저장 키: 모드|산지|스펙키 (국가 무관 → 산지+스펙 공유)
 function gcGK(si){return 'g:'+(GS[si].k||si);}                                          // 레거시 전역 폴백 키 (v1 순번 단독 키에서 이관됨)
-function gcDef(si){const s=GS[si];return{ctp:(gcMode()==='a'&&s.ca)?s.ca:s.ct,raw:0,wk:0,bj:s.bj,bx:s.bx};}  // 기본값 (cnt/p는 모드별: 항공=ca / 해운=ct)
+function gcDef(si){const s=GS[si];const shv=$('gsh')?$('gsh').value:'40';
+  return{ctp:(shv==='air'&&s.ca)?s.ca:((shv==='20'&&s.ct2>0)?s.ct2:s.ct),raw:0,wk:0,bj:s.bj,bx:s.bx};}  // 기본값 (cnt/p 모드별: 항공=ca / 20ft=ct2(시트 20ft 행) / 40ft=ct)
 function gcVal(si,f){const nk=gCost[gcK(si)]||{},ok=gCost[gcGK(si)]||{},d=gcDef(si);    // 계산용 유효값: 신키 > 전역 폴백 > 기본
   if(nk[f]!=null&&nk[f]!=='')return +nk[f];
   if(ok[f]!=null&&ok[f]!=='')return +ok[f];
@@ -1228,7 +1229,7 @@ function gB(){
     h+=`<tr class="gc${si} gcostrow${op?'':' ghide'}"><td colspan="5"><div class="gband-f">`+
        `<label>원물<input class="gci" type="number" inputmode="numeric" placeholder="0" value="${gcRaw(si,'raw')}" oninput="gcSet(${si},'raw',this.value)"></label>`+
        `<button class="gbj-btn" onclick="rawHistOpen(${si})" title="이 스펙의 지난 원물가격">🕘</button>`+
-       `<label>cnt/p<input class="gci dim" type="number" inputmode="numeric" placeholder="${isAir&&s.ca?s.ca:s.ct}" value="${gcRaw(si,'ctp')}" oninput="gcSet(${si},'ctp',this.value)"></label>`+
+       `<label>cnt/p<input class="gci dim" type="number" inputmode="numeric" placeholder="${isAir&&s.ca?s.ca:((shv==='20'&&s.ct2>0)?s.ct2:s.ct)}" value="${gcRaw(si,'ctp')}" oninput="gcSet(${si},'ctp',this.value)"></label>`+
        `<button class="gbj-btn" id="gbj${si}" onclick="gBjOpen(${si})">${gBjLabel(si)}</button>`+
        `</div></td></tr>`;
     fGC.forEach((c)=>{
@@ -1266,7 +1267,7 @@ function gCalc(cn,si){
     if(!sea||!il)return null;
     const seaV=sea[sh],inlV=il[sh];
     if(!seaV||!inlV)return null;   // 내륙운임 0(미수신/신규산지)이면 CIF 과소계산 → 계산 차단
-    const tp=sh==='f'?20:9;
+    const tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9);   // 파레트 수: 시트 K열(TP) sync값 우선, 미수신 시 종전 하드코딩(40ft=20/20ft=9)
     defTb=ctp*tp;
     tb=qIn>0?qIn:defTb;                           // 실출고 미입력 시 만적(cnt/p×TP)
     pbf=(inlV+seaV)/tp/ctp;                        // 해운: 박스당운임 = (내륙+해운)÷(TP×cnt/p)
@@ -2207,7 +2208,7 @@ function applySyncData(d,src){
   const gak=pk(d,'grapeAirKg','gAirKg');if(gak)Object.keys(gak).forEach(k=>{if(GAIR_KG[k]!=null){const vv=+gak[k];if(vv>0){if(GAIR_KG[k]!==vv){chgG=true;dAdd('포도 항공',k,'₩/kg',GAIR_KG[k],vv);}GAIR_KG[k]=vv;cnt++;}}});
   // 포도 스펙별 값 sync — cnt/p(ct/ca)·부자재·박스를 시트값으로 덮어쓰기(GS.k 매칭, 별칭 보조). 빈값/미매칭은 앱값 유지(안전).
   const gsp2=pk(d,'grapeSpecs','gSpecs');
-  if(gsp2){GS.forEach(sp=>{if(!sp.k)return;const ali=GSPEC_ALIAS[sp.k];const dd={...(ali&&gsp2[ali]?gsp2[ali]:{}),...(gsp2[sp.k]||{})};if(!Object.keys(dd).length)return;if(dd.ct>0&&sp.ct!==dd.ct){dAdd('포도 스펙',sp.l,'cnt/p',sp.ct,dd.ct);sp.ct=dd.ct;chgG=true;}if(dd.ca>0&&sp.ca!==dd.ca){dAdd('포도 스펙',sp.l,'항공ctns',sp.ca,dd.ca);sp.ca=dd.ca;chgG=true;}if(dd.bj>0&&sp.bj!==dd.bj){dAdd('포도 스펙',sp.l,'부자재',sp.bj,dd.bj);sp.bj=dd.bj;chgG=true;}if(dd.bx>0&&sp.bx!==dd.bx){dAdd('포도 스펙',sp.l,'박스',sp.bx,dd.bx);sp.bx=dd.bx;chgG=true;}cnt++;});}
+  if(gsp2){GS.forEach(sp=>{if(!sp.k)return;const ali=GSPEC_ALIAS[sp.k];const dd={...(ali&&gsp2[ali]?gsp2[ali]:{}),...(gsp2[sp.k]||{})};if(!Object.keys(dd).length)return;if(dd.ct>0&&sp.ct!==dd.ct){dAdd('포도 스펙',sp.l,'cnt/p',sp.ct,dd.ct);sp.ct=dd.ct;chgG=true;}if(dd.ct2>0&&sp.ct2!==dd.ct2){dAdd('포도 스펙',sp.l,'20ft cnt/p',sp.ct2||0,dd.ct2);sp.ct2=dd.ct2;chgG=true;}if(dd.tp4>0&&sp.tp4!==dd.tp4){dAdd('포도 스펙',sp.l,'40ft TP',sp.tp4||20,dd.tp4);sp.tp4=dd.tp4;chgG=true;}if(dd.tp2>0&&sp.tp2!==dd.tp2){dAdd('포도 스펙',sp.l,'20ft TP',sp.tp2||9,dd.tp2);sp.tp2=dd.tp2;chgG=true;}if(dd.ca>0&&sp.ca!==dd.ca){dAdd('포도 스펙',sp.l,'항공ctns',sp.ca,dd.ca);sp.ca=dd.ca;chgG=true;}if(dd.bj>0&&sp.bj!==dd.bj){dAdd('포도 스펙',sp.l,'부자재',sp.bj,dd.bj);sp.bj=dd.bj;chgG=true;}if(dd.bx>0&&sp.bx!==dd.bx){dAdd('포도 스펙',sp.l,'박스',sp.bx,dd.bx);sp.bx=dd.bx;chgG=true;}cnt++;});}   // ct2/tp4/tp2: 시트 20ft 행(I·K열) 연동 — 시즌 중 시트 수정이 앱에 그대로 반영
   // ★ 표 재구축은 값이 실제로 바뀐 경우에만 — sync 응답마다 innerHTML을 갈아엎어 입력 포커스/모바일 키보드/가로 스크롤이 날아가던 문제 방지.
   //   재구축 시에도 포커스·가로 스크롤 위치를 보존.
   if(F==='s')sA();

@@ -619,31 +619,32 @@ const PSJ_COUNTRY={
 // Pear specs: id,label,ctn40,ctn20,nw,gw,buj,box,rawFn(p),wk key,usRawFn(h,p),usWk
 // p={a:18-24,b:26-30,c:32-36}, h={a:6-8과,b:9-10과,c:11-12과,d:13-15과}
 const PS=[
-{id:'15a',l:'15kg 18-24s',c4:54,c2:48,nw:15,gw:17,bj:312,bx:2118,rf:p=>p.a,wk:'w15',noUS:1},
-{id:'15b',l:'15kg 26-30s',c4:54,c2:48,nw:15,gw:17,bj:390,bx:2118,rf:p=>p.b,wk:'w15',noUS:1},
-{id:'15c',l:'15kg 32-36s',c4:54,c2:48,nw:15,gw:17,bj:468,bx:2118,rf:p=>p.c,wk:'w15',noUS:1},
-{id:'75',l:'7.5kg 9-12s',c4:0,c2:54,nw:7.5,gw:9,bj:273,bx:0,rf:p=>p.a/15*7.5,wk:'w75',noUS:1},
-{id:'5a',l:'5kg 6-8s',c4:136,c2:120,nw:5,gw:6,bj:104,bx:1206,rf:p=>p.a/3,wk:'w5',
+// sk = 배 탭 SPECS|DETAIL 정규화 매칭키 — GAS pearSpecs(부자재·박스·ctn·TP·N.W·GW)가 같은 키로 보내면 시트값이 앱을 덮음 (2026-07-28, 시트=진실원천)
+{id:'15a',sk:'15kg|18-24s',l:'15kg 18-24s',c4:54,c2:48,nw:15,gw:17,bj:312,bx:2118,rf:p=>p.a,wk:'w15',noUS:1},
+{id:'15b',sk:'15kg|26-30s',l:'15kg 26-30s',c4:54,c2:48,nw:15,gw:17,bj:390,bx:2118,rf:p=>p.b,wk:'w15',noUS:1},
+{id:'15c',sk:'15kg|32-36s',l:'15kg 32-36s',c4:54,c2:48,nw:15,gw:17,bj:468,bx:2118,rf:p=>p.c,wk:'w15',noUS:1},
+{id:'75',sk:'7.5kg|9-12s',l:'7.5kg 9-12s',c4:0,c2:54,nw:7.5,gw:9,bj:273,bx:0,rf:p=>p.a/15*7.5,wk:'w75',noUS:1},
+{id:'5a',sk:'5kg|6-8s',l:'5kg 6-8s',c4:136,c2:120,nw:5,gw:6,bj:104,bx:1206,rf:p=>p.a/3,wk:'w5',
   ud:['a'],urf:(h)=>h.a,uwk:(raw,wc)=>wc.u5+raw*0.05},
-{id:'5b',l:'5kg 9-10s',c4:136,c2:120,nw:5,gw:6,bj:130,bx:1206,rf:p=>p.b/3,wk:'w5',
+{id:'5b',sk:'5kg|9-10s',l:'5kg 9-10s',c4:136,c2:120,nw:5,gw:6,bj:130,bx:1206,rf:p=>p.b/3,wk:'w5',
   ud:['b'],urf:(h)=>h.b,uwk:(raw,wc)=>wc.u5+raw*0.05},
-{id:'5ga',l:'5kg GIFT 6-8s',c4:128,c2:0,nw:5,gw:6,bj:200,bx:2580,rf:p=>p.a/3,wk:'w5',
+{id:'5ga',sk:'5kggift|6-8s',l:'5kg GIFT 6-8s',c4:128,c2:0,nw:5,gw:6,bj:200,bx:2580,rf:p=>p.a/3,wk:'w5',
   ud:['a'],urf:(h)=>h.a,uwk:(raw,wc)=>wc.u5+raw*0.05},
-{id:'5gb',l:'5kg GIFT 9-10s',c4:128,c2:0,nw:5,gw:6,bj:250,bx:2580,rf:p=>p.b/3,wk:'w5',
+{id:'5gb',sk:'5kggift|9-10s',l:'5kg GIFT 9-10s',c4:128,c2:0,nw:5,gw:6,bj:250,bx:2580,rf:p=>p.b/3,wk:'w5',
   ud:['b'],urf:(h)=>h.b,uwk:(raw,wc)=>wc.u5+raw*0.05},
-{id:'3a',l:'3kg 5s',c4:216,c2:0,nw:3,gw:4,bj:65,bx:1055,kd:['a','b'],rf:p=>(p.a/24*3)+(p.b/26*2),wk:'w3a',
+{id:'3a',sk:'3kg|5s',l:'3kg 5s',c4:216,c2:0,nw:3,gw:4,bj:65,bx:1055,kd:['a','b'],rf:p=>(p.a/24*3)+(p.b/26*2),wk:'w3a',
   ud:['a','b'],urf:(h)=>(h.a/8*3)+(h.b/9*2),uwk:(raw,wc)=>wc.u3a+raw*0.05},
-{id:'3b',l:'3kg 6s',c4:216,c2:0,nw:3,gw:4,bj:78,bx:1055,rf:p=>p.b/26*6,wk:'w3b',   // 6알 전량 계상 — 종전 ×3은 원물 절반 누락(2026-07-28 사용자 확인, 시트 수식도 ×6로 동시 수정)
+{id:'3b',sk:'3kg|6s',l:'3kg 6s',c4:216,c2:0,nw:3,gw:4,bj:78,bx:1055,rf:p=>p.b/26*6,wk:'w3b',   // 6알 전량 계상 — 종전 ×3은 원물 절반 누락(2026-07-28 사용자 확인, 시트 수식도 ×6로 동시 수정)
   ud:['b'],urf:(h)=>h.b/10*6,uwk:(raw,wc)=>wc.u3b+raw*0.05},
-{id:'12k',l:'12kg 5구',c4:60,c2:0,nw:12,gw:13,bj:3314,bx:0,kd:['a','b'],rf:p=>((p.a/24*3)+(p.b/26*2))*4,wk:'w12',
+{id:'12k',sk:'12kg|5pcs*4pack',l:'12kg 5구',c4:60,c2:0,nw:12,gw:13,bj:3314,bx:0,kd:['a','b'],rf:p=>((p.a/24*3)+(p.b/26*2))*4,wk:'w12',
   ud:['a','b'],urf:(h)=>((h.a/8*3)+(h.b/9*2))*4,uwk:(raw,wc)=>wc.u12+raw*0.05},
-{id:'128',l:'12.8kg 3팩',c4:60,c2:54,nw:12.8,gw:15,bj:600,bx:1314,rf:p=>p.b/15*12.8,wk:'w128',
+{id:'128',sk:'12.8kg|3pcs*8pack',l:'12.8kg 3팩',c4:60,c2:54,nw:12.8,gw:15,bj:600,bx:1314,rf:p=>p.b/15*12.8,wk:'w128',
   ud:['b'],urf:(h)=>h.b/5*12.8,uwk:(raw,wc)=>wc.u128+raw*0.05},
-{id:'109',l:'10.9kg 3팩',c4:66,c2:60,nw:10.9,gw:13,bj:600,bx:1284,rf:p=>p.c/15*10.9,wk:'w109',
+{id:'109',sk:'10.9kg|3pcs*8pack',l:'10.9kg 3팩',c4:66,c2:60,nw:10.9,gw:13,bj:600,bx:1284,rf:p=>p.c/15*10.9,wk:'w109',
   ud:['c'],urf:(h)=>h.c/5*10.9,uwk:(raw,wc)=>wc.u109+raw*0.05},
-{id:'10d2',l:'10kg 대과2구',c4:54,c2:48,nw:10,gw:12,bj:4336,bx:1300,rf:p=>p.a/15*10,wk:'wdg',
+{id:'10d2',sk:'10kg대과2구|2pcs*8pack',l:'10kg 대과2구',c4:54,c2:48,nw:10,gw:12,bj:4336,bx:1300,rf:p=>p.a/15*10,wk:'wdg',
   urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>wc.udg+raw*0.05},
-{id:'10d1',l:'10kg 대과1구',c4:54,c2:48,nw:10,gw:12,bj:3120,bx:1300,rf:p=>p.a/15*10,wk:'wdg',
+{id:'10d1',sk:'10kg대과1구|1pcs*16pack',l:'10kg 대과1구',c4:54,c2:48,nw:10,gw:12,bj:3120,bx:1300,rf:p=>p.a/15*10,wk:'wdg',
   urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>wc.udg+raw*0.05},
 ];
 const PWK={w15:10000,w75:6000,w5:5000,w3a:3700,w3b:3700,w12:8500,w128:8000,w109:8000,wdg:8000};
@@ -980,7 +981,7 @@ function pB(){
     cSpecs.forEach((s,si)=>{
       const wkVal=gv('pwk_'+s.wk)||(pSj&&PWK_SJ[pSj]&&PWK_SJ[pSj][s.wk])||PWK[s.wk]||0;   // pCalc 국내 폴백과 동일 기준 — 표시값과 계산값 불일치 방지
       const sCtn=sh==='f'?s.c4:s.c2;
-      const sTb=sCtn*(sh==='f'?20:9);
+      const sTb=sCtn*(sh==='f'?(s.tp4>0?s.tp4:20):(s.tp2>0?s.tp2:9));   // 실출고 placeholder도 시트 TP 반영
       h+=`<tr${si===cSpecs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${cSpecs.length}">${favBtn('p',c.n)}${c.f}<br><span style="font-size:9px">${c.n}</span><br><button class="qcopy" onclick="copyQuote('${c.n}')" title="이 국가 견적 전체 복사">📄</button></td>`:'')+
         `<td style="font-size:11px;color:#1a1a2e;font-weight:600">${s.l}</td>
         <td style="font-size:8px;text-align:center;color:#b8860b;font-family:'JetBrains Mono',monospace" id="pw${c.n}${s.id}">${fN(wkVal)}</td>
@@ -1001,7 +1002,7 @@ function pCalc(cn,sid){
   const sea=PSEA[cn],il=PIL[pSj];if(!sea||!il)return null;
   const seaV=sea[sh],inlV=il[sh];if(!seaV||!inlV)return null;   // 내륙운임 0(미수신)이면 CIF 과소계산 → 계산 차단('-' 표시)
   const ctn=sh==='f'?sp.c4:sp.c2;if(!ctn)return null;
-  const tp=sh==='f'?20:9,defTb=ctn*tp;
+  const tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9),defTb=ctn*tp;   // 파레트 수: 시트 K열(TP) sync값 우선
   const qIn=gv('pq'+cn+sid);
   const tb=qIn>0?qIn:defTb;
 
@@ -1058,7 +1059,7 @@ function markBest(prefix,calcFn,iterPairs){
 }
 function pA(){PC.forEach(c=>PS.forEach(s=>pR(c.n,s.id)));const pairs=[];PC.forEach(c=>PS.forEach(s=>pairs.push([c.n,s.id])));markBest('pb',pCalc,pairs);}
 function pL(cn,sid){const r=pCalc(cn,sid);if(!r||r.empty||!r.of)return;const co=PC.find(c=>c.n===cn);   // 오퍼가 미입력 시 $undefined 기록 모달이 열리던 문제 — 포도 gL과 동일 가드
-  const sp=PS.find(s=>s.id===sid),sh=gv('psh')==40?'f':'t',ctn=sh==='f'?sp.c4:sp.c2,tp=sh==='f'?20:9;
+  const sp=PS.find(s=>s.id===sid),sh=gv('psh')==40?'f':'t',ctn=sh==='f'?sp.c4:sp.c2,tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9);
   const qty=`${r.sp} ${ctn}ctn × ${tp}p (${r.tb}ctn)`;
   const raw=fN(Math.round(r.raw))+'원/박스';
   cmOpen({fr:'p',co:cn,fl:co?.f||'',sp:r.sp,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('pfx'),sj:pSj,sh:gv('psh')+'ft',btn:'pb'+cn+sid,qty,raw,maker:pSj,tb:r.tb,defTb:r.defTb},
@@ -1308,7 +1309,7 @@ function gL(cn,si){
   const cList=isAir?GAIR_C:GC;
   const co=cList.find(c=>c.n===cn);
   const sp=GS[si];
-  const tp=isAir?1:(shv==='40'?20:9);
+  const tp=isAir?1:(shv==='40'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9));
   const shLbl=isAir?'AIR':shv+'ft';
   const ctp=r.ctp||sp.ct;
   const qty=isAir?`${sp.l} 항공 (${r.tb}ctn)`:`${sp.l} ${ctp}ctn/p (${r.tb}ctn)`;
@@ -2200,6 +2201,18 @@ function applySyncData(d,src){
   const pi=pk(d,'pearInland','pInland');if(pi)Object.keys(pi).forEach(k=>{if(!PIL[k])return;const r=parseFT(pi[k]);if(!r)return;const rr={};if(r.f>0)rr.f=r.f;if(r.t>0)rr.t=r.t;if(Object.keys(rr).length){if(Object.keys(rr).some(x=>PIL[k][x]!==rr[x]))chgP=true;Object.keys(rr).forEach(x=>dAdd('배 내륙',k,x==='f'?'40ft':'20ft',PIL[k][x],rr[x]));Object.assign(PIL[k],rr);cnt++;}});
   // 배 작업비: 내부 기본값(PWK)은 항상 갱신하되, 산지 선택 중이면 입력칸은 산지 기준(PWK_SJ)을 유지 — '← 산지 기준' 라벨과 실제 계산값이 어긋나지 않게
   const pw=pk(d,'pearWk','pWk');if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){const rv=Math.round(+pw[k]);if(PWK[k]!==rv){chgP=true;dAdd('배 작업비',k,'',PWK[k],rv);}PWK[k]=rv;if(!pSj)syncSetVal('pwk_'+k,rv,src);cnt++;}});   // syncSetVal 가드로 통일 + 수식값 반올림 (미국 작업비와 동일 정책)
+  // 배 스펙별 값 sync — 부자재·박스·ctn(40/20ft)·TP·N.W·GW를 배 탭에서 (포도 grapeSpecs와 동일 원칙: 시트=진실원천, 0/빈값은 무시)
+  const psp2=pk(d,'pearSpecs','pSpecs');
+  if(psp2){PS.forEach(sp=>{if(!sp.sk)return;const dd=psp2[sp.sk];if(!dd)return;
+    if(dd.bj>0&&sp.bj!==dd.bj){dAdd('배 스펙',sp.l,'부자재',sp.bj,dd.bj);sp.bj=dd.bj;chgP=true;}
+    if(dd.bx>0&&sp.bx!==dd.bx){dAdd('배 스펙',sp.l,'박스',sp.bx,dd.bx);sp.bx=dd.bx;chgP=true;}
+    if(dd.ct>0&&sp.c4!==dd.ct){dAdd('배 스펙',sp.l,'40ft ctn/p',sp.c4,dd.ct);sp.c4=dd.ct;chgP=true;}
+    if(dd.ct2>0&&sp.c2!==dd.ct2){dAdd('배 스펙',sp.l,'20ft ctn/p',sp.c2,dd.ct2);sp.c2=dd.ct2;chgP=true;}
+    if(dd.tp4>0&&sp.tp4!==dd.tp4){sp.tp4=dd.tp4;chgP=true;}
+    if(dd.tp2>0&&sp.tp2!==dd.tp2){sp.tp2=dd.tp2;chgP=true;}
+    if(dd.nw>0&&sp.nw!==dd.nw){dAdd('배 스펙',sp.l,'N.W(kg)',sp.nw,dd.nw);sp.nw=dd.nw;}
+    if(dd.gw>0&&sp.gw!==dd.gw){dAdd('배 스펙',sp.l,'G.W(kg)',sp.gw,dd.gw);sp.gw=dd.gw;}
+    cnt++;});}
   // 포도 운임 sync — GAS가 포도/포도Air 탭을 직접 읽도록 갱신됨 (신규 산지/국가/항공운임 반영)
   const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){if(AME_NO20[k]&&r.t>0)delete r.t;if(!Object.keys(r).length)return;if(Object.keys(r).some(x=>GSEA[k][x]!==r[x]))chgG=true;Object.keys(r).forEach(x=>dAdd('포도 해운',k,x==='f'?'40ft':'20ft',GSEA[k][x],r[x]));Object.assign(GSEA[k],r);cnt++;}});
   // 포도 내륙 sync — 기존 산지는 값 갱신 / 시트에 새 산지가 생기면 GIL+GSANJI에 자동 추가(목록에 표시). 0인 다리는 무시(내륙 0은 비정상 — 기존값 유지).

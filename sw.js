@@ -1,5 +1,5 @@
 // 현농프레쉬 오퍼계산기 Service Worker
-const CACHE_VERSION = 'hn-v34';   // v34: 포도 스펙 N.W/GW 시트 연동(S·T열) — 중량 수정도 시트에서 하면 앱 자동 반영
+const CACHE_VERSION = 'hn-v35';   // v35: 배 스펙 전체 시트 연동(부자재·박스·ctn·TP·N.W·GW) — 배도 포도처럼 시트=진실원천
 const CORE_CACHE = CACHE_VERSION + '-core';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 

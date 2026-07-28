@@ -1,5 +1,5 @@
 // 현농프레쉬 오퍼계산기 Service Worker
-const CACHE_VERSION = 'hn-v30';   // v30: 미국 작업비 시트 1:1 연동 (u3a/u3b/u5b/u3ps/u3pn 신설, GAS 라벨 스캔)
+const CACHE_VERSION = 'hn-v31';   // v31: sync 값 반올림(작업비·단가 수식 셀 소수점 표시 제거)
 const CORE_CACHE = CACHE_VERSION + '-core';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 

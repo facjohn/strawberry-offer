@@ -2181,14 +2181,14 @@ function applySyncData(d,src){
   if(pp){
     const map={a:'pa',b:'pb',c:'pc',ha:'ha',hb:'hb',hc:'hc'};
     const pLbl={a:'18-24s',b:'26-30s',c:'32-36s',ha:'미국6-8과',hb:'미국9-10과',hc:'미국11-12과'};
-    Object.keys(map).forEach(k=>{const v=pk(pp,k);if(v==null)return;const old=gv(map[k]);if(syncSetVal(map[k],v,src)){dAdd('배 단가',pLbl[k],'',old,+v);chgP=true;cnt++;}});
+    Object.keys(map).forEach(k=>{const v=pk(pp,k);if(v==null)return;const rv=Math.round(+v);const old=gv(map[k]);if(syncSetVal(map[k],rv,src)){dAdd('배 단가',pLbl[k],'',old,rv);chgP=true;cnt++;}});   // 수식값 반올림
   }
   // 미국 작업비 — 내부 기본값(PUWK)은 항상 갱신, 입력칸은 syncSetVal 가드
   // ★ 신형식 응답만 적용 — 구버전 GAS·캐시 스냅샷은 u12에 '3팩 미부착'값이 오염돼 있어(2026-07-28 감사) 교정된 기본값을 되돌리면 안 됨.
   //   판정은 신설 키(u3a/u3b/u5b/u3ps/u3pn) 2개 이상 존재 — 시트 라벨 하나가 변형돼 한 키가 빠져도 나머지 정상 값까지 전량 거부하지 않게.
   const puw=pk(d,'pearUWk','pUWk','usWk');
   const puwV2=puw&&['u3a','u3b','u5b','u3ps','u3pn'].filter(k=>puw[k]!=null).length>=2?puw:null;
-  if(puwV2)Object.keys(puwV2).forEach(k=>{if(PUWK[k]!=null){if(PUWK[k]!==puwV2[k]){chgP=true;dAdd('미국작업비',k,'',PUWK[k],puwV2[k]);}PUWK[k]=puwV2[k];syncSetVal('puwk_'+k,puwV2[k],src);cnt++;}});
+  if(puwV2)Object.keys(puwV2).forEach(k=>{if(PUWK[k]!=null){const rv=Math.round(+puwV2[k]);if(PUWK[k]!==rv){chgP=true;dAdd('미국작업비',k,'',PUWK[k],rv);}PUWK[k]=rv;syncSetVal('puwk_'+k,rv,src);cnt++;}});   // 시트 수식값(10702.777…)은 반올림해 정수로 표시·계산
   // 포도 기본단가/작업비는 sync 안 함 — GAS가 0을 보내 사용자 입력을 덮어쓰기 때문 (수동 입력 유지)
   const fr=pk(d,'freight','strawFreight','airFreight');
   if(fr)Object.keys(fr).forEach(k=>{if(!SF[k])return;const v=fr[k];const a=pk(v,'airKg','air','a','kg');if(a!=null){if(SF[k].a!==a)dAdd('딸기 운임',SF[k].n||k,'₩/kg',SF[k].a,a);SF[k].a=a;cnt++;}const fc=pk(v,'fsc','fc','fuel');if(fc!=null)SF[k].fc=fc;const dom=pk(v,'domFreight','dom','d','domestic');if(dom!=null)SF[k].d=dom;});
@@ -2198,7 +2198,7 @@ function applySyncData(d,src){
   // 배 내륙: 내륙운임에 0은 정상값이 될 수 없음 — 0/음수 다리는 무시(기존값 유지). 시트 빈 셀이 산지 계산을 조용히 죽이고 스냅샷에 고착되는 것 방지.
   const pi=pk(d,'pearInland','pInland');if(pi)Object.keys(pi).forEach(k=>{if(!PIL[k])return;const r=parseFT(pi[k]);if(!r)return;const rr={};if(r.f>0)rr.f=r.f;if(r.t>0)rr.t=r.t;if(Object.keys(rr).length){if(Object.keys(rr).some(x=>PIL[k][x]!==rr[x]))chgP=true;Object.keys(rr).forEach(x=>dAdd('배 내륙',k,x==='f'?'40ft':'20ft',PIL[k][x],rr[x]));Object.assign(PIL[k],rr);cnt++;}});
   // 배 작업비: 내부 기본값(PWK)은 항상 갱신하되, 산지 선택 중이면 입력칸은 산지 기준(PWK_SJ)을 유지 — '← 산지 기준' 라벨과 실제 계산값이 어긋나지 않게
-  const pw=pk(d,'pearWk','pWk');if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){if(PWK[k]!==pw[k]){chgP=true;dAdd('배 작업비',k,'',PWK[k],pw[k]);}PWK[k]=pw[k];if(!pSj)syncSetVal('pwk_'+k,pw[k],src);cnt++;}});   // syncSetVal 가드로 통일 — 세션 중 직접 조정한 국내 작업비를 sync가 되돌리지 않게 (미국 작업비와 동일 정책)
+  const pw=pk(d,'pearWk','pWk');if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){const rv=Math.round(+pw[k]);if(PWK[k]!==rv){chgP=true;dAdd('배 작업비',k,'',PWK[k],rv);}PWK[k]=rv;if(!pSj)syncSetVal('pwk_'+k,rv,src);cnt++;}});   // syncSetVal 가드로 통일 + 수식값 반올림 (미국 작업비와 동일 정책)
   // 포도 운임 sync — GAS가 포도/포도Air 탭을 직접 읽도록 갱신됨 (신규 산지/국가/항공운임 반영)
   const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){if(AME_NO20[k]&&r.t>0)delete r.t;if(!Object.keys(r).length)return;if(Object.keys(r).some(x=>GSEA[k][x]!==r[x]))chgG=true;Object.keys(r).forEach(x=>dAdd('포도 해운',k,x==='f'?'40ft':'20ft',GSEA[k][x],r[x]));Object.assign(GSEA[k],r);cnt++;}});
   // 포도 내륙 sync — 기존 산지는 값 갱신 / 시트에 새 산지가 생기면 GIL+GSANJI에 자동 추가(목록에 표시). 0인 다리는 무시(내륙 0은 비정상 — 기존값 유지).

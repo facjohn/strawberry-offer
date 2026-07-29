@@ -595,6 +595,7 @@ const SD={vn_hcm:[22,0,0],vn_han:[23,0,0],th:[17.8,0,13.3],id:[22.8,0,17],my:[20
 // ═══ PEAR ═══
 const PSANJI=['아리팜','순천','아산','상주','고창','천안','김제','나주금천','낙안','영농산','송덕','나주부덕'];
 const PC=[{n:'대만',f:'🇹🇼'},{n:'베트남',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이시아',f:'🇲🇾'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'호주',f:'🇦🇺'},{n:'미국LA',f:'🇺🇸',us:1},{n:'미국NY',f:'🇺🇸',us:1},{n:'캐나다',f:'🇨🇦',us:1}];
+const NO20={미국LA:1,미국NY:1,캐나다:1};   // 20ft 노선 없는 국가 — 시트 오염이 와도 t 차단 (앱설정 '20ft=X' 국가가 sync로 추가됨)
 const PRG=[{k:'all',l:'전체',c:'#3b6ff0'},{k:'sea',l:'동남아',c:'#16a368',ns:['베트남','말레이시아','인도네시아','태국']},{k:'nea',l:'동북아',c:'#d48a00',ns:['대만','홍콩']},{k:'oce',l:'오세아니아',c:'#9333ea',ns:['호주']},{k:'ame',l:'미주',c:'#dc2626',ns:['미국LA','미국NY','캐나다']}];
 let pRgn='all';
 const PSEA={대만:{f:1728000,t:1133200},베트남:{f:3067500,t:1810000},홍콩:{f:2574000,t:1528000},말레이시아:{f:3067500,t:1951000},인도네시아:{f:2433000,t:1951000},태국:{f:2433000,t:1669000},호주:{f:5987500,t:3220000},미국LA:{f:9301000,t:0},미국NY:{f:13742500,t:0},캐나다:{f:9612500,t:0}};   // 기본값=2026-07-28 시트 DATA 실측 (sync 실패 시 폴백) — 미주 40ft 2월 인하·태국 20ft 인상 반영
@@ -870,7 +871,7 @@ function bP(){
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="psp" value="0" oninput="pA()"></div>
     <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="psh_40" onclick="setSh('psh','40')">40ft</button><button type="button" class="sho" id="psh_20" onclick="setSh('psh','20')">20ft</button></div><input type="hidden" id="psh" value="40"></div>`;
   $('ex').innerHTML=`<div class="sl">산지</div>
-    <div class="sjb" id="psb">${PSANJI.map(s=>`<button class="sj" onclick="pSl('${s}')">${s}</button>`).join('')}</div>
+    <div class="sjb" id="psb"></div>
     <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
       <div class="ig"><label>18-24s</label><input type="number" id="pa" value="47000" oninput="pA()"></div>
       <div class="ig"><label>26-30s</label><input type="number" id="pb" value="42000" oninput="pA()"></div>
@@ -906,8 +907,18 @@ function bP(){
       <div class="ig"><label>5kg 계산기준</label><select id="puwk_hj" onchange="pA()"><option>화지</option><option>무화지</option></select></div>
       <div class="ig"><label>3팩 계산기준</label><select id="puwk_st" onchange="pA()"><option>미부착</option><option>부착</option></select></div>
     </div>`;
+  pSjBtns();   // 산지 버튼 — PSANJI 기반 렌더 (sync 자동 추가/개명 시에도 재사용)
   inpRestore();   // ★ 테이블 빌드 전에 저장값 복원 — pB() 첫 줄 inpSaveAll()이 방금 만든 기본값 입력칸을 저장소에 커밋해 사용자 값(환율/지원/운송모드/단가/작업비)을 파괴하던 순서 결함 수정
   pB();
+}
+// 배 산지 버튼 렌더 — 산지명은 시트 유래(auto-extend)이므로 이스케이프 (포도 산지 버튼과 동일 패턴)
+function pSjBtns(){
+  const e=$('psb');if(!e)return;
+  e.innerHTML=PSANJI.map(s=>{
+    const a=pSj===s?' a':'';
+    const st=pSj===s?' style="background:linear-gradient(135deg,#daa520,#b8860b);color:#fff;border-color:#b8860b"':'';
+    return `<button class="sj${a}" onclick="pSl(decodeURIComponent('${jsArg(s)}'))"${st}>${hlEsc(s)}</button>`;
+  }).join('');
 }
 function pSl(s){pSj=pSj===s?null:s;document.querySelectorAll('#psb .sj').forEach(b=>{const a=b.textContent===pSj;b.classList.toggle('a',a);b.style.background=a?'linear-gradient(135deg,#daa520,#b8860b)':'';b.style.color=a?'#fff':'';b.style.borderColor=a?'#b8860b':'';});
   // 산지별 작업비 자동 반영
@@ -929,6 +940,48 @@ function favSort(cat,arr,nameOf){const fv=favGet(cat);if(!fv.length)return arr;
   return arr.map((x,i)=>({x,i,f:fv.includes(nameOf(x))?0:1})).sort((a,b)=>a.f-b.f||a.i-b.i).map(o=>o.x);}   // 명시적 안정 정렬
 function favBtn(cat,cn){const on=favGet(cat).includes(cn);
   return `<button onclick="favTog('${cat}',decodeURIComponent('${jsArg(cn)}'))" title="즐겨찾기 상단 고정" style="background:none;border:none;cursor:pointer;font-size:12px;line-height:1;padding:1px 2px;color:${on?'#d4a017':'#c8c8d0'}">${on?'★':'☆'}</button>`;}
+
+// ═══ 앱설정(시트 '앱설정' 탭) — 산지·국가 개명과 국가 추가를 코드 수정 없이 반영 ═══
+// cano(): 이름 정규화 — 개명된 옛 이름을 새 이름으로 (지난 오퍼·기록 매칭이 개명 후에도 이어지게)
+const _renameMap={};
+function cano(nm){let n=nm,i=0;while(n!=null&&_renameMap[n]&&i++<5)n=_renameMap[n];return n;}
+function renameApply(o,n){
+  const mvKey=obj=>{if(!obj)return;if(obj[o]!=null&&obj[n]==null)obj[n]=obj[o];delete obj[o];};
+  const mvList=arr=>{if(!arr)return;const i=arr.indexOf(o);if(i>=0){if(arr.indexOf(n)<0)arr[i]=n;else arr.splice(i,1);}};
+  // 배 산지
+  mvList(PSANJI);mvKey(PIL);mvKey(PWK_SJ);mvKey(PSJ_COUNTRY);if(pSj===o)pSj=n;
+  // 포도 산지 — 옛 이름은 재유입 차단 목록에도 등록 (구 캐시/GAS가 보내도 무시)
+  mvList(GSANJI);mvKey(GIL);if(!GSANJI_REMOVED.includes(o))GSANJI_REMOVED.push(o);if(gSj===o)gSj=n;
+  // 국가 (배/포도/항공 목록 + 운임 키 + 지역 그룹 + 20ft 차단 + 산지 매트릭스 내부 키)
+  [PC,GC,(typeof GAIR_C!=='undefined'?GAIR_C:null)].forEach(list=>{if(!list)return;const e=list.find(x=>x&&x.n===o);if(e){if(!list.some(x=>x&&x.n===n))e.n=n;else list.splice(list.indexOf(e),1);}});
+  mvKey(PSEA);mvKey(GSEA);mvKey(typeof GAIR_KG!=='undefined'?GAIR_KG:null);mvKey(NO20);
+  [(typeof PRG!=='undefined'?PRG:null),(typeof GRG!=='undefined'?GRG:null),(typeof GAIR_RG!=='undefined'?GAIR_RG:null)].forEach(gl=>{(gl||[]).forEach(g=>{if(g&&g.ns)mvList(g.ns);});});
+  Object.keys(PSJ_COUNTRY).forEach(sj=>mvKey(PSJ_COUNTRY[sj]));
+  // 즐겨찾기 승계
+  try{const fo=JSON.parse(localStorage.getItem(FAV_KEY)||'{}');let ch=false;Object.keys(fo).forEach(cat=>{const a=fo[cat];if(Array.isArray(a)){const i=a.indexOf(o);if(i>=0){if(a.indexOf(n)<0)a[i]=n;else a.splice(i,1);ch=true;}}});if(ch)localStorage.setItem(FAV_KEY,JSON.stringify(fo));}catch(e){}
+  // 포도 스펙별 비용(gCost) 키의 산지 부분 승계 — '모드|산지|스펙키'
+  try{if(typeof gCost!=='undefined'){if(!Object.keys(gCost).length&&typeof loadGCost==='function')loadGCost();let ch2=false;
+    Object.keys(gCost).forEach(k=>{const p2=k.split('|');if(p2.length>=3&&p2[1]===o){const nk=p2[0]+'|'+n+'|'+p2.slice(2).join('|');if(gCost[nk]==null)gCost[nk]=gCost[k];delete gCost[k];ch2=true;}});
+    if(ch2)localStorage.setItem(GCOST_KEY,JSON.stringify(gCost));}}catch(e){}
+}
+// 앱설정 국가 추가 — 목록·운임 틀·지역 그룹에 등록 (운임 값은 DATA 해상운임/항공표 sync가 채움, 0인 동안은 계산 차단 '-')
+function countryEnsure(c){
+  const n=c.n,f=c.f||'🌐',rg=c.rg||'',fr=c.fr||'공통';
+  const rgKey={'동남아':'sea','동북아':'nea','오세아니아':'oce','미주':'ame'}[rg]||null;
+  const us=rg==='미주';
+  let added=false;
+  const addTo=(list,seaObj,rgList)=>{
+    if(list&&!list.some(x=>x&&x.n===n)){const e={n,f};if(us)e.us=1;list.push(e);added=true;}
+    if(seaObj&&!seaObj[n])seaObj[n]={f:0,t:0};
+    if(rgKey&&rgList){const g=rgList.find(x=>x.k===rgKey);if(g&&g.ns&&!g.ns.includes(n))g.ns.push(n);}
+  };
+  if(fr==='배'||fr==='공통')addTo(PC,PSEA,typeof PRG!=='undefined'?PRG:null);
+  if(fr==='포도'||fr==='공통'){addTo(GC,GSEA,typeof GRG!=='undefined'?GRG:null);
+    if(typeof GAIR_C!=='undefined'&&!GAIR_C.some(x=>x.n===n))GAIR_C.push({n,f});
+    if(typeof GAIR_KG!=='undefined'&&GAIR_KG[n]==null)GAIR_KG[n]=0;}
+  if(c.no20)NO20[n]=1;
+  return added;
+}
 function pSetRgn(k){pRgn=k;pB();pA();}
 function pB(){
   inpSaveAll();
@@ -1450,12 +1503,11 @@ function cSeaVal(cn,leg){
   if(cn==='호주'&&PSEA['호주']&&PSEA['호주'][leg]>0)return PSEA['호주'][leg];
   return 0;
 }
-const C_NO20={미국LA:1,미국NY:1,캐나다:1};   // 미주 20ft 없음(설계값) — 배/포도 탭과 동일 규칙
 function cCountries(){
   const shv=$('csh')?$('csh').value:'40';
   if(shv==='air')return Object.keys(GAIR_KG).filter(k=>+GAIR_KG[k]>0);
   const leg=shv==='40'?'f':'t';
-  return C_SEA_ORDER.filter(cn=>cSeaVal(cn,leg)>0&&!(leg==='t'&&C_NO20[cn]));   // 시트 오염으로 미주 t에 값이 들어와도 20ft 목록에 노출하지 않음
+  return C_SEA_ORDER.filter(cn=>cSeaVal(cn,leg)>0&&!(leg==='t'&&NO20[cn]));   // 20ft 없는 국가는 시트 오염이 와도 미노출 (전역 NO20)
 }
 function cName(){const e=$('cnm');const v=e?String(e.value).trim():'';return v||'커스텀';}
 function bC(){
@@ -1656,9 +1708,9 @@ function saveL(){try{localStorage.setItem('hn4',JSON.stringify(logs));}catch(e){
 
 // ═══ 지난 오퍼가 힌트 — 같은 과일·국가·스펙(+운송모드)의 최근 기록 오퍼가를 $ 입력칸 밑에 표시 (탭하면 채움) ═══
 function lastOffer(fr,co,spl,sh){
-  let best=null;
+  let best=null;const coC=cano(co);
   for(const l of logs){
-    if(l.fr!==fr||l.co!==co||l.sp!==spl||l.of==null||l.of==='')continue;
+    if(l.fr!==fr||cano(l.co)!==coC||l.sp!==spl||l.of==null||l.of==='')continue;   // 국가 개명 후에도 옛 이름 기록과 매칭 (cano)
     if(sh&&l.sh&&l.sh!==sh)continue;   // 운송모드가 다른 기록 제외 — 항공 오퍼가가 해운 행에 뜨거나 40ft에 20ft 가격이 주입되지 않게
     const t=l.dt?Date.parse(l.dt):0;
     if(!best||t>best.t)best={of:l.of,sym:l.sym||'$',t,sh:l.sh||''};
@@ -1667,9 +1719,9 @@ function lastOffer(fr,co,spl,sh){
 }
 // 지난 오퍼 최근 3건 — CIF 팝오버 하단에 짧은 가격 추세 표시 (lastOffer와 동일 필터: 과일·국가·스펙·운송모드)
 function offerHist(fr,co,spl,sh,n){
-  const hits=[];
+  const hits=[];const coC=cano(co);
   for(const l of logs){
-    if(l.fr!==fr||l.co!==co||l.sp!==spl||l.of==null||l.of==='')continue;
+    if(l.fr!==fr||cano(l.co)!==coC||l.sp!==spl||l.of==null||l.of==='')continue;
     if(sh&&l.sh&&l.sh!==sh)continue;
     hits.push({of:l.of,sym:l.sym||'$',t:l.dt?Date.parse(l.dt):0,sh:l.sh||''});
   }
@@ -1951,7 +2003,7 @@ function recordQuoteCopy(cn){
 }
 function unloggedQuotes(){
   let a=[];try{a=JSON.parse(localStorage.getItem(QC_KEY)||'[]');if(!Array.isArray(a))a=[];}catch(e){a=[];}
-  try{return a.filter(x=>x&&isToday(x.t)).filter(x=>!logs.some(l=>l.co===x.co&&(!l.fr||!x.fr||l.fr===x.fr)&&isToday(l.dt)));}catch(e){return[];}
+  try{return a.filter(x=>x&&isToday(x.t)).filter(x=>!logs.some(l=>cano(l.co)===cano(x.co)&&(!l.fr||!x.fr||l.fr===x.fr)&&isToday(l.dt)));}catch(e){return[];}
 }
 // 오늘 기록한 오퍼를 국가별로 묶어 한눈에 — 하단 복사 버튼으로 보고용 텍스트 전달
 function todayDigest(){
@@ -2158,6 +2210,14 @@ function applySyncData(d,src){
   if(!d||d.error)return false;
   let cnt=0,chgP=false,chgG=false;   // 배/포도 표 재구축 필요 여부 — 값이 실제로 바뀐 경우에만 rebuild (입력 중 포커스/키보드/스크롤 보존)
   const diffs=[];const dAdd=(cat,key,leg,o,nn)=>{if(nn!=null&&o!==nn)diffs.push({c:cat,k:key,g:leg,o:o,n:nn});};   // 시트 변경 디프 수집 (live만 저장·알림)
+  // ── 앱설정(시트) 선반영: 개명·국가 추가를 다른 카테고리 처리 전에 — 이후 핸들러들이 새 이름 키를 그대로 사용 ──
+  const cfg=pk(d,'appCfg','cfg');
+  let chgNames=false;
+  if(cfg){
+    (cfg.renames||[]).forEach(r=>{if(r&&r.o&&r.n&&r.o!==r.n){if(_renameMap[r.o]!==r.n){_renameMap[r.o]=r.n;chgNames=true;dAdd('이름 변경',r.o,'→',r.o,r.n);}renameApply(r.o,r.n);}});
+    (cfg.countries||[]).forEach(c=>{if(c&&c.n){if(countryEnsure(c)){chgNames=true;dAdd('국가 추가',c.n,c.rg||'',0,1);}}});
+    if(chgNames){chgP=true;chgG=true;}
+  }
   const ex=pk(d,'exrate','rate','fx');
   if(ex&&TODAY_FX_SRC!=='실시간'){TODAY_FX=Math.round(ex);TODAY_FX_SRC=(src==='cache'?'저장':'시트');setFxHint();}   // 실시간 시세 실패 시에만 시트 환율로 폴백 (마진은 항상 입력칸 환율로 계산)
   if(F==='s'){
@@ -2194,9 +2254,8 @@ function applySyncData(d,src){
   // 포도 기본단가/작업비는 sync 안 함 — GAS가 0을 보내 사용자 입력을 덮어쓰기 때문 (수동 입력 유지)
   const fr=pk(d,'freight','strawFreight','airFreight');
   if(fr)Object.keys(fr).forEach(k=>{if(!SF[k])return;const v=fr[k];const a=pk(v,'airKg','air','a','kg');if(a!=null){if(SF[k].a!==a)dAdd('딸기 운임',SF[k].n||k,'₩/kg',SF[k].a,a);SF[k].a=a;cnt++;}const fc=pk(v,'fsc','fc','fuel');if(fc!=null)SF[k].fc=fc;const dom=pk(v,'domFreight','dom','d','domestic');if(dom!=null)SF[k].d=dom;});
-  // 미주는 20ft 노선이 없음(설계값 0) — 시트/구버전 GAS가 미주 t에 값을 실어 보내도 무시 (40ft 운임이 20ft 계산에 흘러드는 오염 차단)
-  const AME_NO20={미국LA:1,미국NY:1,캐나다:1};
-  const ps=pk(d,'pearSea','pSea');if(ps)Object.keys(ps).forEach(k=>{if(!PSEA[k])return;const r=parseFT(ps[k]);if(r){if(AME_NO20[k]&&r.t>0)delete r.t;if(!Object.keys(r).length)return;if(Object.keys(r).some(x=>PSEA[k][x]!==r[x]))chgP=true;Object.keys(r).forEach(x=>dAdd('배 해운',k,x==='f'?'40ft':'20ft',PSEA[k][x],r[x]));Object.assign(PSEA[k],r);cnt++;}});
+  // 20ft 노선 없는 국가(NO20)는 시트/구버전 GAS가 t에 값을 실어 보내도 무시 (40ft 운임이 20ft 계산에 흘러드는 오염 차단)
+  const ps=pk(d,'pearSea','pSea');if(ps)Object.keys(ps).forEach(k=>{if(!PSEA[k])return;const r=parseFT(ps[k]);if(r){if(NO20[k]&&r.t>0)delete r.t;if(!Object.keys(r).length)return;if(Object.keys(r).some(x=>PSEA[k][x]!==r[x]))chgP=true;Object.keys(r).forEach(x=>dAdd('배 해운',k,x==='f'?'40ft':'20ft',PSEA[k][x],r[x]));Object.assign(PSEA[k],r);cnt++;}});
   // 배 내륙: 내륙운임에 0은 정상값이 될 수 없음 — 0/음수 다리는 무시(기존값 유지). 시트 빈 셀이 산지 계산을 조용히 죽이고 스냅샷에 고착되는 것 방지.
   const pi=pk(d,'pearInland','pInland');if(pi)Object.keys(pi).forEach(k=>{if(!PIL[k])return;const r=parseFT(pi[k]);if(!r)return;const rr={};if(r.f>0)rr.f=r.f;if(r.t>0)rr.t=r.t;if(Object.keys(rr).length){if(Object.keys(rr).some(x=>PIL[k][x]!==rr[x]))chgP=true;Object.keys(rr).forEach(x=>dAdd('배 내륙',k,x==='f'?'40ft':'20ft',PIL[k][x],rr[x]));Object.assign(PIL[k],rr);cnt++;}});
   // 배 작업비: 내부 기본값(PWK)은 항상 갱신하되, 산지 선택 중이면 입력칸은 산지 기준(PWK_SJ)을 유지 — '← 산지 기준' 라벨과 실제 계산값이 어긋나지 않게
@@ -2213,8 +2272,28 @@ function applySyncData(d,src){
     if(dd.nw>0&&sp.nw!==dd.nw){dAdd('배 스펙',sp.l,'N.W(kg)',sp.nw,dd.nw);sp.nw=dd.nw;}
     if(dd.gw>0&&sp.gw!==dd.gw){dAdd('배 스펙',sp.l,'G.W(kg)',sp.gw,dd.gw);sp.gw=dd.gw;}
     cnt++;});}
+  // 배 산지×국가 매트릭스 — 배 탭 행 존재 기준으로 산지 자동 추가/제거·국가별 40/20 가능 여부 갱신 (시트=진실원천)
+  const pm=pk(d,'pearMatrix','pMatrix');
+  let chgSanjiP=false;
+  if(pm&&Object.keys(pm).length>=5){   // 부분 파싱 방어 — 산지 5개 미만 매트릭스는 신뢰하지 않음
+    Object.keys(pm).forEach(sj=>{const cs=pm[sj];if(!cs)return;
+      if(!PSANJI.includes(sj)){PSANJI.push(sj);chgSanjiP=true;dAdd('배 산지 추가',sj,'',0,1);}
+      if(!PSJ_COUNTRY[sj])PSJ_COUNTRY[sj]={};
+      const tgt=PSJ_COUNTRY[sj];
+      Object.keys(cs).forEach(co=>{const m2=cs[co];if(Array.isArray(m2)&&m2.length&&JSON.stringify((tgt[co]||[]).slice().sort())!==JSON.stringify(m2.slice().sort())){tgt[co]=m2;chgP=true;}});
+      Object.keys(tgt).forEach(co=>{if(!cs[co]){delete tgt[co];chgP=true;}});   // 시트에서 사라진 국가 조합 제거
+    });
+    PSANJI.slice().forEach(sj=>{if(!pm[sj]){const i=PSANJI.indexOf(sj);if(i>=0){PSANJI.splice(i,1);chgSanjiP=true;if(pSj===sj)pSj=null;}}});   // 시트에서 사라진 산지 제거
+    cnt++;
+  }
+  // 신규 배 산지 내륙운임 — 배 탭 V열(국내운임). 기존 12개 산지는 현행 소스(DATA 매핑) 유지 — 두 소스 불일치 확인 전 안전책
+  const pis=pk(d,'pearInlandSheet','pIlSheet');
+  if(pis)Object.keys(pis).forEach(sj=>{if(PIL[sj])return;const r=parseFT(pis[sj]);if(!r)return;const rr={};if(r.f>0)rr.f=r.f;if(r.t>0)rr.t=r.t;
+    if(Object.keys(rr).length){PIL[sj]={f:0,t:0};Object.assign(PIL[sj],rr);chgP=true;dAdd('배 내륙(신규)',sj,'',0,rr.f||rr.t);cnt++;}});
+  if(chgSanjiP)chgP=true;
+  if((chgSanjiP||chgNames)&&F==='p')pSjBtns();   // 산지 버튼 즉시 갱신
   // 포도 운임 sync — GAS가 포도/포도Air 탭을 직접 읽도록 갱신됨 (신규 산지/국가/항공운임 반영)
-  const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){if(AME_NO20[k]&&r.t>0)delete r.t;if(!Object.keys(r).length)return;if(Object.keys(r).some(x=>GSEA[k][x]!==r[x]))chgG=true;Object.keys(r).forEach(x=>dAdd('포도 해운',k,x==='f'?'40ft':'20ft',GSEA[k][x],r[x]));Object.assign(GSEA[k],r);cnt++;}});
+  const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){if(NO20[k]&&r.t>0)delete r.t;if(!Object.keys(r).length)return;if(Object.keys(r).some(x=>GSEA[k][x]!==r[x]))chgG=true;Object.keys(r).forEach(x=>dAdd('포도 해운',k,x==='f'?'40ft':'20ft',GSEA[k][x],r[x]));Object.assign(GSEA[k],r);cnt++;}});
   // 포도 내륙 sync — 기존 산지는 값 갱신 / 시트에 새 산지가 생기면 GIL+GSANJI에 자동 추가(목록에 표시). 0인 다리는 무시(내륙 0은 비정상 — 기존값 유지).
   const gi=pk(d,'grapeInland','gInland');if(gi)Object.keys(gi).forEach(k=>{if(GSANJI_REMOVED.includes(k))return;const r=parseFT(gi[k]);if(!r)return;const rr={};if(r.f>0)rr.f=r.f;if(r.t>0)rr.t=r.t;if(!Object.keys(rr).length)return;if(!GIL[k]){GIL[k]={f:0,t:0};if(!GSANJI.includes(k))GSANJI.push(k);chgG=true;}if(Object.keys(rr).some(x=>GIL[k][x]!==rr[x]))chgG=true;Object.keys(rr).forEach(x=>dAdd('포도 내륙',k,x==='f'?'40ft':'20ft',GIL[k][x],rr[x]));Object.assign(GIL[k],rr);cnt++;});   // GSANJI_REMOVED: 개명·삭제된 산지는 구 GAS/캐시가 보내도 무시
   // 포도 항공운임 sync — GAS가 'SLP 항공요율표' BLOCK A(운임 계=운임+FSC)를 읽어 국가별 전송. (도내운송 350,000은 요율표에 없어 앱 하드코딩 유지)

@@ -1,5 +1,5 @@
 // 현농프레쉬 오퍼계산기 Service Worker
-const CACHE_VERSION = 'hn-v36';   // v36: 앱설정 탭(개명·국가 추가) + 배 산지 자동 추가(매트릭스·신규 내륙 V열)
+const CACHE_VERSION = 'hn-v37';   // v37: 배 내륙운임 소스를 배 탭 V열로 전면 전환(사용자 확정) — 기본값도 V열 실측
 const CORE_CACHE = CACHE_VERSION + '-core';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 

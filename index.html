@@ -809,12 +809,12 @@ function setSh(id,v){const h=$(id);if(!h||h.value===v)return;const prev=h.value;
 
 // ═══ STRAWBERRY BUILD ═══
 function bS(){
-  $('bs').innerHTML=`<div class="ig"><label><em>250g</em></label><input type="number" id="sp0" value="8000" oninput="sA()"></div>
-    <div class="ig"><label><em>500/330</em></label><input type="number" id="sp1" value="11500" oninput="sA()"></div>
+  $('bs').innerHTML=`<div class="ig"><label><em>250g</em></label><input type="number" id="sp0" value="8000" oninput="sA();sRawLog(0,this.value)"></div>
+    <div class="ig"><label><em>500/330</em></label><input type="number" id="sp1" value="11500" oninput="sA();sRawLog(1,this.value)"></div>
     <div class="ig"><label>환율₩/$</label><input type="number" id="sfx" value="1410" oninput="sA()"><div class="fxhint" id="sfxToday" onclick="sfxToggle()" style="cursor:pointer"></div></div>
     <div class="ig"><label><span style="color:#c47d00">SGD</span>/₩ (브루나이)</label><input type="number" id="ssg" value="1137" oninput="sA()"><div class="sgd-hint" id="ssgHint" onclick="ssgToggle()" style="cursor:pointer"><span class="dot-sgd"></span>시트 자동 반영</div></div>`;
   ssgHintR();
-  $('ex').innerHTML='';
+  $('ex').innerHTML='<div class="gtools" style="padding:8px 14px 6px;margin-bottom:0;border-bottom:1px solid var(--bd)"><button class="gtoolbtn" onclick="rawHistOpen(\'s\',null)">🕘 지난 원물가</button></div>';
   const o=$('to');o.innerHTML='';
   Object.entries(SF).forEach(([k,fd])=>{
     const c=document.createElement('div');c.className='cc';
@@ -832,6 +832,7 @@ function bS(){
 }
 function sCalc(k,i){
   const p0=gv('sp0'),p1=gv('sp1'),fx=gv('sfx'),sg=gv('ssg'),sp=SS[i],fd=SF[k];
+  if(!((sp.pk===0?p0:p1)>0))return null;   // kg단가 공란/0이면 원물 0원으로 CIF 과소·마진 과대 초록 표시 — 배 탭과 동일하게 계산 차단('-')
   const mat=(sp.pk===0?p0:p1)*sp.nw,pb=(fd.d/sp.ct)+sp.gw*(fd.a+fd.fc),cif=mat+sp.bj+pb;
   const rt=fd.sg?sg:fx;
   const be=rt?cif/rt:0;
@@ -874,14 +875,15 @@ function bP(){
   $('ex').innerHTML=`<div class="sl">산지</div>
     <div class="sjb" id="psb"></div>
     <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
-      <div class="ig"><label>18-24s</label><input type="number" id="pa" value="47000" oninput="pA()"></div>
-      <div class="ig"><label>26-30s</label><input type="number" id="pb" value="42000" oninput="pA()"></div>
-      <div class="ig"><label>32-36s</label><input type="number" id="pc" value="38000" oninput="pA()"></div>
+      <div class="ig"><label>18-24s</label><input type="number" id="pa" value="47000" oninput="pA();pRawLog('pa',this.value)"></div>
+      <div class="ig"><label>26-30s</label><input type="number" id="pb" value="42000" oninput="pA();pRawLog('pb',this.value)"></div>
+      <div class="ig"><label>32-36s</label><input type="number" id="pc" value="38000" oninput="pA();pRawLog('pc',this.value)"></div>
+      <button class="gbj-btn" onclick="rawHistOpen('p',null)" title="지난 원물가격" style="align-self:flex-end;margin-bottom:2px">🕘</button>
     </div>
     <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
-      <div class="ig"><label>미국 6-8과</label><input type="number" id="ha" value="19000" oninput="pA()"></div>
-      <div class="ig"><label>미국 9-10과</label><input type="number" id="hb" value="17500" oninput="pA()"></div>
-      <div class="ig"><label>미국 11-12과</label><input type="number" id="hc" value="15500" oninput="pA()"></div>
+      <div class="ig"><label>미국 6-8과</label><input type="number" id="ha" value="19000" oninput="pA();pRawLog('ha',this.value)"></div>
+      <div class="ig"><label>미국 9-10과</label><input type="number" id="hb" value="17500" oninput="pA();pRawLog('hb',this.value)"></div>
+      <div class="ig"><label>미국 11-12과</label><input type="number" id="hc" value="15500" oninput="pA();pRawLog('hc',this.value)"></div>
     </div>
     <div class="sl" style="background:rgba(184,134,11,.06);border-left:3px solid #b8860b;padding-left:11px">작업비 (₩/박스) <span id="pwk_sj_label" style="font-size:8px;color:#b8860b"></span></div>
     <div class="wg" id="pwk_grid">
@@ -1006,9 +1008,9 @@ function pB(){
     {l:'미국 10kg대과',d:[p.a],fn:()=>p.a/15*10}
   ].filter(r=>r.d.every(x=>x>0)).map(r=>({l:r.l,raw:r.fn()}));
   const usConv=usRows.length?usRows:null;
-  let h=`<div class="pp"><h3>📐 ${pSj} 사이즈환산</h3><div class="cv">${Object.entries(conv).map(([k,v])=>`<div class="cr"><span>${k}</span><span class="cvl">₩${fN(v)}</span></div>`).join('')}</div></div>`;
+  let h=`<div class="pp"><h3>📐 ${hlEsc(pSj)} 사이즈환산</h3><div class="cv">${Object.entries(conv).map(([k,v])=>`<div class="cr"><span>${k}</span><span class="cvl">₩${fN(v)}</span></div>`).join('')}</div></div>`;   // 산지명은 시트 배 탭 유래(auto-extend) — 이스케이프 (산지 버튼과 동일 패턴)
   if(showUS&&usConv){
-    h+=`<div class="pp" style="background:linear-gradient(135deg,#fff5f5,#ffe8e8);border-color:#fcc"><h3 style="color:#a01818">🇺🇸 ${pSj} 미국 환산 (US 단가 기준)</h3><div class="cv" style="border-color:#fcc">${usConv.map(r=>`<div class="cr" style="border-color:#fee"><span style="color:#7a1a1a">${r.l}</span><span class="cvl" style="color:#a01818">₩${fN(Math.round(r.raw))}</span></div>`).join('')}</div></div>`;
+    h+=`<div class="pp" style="background:linear-gradient(135deg,#fff5f5,#ffe8e8);border-color:#fcc"><h3 style="color:#a01818">🇺🇸 ${hlEsc(pSj)} 미국 환산 (US 단가 기준)</h3><div class="cv" style="border-color:#fcc">${usConv.map(r=>`<div class="cr" style="border-color:#fee"><span style="color:#7a1a1a">${r.l}</span><span class="cvl" style="color:#a01818">₩${fN(Math.round(r.raw))}</span></div>`).join('')}</div></div>`;
   }
 
   const sh=gv('psh')==40?'f':'t';
@@ -1036,14 +1038,15 @@ function pB(){
       const wkVal=gv('pwk_'+s.wk)||(pSj&&PWK_SJ[pSj]&&PWK_SJ[pSj][s.wk])||PWK[s.wk]||0;   // pCalc 국내 폴백과 동일 기준 — 표시값과 계산값 불일치 방지
       const sCtn=sh==='f'?s.c4:s.c2;
       const sTb=sCtn*(sh==='f'?(s.tp4>0?s.tp4:20):(s.tp2>0?s.tp2:9));   // 실출고 placeholder도 시트 TP 반영
-      h+=`<tr${si===cSpecs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${cSpecs.length}">${favBtn('p',c.n)}${c.f}<br><span style="font-size:9px">${c.n}</span><br><button class="qcopy" onclick="copyQuote('${c.n}')" title="이 국가 견적 전체 복사">📄</button></td>`:'')+
+      const cnH=hlEsc(c.n),cnJ=`decodeURIComponent('${jsArg(c.n)}')`;   // 국가명은 시트 앱설정 유래 — HTML/JS 인자 이스케이프 (favBtn과 동일 위협모델, 잔존 구멍 봉합)
+      h+=`<tr${si===cSpecs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${cSpecs.length}">${favBtn('p',c.n)}${hlEsc(c.f)}<br><span style="font-size:9px">${cnH}</span><br><button class="qcopy" onclick="copyQuote(${cnJ})" title="이 국가 견적 전체 복사">📄</button></td>`:'')+
         `<td style="font-size:11px;color:#1a1a2e;font-weight:600">${s.l}</td>
-        <td style="font-size:8px;text-align:center;color:#b8860b;font-family:'JetBrains Mono',monospace" id="pw${c.n}${s.id}">${fN(wkVal)}</td>
-        <td class="ptd"><input type="number" step="0.1" id="po${c.n}${s.id}" oninput="pR('${c.n}','${s.id}')"><div class="lof" id="lofpo${c.n}${s.id}"></div></td>
-        <td class="mc" id="pm${c.n}${s.id}" onclick="pCif('${c.n}','${s.id}')" title="탭하면 원가 내역">-</td>
-        <td class="ptd"><input type="number" id="pq${c.n}${s.id}" placeholder="${sTb}" oninput="pR('${c.n}','${s.id}')" style="width:50px;font-size:10px"></td>
-        <td class="tc" id="pt${c.n}${s.id}">-</td>
-        <td><button class="lb" id="pb${c.n}${s.id}" onclick="pL('${c.n}','${s.id}')">📝</button></td></tr>`;
+        <td style="font-size:8px;text-align:center;color:#b8860b;font-family:'JetBrains Mono',monospace" id="pw${cnH}${s.id}">${fN(wkVal)}</td>
+        <td class="ptd"><input type="number" step="0.1" id="po${cnH}${s.id}" oninput="pR(${cnJ},'${s.id}')"><div class="lof" id="lofpo${cnH}${s.id}"></div></td>
+        <td class="mc" id="pm${cnH}${s.id}" onclick="pCif(${cnJ},'${s.id}')" title="탭하면 원가 내역">-</td>
+        <td class="ptd"><input type="number" id="pq${cnH}${s.id}" placeholder="${sTb}" oninput="pR(${cnJ},'${s.id}')" style="width:50px;font-size:10px"></td>
+        <td class="tc" id="pt${cnH}${s.id}">-</td>
+        <td><button class="lb" id="pb${cnH}${s.id}" onclick="pL(${cnJ},'${s.id}')">📝</button></td></tr>`;
     });
   });
   h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();pA();
@@ -1144,64 +1147,77 @@ function gcK(si){return gcMode()+'|'+(gSj||'')+'|'+(GS[si].k||si);}             
 function gcGK(si){return 'g:'+(GS[si].k||si);}                                          // 레거시 전역 폴백 키 (v1 순번 단독 키에서 이관됨)
 function gcDef(si){const s=GS[si];const shv=$('gsh')?$('gsh').value:'40';
   return{ctp:(shv==='air'&&s.ca)?s.ca:((shv==='20'&&s.ct2>0)?s.ct2:s.ct),raw:0,wk:0,bj:s.bj,bx:s.bx};}  // 기본값 (cnt/p 모드별: 항공=ca / 20ft=ct2(시트 20ft 행) / 40ft=ct)
-function gcVal(si,f){const nk=gCost[gcK(si)]||{},ok=gCost[gcGK(si)]||{},d=gcDef(si);    // 계산용 유효값: 신키 > 전역 폴백 > 기본
-  if(nk[f]!=null&&nk[f]!=='')return +nk[f];
-  if(ok[f]!=null&&ok[f]!=='')return +ok[f];
+function gcFld(f){return (f==='ctp'&&$('gsh')&&$('gsh').value==='20')?'ctp2':f;}        // cnt/p만 해운 40/20 분리 저장('ctp'/'ctp2') — 40ft 입력값이 20ft 계산에 잔존해 만적·박스당 운임이 왜곡되는 것 방지. 원물·작업비·부자재·박스는 박스당 값이라 40/20 공유 유지, 기존 저장분 'ctp'는 40ft로 간주
+function gcVal(si,f){const sf=gcFld(f),nk=gCost[gcK(si)]||{},ok=gCost[gcGK(si)]||{},d=gcDef(si);    // 계산용 유효값: 신키 > 전역 폴백 > 기본
+  if(nk[sf]!=null&&nk[sf]!=='')return +nk[sf];
+  if(ok[sf]!=null&&ok[sf]!=='')return +ok[sf];
   return d[f];}
-function gcRaw(si,f){const nk=gCost[gcK(si)]||{},ok=gCost[gcGK(si)]||{};                // 입력칸 표시값(미입력=빈칸 → 옅은 placeholder)
-  if(nk[f]!=null&&nk[f]!=='')return nk[f];
-  if(ok[f]!=null&&ok[f]!=='')return ok[f];
+function gcRaw(si,f){const sf=gcFld(f),nk=gCost[gcK(si)]||{},ok=gCost[gcGK(si)]||{};                // 입력칸 표시값(미입력=빈칸 → 옅은 placeholder)
+  if(nk[sf]!=null&&nk[sf]!=='')return nk[sf];
+  if(ok[sf]!=null&&ok[sf]!=='')return ok[sf];
   return '';}
 function gcSet(si,f,val){
-  const k=gcK(si);
+  const k=gcK(si),sf=gcFld(f);
   if(!gCost[k])gCost[k]={};
-  if(val===''||val==null)delete gCost[k][f]; else gCost[k][f]=+val;
+  if(val===''||val==null)delete gCost[k][sf]; else gCost[k][sf]=+val;
   if(!Object.keys(gCost[k]).length)delete gCost[k];
   try{localStorage.setItem(GCOST_KEY,JSON.stringify(gCost));}catch(e){alert('⚠ 저장공간이 부족해 입력값이 저장되지 않았습니다');}
   if(f==='raw')grawLog(si,val);   // 원물가 이력 자동 축적 (디바운스)
   gA();
 }
-// ── 🕘 지난 원물가격 — 원물 입력값 자동 축적(산지·스펙별) + 올해 오퍼 기록의 원물가 병합 열람 ──
-const GRAWH_KEY='hn_grawhist_v1';
-let _grawT={};   // 스펙별 타이머 — 연속으로 다른 스펙에 입력해도 앞선 기록이 취소되지 않게
-function grawLog(si,val){
-  const sj=gSj;   // 호출 시점 산지 캡처 — 1초 내 산지 전환/해제 시 오귀속·유실 방지
-  clearTimeout(_grawT[si]);
-  _grawT[si]=setTimeout(()=>{try{
-    const v=+val;if(!(v>0)||!sj)return;
-    const sp=GS[si]?GS[si].l:'';
-    let a=[];try{a=JSON.parse(localStorage.getItem(GRAWH_KEY)||'[]');if(!Array.isArray(a))a=[];}catch(e){a=[];}
-    const last=a.find(x=>x.sj===sj&&x.sp===sp);   // unshift 순이라 find=해당 산지·스펙의 최신 항목
+// ── 🕘 지난 원물가격 — 전 과일 공용: 원물 입력값 자동 축적(과일·산지·국가·스펙별) + 오퍼 기록의 원물가 병합 열람 ──
+const GRAWH_KEY='hn_grawhist_v1';   // 포도 레거시 저장소 — 기존 축적분 열람 전용 (새 기록은 RAWH_KEY로 통합)
+const RAWH_KEY='hn_rawhist_v1';     // 전 과일 공용 저장소: {t,fr,sj,co,sp,v,u}
+let _rawT={};   // 항목별 타이머 — 연속으로 다른 항목에 입력해도 앞선 기록이 취소되지 않게
+function rawLog(fr,sj,co,sp,val,unit){
+  sj=sj||'';co=co||'';   // 호출 시점 산지·국가를 인자로 고정 — 1초 내 산지 전환/해제 시 오귀속·유실 방지
+  const tk=fr+'|'+sj+'|'+co+'|'+sp;
+  clearTimeout(_rawT[tk]);
+  _rawT[tk]=setTimeout(()=>{try{
+    const v=+val;if(!(v>0)||!sp)return;
+    let a=[];try{a=JSON.parse(localStorage.getItem(RAWH_KEY)||'[]');if(!Array.isArray(a))a=[];}catch(e){a=[];}
+    const last=a.find(x=>x.fr===fr&&x.sj===sj&&x.co===co&&x.sp===sp);   // unshift 순이라 find=해당 항목의 최신 기록
     if(last&&+last.v===v)return;   // 같은 값 연속 기록 방지
-    a.unshift({t:Date.now(),sj:sj,sp:sp,v:v});
-    localStorage.setItem(GRAWH_KEY,JSON.stringify(a.slice(0,300)));
+    a.unshift({t:Date.now(),fr:fr,sj:sj,co:co,sp:sp,v:v,u:unit||''});
+    localStorage.setItem(RAWH_KEY,JSON.stringify(a.slice(0,600)));
   }catch(e){}},1000);
 }
-function rawHistParse(){
-  let a=[];try{a=JSON.parse(localStorage.getItem(GRAWH_KEY)||'[]');}catch(e){}
-  const out=a.map(x=>({t:+x.t||0,sj:x.sj||'',sp:x.sp||'',v:+x.v||0,src:'입력'}));
-  logs.forEach(l=>{   // 오퍼 기록(시트 100건 포함)의 '39,000원/박스' 원물가도 병합 — 올해 입력분이 즉시 보이게
-    if(l.fr!=='g'||!l.raw)return;
-    const m=String(l.raw).match(/([\d,]+)\s*원/);if(!m)return;
+function grawLog(si,val){if(!gSj)return;rawLog('g',gSj,'',GS[si]?GS[si].l:'',val,'원/박스');}   // 포도: 원물은 산지·스펙 기준(국가 무관 공유값이라 국가는 기록 안 함)
+const PRAW_LBL={pa:'18-24s 단가(15kg)',pb:'26-30s 단가(15kg)',pc:'32-36s 단가(15kg)',ha:'미국 6-8과 단가',hb:'미국 9-10과 단가',hc:'미국 11-12과 단가'};
+function pRawLog(id,val){rawLog('p',pSj,'',PRAW_LBL[id]||id,val,'원');}   // 배: 단가 축 6종 — 선택 산지별로 축적
+function sRawLog(i,val){rawLog('s','','',i===0?'250g 단가(kg)':'500g/330g 단가(kg)',val,'원/kg');}   // 딸기: kg 단가 2종
+function mRawLog(cn,si,val){const d=MFD[F];if(!d||!d.specs[si])return;rawLog(F,mSj[F],cn,MFN[F]+' '+d.specs[si].l,val,'원/박스');}   // 귤·키위·감: 원물 입력칸이 국가별이라 국가도 함께 기록
+function cRawLog(val){rawLog('c','','',cName(),val,'원/박스');}   // 커스텀: 아이템명 기준
+function rawHistParse(fr){
+  const out=[];
+  try{const a=JSON.parse(localStorage.getItem(RAWH_KEY)||'[]');if(Array.isArray(a))a.forEach(x=>{if(x.fr===fr)out.push({t:+x.t||0,sj:x.sj||'',co:x.co||'',sp:x.sp||'',v:+x.v||0,u:x.u||'',src:'입력'});});}catch(e){}
+  if(fr==='g')try{const g=JSON.parse(localStorage.getItem(GRAWH_KEY)||'[]');if(Array.isArray(g))g.forEach(x=>out.push({t:+x.t||0,sj:x.sj||'',co:'',sp:x.sp||'',v:+x.v||0,u:'원/박스',src:'입력'}));}catch(e){}   // 포도 레거시 축적분 병합
+  logs.forEach(l=>{   // 오퍼 기록(시트 100건 포함)의 산지단가 병합 — 시트 H열 왕복분·동료 기록의 국가·산지까지 열람
+    if(l.fr!==fr||!l.raw)return;
+    const s2=String(l.raw);
+    const m=s2.match(/([\d,]+(?:\.\d+)?)\s*원/)||s2.trim().match(/^([\d,]+(?:\.\d+)?)$/);   // '39,000원/박스' 형식 또는 순수 숫자('39000')
+    if(!m)return;
     const v=+m[1].replace(/,/g,'');if(!(v>0))return;
-    out.push({t:l.dt?(Date.parse(l.dt)||0):0,sj:l.sj||'',sp:l.sp||'',v:v,src:'기록'});
+    const um=s2.match(/원\s*\/\s*(kg|박스)/);
+    const lco=(l.co&&l.co!=='-'&&l.co!==l.invoice)?l.co:'';   // 국가열 없던 옛 기록의 폴백값('-'/인보이스)이 국가처럼 표시되는 것 방지
+    out.push({t:l.dt?(Date.parse(l.dt)||0):0,sj:l.sj||'',co:lco,sp:l.sp||'',v:v,u:um?('원/'+um[1]):'',src:'기록'});
   });
-  const seen=new Set();   // 같은 날·산지·스펙·값 중복 제거
-  return out.filter(x=>{const d=new Date(x.t);const key=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()+'|'+x.sj+'|'+x.sp+'|'+x.v;if(seen.has(key))return false;seen.add(key);return true;})
+  const seen=new Set();   // 같은 날·산지·국가·스펙·값 중복 제거
+  return out.filter(x=>{const d=new Date(x.t);const key=d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()+'|'+x.sj+'|'+x.co+'|'+x.sp+'|'+x.v;if(seen.has(key))return false;seen.add(key);return true;})
     .sort((a2,b2)=>b2.t-a2.t);
 }
-function rawHistOpen(si){
-  const all=rawHistParse();
-  const spl=(si!=null&&GS[si])?GS[si].l:null;
+function rawHistOpen(fr,spl){
+  fr=fr||F;
+  const all=rawHistParse(fr);
   const list=spl?all.filter(x=>x.sp===spl):all;
-  let h='<h3>🕘 지난 원물가격'+(spl?' — '+hlEsc(spl):'')+'</h3><div style="font-size:9px;color:var(--t3);margin:2px 0 8px">원물 입력값 자동 기록 + 오퍼 기록의 원물가 · 최신순</div>';
+  let h='<h3>🕘 지난 원물가격 — '+hlEsc(FRN[fr]||'')+(spl?' · '+hlEsc(spl):'')+'</h3><div style="font-size:9px;color:var(--t3);margin:2px 0 8px">원물 입력값 자동 기록 + 오퍼 기록의 원물가 · 최신순</div>';
   if(!list.length)h+='<div class="le" style="padding:20px 0">아직 기록 없음 — 원물가를 입력하면 자동으로 쌓입니다</div>';
   else{
     const bySp={};list.forEach(x=>{const k2=x.sp||'-';(bySp[k2]=bySp[k2]||[]).push(x);});
     Object.keys(bySp).forEach(sp=>{
       h+='<div style="font-size:10px;font-weight:800;color:#7b2d8e;margin:9px 0 4px">'+hlEsc(sp)+'</div>';
       h+=bySp[sp].slice(0,15).map(x=>{const d=new Date(x.t);const ds=(!x.t||isNaN(d.getTime()))?'':(d.getMonth()+1)+'/'+d.getDate();
-        return '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:3px 2px;border-bottom:1px solid var(--bd)"><span style="color:var(--t2)">'+ds+(x.sj?' · '+hlEsc(x.sj):'')+' <span style="font-size:8px;opacity:.6">'+x.src+'</span></span><b style="font-family:\'JetBrains Mono\',monospace">₩'+fN(x.v)+'</b></div>';}).join('');
+        return '<div style="display:flex;justify-content:space-between;gap:8px;font-size:11px;padding:3px 2px;border-bottom:1px solid var(--bd)"><span style="color:var(--t2)">'+ds+(x.sj?' · '+hlEsc(x.sj):'')+(x.co?' · <b style="color:#1a1a2e">'+hlEsc(x.co)+'</b>':'')+' <span style="font-size:8px;opacity:.6">'+x.src+'</span></span><b style="font-family:\'JetBrains Mono\',monospace;white-space:nowrap">₩'+fN(x.v)+(x.u==='원/kg'?'<span style="font-size:8px;opacity:.65">/kg</span>':'')+'</b></div>';}).join('');
       if(bySp[sp].length>15)h+='<div style="font-size:8px;color:var(--t3);margin:2px 0">… 외 '+(bySp[sp].length-15)+'건</div>';
     });
   }
@@ -1276,24 +1292,25 @@ function gB(){
   const fGS=GS.map((s,i)=>({s,i})).filter(o=>gSpc==='all'||o.s.cat===gSpc);
   if(!fGC.length||!fGS.length){o.innerHTML=h+'<div class="le">조건에 맞는 항목 없음</div>';return;}
   // ── 접이식 스펙: 헤더(항상 보임) / 펼치면 비용입력행 + 국가행 ──
-  h+=`<div class="gtools"><button class="gtoolbtn" onclick="gTogAll(true)">▾ 전체 펼치기</button><button class="gtoolbtn" onclick="gTogAll(false)">▸ 전체 접기</button><button class="gtoolbtn" onclick="rawHistOpen(null)">🕘 지난 원물가</button></div>`;
+  h+=`<div class="gtools"><button class="gtoolbtn" onclick="gTogAll(true)">▾ 전체 펼치기</button><button class="gtoolbtn" onclick="gTogAll(false)">▸ 전체 접기</button><button class="gtoolbtn" onclick="rawHistOpen('g',null)">🕘 지난 원물가</button></div>`;
   h+=`<div style="overflow-x:auto"><table><thead><tr>`+
      `<th style="text-align:left;padding-left:10px">국가</th><th>$</th><th style="font-size:9px">실출고</th><th>총마진($)</th><th></th></tr></thead><tbody>`;
   fGS.forEach(o=>{const s=o.s,si=o.i;const op=gOpen.has(si);
     h+=`<tr class="gband"><td colspan="5"><div class="gband-in"><span class="gband-tog" onclick="gTog(${si})"><span class="gchev" id="gchev${si}">${op?'▾':'▸'}</span><span class="gband-sp">${s.l}</span>${gcVal(si,'raw')>0?'':'<span style="color:#c2860a;font-size:9px;font-weight:800;margin-left:6px">⚠원물0</span>'}</span></div></td></tr>`;
     h+=`<tr class="gc${si} gcostrow${op?'':' ghide'}"><td colspan="5"><div class="gband-f">`+
        `<label>원물<input class="gci" type="number" inputmode="numeric" placeholder="0" value="${gcRaw(si,'raw')}" oninput="gcSet(${si},'raw',this.value)"></label>`+
-       `<button class="gbj-btn" onclick="rawHistOpen(${si})" title="이 스펙의 지난 원물가격">🕘</button>`+
+       `<button class="gbj-btn" onclick="rawHistOpen('g',decodeURIComponent('${jsArg(s.l)}'))" title="이 스펙의 지난 원물가격">🕘</button>`+
        `<label>cnt/p<input class="gci dim" type="number" inputmode="numeric" placeholder="${isAir&&s.ca?s.ca:((shv==='20'&&s.ct2>0)?s.ct2:s.ct)}" value="${gcRaw(si,'ctp')}" oninput="gcSet(${si},'ctp',this.value)"></label>`+
        `<button class="gbj-btn" id="gbj${si}" onclick="gBjOpen(${si})">${gBjLabel(si)}</button>`+
        `</div></td></tr>`;
     fGC.forEach((c)=>{
+      const cnH=hlEsc(c.n),cnJ=`decodeURIComponent('${jsArg(c.n)}')`;   // 국가명은 시트 앱설정 유래(GC·GAIR_C 모두) — HTML/JS 인자 이스케이프
       h+=`<tr class="gc${si}${op?'':' ghide'}">`+
-         `<td class="gctry">${favBtn(isAir?'ga':'g',c.n)}${c.f} ${c.n} <button class="qcopy" style="margin:0;padding:1px 4px" onclick="copyQuote('${c.n}')" title="이 국가 견적 전체 복사">📄</button></td>`+
-         `<td class="ptd"><input type="number" step="0.1" id="go${c.n}${si}" oninput="gR('${c.n}',${si})"><div class="lof" id="lofgo${c.n}${si}"></div></td>`+
-         `<td class="ptd"><input type="number" id="gq${c.n}${si}" oninput="gR('${c.n}',${si})" style="width:48px;font-size:10px"></td>`+
-         `<td class="tc" id="gt${c.n}${si}" onclick="gCif('${c.n}',${si})" title="탭하면 원가 내역">-</td>`+
-         `<td><button class="lb" id="gb${c.n}${si}" onclick="gL('${c.n}',${si})">📝</button></td></tr>`;
+         `<td class="gctry">${favBtn(isAir?'ga':'g',c.n)}${hlEsc(c.f)} ${cnH} <button class="qcopy" style="margin:0;padding:1px 4px" onclick="copyQuote(${cnJ})" title="이 국가 견적 전체 복사">📄</button></td>`+
+         `<td class="ptd"><input type="number" step="0.1" id="go${cnH}${si}" oninput="gR(${cnJ},${si})"><div class="lof" id="lofgo${cnH}${si}"></div></td>`+
+         `<td class="ptd"><input type="number" id="gq${cnH}${si}" oninput="gR(${cnJ},${si})" style="width:48px;font-size:10px"></td>`+
+         `<td class="tc" id="gt${cnH}${si}" onclick="gCif(${cnJ},${si})" title="탭하면 원가 내역">-</td>`+
+         `<td><button class="lb" id="gb${cnH}${si}" onclick="gL(${cnJ},${si})">📝</button></td></tr>`;
     });
   });
   h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();gA();
@@ -1436,15 +1453,17 @@ function mB(){
   const rgn=PRG.find(r=>r.k===mRgn);
   let fPC=mRgn==='all'?PC:PC.filter(c=>rgn.ns.indexOf(c.n)>=0);
   if(msh==='t')fPC=fPC.filter(c=>!c.us);
+  h+=`<div class="gtools"><button class="gtoolbtn" onclick="rawHistOpen('${F}',null)">🕘 지난 원물가</button></div>`;
   h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th>원물₩</th><th>$</th><th>마진</th><th>총마진</th><th></th></tr></thead><tbody>`;
   fPC.forEach(c=>{
+    const cnH=hlEsc(c.n),cnJ=`decodeURIComponent('${jsArg(c.n)}')`;   // 국가명은 시트 앱설정(개명·추가) 유래 — HTML/JS 인자 이스케이프 (저장형 XSS·아포스트로피 국가명의 행 기능 정지 방지)
     d.specs.forEach((sp,si)=>{
-      h+=`<tr${si===d.specs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${d.specs.length}">${c.f}<br><span style="font-size:9px">${c.n}</span><br><button class="qcopy" onclick="copyQuote('${c.n}')" title="이 국가 견적 전체 복사">📄</button></td>`:'')+
+      h+=`<tr${si===d.specs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${d.specs.length}">${hlEsc(c.f)}<br><span style="font-size:9px">${cnH}</span><br><button class="qcopy" onclick="copyQuote(${cnJ})" title="이 국가 견적 전체 복사">📄</button></td>`:'')+
         `<td style="font-size:11px;color:#1a1a2e;font-weight:600">${sp.l}</td>
-        <td class="ptd"><input type="number" id="mr${F}${c.n}${si}" value="${sp.raw}" oninput="mR('${c.n}',${si})" style="width:54px;font-size:9px"></td>
-        <td class="ptd"><input type="number" step="0.1" id="mo${F}${c.n}${si}" oninput="mR('${c.n}',${si})"><div class="lof" id="lofmo${F}${c.n}${si}"></div></td>
-        <td class="mc" id="mm${F}${c.n}${si}" onclick="mCif('${c.n}',${si})" title="탭하면 원가 내역">-</td><td class="tc" id="mt${F}${c.n}${si}">-</td>
-        <td><button class="lb" id="mbtn${F}${c.n}${si}" onclick="mL('${c.n}',${si})">📝</button></td></tr>`;
+        <td class="ptd"><input type="number" id="mr${F}${cnH}${si}" value="${sp.raw}" oninput="mR(${cnJ},${si});mRawLog(${cnJ},${si},this.value)" style="width:54px;font-size:9px"></td>
+        <td class="ptd"><input type="number" step="0.1" id="mo${F}${cnH}${si}" oninput="mR(${cnJ},${si})"><div class="lof" id="lofmo${F}${cnH}${si}"></div></td>
+        <td class="mc" id="mm${F}${cnH}${si}" onclick="mCif(${cnJ},${si})" title="탭하면 원가 내역">-</td><td class="tc" id="mt${F}${cnH}${si}">-</td>
+        <td><button class="lb" id="mbtn${F}${cnH}${si}" onclick="mL(${cnJ},${si})">📝</button></td></tr>`;
     });
   });
   h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();mA();
@@ -1516,9 +1535,9 @@ function bC(){
     <div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="cfx" value="1400" oninput="cA()"><div class="fxhint" id="cfxToday"></div></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="csp" value="0" oninput="cA()"></div>
     <div class="ig" style="min-width:168px"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="csh_40" onclick="setSh('csh','40')">40ft</button><button type="button" class="sho" id="csh_20" onclick="setSh('csh','20')">20ft</button><button type="button" class="sho" id="csh_air" onclick="setSh('csh','air')">항공</button></div><input type="hidden" id="csh" value="40"></div>`;
-  $('ex').innerHTML=`<div class="sl" style="background:rgba(14,116,144,.1);border-left:3px solid #0e7490;padding-left:11px">💰 원물가 <span style="font-size:8px;color:#0e7490">박스당 매입가 — 마진 계산의 기준</span></div>
+  $('ex').innerHTML=`<div class="sl" style="background:rgba(14,116,144,.1);border-left:3px solid #0e7490;padding-left:11px;display:flex;align-items:center;gap:6px">💰 원물가 <span style="font-size:8px;color:#0e7490">박스당 매입가 — 마진 계산의 기준</span><button class="gbj-btn" onclick="rawHistOpen('c',null)" title="지난 원물가격" style="margin-left:auto">🕘</button></div>
     <div style="padding:9px 14px;background:var(--sf);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px">
-      <input type="number" id="craw" value="0" oninput="cA()" placeholder="0" style="flex:1;max-width:230px;background:#fff;border:2px solid #0e7490;border-radius:11px;padding:11px 13px;font-size:19px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#0e7490;outline:none;letter-spacing:-.02em">
+      <input type="number" id="craw" value="0" oninput="cA();cRawLog(this.value)" placeholder="0" style="flex:1;max-width:230px;background:#fff;border:2px solid #0e7490;border-radius:11px;padding:11px 13px;font-size:19px;font-weight:800;font-family:'JetBrains Mono',monospace;color:#0e7490;outline:none;letter-spacing:-.02em">
       <span style="font-size:13px;font-weight:800;color:var(--t2)">₩/박스</span>
     </div>
     <div class="sl">제원 · 비용 (박스당 ₩)</div>
@@ -1590,13 +1609,14 @@ function cB(){
   h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th style="font-size:8px">${air?'₩/kg':'운임₩'}</th><th>$</th><th>마진</th><th style="font-size:8px">실출고</th><th>총마진</th><th></th></tr></thead><tbody>`;
   list.forEach(cn=>{
     const frv=air?GAIR_KG[cn]:cSeaVal(cn,shv==='40'?'f':'t');
-    h+=`<tr class="cs"><td class="ctd">${exFlag(cn)}<br><span style="font-size:9px">${hlEsc(cn)}</span><br><button class="qcopy" onclick="copyQuote('${cn}')" title="이 국가 견적 복사">📄</button></td>
+    const cnH=hlEsc(cn),cnJ=`decodeURIComponent('${jsArg(cn)}')`;   // 항공 국가 키는 시트 앱설정 개명으로 임의 문자열 유입 가능 — onclick 인자·id도 이스케이프 (표시만 hlEsc던 반쪽 수정 완성)
+    h+=`<tr class="cs"><td class="ctd">${exFlag(cn)}<br><span style="font-size:9px">${cnH}</span><br><button class="qcopy" onclick="copyQuote(${cnJ})" title="이 국가 견적 복사">📄</button></td>
       <td style="font-size:8px;text-align:center;color:#0e7490;font-family:'JetBrains Mono',monospace">${fN(frv)}</td>
-      <td class="ptd"><input type="number" step="0.1" id="cof${cn}" oninput="cR('${cn}')"><div class="lof" id="lofcof${cn}"></div></td>
-      <td class="mc" id="cmm${cn}" onclick="cCif('${cn}')" title="탭하면 원가 내역">-</td>
-      <td class="ptd"><input type="number" id="cq${cn}" oninput="cR('${cn}')" style="width:50px;font-size:10px"></td>
-      <td class="tc" id="ctt${cn}">-</td>
-      <td><button class="lb" id="cbtn${cn}" onclick="cLg('${cn}')">📝</button></td></tr>`;
+      <td class="ptd"><input type="number" step="0.1" id="cof${cnH}" oninput="cR(${cnJ})"><div class="lof" id="lofcof${cnH}"></div></td>
+      <td class="mc" id="cmm${cnH}" onclick="cCif(${cnJ})" title="탭하면 원가 내역">-</td>
+      <td class="ptd"><input type="number" id="cq${cnH}" oninput="cR(${cnJ})" style="width:50px;font-size:10px"></td>
+      <td class="tc" id="ctt${cnH}">-</td>
+      <td><button class="lb" id="cbtn${cnH}" onclick="cLg(${cnJ})">📝</button></td></tr>`;
   });
   h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();cA();
 }
@@ -1949,7 +1969,7 @@ function sendGuard(l){
   if(refFx>0&&rtN>0&&Math.abs(rtN-refFx)/refFx>0.03)warns.push('적용환율(₩'+fN(rtN)+')이 오늘 시세(₩'+fN(refFx)+')와 '+(Math.abs(rtN-refFx)/refFx*100).toFixed(1)+'% 차이납니다');
   // 항공은 만적 개념이 없음(팔레트 단위 defTb) — 팔레트 초과 출고가 정상 사용이므로 이 검사는 해운만
   if(l.tb&&l.defTb&&+l.tb>+l.defTb&&!/air|항공/i.test(String(l.sh||'')))warns.push('실출고('+fN(l.tb)+'박스)가 만적('+fN(l.defTb)+'박스)을 초과합니다');
-  if(l.fr==='g'&&/^0원/.test(String(l.raw||'')))warns.push('원물가가 0원입니다 — 스펙별 비용(원물)을 입력했는지 확인하세요 (마진이 과대 표시됨)');
+  if(/^0원/.test(String(l.raw||'')))warns.push('원물가가 0원입니다 — 원물 단가를 입력했는지 확인하세요 (마진이 과대 표시됨)');   // 전 과일 공통 (구: 포도 전용)
   const stH=syncStaleHours();if(stH)warns.push('시트 동기화가 '+stH+'시간 전입니다 — 운임·단가가 낡았을 수 있으니 동기화(⟳) 후 전송 권장');
   if(!warns.length)return true;
   return confirm('⚠ 전송 전 확인해주세요:\n\n· '+warns.join('\n· ')+'\n\n그래도 전송할까요?');
@@ -2365,14 +2385,18 @@ function applyCachedSync(){
     const lt=$('lst');if(lt)lt.textContent='저장 데이터 기준: '+(dt.getMonth()+1)+'/'+dt.getDate()+' '+String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0');
   }catch(e){console.warn('[SYNC-CACHE]',e);}
 }
+let _sySeq=0;   // 늦게 도착한 옛 sync 응답(예: 콜드스타트로 지연된 자동 sync가 수동 nocache sync 이후 도착)이 최신 값·스냅샷을 덮지 않게 — fetchHist의 _histSeq와 동일 패턴
 function doSy(force){
   // force=1(수동 동기화·자동 복귀 탭): GAS 5분 캐시를 우회(nocache=1)해 시트 최신값을 즉시 수신 — 자동 주기/부팅은 캐시 사용(GAS 부하 절약)
+  const mySeq=++_sySeq;
   const bg=$('sbdg');if(bg){bg.className='sbdg ld';bg.textContent='⏳ 동기화 중...';}
   const cb=jsonpCb('sy'),s=document.createElement('script');s.src=SU+'?callback='+cb+(force?'&nocache=1':'');
-  const t=setTimeout(()=>{cl();sBdg('err','❌ 타임아웃');},30000);
+  const t=setTimeout(()=>{cl();if(mySeq!==_sySeq)return;sBdg('err','❌ 타임아웃');},30000);
   function cl(){clearTimeout(t);jsonpDone(cb,s);}
-  s.onerror=function(){cl();sBdg('err','❌ 연결실패');};
-  window[cb]=function(d){cl();try{
+  s.onerror=function(){cl();if(mySeq!==_sySeq)return;sBdg('err','❌ 연결실패');};
+  window[cb]=function(d){cl();
+    if(mySeq!==_sySeq)return;   // stale 응답 폐기 — 더 최신 요청이 이미 발사됨
+    try{
     console.log('[SYNC]',JSON.stringify(d).substring(0,500));
     if(d.error){sBdg('err','❌ '+d.error);return;}
     applySyncData(d,'live');

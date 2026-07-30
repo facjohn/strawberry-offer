@@ -1,5 +1,5 @@
 // 현농프레쉬 오퍼계산기 Service Worker
-const CACHE_VERSION = 'hn-v37';   // v37: 배 내륙운임 소스를 배 탭 V열로 전면 전환(사용자 확정) — 기본값도 V열 실측
+const CACHE_VERSION = 'hn-v38';   // v38: 지난 원물가격 전 과일 확장(국가 표시) + 감사 확정 8건 수정(포도 ctp 40/20 분리·딸기 원물0 차단·sync stale 가드·국가명 이스케이프)
 const CORE_CACHE = CACHE_VERSION + '-core';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 

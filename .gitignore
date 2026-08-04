@@ -13,3 +13,5 @@ index.html.bak*
 *.tmp
 .DS_Store
 Thumbs.db
+*일치검증_*.md
+*검증_*.md

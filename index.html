@@ -425,6 +425,7 @@ tbody tr:hover td{background:#fafbfd}
 .gci::placeholder{color:#bca6cb;font-weight:500;opacity:.75}
 .gci.dim{color:#8a6f99;font-weight:600}
 .gbj-btn{background:#faf0ff;border:1px solid #d9c2e6;color:#7b2d8e;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;padding:6px 8px;border-radius:6px;cursor:pointer;white-space:nowrap;transition:all .15s}
+.gbj-btn.on{background:#fde68a;border-color:#f59e0b;color:#92400e}
 .gbj-btn:hover{background:#f3e3fb;border-color:#c39bd8}
 .gbj-btn:active{transform:scale(.96)}
 .gbm-grid{display:flex;flex-direction:column;gap:10px;margin:8px 0 14px}
@@ -869,6 +870,7 @@ function sL(k,i){
 
 // ═══ PEAR BUILD ═══
 function bP(){
+  loadPCost();
   $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="pfx" value="1400" oninput="pA()"><div class="fxhint" id="pfxToday"></div></div>
     <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="psp" value="0" oninput="pA()"></div>
     <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="psh_40" onclick="setSh('psh','40')">40ft</button><button type="button" class="sho" id="psh_20" onclick="setSh('psh','20')">20ft</button></div><input type="hidden" id="psh" value="40"></div>`;
@@ -930,6 +932,34 @@ function pSl(s){pSj=pSj===s?null:s;document.querySelectorAll('#psb .sj').forEach
   pB();
 }
 
+// ── 배 스펙별 부자재·박스 수정(📦) — 시트 sync 기본값 위에 사용자 오버라이드 (산지·운송 공통, 비우면 시트값 복귀) ──
+let pCost={};
+const PCOST_KEY='hn_pcost_v1';
+function loadPCost(){try{pCost=JSON.parse(localStorage.getItem(PCOST_KEY)||'{}')||{};}catch(e){pCost={};}}
+function pcRaw(sid,f){const o=pCost[sid]||{};return(o[f]!=null&&o[f]!=='')?o[f]:'';}
+function pcVal(sp,f){const o=pCost[sp.id]||{};if(o[f]!=null&&o[f]!=='')return +o[f];return +sp[f]||0;}
+function pcOn(sid){const o=pCost[sid]||{};return o.bj!=null||o.bx!=null;}
+function pcSet(sid,f,val){
+  if(!pCost[sid])pCost[sid]={};
+  if(val===''||val==null)delete pCost[sid][f];else pCost[sid][f]=+val;
+  if(!Object.keys(pCost[sid]).length)delete pCost[sid];
+  try{localStorage.setItem(PCOST_KEY,JSON.stringify(pCost));}catch(e){alert('⚠ 저장공간이 부족해 입력값이 저장되지 않았습니다');}
+  document.querySelectorAll('.pbjb'+sid).forEach(b=>b.classList.toggle('on',pcOn(sid)));   // 전 국가 행의 📦 표시 갱신
+  pA();
+}
+function pBjOpen(sid){
+  const sp=PS.find(s=>s.id===sid);if(!sp)return;
+  let h='<h3>📦 자재비 수정 — '+sp.l+'</h3><div style="font-size:9px;color:var(--t3);margin:2px 0 10px">기본값=시트 배 탭 동기화값 · 비우면 시트값 복귀 · 전 국가/산지/운송 공통 적용</div>';
+  h+='<label style="font-size:9px;font-weight:700;color:var(--t2);display:block">부자재 (₩/박스)</label>'
+    +'<input type="number" inputmode="numeric" value="'+pcRaw(sid,'bj')+'" placeholder="'+(+sp.bj||0)+'" oninput="pcSet(\''+sid+'\',\'bj\',this.value)" style="width:100%;box-sizing:border-box;margin:3px 0 10px;padding:9px 11px;border:1.5px solid var(--bd);border-radius:9px;font-size:14px;font-family:\'JetBrains Mono\',monospace;outline:none">'
+    +'<label style="font-size:9px;font-weight:700;color:var(--t2);display:block">박스 (₩/박스)</label>'
+    +'<input type="number" inputmode="numeric" value="'+pcRaw(sid,'bx')+'" placeholder="'+(+sp.bx||0)+'" oninput="pcSet(\''+sid+'\',\'bx\',this.value)" style="width:100%;box-sizing:border-box;margin:3px 0 4px;padding:9px 11px;border:1.5px solid var(--bd);border-radius:9px;font-size:14px;font-family:\'JetBrains Mono\',monospace;outline:none">';
+  h+='<div style="margin-top:12px;display:flex;justify-content:flex-end"><button class="mb k" onclick="document.getElementById(\'pbm\').classList.add(\'h\')">닫기</button></div>';
+  let ov=$('pbm');
+  if(!ov){ov=document.createElement('div');ov.id='pbm';ov.className='mo h';ov.addEventListener('click',function(e){if(e.target===this)this.classList.add('h');});document.body.appendChild(ov);}
+  ov.innerHTML='<div class="ml" style="max-width:320px">'+h+'</div>';
+  ov.classList.remove('h');
+}
 // ═══ 즐겨찾기 국가 — 매일 오퍼하는 국가를 표 상단에 고정 (배 p / 포도해운 g / 포도항공 ga 별도 목록) ═══
 const FAV_KEY='hn_favc_v1';
 function favGet(cat){try{const o=JSON.parse(localStorage.getItem(FAV_KEY)||'{}');return Array.isArray(o[cat])?o[cat]:[];}catch(e){return[];}}
@@ -1040,7 +1070,7 @@ function pB(){
       const sTb=sCtn*(sh==='f'?(s.tp4>0?s.tp4:20):(s.tp2>0?s.tp2:9));   // 실출고 placeholder도 시트 TP 반영
       const cnH=hlEsc(c.n),cnJ=`decodeURIComponent('${jsArg(c.n)}')`;   // 국가명은 시트 앱설정 유래 — HTML/JS 인자 이스케이프 (favBtn과 동일 위협모델, 잔존 구멍 봉합)
       h+=`<tr${si===cSpecs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${cSpecs.length}">${favBtn('p',c.n)}${hlEsc(c.f)}<br><span style="font-size:9px">${cnH}</span><br><button class="qcopy" onclick="copyQuote(${cnJ})" title="이 국가 견적 전체 복사">📄</button></td>`:'')+
-        `<td style="font-size:11px;color:#1a1a2e;font-weight:600">${s.l}</td>
+        `<td style="font-size:11px;color:#1a1a2e;font-weight:600">${s.l} <button class="gbj-btn pbjb${s.id}${pcOn(s.id)?' on':''}" style="padding:2px 5px;font-size:9px" onclick="pBjOpen('${s.id}')" title="부자재·박스 수정">📦</button></td>
         <td style="font-size:8px;text-align:center;color:#b8860b;font-family:'JetBrains Mono',monospace" id="pw${cnH}${s.id}">${fN(wkVal)}</td>
         <td class="ptd"><input type="number" step="0.1" id="po${cnH}${s.id}" oninput="pR(${cnJ},'${s.id}')"><div class="lof" id="lofpo${cnH}${s.id}"></div></td>
         <td class="mc" id="pm${cnH}${s.id}" onclick="pCif(${cnJ},'${s.id}')" title="탭하면 원가 내역">-</td>
@@ -1084,12 +1114,13 @@ function pCalc(cn,sid){
   }
 
   const pbf=(inlV+seaV)/tp/ctn;
-  const cif=raw+wk+sp.bj+sp.bx+pbf;
+  const bj=pcVal(sp,'bj'),bx=pcVal(sp,'bx');   // 📦 스펙별 사용자 오버라이드 우선 (기본=시트 sync)
+  const cif=raw+wk+bj+bx+pbf;
   const be=fx?cif/fx:0;
   const of=gv('po'+cn+sid);
-  if(!of||!fx)return{empty:true,be,cif,tb,defTb,raw,wk,wkAdd,pbf,sp:sp.l};   // 환율 0이면 마진이 -Infinity가 되므로 차단
+  if(!of||!fx)return{empty:true,be,cif,tb,defTb,raw,wk,wkAdd,bj,bx,pbf,sp:sp.l};   // 환율 0이면 마진이 -Infinity가 되므로 차단
   const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;
-  return{of,mb,tk,tkUsd:fx?tk/fx:0,cif,tb,defTb,raw,wk,wkAdd,pbf,be,sp:sp.l};
+  return{of,mb,tk,tkUsd:fx?tk/fx:0,cif,tb,defTb,raw,wk,wkAdd,bj,bx,pbf,be,sp:sp.l};
 }
 function pR(cn,sid){
   const r=pCalc(cn,sid);
@@ -1786,7 +1817,7 @@ function sCif(k,i){const r=sCalc(k,i);if(!r)return;const sp=SS[i],fd=SF[k];
   ].concat(offerHistRows('s',fd.n,sp.l,null)));}
 function pCif(cn,sid){const r=pCalc(cn,sid);if(!r)return;const sp=PS.find(s=>s.id===sid);
   cifOpen(cn+' · '+sp.l+(pSj?' · '+pSj:''),[
-    ['원물','₩'+fN(r.raw)],['작업비','₩'+fN(Math.round(r.wk-(r.wkAdd||0)))],r.wkAdd?['원물 5% 가산','₩'+fN(Math.round(r.wkAdd))]:null,['부자재','₩'+fN(sp.bj)],['박스','₩'+fN(sp.bx)],['물류(박스당)','₩'+fN(r.pbf)],
+    ['원물','₩'+fN(r.raw)],['작업비','₩'+fN(Math.round(r.wk-(r.wkAdd||0)))],r.wkAdd?['원물 5% 가산','₩'+fN(Math.round(r.wkAdd))]:null,['부자재','₩'+fN(r.bj)+(pcRaw(sid,'bj')!==''?' ✏️':'')],['박스','₩'+fN(r.bx)+(pcRaw(sid,'bx')!==''?' ✏️':'')],['물류(박스당)','₩'+fN(r.pbf)],
     ['CIF 합계','₩'+fN(r.cif),'tot'],
     ['손익분기','$'+(r.be?r.be.toFixed(2):'-')],
     r.empty?null:['오퍼 → 마진/박스','$'+r.of+' → '+fD(r.mb)+'$'],
@@ -2439,6 +2470,7 @@ function pushState(){
     const inputs={};Object.keys(st).forEach(k=>{if(keys.some(p=>k.slice(0,p.length)===p))inputs[k]=st[k];});
     const detail={inputs};
     if(F==='g')detail.gcost=gCost;   // 포도 스펙별 원물/작업비/부자재/박스
+    if(F==='p'&&Object.keys(pCost).length)detail.pcost=pCost;   // 배 스펙별 부자재·박스 오버라이드
     let detailStr=JSON.stringify(detail);
     if(detailStr.length>40000&&detail.gcost){delete detail.gcost;detail._note='스펙별 비용은 용량 초과로 생략';detailStr=JSON.stringify(detail);}   // 중간 절단으로 JSON이 깨지지 않게 통째로 생략
     if(detailStr.length>40000)detailStr=JSON.stringify({_note:'용량 초과로 상세 생략'});

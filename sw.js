@@ -1,5 +1,5 @@
 // 현농프레쉬 오퍼계산기 Service Worker
-const CACHE_VERSION = 'hn-v38';   // v38: 지난 원물가격 전 과일 확장(국가 표시) + 감사 확정 8건 수정(포도 ctp 40/20 분리·딸기 원물0 차단·sync stale 가드·국가명 이스케이프)
+const CACHE_VERSION = 'hn-v39';   // v39: 배 스펙별 부자재·박스 수정 UI(📦) — 시트 sync 기본값 위 오버라이드, 비우면 복귀
 const CORE_CACHE = CACHE_VERSION + '-core';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 

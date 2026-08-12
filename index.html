@@ -434,6 +434,192 @@ tbody tr:hover td{background:#fafbfd}
 .gbm-grid input{width:120px;background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;padding:9px;border-radius:8px;outline:none;text-align:right}
 .gbm-grid input:focus{border-color:#7b2d8e;background:#fff;box-shadow:0 0 0 3px rgba(123,45,142,.12)}
 @media (hover:none) and (pointer:coarse){.gci{width:62px;padding:6px 5px;font-size:12px}}
+/* === 배 탭 (OCEAN 플로우) — pz-* === */
+.pz-step{background:var(--sf);border-bottom:1px solid var(--bd);padding:10px 14px 12px;animation:pzIn .3s ease both}
+.pz-slb{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:900;color:var(--tx);margin-bottom:8px}
+.pz-sn{width:17px;height:17px;border-radius:50%;background:linear-gradient(135deg,#daa520,#b8860b);color:#fff;font-size:10px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.pz-slb2{font-size:9px;font-weight:600;color:var(--t3)}
+.pz-cnt{background:#b8860b;color:#fff;font-size:9px;font-weight:800;padding:1px 7px;border-radius:9px;animation:pzPop .25s ease}
+.pz-clear{margin-left:auto;background:none;border:1px solid var(--bd);border-radius:7px;font-size:9px;color:var(--t2);padding:3px 8px;cursor:pointer;font-family:inherit;font-weight:700}
+.pz-selrow{display:flex;gap:7px;flex-wrap:wrap}
+.pz-sel{flex:1;min-width:96px;display:flex;flex-direction:column;align-items:flex-start;gap:3px;background:var(--sf2);border:1.5px solid var(--bd);border-radius:12px;padding:8px 11px;cursor:pointer;font-family:inherit;transition:all .18s;text-align:left}
+.pz-sel:hover{border-color:#b8860b66;background:#fdf6e3}
+.pz-sel.on{background:linear-gradient(135deg,#fdf6e3,#fff);border-color:#b8860b;box-shadow:0 2px 10px rgba(184,134,11,.14)}
+.pz-selk{font-size:8px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.04em}
+.pz-selv{font-size:13px;font-weight:800;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.pz-sel.on .pz-selv{color:#8a6508}
+.pz-shwrap{cursor:default}
+.pz-shtg{display:flex;gap:4px}
+.pz-shtg .sho{padding:5px 13px;font-size:12px;border-radius:8px}
+.pz-frline{margin-top:9px;padding:8px 11px;background:linear-gradient(135deg,#f0f7ff,#f7fbff);border:1px solid #cfe3fa;border-radius:10px;display:flex;flex-direction:column;gap:2px;animation:pzIn .3s ease}
+.pz-frb{font-size:11px;font-weight:700;color:#1d4ed8}
+.pz-frb b{font-family:'JetBrains Mono',monospace}
+.pz-frb em{font-style:normal;font-size:9px;font-weight:800;color:#fff;background:#1d4ed8;border-radius:6px;padding:1px 6px;margin-left:4px;white-space:nowrap}
+.pz-frd{font-size:9px;color:#3d5a8a;font-family:'JetBrains Mono',monospace}
+.pz-frd2{font-size:8px;color:#5a719c;margin-top:1px}
+.pz-frd2.warn{color:#b06d00;font-weight:700}
+.pz-warn{margin-top:9px;padding:8px 11px;background:#fff5f5;border:1px solid #fecaca;border-radius:10px;font-size:10.5px;font-weight:700;color:#b91c1c;animation:pzShake .35s ease}
+.pz-note{margin-top:6px;font-size:9px;color:var(--t3);padding:0 2px}
+.pz-chips{display:flex;flex-wrap:wrap;gap:6px}
+.pz-chips.h{display:none}
+.pz-chip{background:var(--sf2);border:1.5px solid var(--bd);border-radius:10px;padding:7px 11px;font-size:11px;font-weight:700;color:var(--t2);cursor:pointer;font-family:inherit;transition:all .16s;animation:pzPop .3s ease backwards;animation-delay:calc(var(--i,0)*.02s)}
+.pz-chip em{font-style:normal;font-size:8px;font-weight:600;opacity:.65;display:block}
+.pz-chip:hover{border-color:#b8860b66}
+.pz-chip.on{background:linear-gradient(135deg,#daa520,#b8860b);border-color:#b8860b;color:#fff;box-shadow:0 2px 8px rgba(184,134,11,.3)}
+.pz-chip.on em{opacity:.85}
+.pz-chip.etc{border-style:dashed;font-size:10px}
+.pz-etct{margin:8px 0 6px;font-size:10px;font-weight:800;color:var(--t3);cursor:pointer;user-select:none}
+.pz-basebtn{background:var(--sf2);border:1.5px solid var(--bd);border-radius:9px;padding:7px 10px;font-size:11px;font-weight:700;color:var(--t2);cursor:pointer;font-family:inherit;transition:all .16s}
+.pz-base{background:#fdf9ee;border-bottom:1px solid var(--bd);padding:9px 14px;animation:pzIn .25s ease}
+.pz-base.h{display:none}
+.pz-baset{font-size:9px;font-weight:800;color:#8a6508;margin-bottom:6px}
+.pz-baseg{display:flex;gap:6px;flex-wrap:wrap}
+.pz-baseg .ig input,.pz-baseg .ig select{width:86px}
+.pz-baseg .ig label{white-space:nowrap}
+/* 카드 */
+.pz-tools{display:flex;gap:6px;padding:10px 14px 0}
+.pz-cards{padding:10px 14px 4px;display:flex;flex-direction:column;gap:10px}
+.pz-setlb{font-size:10.5px;font-weight:900;color:#8a6508;margin:2px 0 -4px;display:flex;align-items:center;gap:5px}
+.pz-setlb em{font-style:normal;font-size:8.5px;font-weight:600;color:var(--t3)}
+.pz-card{background:var(--sf);border:1.5px solid var(--bd);border-radius:14px;padding:10px 12px 9px;box-shadow:var(--sh);animation:pzUp .32s ease backwards;animation-delay:calc(var(--i,0)*.045s);transition:border-color .2s,box-shadow .2s}
+.pz-card.best{border-color:#16a368;box-shadow:0 0 0 2px rgba(22,163,104,.18),var(--sh2)}
+.pz-card.best .pz-ch::after{content:"BEST";font-size:7.5px;font-weight:900;color:#fff;background:#16a368;border-radius:5px;padding:1px 5px;margin-left:6px;animation:pzPop .3s ease}
+.pz-card.dis{opacity:.55}
+.pz-ch{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.pz-cl{font-size:13px;font-weight:900;color:var(--tx);letter-spacing:-.01em}
+.pz-cb{font-size:8.5px;font-weight:700;color:#8a6508;background:#fdf6e3;border:1px solid #ecd9a8;border-radius:6px;padding:2px 6px;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.pz-cb.warn{color:#b91c1c;background:#fff5f5;border-color:#fecaca}
+.pz-ico{width:26px;height:26px;border-radius:8px;border:1px solid var(--bd);background:#fff;color:var(--t2);font-size:12px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:all .15s}
+.pz-cg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.pz-f{display:flex;flex-direction:column;gap:2px}
+.pz-f em{font-style:normal;font-size:8px;font-weight:800;color:var(--t3);letter-spacing:.01em}
+.pz-f em b{color:#8a6508;font-weight:800}
+.pz-f input{width:100%;box-sizing:border-box;background:var(--sf2);border:1.5px solid var(--bd);border-radius:9px;padding:7px 8px;font-size:13px;font-weight:600;font-family:'JetBrains Mono',monospace;color:var(--tx);outline:none;transition:all .16s;min-width:0}
+.pz-f input::placeholder{color:#b6ad91;font-weight:500;opacity:.85}
+.pz-f input:focus{border-color:#b8860b;background:#fff;box-shadow:0 0 0 3px rgba(184,134,11,.13)}
+.pz-price input{border-color:#b8860b55;background:#fdf6e3}
+.pz-price em{color:#8a6508}
+.pz-res{display:flex;align-items:center;gap:10px;margin-top:8px;padding-top:8px;border-top:1px dashed var(--bd);flex-wrap:wrap}
+.pz-cif{font-size:9.5px;color:var(--t2);font-family:'JetBrains Mono',monospace}
+.pz-cif b{font-size:10.5px}
+.pz-mb{margin-left:auto;font-size:15.5px;font-weight:900;font-family:'JetBrains Mono',monospace;letter-spacing:-.02em;display:flex;flex-direction:column;line-height:1.2;text-align:right}
+.pz-mb em{font-style:normal;font-size:8px;font-weight:700;opacity:.7;margin-left:2px}
+.pz-mb2{font-size:8.5px;font-weight:700;opacity:.8}
+.pz-tk{text-align:right;font-size:12px;font-weight:800;font-family:'JetBrains Mono',monospace;display:flex;flex-direction:column;line-height:1.25}
+.pz-tk2{font-size:8.5px;opacity:.8}
+.pz-dim{color:var(--bd2);font-weight:600;font-size:11px}
+.pz-need{color:#b06d00;font-weight:700;font-size:10.5px;animation:pzIn .3s ease}
+/* 요약 */
+.pz-sum{margin:6px 14px 16px;background:linear-gradient(135deg,#1a1a2e,#2d2d4a);border-radius:14px;padding:12px 14px;color:#fff;box-shadow:var(--sh2);animation:pzUp .35s ease}
+.pz-sumt{font-size:11px;font-weight:900;margin-bottom:8px}
+.pz-sumt em{font-style:normal;font-size:9px;font-weight:600;opacity:.75;margin-left:4px}
+.pz-gaug{position:relative;height:20px;background:rgba(255,255,255,.12);border-radius:10px;overflow:hidden;margin-bottom:8px}
+.pz-gbar{height:100%;background:linear-gradient(90deg,#16a368,#3ecf8e);border-radius:10px;transition:width .5s cubic-bezier(.22,1,.36,1)}
+.pz-gbar.over{background:linear-gradient(90deg,#dc2626,#f87171)}
+.pz-glab{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;font-family:'JetBrains Mono',monospace;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.pz-sumr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:10px;padding:3px 0;opacity:.95}
+.pz-sumr>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pz-sumr em{font-style:normal;font-size:8px;opacity:.7;font-weight:700;white-space:nowrap}
+.pz-sumr b{font-family:'JetBrains Mono',monospace}
+.pz-sumr.big{border-top:1px solid rgba(255,255,255,.15);margin-top:5px;padding-top:7px;font-size:11.5px;font-weight:800}
+.pz-sumr.big b{font-size:15px}
+.pz-sumr.big .mpos{color:#4ade80!important}.pz-sumr.big .mneg{color:#f87171!important}
+.pz-frap{font-family:'JetBrains Mono',monospace;font-size:9px;opacity:.85}
+/* 빈 상태 */
+.pz-empty{text-align:center;padding:46px 20px 40px;color:var(--t2);font-size:14px;animation:pzIn .35s ease}
+.pz-emoji{display:block;font-size:44px;margin-bottom:10px;animation:pzFloat 2.6s ease-in-out infinite}
+.pz-emsub{font-size:10px;color:var(--t3);margin-top:6px;line-height:1.5}
+.pz-cta{margin-top:14px;background:linear-gradient(135deg,#daa520,#b8860b);border:none;border-radius:12px;color:#fff;font-size:13px;font-weight:800;padding:11px 22px;cursor:pointer;font-family:inherit;box-shadow:0 4px 14px rgba(184,134,11,.35);transition:all .18s}
+.pz-cta:hover{filter:brightness(1.06)}
+/* 선택 시트(모달) */
+.pz-mo{align-items:flex-end!important;padding:0!important}
+.pzSheet{width:100%;max-width:520px;margin:0 auto;background:var(--sf);border-radius:18px 18px 0 0;padding:14px 14px calc(14px + env(safe-area-inset-bottom));max-height:76vh;overflow-y:auto;animation:pzSheetUp .32s cubic-bezier(.22,1,.36,1)}
+@media(min-width:600px){.pz-mo{align-items:center!important}.pzSheet{border-radius:18px;max-height:80vh}}
+.pz-sht{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:900;color:var(--tx);margin-bottom:10px}
+.pz-shs{font-size:9px;font-weight:600;color:var(--t3)}
+.pz-x{margin-left:auto;width:28px;height:28px;border-radius:9px;border:1px solid var(--bd);background:var(--sf2);color:var(--t2);font-size:12px;cursor:pointer}
+.pz-rgnb{padding:0 0 8px!important;border-bottom:none!important;background:none!important}
+.pz-colist{display:flex;flex-direction:column;gap:6px}
+.pz-co{display:flex;align-items:center;gap:9px;background:var(--sf2);border:1.5px solid var(--bd);border-radius:12px;padding:10px 12px;cursor:pointer;font-family:inherit;transition:all .15s;animation:pzUp .28s ease backwards;animation-delay:calc(var(--i,0)*.025s);text-align:left}
+.pz-co:hover{border-color:#b8860b66;background:#fdf6e3}
+.pz-co.on{background:linear-gradient(135deg,#fdf6e3,#fff);border-color:#b8860b;box-shadow:0 2px 8px rgba(184,134,11,.16)}
+.pz-co.dis{opacity:.45;cursor:not-allowed}
+.pz-cofav{font-size:14px;color:#d4a017;cursor:pointer;padding:2px}
+.pz-cofl{font-size:17px}
+.pz-conm{font-size:13.5px;font-weight:800;color:var(--tx)}
+.pz-cofr{margin-left:auto;font-size:10px;font-weight:700;color:var(--t2);font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.pz-cosj{font-size:7.5px;font-weight:900;color:#1d4ed8;background:#eaf1fe;border:1px solid #cfe0fb;border-radius:5px;padding:1px 5px;white-space:nowrap}
+/* ═══ 순차 카드 위저드 (배·포도 공용) — 샥샥 넘어가는 단계형 UI ═══ */
+.wz{--wac:#b8860b;--wac2:#daa520;--wbg:#fdf6e3;padding:10px 12px 6px;display:flex;flex-direction:column;gap:8px;background:linear-gradient(180deg,var(--sf),transparent)}
+.wz.grape{--wac:#7b2d8e;--wac2:#a855f7;--wbg:#faf0ff}
+.wz-rail{display:flex;gap:4px;padding:0 2px 2px}
+.wz-seg{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;opacity:.45;transition:opacity .2s}
+.wz-seg.act,.wz-seg.done{opacity:1}
+.wz-seg .wz-dot{width:20px;height:20px;border-radius:50%;background:var(--sf2);border:1.5px solid var(--bd2);color:var(--t2);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;transition:all .25s}
+.wz-seg.act .wz-dot{background:linear-gradient(135deg,var(--wac2),var(--wac));border-color:var(--wac);color:#fff;box-shadow:0 0 0 4px color-mix(in srgb,var(--wac) 18%,transparent);transform:scale(1.12)}
+.wz-seg.done .wz-dot{background:var(--wac);border-color:var(--wac);color:#fff}
+.wz-seg em{font-style:normal;font-size:8px;font-weight:800;color:var(--t2)}
+.wz-seg.act em{color:var(--wac)}
+.wz-step{border-radius:16px;overflow:hidden}
+.wz-step .wz-chip{display:none}
+.wz-step .wz-body{display:none}
+.wz-step.act .wz-body{display:block;background:var(--sf);border:1.5px solid color-mix(in srgb,var(--wac) 45%,var(--bd));border-radius:16px;padding:13px 14px 14px;box-shadow:0 6px 22px color-mix(in srgb,var(--wac) 12%,transparent);animation:wzIn .24s cubic-bezier(.22,1,.36,1)}
+.wz-step.done .wz-chip{display:flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--wbg),#fff);border:1.5px solid color-mix(in srgb,var(--wac) 35%,var(--bd));border-radius:12px;padding:7px 11px;cursor:pointer;animation:wzChip .22s ease;font-size:11.5px}
+.wz-step.lock{display:none}
+.wz-ck{width:15px;height:15px;border-radius:50%;background:var(--wac);color:#fff;font-size:9px;font-weight:900;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.wz-ci{font-size:13px}
+.wz-chip b{font-weight:800;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wz-ce{margin-left:auto;font-size:8.5px;font-weight:800;color:var(--wac);background:color-mix(in srgb,var(--wac) 10%,transparent);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.wz-ht{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:900;color:var(--tx);margin-bottom:10px}
+.wz-ht em{font-style:normal;font-size:9px;font-weight:600;color:var(--t3)}
+.wz-no{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--wac2),var(--wac));color:#fff;font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.wz-fxrow{display:flex;gap:8px}
+.wz-big{flex:1;display:flex;flex-direction:column;gap:4px}
+.wz-big em{font-style:normal;font-size:9px;font-weight:800;color:var(--t2)}
+.wz-big input{width:100%;box-sizing:border-box;background:var(--sf2);border:2px solid var(--bd);border-radius:14px;padding:12px 14px;font-size:24px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--tx);outline:none;transition:all .18s;letter-spacing:-.02em}
+.wz-big.sm input{font-size:17px;padding:15px 14px}
+.wz-big input:focus{border-color:var(--wac);background:#fff;box-shadow:0 0 0 4px color-mix(in srgb,var(--wac) 14%,transparent)}
+.wz-next{width:100%;margin-top:11px;background:linear-gradient(135deg,var(--wac2),var(--wac));border:none;border-radius:13px;color:#fff;font-size:14px;font-weight:900;font-family:inherit;padding:13px;cursor:pointer;box-shadow:0 5px 16px color-mix(in srgb,var(--wac) 35%,transparent);transition:all .18s;letter-spacing:-.01em}
+.wz-next:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.wz-next:not(:disabled):hover{filter:brightness(1.05);transform:translateY(-1px)}
+.wz-teaser{text-align:center;padding:44px 20px;color:var(--t2);font-size:13.5px;animation:pzIn .3s ease}
+.wz-tico{display:block;font-size:42px;margin-bottom:10px;animation:pzFloat 2.4s ease-in-out infinite}
+.wz-tsub{font-size:9.5px;color:var(--t3);margin-top:7px}
+.wz-cnt{display:flex;align-items:center;gap:3px}
+.wz-cnt button{width:24px;height:24px;border-radius:8px;border:1.5px solid var(--bd);background:#fff;font-size:13px;font-weight:800;color:var(--t2);cursor:pointer;line-height:1}
+.wz-cnt b{font-size:11px;font-family:'JetBrains Mono',monospace;min-width:24px;text-align:center}
+.wz-shake{animation:pzShake .35s ease!important;border-color:#dc2626!important}
+@keyframes wzIn{from{opacity:0;transform:translateX(26px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes wzChip{from{opacity:0;transform:translateY(-7px) scale(.96)}to{opacity:1;transform:none}}
+.pzSheet.grape .pz-co.on{background:linear-gradient(135deg,#faf0ff,#fff);border-color:#7b2d8e;box-shadow:0 2px 8px rgba(123,45,142,.16)}
+.pz-chip.on.gp{background:linear-gradient(135deg,#a855f7,#7b2d8e);border-color:#7b2d8e;box-shadow:0 2px 8px rgba(123,45,142,.3)}
+.pz-card.grape .pz-cb.gp{color:#7b2d8e;background:#faf0ff;border-color:#e2c7ee}
+.pz-card.grape .pz-f input:focus{border-color:#7b2d8e;box-shadow:0 0 0 3px rgba(123,45,142,.13)}
+.pz-price.gp input{border-color:#7b2d8e55;background:#faf0ff}
+.pz-price.gp em{color:#7b2d8e}
+.pz-card.grape{animation-name:pzUp}
+.pz-sum.grape{background:linear-gradient(135deg,#2a1233,#3d1b4d)}
+.pz-cmpt{font-size:11px;font-weight:900;color:#8a6508;margin:4px 0 6px}
+.pz-batg{display:flex;flex-direction:column;gap:5px;max-height:34vh;overflow-y:auto}
+.pz-batrow{display:flex;align-items:center;gap:8px;background:var(--sf2);border:1px solid var(--bd);border-radius:10px;padding:8px 10px;cursor:pointer}
+.pz-batrow input{width:15px;height:15px;accent-color:#b8860b}
+.pz-batsp{font-size:12px;font-weight:800;color:var(--tx)}
+.pz-batv{margin-left:auto;font-size:10.5px;font-family:'JetBrains Mono',monospace;color:var(--t2);white-space:nowrap}
+.pz-batv b{font-weight:800}
+.pz-tools{flex-wrap:wrap}
+.pz-tools .gtoolbtn b{font-weight:900}
+/* 애니메이션 */
+@keyframes pzIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@keyframes pzUp{from{opacity:0;transform:translateY(10px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes pzPop{from{opacity:0;transform:scale(.75)}60%{transform:scale(1.06)}to{opacity:1;transform:scale(1)}}
+@keyframes pzSheetUp{from{transform:translateY(60px);opacity:.4}to{transform:none;opacity:1}}
+@keyframes pzFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes pzShake{0%,100%{transform:none}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+@keyframes pzRip{to{transform:scale(2.6);opacity:0}}
+.pz-press{position:relative;overflow:hidden}
+.pz-press:active{transform:scale(.955);filter:brightness(.97)}
+.pz-rip{position:absolute;border-radius:50%;background:currentColor;opacity:.18;pointer-events:none;transform:scale(0);animation:pzRip .5s ease-out forwards}
+@media (prefers-reduced-motion:reduce){.pz-card,.pz-chip,.pz-co,.pzSheet,.pz-empty,.pz-sum,.pz-step,.pz-frline,.pz-emoji,.pz-gbar{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -593,67 +779,75 @@ const SS=[
 ];
 const SD={vn_hcm:[22,0,0],vn_han:[23,0,0],th:[17.8,0,13.3],id:[22.8,0,17],my:[20.8,0,20],hk:[17.5,0,14],ph:[21,0,0],bn:[58,0,38.4]};
 
-// ═══ PEAR ═══
-const PSANJI=['아리팜','순천','아산','상주','고창','천안','김제','나주금천','낙안','영농산','송덕','나주부덕'];
+// ═══ PEAR — OCEAN 시트 기반 (2026-08-12 전면 개편: 국가→산지→컨테이너→스펙 플로우) ═══
+// 진실원천 = 구글시트 '-Ocean-' 탭(품목=배 행). 운임은 국가(항/해)+산지(국내)별, DATA 탭이 보조 원천.
+// 아래 상수는 전부 sync 폴백(2026-08-12 OCEAN/DATA 실측) — 온라인이면 GAS가 시트 최신값으로 덮는다.
+const PSANJI=['아리팜','전남','순천','천안','상주','고창','아산','경남','논산','경기','외서','김제'];
 const PC=[{n:'대만',f:'🇹🇼'},{n:'베트남',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이시아',f:'🇲🇾'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'호주',f:'🇦🇺'},{n:'미국LA',f:'🇺🇸',us:1},{n:'미국NY',f:'🇺🇸',us:1},{n:'캐나다',f:'🇨🇦',us:1}];
 const NO20={미국LA:1,미국NY:1,캐나다:1};   // 20ft 노선 없는 국가 — 시트 오염이 와도 t 차단 (앱설정 '20ft=X' 국가가 sync로 추가됨)
 const PRG=[{k:'all',l:'전체',c:'#3b6ff0'},{k:'sea',l:'동남아',c:'#16a368',ns:['베트남','말레이시아','인도네시아','태국']},{k:'nea',l:'동북아',c:'#d48a00',ns:['대만','홍콩']},{k:'oce',l:'오세아니아',c:'#9333ea',ns:['호주']},{k:'ame',l:'미주',c:'#dc2626',ns:['미국LA','미국NY','캐나다']}];
 let pRgn='all';
-const PSEA={대만:{f:1728000,t:1133200},베트남:{f:3067500,t:1810000},홍콩:{f:2574000,t:1528000},말레이시아:{f:3067500,t:1951000},인도네시아:{f:2433000,t:1951000},태국:{f:2433000,t:1669000},호주:{f:5987500,t:3220000},미국LA:{f:9301000,t:0},미국NY:{f:13742500,t:0},캐나다:{f:9612500,t:0}};   // 기본값=2026-07-28 시트 DATA 실측 (sync 실패 시 폴백) — 미주 40ft 2월 인하·태국 20ft 인상 반영
-// 배 내륙운임 기본값 = 배 탭 V열(국내운임) 2026-07-28 실측 — 사용자 확정 소스("배는 배탭 V열"). 나주부덕은 미주 전용(40ft만)이라 20ft 없음(t:0=계산 차단).
-const PIL={아리팜:{f:1192500,t:1070400},순천:{f:897900,t:782500},아산:{f:1338900,t:1188900},상주:{f:959900,t:836400},고창:{f:1181200,t:1061300},천안:{f:1288800,t:1061300},김제:{f:1198200,t:1075000},나주금천:{f:1178200,t:1059200},낙안:{f:933800,t:813400},영농산:{f:1344500,t:1193500},송덕:{f:1344500,t:1193500},나주부덕:{f:1221700,t:0},전남:{f:1178200,t:1059200}};
-// 산지별 출고 가능 (국가, 운송) 매트릭스 — 시트 배 시트 데이터 기반
-// 동남아/동북아/오세아니아: 시트 매트릭스 그대로 / 미주(미국LA/NY/캐나다): 옵션 B에 따라 모든 산지에 40ft 전용으로 추가
+const PSEA={대만:{f:1869000,t:1203700},베트남:{f:2785500,t:1669000},홍콩:{f:2292000,t:1457500},말레이시아:{f:3420000,t:2021500},인도네시아:{f:3490500,t:2233000},태국:{f:2785500,t:1669000},호주:{f:5570140,t:3220000},미국LA:{f:11486500,t:0},미국NY:{f:16139500,t:0},캐나다:{f:11586500,t:0}};   // OCEAN Y열=DATA 계 (26.08.04 업뎃 실측 폴백)
+const PIL={아리팜:{f:1263500,t:1133500},전남:{f:1263500,t:1133500},순천:{f:969000,t:844500},천안:{f:1378400,t:1227100},상주:{f:1053700,t:917900},고창:{f:1063000,t:929000},아산:{f:1430100,t:1268400},경남:{f:509200,t:452400},논산:{f:1314600,t:1175300},경기:{f:1400000,t:1100000},외서:{f:1053700,t:917900},김제:{f:1284300,t:1150000}};   // DATA 내륙표 매칭 폴백 (온라인이면 GAS가 DATA 실시간 매칭값으로 덮음)
+let PIL_SRC={},FR_UPD='';   // 산지별 국내운임 출처(GAS pearIlSrc: DATA행·출발항·매핑근거) / 운임표 기준일(DATA N1) — 노선 카드에 표시
+// 산지별 출고 가능 (국가, 운송) — OCEAN 시트 행 존재 기준(sync로 자동 갱신). 매트릭스에 없는 조합도 선택은 가능(운임만 있으면 계산됨).
 const PSJ_COUNTRY={
-아리팜:{대만:['40','20'],베트남:['40','20'],홍콩:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],호주:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40']},
-순천:{대만:['40','20'],베트남:['40','20'],홍콩:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],호주:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40']},
-아산:{대만:['40','20'],베트남:['40','20'],홍콩:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],호주:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40']},
-상주:{대만:['40','20'],베트남:['40','20'],홍콩:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],호주:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40']},
-고창:{대만:['40','20'],베트남:['40','20'],홍콩:['40'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],호주:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40']},
-천안:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],호주:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40']},
-김제:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],호주:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40']},
-나주금천:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],호주:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40']},
-영농산:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40']},
-낙안:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],태국:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40']},
-송덕:{대만:['40','20'],베트남:['40','20'],인도네시아:['40','20'],태국:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40']},
-나주부덕:{미국LA:['40'],미국NY:['40'],캐나다:['40']},
+아리팜:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],홍콩:['40','20']},
+전남:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],홍콩:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40'],호주:['40','20']},
+순천:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],홍콩:['40','20']},
+천안:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],홍콩:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40'],호주:['40','20']},
+상주:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],홍콩:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40'],호주:['40','20']},
+고창:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40'],태국:['40','20'],홍콩:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40'],호주:['40','20']},
+아산:{대만:['20'],베트남:['20'],말레이시아:['20'],인도네시아:['20'],태국:['20'],홍콩:['20'],호주:['20']},
+경남:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],홍콩:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40'],호주:['40','20']},
+논산:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],홍콩:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40'],호주:['40','20']},
+경기:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],홍콩:['40','20'],미국LA:['40'],미국NY:['40'],캐나다:['40'],호주:['40','20']},
+외서:{인도네시아:['40','20']},
+김제:{대만:['40','20']},
 };
 
-// Pear specs: id,label,ctn40,ctn20,nw,gw,buj,box,rawFn(p),wk key,usRawFn(h,p),usWk
-// p={a:18-24,b:26-30,c:32-36}, h={a:6-8과,b:9-10과,c:11-12과,d:13-15과}
+// ── 스펙 정의 — OCEAN 표준 블록(첨부 스크린샷) 그대로. sk = OCEAN SPEC|DETAIL 정규화 키(GIFT는 SPEC 뒤 gift).
+//    c4/c2=40/20ft ctn/p, tp4/tp2=파레트 수, bj/bx=부자재/박스 — 전부 sync(pearSpecs)가 시트값으로 덮음.
+//    rf(p)=국내 원물 환산(placeholder용, p={a:18-24,b:26-30,c:32-36}), urf(h,p)=미국 환산(h={a:6-8과,b:9-10과,c:11-12과}).
+//    uw = 미국 작업비 기본값 방식: 'u5'=화지/무화지+5%, 'u3p'=3팩 스티커+5%, 'b5'=국내작업비+5%, 'udg'=대과+5%.
+//    ※미국 12kg·3kg 작업비 이중 5% 가산 교정(2026-08-12): 종전 uwk는 이미 5%가 포함된 시트 셀값에 raw×5%를 재가산 —
+//      OCEAN 실측(3kg 5s=3,700+5%, 12kg=8,500+5%) 기준 '국내 기본+5%'(b5)로 통일. 값은 입력칸에 항상 표시되므로 수정 가능.
 const PS=[
-// sk = 배 탭 SPECS|DETAIL 정규화 매칭키 — GAS pearSpecs(부자재·박스·ctn·TP·N.W·GW)가 같은 키로 보내면 시트값이 앱을 덮음 (2026-07-28, 시트=진실원천)
-{id:'15a',sk:'15kg|18-24s',l:'15kg 18-24s',c4:54,c2:48,nw:15,gw:17,bj:312,bx:2118,rf:p=>p.a,wk:'w15',noUS:1},
-{id:'15b',sk:'15kg|26-30s',l:'15kg 26-30s',c4:54,c2:48,nw:15,gw:17,bj:390,bx:2118,rf:p=>p.b,wk:'w15',noUS:1},
-{id:'15c',sk:'15kg|32-36s',l:'15kg 32-36s',c4:54,c2:48,nw:15,gw:17,bj:468,bx:2118,rf:p=>p.c,wk:'w15',noUS:1},
-{id:'75',sk:'7.5kg|9-12s',l:'7.5kg 9-12s',c4:0,c2:54,nw:7.5,gw:9,bj:273,bx:0,rf:p=>p.a/15*7.5,wk:'w75',noUS:1},
-{id:'5a',sk:'5kg|6-8s',l:'5kg 6-8s',c4:136,c2:120,nw:5,gw:6,bj:104,bx:1206,rf:p=>p.a/3,wk:'w5',
-  ud:['a'],urf:(h)=>h.a,uwk:(raw,wc)=>wc.u5+raw*0.05},
-{id:'5b',sk:'5kg|9-10s',l:'5kg 9-10s',c4:136,c2:120,nw:5,gw:6,bj:130,bx:1206,rf:p=>p.b/3,wk:'w5',
-  ud:['b'],urf:(h)=>h.b,uwk:(raw,wc)=>wc.u5+raw*0.05},
-{id:'5ga',sk:'5kggift|6-8s',l:'5kg GIFT 6-8s',c4:128,c2:0,nw:5,gw:6,bj:200,bx:2580,rf:p=>p.a/3,wk:'w5',
-  ud:['a'],urf:(h)=>h.a,uwk:(raw,wc)=>wc.u5+raw*0.05},
-{id:'5gb',sk:'5kggift|9-10s',l:'5kg GIFT 9-10s',c4:128,c2:0,nw:5,gw:6,bj:250,bx:2580,rf:p=>p.b/3,wk:'w5',
-  ud:['b'],urf:(h)=>h.b,uwk:(raw,wc)=>wc.u5+raw*0.05},
-{id:'3a',sk:'3kg|5s',l:'3kg 5s',c4:216,c2:0,nw:3,gw:4,bj:65,bx:1055,kd:['a','b'],rf:p=>(p.a/24*3)+(p.b/26*2),wk:'w3a',
-  ud:['a','b'],urf:(h)=>(h.a/8*3)+(h.b/9*2),uwk:(raw,wc)=>wc.u3a+raw*0.05},
-{id:'3b',sk:'3kg|6s',l:'3kg 6s',c4:216,c2:0,nw:3,gw:4,bj:78,bx:1055,rf:p=>p.b/26*6,wk:'w3b',   // 6알 전량 계상 — 종전 ×3은 원물 절반 누락(2026-07-28 사용자 확인, 시트 수식도 ×6로 동시 수정)
-  ud:['b'],urf:(h)=>h.b/10*6,uwk:(raw,wc)=>wc.u3b+raw*0.05},
-{id:'12k',sk:'12kg|5pcs*4pack',l:'12kg 5구',c4:60,c2:0,nw:12,gw:13,bj:3314,bx:0,kd:['a','b'],rf:p=>((p.a/24*3)+(p.b/26*2))*4,wk:'w12',
-  ud:['a','b'],urf:(h)=>((h.a/8*3)+(h.b/9*2))*4,uwk:(raw,wc)=>wc.u12+raw*0.05},
-{id:'128',sk:'12.8kg|3pcs*8pack',l:'12.8kg 3팩',c4:60,c2:54,nw:12.8,gw:15,bj:600,bx:1314,rf:p=>p.b/15*12.8,wk:'w128',
-  ud:['b'],urf:(h)=>h.b/5*12.8,uwk:(raw,wc)=>wc.u128+raw*0.05},
-{id:'109',sk:'10.9kg|3pcs*8pack',l:'10.9kg 3팩',c4:66,c2:60,nw:10.9,gw:13,bj:600,bx:1284,rf:p=>p.c/15*10.9,wk:'w109',
-  ud:['c'],urf:(h)=>h.c/5*10.9,uwk:(raw,wc)=>wc.u109+raw*0.05},
-{id:'10d2',sk:'10kg대과2구|2pcs*8pack',l:'10kg 대과2구',c4:54,c2:48,nw:10,gw:12,bj:4336,bx:1300,rf:p=>p.a/15*10,wk:'wdg',
-  urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>wc.udg+raw*0.05},
-{id:'10d1',sk:'10kg대과1구|1pcs*16pack',l:'10kg 대과1구',c4:54,c2:48,nw:10,gw:12,bj:3120,bx:1300,rf:p=>p.a/15*10,wk:'wdg',
-  urf:(h,p)=>p.a/15*10,uwk:(raw,wc)=>wc.udg+raw*0.05},
+{id:'15a',sk:'15kg|18-24s',l:'15kg 18-24s',set:'15kg',c4:54,c2:48,tp4:20,tp2:9,nw:15,gw:17,bj:312,bx:2118,wk:'w15',rf:p=>p.a,ax:'a'},
+{id:'15b',sk:'15kg|26-30s',l:'15kg 26-30s',set:'15kg',c4:54,c2:48,tp4:20,tp2:9,nw:15,gw:17,bj:390,bx:2118,wk:'w15',rf:p=>p.b,ax:'b'},
+{id:'15c',sk:'15kg|32-36s',l:'15kg 32-36s',set:'15kg',c4:54,c2:48,tp4:20,tp2:9,nw:15,gw:17,bj:468,bx:2118,wk:'w15',rf:p=>p.c,ax:'c'},
+{id:'75',sk:'7.5kg|9-12s',l:'7.5kg 9-12s',c4:96,c2:84,tp4:20,tp2:9,nw:7.5,gw:9,bj:156,bx:2000,wk:'w75',rf:p=>p.a/15*7.5},
+{id:'5a',sk:'5kg|6-8s',l:'5kg 6-8s',c4:136,c2:112,tp4:20,tp2:9,nw:5,gw:6,bj:104,bx:1206,wk:'w5',rf:p=>p.a/3,d5:'pd5a',ud:['a'],urf:h=>h.a,uw:'u5'},
+{id:'5b',sk:'5kg|9-10s',l:'5kg 9-10s',c4:136,c2:112,tp4:20,tp2:9,nw:5,gw:6,bj:130,bx:1206,wk:'w5',rf:p=>p.b/3,d5:'pd5b',ud:['b'],urf:h=>h.b,uw:'u5'},
+{id:'3a',sk:'3kg|5s',l:'3kg 5s',c4:216,c2:192,tp4:20,tp2:9,nw:3,gw:4,bj:65,bx:1055,wk:'w3a',kd:['a','b'],rf:p=>(p.a/24*3)+(p.b/26*2),ud:['a','b'],urf:h=>(h.a/8*3)+(h.b/9*2),uw:'b5'},
+{id:'3b',sk:'3kg|6s',l:'3kg 6s',c4:216,c2:192,tp4:20,tp2:9,nw:3,gw:4,bj:78,bx:1055,wk:'w3b',rf:p=>p.b/26*6,ud:['b'],urf:h=>h.b/10*6,uw:'b5'},   // 6알 전량 계상 (2026-07-28 시트와 동시 수정)
+{id:'13k',sk:'13kg|3pcs*8pack',l:'13kg 3pcs×8pack',c4:60,c2:54,tp4:20,tp2:9,nw:13,gw:15,bj:600,bx:1314,wk:'w128',uw:'u3p'},
+{id:'128',sk:'12.8kg|3pcs*8pack',l:'12.8kg 3pcs×8pack',c4:60,c2:54,tp4:20,tp2:9,nw:12.8,gw:15,bj:600,bx:1314,wk:'w128',rf:p=>p.b/15*12.8,ud:['b'],urf:h=>h.b/5*12.8,uw:'u3p'},
+{id:'1282',sk:'12.8kg|2pcs*12pack',l:'12.8kg 2pcs×12pack',c4:60,c2:54,tp4:20,tp2:9,nw:12.8,gw:15,bj:600,bx:1314,wk:'w128',uw:'u3p'},
+{id:'109',sk:'10.9kg|3pcs*8pack',l:'10.9kg 3pcs×8pack',c4:66,c2:60,tp4:20,tp2:9,nw:10.9,gw:13,bj:600,bx:1284,wk:'w109',rf:p=>p.c/15*10.9,ud:['c'],urf:h=>h.c/5*10.9,uw:'u3p'},
+{id:'1092',sk:'10.9kg|2pcs*12pack',l:'10.9kg 2pcs×12pack',c4:66,c2:60,tp4:20,tp2:9,nw:10.9,gw:13,bj:600,bx:1284,wk:'w109',uw:'u3p'},
+{id:'10d2',sk:'10kg|2pcs*8pack',l:'10kg 대과 2pcs×8pack',c4:54,c2:48,tp4:20,tp2:9,nw:10,gw:12,bj:4336,bx:1300,wk:'wdg',rf:p=>p.a/15*10,urf:(h,p)=>p.a/15*10,uw:'udg'},
+{id:'10d1',sk:'10kg|1pc*16pack',l:'10kg 대과 1pc×16pack',c4:54,c2:48,tp4:20,tp2:9,nw:10,gw:12,bj:3120,bx:1300,wk:'wdg',rf:p=>p.a/15*10,urf:(h,p)=>p.a/15*10,uw:'udg'},
+{id:'10sl',sk:'10kg|2pcs*8packsleeve',l:'10kg 2pcs×8pack 슬리브',c4:54,c2:48,tp4:20,tp2:9,nw:10,gw:12,bj:4336,bx:1300,wk:'wdg',rf:p=>p.a/15*10,urf:(h,p)=>p.a/15*10,uw:'udg'},
+{id:'12k',sk:'12kg|5pcs*4pack',l:'12kg 5구 5pcs×4pack',c4:60,c2:0,tp4:20,tp2:9,nw:12,gw:13,bj:0,bx:3314,wk:'w12',kd:['a','b'],rf:p=>(p.a/24*3+p.b/26*2)*4,ud:['a','b'],urf:h=>(h.a/8*3+h.b/9*2)*4,uw:'b5'},
+{id:'123p',sk:'12kg|3pcs*8pack',l:'12kg 3pcs×8pack',c4:60,c2:54,tp4:20,tp2:9,nw:12,gw:15,bj:1896,bx:3594,wk:'w128',uw:'u3p'},
+{id:'5ga',sk:'5kggift|6-8s',l:'GIFT 5kg 6-8s',c4:128,c2:0,tp4:20,tp2:9,nw:5,gw:6,bj:104,bx:2580,wk:'w5',rf:p=>p.a/3,d5:'pd5a',ud:['a'],urf:h=>h.a,uw:'u5'},
+{id:'5gb',sk:'5kggift|9-10s',l:'GIFT 5kg 9-10s',c4:128,c2:0,tp4:20,tp2:9,nw:5,gw:6,bj:130,bx:2580,wk:'w5',rf:p=>p.b/3,d5:'pd5b',ud:['b'],urf:h=>h.b,uw:'u5'},
 ];
+// 구 '배' 시트 명칭 → 표준(OCEAN) 스펙키 별칭 — 구버전 GAS/캐시가 옛 키로 보내도 '기타'로 중복 생성하지 않고 표준 스펙에 값을 합침
+const PSK_ALIAS={'10kg대과2구|2pcs*8pack':'10kg|2pcs*8pack','10kg대과1구|1pcs*16pack':'10kg|1pc*16pack','10kg|1pcs*16pack':'10kg|1pc*16pack','12kg5구|5pcs*4pack':'12kg|5pcs*4pack'};
+// 시트에서 발견됐지만 위 표준 목록에 없는 스펙 — sync(pearSpecs)가 자동 추가 (스펙 선택의 '기타' 그룹, 원물 직접 입력)
+function pSpecExtend(k,dd){
+  if(PSK_ALIAS[k])return false;   // 옛 명칭 키는 별칭으로 표준 스펙에 병합됨 — 기타 추가 금지
+  if(PS.some(s=>s.sk===k))return false;
+  const lbl=k.replace('|',' ').replace(/\*/g,'×').replace('gift',' GIFT');
+  const wkK=/3pcs/.test(k)?'w128':/2pcs|1pc/.test(k)?'wdg':/^15kg/.test(k)?'w15':/^7\.5/.test(k)?'w75':/^5kg/.test(k)?'w5':/^3kg/.test(k)?'w3a':/^12kg/.test(k)?'w12':'w128';
+  PS.push({id:'x:'+k,sk:k,l:lbl,etc:1,c4:+dd.ct||0,c2:+dd.ct2||0,tp4:+dd.tp4||20,tp2:+dd.tp2||9,nw:+dd.nw||0,gw:+dd.gw||0,bj:+dd.bj||0,bx:+dd.bx||0,wk:wkK});
+  return true;
+}
 const PWK={w15:10000,w75:6000,w5:5000,w3a:3700,w3b:3700,w12:8500,w128:8000,w109:8000,wdg:8000};
-// 미국 작업비 — 시트 '배' 탭 미국작업비 블록과 1:1 키. 기본값=2026-07-28 시트 실측 (sync 실패 시 폴백).
-// u12=12kg(10구), u3a=3kg(5s), u3b=3kg(6s), u5=화지(띠지포함), u5b=무화지, u3ps=3팩 스티커 부착, u3pn=3팩 스티커 미부착.
-// udg(대과)만 시트에 항목이 없어 수동 전용 — 시트에 대과 행이 생기면 GAS 라벨 스캔에 추가할 것.
+// 미국 작업비 순수값(가산 전) — 시트 '배' 탭 미국작업비 블록 sync. u5=화지(띠지포함), u5b=무화지, u3ps/u3pn=3팩 스티커 부착/미부착, udg=대과(수동).
+// u12/u3a/u3b는 시트 셀이 '원물 5% 포함' 수식값이라 기본값 계산에는 쓰지 않음(b5 방식으로 대체) — 이중 가산 방지. sync 수신은 유지(참고 표시용).
 const PUWK={u12:10703,u3a:4251,u3b:4174,u5:6500,u5b:6300,u3ps:9700,u3pn:9500,udg:8000};
 const PWK_SJ={
 아리팜:{w15:10000,w75:6000,w5:5000,w3a:3500,w3b:3500,w12:8500,w128:8200,w109:8500,wdg:8200},
@@ -663,19 +857,16 @@ const PWK_SJ={
 고창:{w15:10000,w75:6000,w5:5000,w3a:3500,w3b:3500,w12:8500,w128:8200,w109:8200,wdg:8500},
 천안:{w15:10000,w75:6000,w5:5000,w3a:4209,w3b:4174,w12:8500,w128:8500,w109:8500,wdg:7000},
 김제:{w15:10000,w75:6000,w5:5000,w3a:3700,w3b:3700,w12:8500,w128:8000,w109:8000,wdg:8000},
-나주금천:{w15:10000,w75:6000,w5:5500,w3a:4181,w3b:4174,w12:9000,w128:8500,w109:8700,wdg:8000},
 낙안:{w15:10000,w75:6000,w5:5000,w3a:3700,w3b:3700,w12:8500,w128:8000,w109:8000,wdg:8000},
-영농산:{w15:10000,w75:6000,w5:5000,w3a:3700,w3b:3700,w12:8500,w128:8000,w109:8000,wdg:8000},
-송덕:{w15:10000,w75:6000,w5:5000,w3a:3700,w3b:3700,w12:8500,w128:8000,w109:8000,wdg:8000},
-나주부덕:{w15:10000,w75:6000,w5:5000,w3a:3700,w3b:3700,w12:8500,w128:8000,w109:8000,wdg:8000},
 };
 
 // ═══ GRAPE ═══
 const GSANJI=['초록','김천','천안','영동','탑바인','모서','중화','전남','논산','경기','고창'];
-const GSANJI_REMOVED=['경남'];   // 시트에서 삭제/개명된 산지(경남→영동, 2026-07-28) — 구버전 GAS·옛 캐시가 보내도 auto-extend로 재추가하지 않음
+const GSANJI_REMOVED=[];   // 재유입 차단 목록 — OCEAN에 '경남'(북창원 운임)이 실산지로 존재해 차단 해제(2026-08-12). 개명은 앱설정 [이름 변경]으로 처리.
 const GC=[{n:'대만',f:'🇹🇼'},{n:'베트남호치민',f:'🇻🇳'},{n:'베트남하이퐁',f:'🇻🇳'},{n:'홍콩',f:'🇭🇰'},{n:'말레이시아',f:'🇲🇾'},{n:'인도네시아',f:'🇮🇩'},{n:'태국',f:'🇹🇭'},{n:'싱가폴',f:'🇸🇬'},{n:'미국LA',f:'🇺🇸',us:1},{n:'미국NY',f:'🇺🇸',us:1},{n:'캐나다',f:'🇨🇦',us:1}];
-const GSEA={대만:{f:1728000,t:1133200},베트남호치민:{f:3067500,t:1810000},베트남하이퐁:{f:2644500,t:1528000},홍콩:{f:2574000,t:1528000},말레이시아:{f:3067500,t:1951000},인도네시아:{f:2433000,t:1951000},태국:{f:2433000,t:1669000},싱가폴:{f:2997000,t:1774750},미국LA:{f:9301000,t:0},미국NY:{f:13742500,t:0},캐나다:{f:9612500,t:0}};   // 기본값=2026-07-28 시트 DATA 40FT/20FT 블록 실측 — 종전 t가 40ft 복제값(구버전 GAS 오염)이던 것을 교정
-const GIL={초록:{f:1030100,t:897400},김천:{f:883200,t:769200},천안:{f:1288800,t:1149100},영동:{f:945400,t:823700},탑바인:{f:971800,t:846700},모서:{f:971800,t:846700},중화:{f:1006900,t:877400},전남:{f:1178200,t:1059200},논산:{f:1053000,t:950000},경기:{f:1400000,t:1100000},고창:{f:1181200,t:1061300}};   // 경남 제거(경남→영동 개명, 2026-07-28) · 영동 20ft=823,700 시트 실측
+const GSEA={대만:{f:1869000,t:1203700},베트남호치민:{f:2785500,t:1669000},베트남하이퐁:{f:2785500,t:1669000},홍콩:{f:2292000,t:1457500},말레이시아:{f:3420000,t:2021500},인도네시아:{f:3490500,t:2233000},태국:{f:2785500,t:1669000},싱가폴:{f:2997000,t:1774750},미국LA:{f:11486500,t:0},미국NY:{f:16139500,t:0},캐나다:{f:11586500,t:0}};   // 기본값=2026-08-04 DATA 40FT/20FT 실측 폴백 (온라인이면 GAS가 DATA 실시간값으로 덮음)
+const GIL={초록:{f:1084300,t:945000},김천:{f:1084300,t:945000},천안:{f:1378400,t:1227100},영동:{f:1019500,t:888200},탑바인:{f:1047300,t:912500},모서:{f:1084300,t:945000},중화:{f:1084300,t:945000},전남:{f:1263500,t:1133500},논산:{f:1314600,t:1175300},경기:{f:1400000,t:1100000},고창:{f:1063000,t:929000}};   // DATA 내륙표 매칭 폴백(2026-08-12, OCEAN 사용값 기준 — 김천/초록/모서는 현재 중화 행 참조, 앱설정 매핑에서 교정 가능)
+let GIL_SRC={};   // 포도 산지별 국내운임 출처(GAS grapeIlSrc) — 산지 선택 시 표시
 // ct=해운 cnt/p(팔레트당), ca=항공 CTNS/P(시트 포도Air 기준). 항공모드는 ca를 기본값으로 사용(없으면 ct).
 // k = 시트 매칭키(정규화 SPEC|DETAIL). GAS가 같은 키로 cnt/p·부자재·박스를 보내면 앱이 덮어씀(값만 동기화). 매칭 안 되면 앱값 유지.
 const GS=[
@@ -760,6 +951,7 @@ function build(){
   $('hd').style.background=`linear-gradient(135deg,${c.bg},#fff)`;$('hd').style.borderBottomColor=c.ac;
   $('ts').innerHTML=`<button class="tb a" onclick="sw('o',this)">📊 계산</button><button class="tb" onclick="sw('l',this)">📋 기록<span class="lc" id="lc">0</span></button>`;
   $('to').classList.add('a');$('tl').classList.remove('a');
+  $('bs').style.display='';$('bs').innerHTML='';
   if(F==='s')bS();else if(F==='p')bP();else if(F==='g')bG();else if(F==='c')bC();else bM();
   inpRestore();
   if(F==='s')sA();else if(F==='p')pA();else if(F==='g')gA();else if(F==='c')cA();else mA();
@@ -868,69 +1060,338 @@ function sL(k,i){
     `${fd.f} ${fd.n} · ${sp.l}`,`오퍼: <span>${r.sym}${r.of}</span> | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}${r.sym}</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${sp.ct}박스)</span>`);
 }
 
-// ═══ PEAR BUILD ═══
+// ═══ PEAR BUILD — 순차 카드 위저드: ①환율 → ②노선 → ③스펙 → ④계산·요약 (완료 단계는 접힌 칩, 탭하면 수정) ═══
+let pCo=null,pSpecSel=[],pWz=1;
+const PSET_IDS=['15a','15b','15c'];
+function pTokSids(t){return t==='15set'?PSET_IDS.slice():[t];}
+function pActiveSids(){const out=[];pSpecSel.forEach(t=>pTokSids(t).forEach(x=>{if(!out.includes(x)&&PS.some(s=>s.id===x))out.push(x);}));return out;}
+function pShV(){return gv('psh')==40?'f':'t';}
+function pCntV(){const v=gv('pcnt');return v>=1&&v<=9?Math.round(v):1;}
 function bP(){
   loadPCost();
-  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="pfx" value="1400" oninput="pA()"><div class="fxhint" id="pfxToday"></div></div>
-    <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="psp" value="0" oninput="pA()"></div>
-    <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="psh_40" onclick="setSh('psh','40')">40ft</button><button type="button" class="sho" id="psh_20" onclick="setSh('psh','20')">20ft</button></div><input type="hidden" id="psh" value="40"></div>`;
-  $('ex').innerHTML=`<div class="sl">산지</div>
-    <div class="sjb" id="psb"></div>
-    <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
-      <div class="ig"><label>18-24s</label><input type="number" id="pa" value="47000" oninput="pA();pRawLog('pa',this.value)"></div>
-      <div class="ig"><label>26-30s</label><input type="number" id="pb" value="42000" oninput="pA();pRawLog('pb',this.value)"></div>
-      <div class="ig"><label>32-36s</label><input type="number" id="pc" value="38000" oninput="pA();pRawLog('pc',this.value)"></div>
-      <button class="gbj-btn" onclick="rawHistOpen('p',null)" title="지난 원물가격" style="align-self:flex-end;margin-bottom:2px">🕘</button>
-    </div>
-    <div style="padding:6px 14px;display:flex;gap:6px;background:var(--sf);border-bottom:1px solid var(--bd)">
-      <div class="ig"><label>미국 6-8과</label><input type="number" id="ha" value="19000" oninput="pA();pRawLog('ha',this.value)"></div>
-      <div class="ig"><label>미국 9-10과</label><input type="number" id="hb" value="17500" oninput="pA();pRawLog('hb',this.value)"></div>
-      <div class="ig"><label>미국 11-12과</label><input type="number" id="hc" value="15500" oninput="pA();pRawLog('hc',this.value)"></div>
-    </div>
-    <div class="sl" style="background:rgba(184,134,11,.06);border-left:3px solid #b8860b;padding-left:11px">작업비 (₩/박스) <span id="pwk_sj_label" style="font-size:8px;color:#b8860b"></span></div>
-    <div class="wg" id="pwk_grid">
-      <div class="ig"><label>15kg</label><input type="number" id="pwk_w15" value="${PWK.w15}" oninput="pA()"></div>
-      <div class="ig"><label>7.5kg</label><input type="number" id="pwk_w75" value="${PWK.w75}" oninput="pA()"></div>
-      <div class="ig"><label>5kg</label><input type="number" id="pwk_w5" value="${PWK.w5}" oninput="pA()"></div>
-      <div class="ig"><label>3kg(5s)</label><input type="number" id="pwk_w3a" value="${PWK.w3a}" oninput="pA()"></div>
-      <div class="ig"><label>3kg(6s)</label><input type="number" id="pwk_w3b" value="${PWK.w3b}" oninput="pA()"></div>
-      <div class="ig"><label>12kg</label><input type="number" id="pwk_w12" value="${PWK.w12}" oninput="pA()"></div>
-      <div class="ig"><label>12.8kg</label><input type="number" id="pwk_w128" value="${PWK.w128}" oninput="pA()"></div>
-      <div class="ig"><label>10.9kg</label><input type="number" id="pwk_w109" value="${PWK.w109}" oninput="pA()"></div>
-      <div class="ig"><label>대과</label><input type="number" id="pwk_wdg" value="${PWK.wdg}" oninput="pA()"></div>
-    </div>
-    <div class="sl" style="background:rgba(220,38,38,.06);border-left:3px solid #dc2626;padding-left:11px;color:#dc2626">🇺🇸 미국 작업비 (₩/박스) <span style="font-size:8px;font-weight:600;opacity:.75">시트 '배' 탭 미국작업비 블록 연동</span></div>
-    <div class="wg" id="puwk_grid">
-      <div class="ig"><label>12kg(10구)</label><input type="number" id="puwk_u12" value="${PUWK.u12}" placeholder="${PUWK.u12}" oninput="pA()"></div>
-      <div class="ig"><label>3kg(5s)</label><input type="number" id="puwk_u3a" value="${PUWK.u3a}" placeholder="${PUWK.u3a}" oninput="pA()"></div>
-      <div class="ig"><label>3kg(6s)</label><input type="number" id="puwk_u3b" value="${PUWK.u3b}" placeholder="${PUWK.u3b}" oninput="pA()"></div>
-      <div class="ig"><label>화지(띠지포함)</label><input type="number" id="puwk_u5" value="${PUWK.u5}" placeholder="${PUWK.u5}" oninput="pA()"></div>
-      <div class="ig"><label>무화지</label><input type="number" id="puwk_u5b" value="${PUWK.u5b}" placeholder="${PUWK.u5b}" oninput="pA()"></div>
-      <div class="ig"><label>3팩 스티커부착</label><input type="number" id="puwk_u3ps" value="${PUWK.u3ps}" placeholder="${PUWK.u3ps}" oninput="pA()"></div>
-      <div class="ig"><label>3팩 스티커미부착</label><input type="number" id="puwk_u3pn" value="${PUWK.u3pn}" placeholder="${PUWK.u3pn}" oninput="pA()"></div>
-      <div class="ig"><label>대과 <em>수동</em></label><input type="number" id="puwk_udg" value="${PUWK.udg}" placeholder="${PUWK.udg}" oninput="pA()"></div>
-      <div class="ig"><label>5kg 계산기준</label><select id="puwk_hj" onchange="pA()"><option>화지</option><option>무화지</option></select></div>
-      <div class="ig"><label>3팩 계산기준</label><select id="puwk_st" onchange="pA()"><option>미부착</option><option>부착</option></select></div>
+  $('bs').innerHTML='';$('bs').style.display='none';
+  $('ex').innerHTML=`
+    <input type="hidden" id="pco"><input type="hidden" id="psjv"><input type="hidden" id="pspecs"><input type="hidden" id="psh" value="40"><input type="hidden" id="pcnt" value="1"><input type="hidden" id="pwz" value="">
+    <div class="wz" id="pwzRoot">
+      <div class="wz-rail" id="pwzRail"></div>
+      <div class="wz-step" id="pwzS1">
+        <div class="wz-chip pz-press" onclick="pWzGo(1)"><span class="wz-ck">✓</span><span class="wz-ci">💱</span><b id="pwzC1">-</b><span class="wz-ce">수정</span></div>
+        <div class="wz-body">
+          <div class="wz-ht"><span class="wz-no">1</span>환율 <em>오늘 기준 환율을 확인하세요</em></div>
+          <div class="wz-fxrow">
+            <label class="wz-big"><em>환율 ₩/$</em><input type="number" id="pfx" value="1400" inputmode="numeric" oninput="pA()"></label>
+            <label class="wz-big sm"><em>지원 ₩/kg</em><input type="number" id="psp" value="0" inputmode="numeric" oninput="pA()"></label>
+          </div>
+          <div class="fxhint" id="pfxToday" style="margin-top:4px"></div>
+          <button type="button" class="pz-basebtn pz-press" style="margin-top:9px" onclick="pBaseTg()">📐 기준단가·환산 <span id="pzBaseArr">▾</span></button>
+          <div id="pzBase" class="pz-base h" style="border:none;padding:8px 0 0;background:none">
+            <div class="pz-baseg">
+              <div class="ig"><label>18-24s</label><input type="number" id="pa" value="47000" oninput="pA();pRawLog('pa',this.value)"></div>
+              <div class="ig"><label>26-30s</label><input type="number" id="pb" value="42500" oninput="pA();pRawLog('pb',this.value)"></div>
+              <div class="ig"><label>32-36s</label><input type="number" id="pc" value="36500" oninput="pA();pRawLog('pc',this.value)"></div>
+              <div class="ig"><label>5kg 6-8s<em>직접</em></label><input type="number" id="pd5a" oninput="pA();pRawLog('pd5a',this.value)"></div>
+              <div class="ig"><label>5kg 9-10s<em>직접</em></label><input type="number" id="pd5b" oninput="pA();pRawLog('pd5b',this.value)"></div>
+            </div>
+            <input type="hidden" id="ha" value="19000"><input type="hidden" id="hb" value="17500"><input type="hidden" id="hc" value="15500">
+          </div>
+          <button class="wz-next pz-press" onclick="pWzGo(2)">다음 — 노선 선택 →</button>
+        </div>
+      </div>
+      <div class="wz-step" id="pwzS2">
+        <div class="wz-chip pz-press" onclick="pWzGo(2)"><span class="wz-ck">✓</span><span class="wz-ci">🚢</span><b id="pwzC2">-</b><span class="wz-ce">수정</span></div>
+        <div class="wz-body">
+          <div class="wz-ht"><span class="wz-no">2</span>노선 선택 <em>국가 → 산지 → 컨테이너</em></div>
+          <div id="pzRoute"></div>
+          <button class="wz-next pz-press" id="pwzN2" onclick="pWzGo(3)">다음 — 스펙 선택 →</button>
+        </div>
+      </div>
+      <div class="wz-step" id="pwzS3">
+        <div class="wz-chip pz-press" onclick="pWzGo(3)"><span class="wz-ck">✓</span><span class="wz-ci">📦</span><b id="pwzC3">-</b><span class="wz-ce">수정</span></div>
+        <div class="wz-body">
+          <div class="wz-ht"><span class="wz-no">3</span>스펙 선택 <em>중복 선택 가능 · 15kg는 3사이즈 세트</em></div>
+          <div id="pzSpecs"></div>
+          <button class="wz-next pz-press" id="pwzN3" onclick="pWzGo(4)">계산하기 ⚡</button>
+        </div>
+      </div>
     </div>`;
-  pSjBtns();   // 산지 버튼 — PSANJI 기반 렌더 (sync 자동 추가/개명 시에도 재사용)
-  inpRestore();   // ★ 테이블 빌드 전에 저장값 복원 — pB() 첫 줄 inpSaveAll()이 방금 만든 기본값 입력칸을 저장소에 커밋해 사용자 값(환율/지원/운송모드/단가/작업비)을 파괴하던 순서 결함 수정
+  inpRestore();
+  const co0=($('pco')&&$('pco').value)||'';pCo=PC.some(c=>c.n===co0)?co0:null;
+  const sj0=($('psjv')&&$('psjv').value)||'';pSj=PSANJI.includes(sj0)?sj0:null;
+  const spRaw=($('pspecs')&&$('pspecs').value)||'';
+  pSpecSel=spRaw?spRaw.split(',').filter(t=>t==='15set'||PS.some(s=>s.id===t)):[];
+  const wz0=+($('pwz')&&$('pwz').value)||0;
+  pWz=(wz0>=1&&wz0<=4)?wz0:(pActiveSids().length&&pCo&&pSj?4:(pCo&&pSj?3:1));   // 이어하기: 저장 상태에 맞는 단계로 (첫 방문은 환율부터)
   pB();
 }
-// 배 산지 버튼 렌더 — 산지명은 시트 유래(auto-extend)이므로 이스케이프 (포도 산지 버튼과 동일 패턴)
-function pSjBtns(){
-  const e=$('psb');if(!e)return;
-  e.innerHTML=PSANJI.map(s=>{
-    const a=pSj===s?' a':'';
-    const st=pSj===s?' style="background:linear-gradient(135deg,#daa520,#b8860b);color:#fff;border-color:#b8860b"':'';
-    return `<button class="sj${a}" onclick="pSl(decodeURIComponent('${jsArg(s)}'))"${st}>${hlEsc(s)}</button>`;
-  }).join('');
+function pBaseTg(){const e=$('pzBase');if(!e)return;e.classList.toggle('h');const a=$('pzBaseArr');if(a)a.textContent=e.classList.contains('h')?'▾':'▴';}
+function pStateSave(){
+  if($('pco'))$('pco').value=pCo||'';
+  if($('psjv'))$('psjv').value=pSj||'';
+  if($('pspecs'))$('pspecs').value=pSpecSel.join(',');
+  if($('pwz'))$('pwz').value=String(pWz);
+  ['pco','psjv','pspecs','pwz'].forEach(id=>{const e=$(id);if(e)inpSet(id,e.value);});
 }
-function pSl(s){pSj=pSj===s?null:s;document.querySelectorAll('#psb .sj').forEach(b=>{const a=b.textContent===pSj;b.classList.toggle('a',a);b.style.background=a?'linear-gradient(135deg,#daa520,#b8860b)':'';b.style.color=a?'#fff':'';b.style.borderColor=a?'#b8860b':'';});
-  // 산지별 작업비 자동 반영
-  if(pSj&&PWK_SJ[pSj]){const w=PWK_SJ[pSj];Object.keys(w).forEach(k=>{const e=$('pwk_'+k);if(e){e.value=w[k];e.placeholder=w[k];_syncApplied['pwk_'+k]=w[k];}});const lb=$('pwk_sj_label');if(lb)lb.textContent='← '+pSj+' 기준';}
-  else{const lb=$('pwk_sj_label');if(lb)lb.textContent='';Object.keys(PWK).forEach(k=>{const e=$('pwk_'+k);if(e){e.value=PWK[k];e.placeholder=PWK[k];_syncApplied['pwk_'+k]=PWK[k];}});}   // 산지 해제 시 전국 기본으로 복원 + _syncApplied 기준점도 동기화 — 프로그램적 쓰기가 사용자 편집으로 오인돼 이후 sync가 영영 차단되는 것 방지
+function pWzGo(n){
+  if(n>=2&&!(gv('pfx')>0)){const e=$('pfx');if(e){e.focus();e.classList.add('wz-shake');setTimeout(()=>e.classList.remove('wz-shake'),400);}return;}
+  if(n>=3&&!(pCo&&pSj)){pWz=2;pStateSave();pB();if(!pCo)setTimeout(pCoOpen,220);else setTimeout(pSjOpen,220);return;}
+  if(n>=4&&!pActiveSids().length){pWz=3;pStateSave();pB();return;}
+  pWz=n;pStateSave();pB();
+  if(n===2&&!pCo)setTimeout(pCoOpen,260);   // 노선 단계 진입 시 국가 시트 자동 오픈 — 샥샥 진행
+}
+// 위저드 상태 클래스 + 레일 + 칩 요약
+function pWzR(){
+  const sh=pShV(),cnt=pCntV(),co=PC.find(c=>c.n===pCo);
+  const steps=[1,2,3];
+  steps.forEach(n=>{
+    const el=$('pwzS'+n);if(!el)return;
+    el.classList.remove('act','done','lock');
+    el.classList.add(n===pWz?'act':(n<pWz?'done':'lock'));
+    if(pWz===4)el.classList.remove('act'),el.classList.add('done');
+  });
+  const c1=$('pwzC1');if(c1)c1.textContent='₩'+fN(gv('pfx')||0)+(gv('psp')>0?' · 지원'+fN(gv('psp')):'');
+  const c2=$('pwzC2');if(c2)c2.innerHTML=(pCo&&pSj)?`${hlEsc((co||{}).f||'')} ${hlEsc(pCo)} · ${hlEsc(pSj)} · ${sh==='f'?'40ft':'20ft'}${cnt>1?'×'+cnt:''}`:'노선 미선택';
+  const c3=$('pwzC3');if(c3)c3.textContent=pActiveSids().length?pActiveSids().length+'개 스펙':'스펙 미선택';
+  const rail=$('pwzRail');
+  if(rail){
+    const labs=['환율','노선','스펙','계산'];
+    rail.innerHTML=labs.map((l,i)=>{const n=i+1;const st=n<pWz?'done':n===pWz?'act':'';
+      return `<div class="wz-seg ${st}" onclick="pWzGo(${n})"><span class="wz-dot">${n<pWz?'✓':n}</span><em>${l}</em></div>`;}).join('');
+  }
+  const n2=$('pwzN2');if(n2)n2.disabled=!(pCo&&pSj);
+  const n3=$('pwzN3');if(n3){const k=pActiveSids().length;n3.disabled=!k;n3.textContent=k?`계산하기 ⚡ (${k}개 스펙)`:'스펙을 선택하세요';}
+}
+// ── STEP 2 내용 (노선) ──
+function pStepR(){
+  pWzR();
+  const sh=pShV(),co=PC.find(c=>c.n===pCo),cntCur=pCntV();
+  const seaOk=pCo&&PSEA[pCo]&&PSEA[pCo][sh]>0,ilOk=pSj&&PIL[pSj]&&PIL[pSj][sh]>0;
+  const frTot=(seaOk&&ilOk)?PIL[pSj][sh]+PSEA[pCo][sh]:0;
+  const usBlock=sh==='t'&&co&&co.us;
+  let h=`<div class="pz-selrow">
+    <button class="pz-sel pz-press${pCo?' on':''}" onclick="pCoOpen()"><span class="pz-selk">국가</span><span class="pz-selv">${co?hlEsc(co.f)+' '+hlEsc(co.n):'선택 ▾'}</span></button>
+    <button class="pz-sel pz-press${pSj?' on':''}" onclick="pSjOpen()"><span class="pz-selk">산지</span><span class="pz-selv">${pSj?'📍 '+hlEsc(pSj):'선택 ▾'}</span></button>
+    <div class="pz-sel pz-shwrap"><span class="pz-selk">컨테이너</span><div style="display:flex;gap:5px;align-items:center"><div class="shtg pz-shtg"><button type="button" class="sho pz-press${sh==='f'?' a':''}" id="psh_40" onclick="setSh('psh','40')">40ft</button><button type="button" class="sho pz-press${sh==='t'?' a':''}" id="psh_20" onclick="setSh('psh','20')">20ft</button></div><div class="wz-cnt"><button class="pz-press" onclick="pCntSet(-1)">−</button><b>${cntCur}대</b><button class="pz-press" onclick="pCntSet(1)">＋</button></div></div></div>
+  </div>`;
+  if(usBlock)h+=`<div class="pz-warn">⚠ ${hlEsc(pCo)}는 20ft 노선이 없습니다 — 40ft를 선택하세요</div>`;
+  else if(pCo&&pSj){
+    const si=PIL_SRC[pSj];
+    const siTx=si?(si.s==='DATA'?`DATA 내륙표 · ${hlEsc(si.n)}${si.p?'('+hlEsc(si.p)+')':''}`:si.s==='OCEAN'?'⚠ 매핑 미확인 — OCEAN 시트값':'⚠ 운임 미확인'):'';
+    const siWarn=si&&si.s!=='DATA';
+    if(frTot)h+=`<div class="pz-frline" id="pzFr"><span class="pz-frb">🚢 운임 <b>₩${fN(frTot)}</b>${cntCur>1?` × ${cntCur}대 = <b>₩${fN(frTot*cntCur)}</b>`:''} <em>/ 컨테이너당 1회 적용</em></span><span class="pz-frd">국내(${hlEsc(pSj)}) ₩${fN(PIL[pSj][sh])} + 항/해(${hlEsc(pCo)}) ₩${fN(PSEA[pCo][sh])}</span>${(siTx||FR_UPD)?`<span class="pz-frd2${siWarn?' warn':''}">${siTx?'국내운임: '+siTx:''}${siTx&&FR_UPD?' · ':''}${FR_UPD?'운임표 '+hlEsc(FR_UPD):''}${siWarn?' — 앱설정 [배 산지-운임 매핑]에서 지정':''}</span>`:''}</div>`;
+    else h+=`<div class="pz-warn">⚠ ${hlEsc(pSj)} → ${hlEsc(pCo)} ${sh==='f'?'40ft':'20ft'} 운임 미수신 — 시트 DATA/OCEAN 확인 또는 동기화(🔄) 필요</div>`;
+    const mt=(PSJ_COUNTRY[pSj]||{})[pCo];
+    if(frTot&&!(mt&&mt.includes(sh==='f'?'40':'20')))h+=`<div class="pz-note">ℹ 시트 OCEAN에 없는 조합입니다 — 운임 기준으로 계산됩니다</div>`;
+  }
+  const rt=$('pzRoute');if(rt)rt.innerHTML=h;
+  // STEP 3 내용 (스펙 칩)
+  const setOn=pSpecSel.includes('15set');
+  let h2=`<div class="pz-chips">`;
+  h2+=`<button class="pz-chip pz-press${setOn?' on':''}" onclick="pTgSpec('15set')" style="--i:0">15kg 세트 <em>18-24·26-30·32-36</em></button>`;
+  let ci=1;
+  PS.forEach(s=>{if(s.set||s.etc)return;const on=pSpecSel.includes(s.id);
+    h2+=`<button class="pz-chip pz-press${on?' on':''}" onclick="pTgSpec('${s.id}')" style="--i:${ci++}">${hlEsc(s.l)}</button>`;});
+  const etc=PS.filter(s=>s.etc);
+  if(etc.length){
+    h2+=`</div><div class="pz-etct pz-press" onclick="this.nextElementSibling.classList.toggle('h');this.querySelector('span').textContent=this.nextElementSibling.classList.contains('h')?'▾':'▴'">기타 스펙(시트) ${etc.length}개 <span>▾</span></div><div class="pz-chips h">`;
+    etc.forEach(s=>{const on=pSpecSel.includes(s.id);
+      h2+=`<button class="pz-chip etc pz-press${on?' on':''}" onclick="pTgSpec(decodeURIComponent('${jsArg(s.id)}'))">${hlEsc(s.l)}</button>`;});
+  }
+  h2+=`</div>${pSpecSel.length?`<button class="pz-clear pz-press" style="margin-top:8px" onclick="pSpecsClear()">전체 해제</button>`:''}`;
+  const sp=$('pzSpecs');if(sp)sp.innerHTML=h2;
+}
+function pCntSet(d){const e=$('pcnt');if(!e)return;const v=Math.min(9,Math.max(1,(+e.value||1)+d));e.value=v;inpSet('pcnt',String(v));pB();}
+function pTgSpec(t){
+  const i=pSpecSel.indexOf(t);
+  if(i>=0)pSpecSel.splice(i,1);else pSpecSel.push(t);
+  pStateSave();pB();
+}
+function pSpecsClear(){pSpecSel=[];pStateSave();pB();}
+// ── 국가 선택 시트 ──
+function pzModal(id){
+  let ov=$(id);
+  if(!ov){ov=document.createElement('div');ov.id=id;ov.className='mo h pz-mo';ov.addEventListener('click',function(e){if(e.target===this)this.classList.add('h');});document.body.appendChild(ov);}
+  return ov;
+}
+function pCoOpen(){const ov=pzModal('pzCoM');ov.innerHTML='<div class="pzSheet"><div class="pz-sht">🌏 국가 선택 <span class="pz-shs">국가 운임(항/해)이 적용됩니다</span><button class="pz-x pz-press" onclick="document.getElementById(\'pzCoM\').classList.add(\'h\')">✕</button></div><div id="pzCoB"></div></div>';ov.classList.remove('h');pCoR();}
+function pCoR(){
+  const b=$('pzCoB');if(!b)return;
+  const sh=pShV();
+  let h=`<div class="rgnb pz-rgnb">${PRG.map(r=>`<button class="rgn pz-press${pRgn===r.k?' a':''}" style="${pRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="pRgn='${r.k}';pCoR()">${r.l}</button>`).join('')}</div><div class="pz-colist">`;
+  const rgn=PRG.find(r=>r.k===pRgn);
+  let list=pRgn==='all'?PC.slice():PC.filter(c=>rgn.ns.indexOf(c.n)>=0);
+  list=favSort('p',list,c=>c.n);
+  list.forEach((c,i)=>{
+    const dis=sh==='t'&&c.us;
+    const s2=PSEA[c.n]||{};const fr=s2[sh]||0;
+    const sjOk=pSj&&(PSJ_COUNTRY[pSj]||{})[c.n];
+    h+=`<button class="pz-co pz-press${pCo===c.n?' on':''}${dis?' dis':''}" style="--i:${i}" ${dis?'':`onclick="pCoPick(decodeURIComponent('${jsArg(c.n)}'))"`}>
+      <span class="pz-cofav" onclick="event.stopPropagation();favTog('p',decodeURIComponent('${jsArg(c.n)}'));pCoR()">${favGet('p').includes(c.n)?'★':'☆'}</span>
+      <span class="pz-cofl">${hlEsc(c.f)}</span><span class="pz-conm">${hlEsc(c.n)}</span>
+      <span class="pz-cofr">${dis?'20ft 없음':(fr?'₩'+fN(fr):'운임 미수신')}</span>${sjOk?'<span class="pz-cosj">시트</span>':''}</button>`;
+  });
+  h+='</div>';b.innerHTML=h;
+}
+function pCoPick(n){
+  pCo=n;pStateSave();
+  const ov=$('pzCoM');if(ov)ov.classList.add('h');
+  const co=PC.find(c=>c.n===n);
+  if(co&&co.us&&pShV()==='t')setSh('psh','40');else pB();
+  if(!pSj)setTimeout(pSjOpen,180);   // 다음 단계 자연 유도 — 국가 선택 직후 산지 시트 자동 오픈
+}
+// ── 산지 선택 시트 ──
+function pSjOpen(){const ov=pzModal('pzSjM');ov.innerHTML='<div class="pzSheet"><div class="pz-sht">📍 산지 선택 <span class="pz-shs">산지 운임(국내)이 적용됩니다</span><button class="pz-x pz-press" onclick="document.getElementById(\'pzSjM\').classList.add(\'h\')">✕</button></div><div id="pzSjB"></div></div>';ov.classList.remove('h');pSjR();}
+function pSjR(){
+  const b=$('pzSjB');if(!b)return;
+  const sh=pShV();
+  const arr=PSANJI.slice().sort((a,b2)=>{
+    const am=pCo&&(PSJ_COUNTRY[a]||{})[pCo]?0:1,bm=pCo&&(PSJ_COUNTRY[b2]||{})[pCo]?0:1;
+    return am-bm||PSANJI.indexOf(a)-PSANJI.indexOf(b2);
+  });
+  let h='<div class="pz-colist">';
+  arr.forEach((s2,i)=>{
+    const il=PIL[s2]||{};const fr=il[sh]||0;
+    const mt=pCo&&(PSJ_COUNTRY[s2]||{})[pCo];
+    h+=`<button class="pz-co pz-press${pSj===s2?' on':''}" style="--i:${i}" onclick="pSjPick(decodeURIComponent('${jsArg(s2)}'))">
+      <span class="pz-cofl">📍</span><span class="pz-conm">${hlEsc(s2)}</span>
+      <span class="pz-cofr">${fr?'₩'+fN(fr):'운임 미수신'}</span>${mt?`<span class="pz-cosj">${mt.map(x=>x+'ft').join('·')}</span>`:''}</button>`;
+  });
+  h+='</div>';b.innerHTML=h;
+}
+function pSjPick(s2){
+  pSj=s2;pStateSave();   // 모달에서는 항상 '선택' — 같은 산지 재탭이 해제로 오작동하지 않게
+  const ov=$('pzSjM');if(ov)ov.classList.add('h');
   pB();
 }
+function pSl(s2){pSjPick(s2);}   // 구버전 호환 별칭
+function pSjBtns(){if($('pzSjM')&&!$('pzSjM').classList.contains('h'))pSjR();if($('pzCoM')&&!$('pzCoM').classList.contains('h'))pCoR();}   // sync로 산지/국가 목록 변경 시 열린 시트 갱신 (pB는 syncRebuild가 호출)
+// ── 🌏 국가 비교 — 현재 산지·스펙·원물 기준으로 전 국가 원가($)/마진 한눈에 (행 탭 = 그 국가로 전환) ──
+function pCompareOpen(){
+  if(!pSj||!pActiveSids().length)return;
+  const ov=pzModal('pzCmpM');
+  ov.innerHTML='<div class="pzSheet"><div class="pz-sht">🌏 국가별 원가 비교 <span class="pz-shs">'+hlEsc(pSj)+' · '+(pShV()==='f'?'40ft':'20ft')+' · 국가 탭하면 전환</span><button class="pz-x pz-press" onclick="document.getElementById(\'pzCmpM\').classList.add(\'h\')">✕</button></div><div id="pzCmpB"></div></div>';
+  ov.classList.remove('h');pCmpR();
+}
+function pCmpR(){
+  const b=$('pzCmpB');if(!b)return;
+  const sh=pShV(),sids=pActiveSids();
+  let list=PC.filter(c=>!(sh==='t'&&c.us));
+  list=favSort('p',list,c=>c.n);
+  let h='';
+  sids.forEach(sid=>{
+    const sp=PS.find(s=>s.id===sid);if(!sp)return;
+    const rows=[];
+    list.forEach(c=>{const r=pCalc(c.n,sid);if(!r)return;rows.push({c,r});});
+    if(!rows.length)return;
+    rows.sort((a,b2)=>{const av=a.r.be||1e15,bv=b2.r.be||1e15;return av-bv;});
+    h+=`<div class="pz-cmpt">${hlEsc(sp.l)}</div><div class="pz-colist" style="margin-bottom:10px">`;
+    rows.forEach(({c,r},i)=>{
+      const cnJ=jsArg(c.n);
+      let mid='',right='';
+      if(r.noFr){mid=`<span class="pz-dim">${hlEsc(r.why||'계산 불가')}</span>`;}
+      else if(r.noRaw){mid='<span class="pz-dim">원물 미입력</span>';}
+      else{
+        mid=`원가 <b>$${r.be?r.be.toFixed(2):'-'}</b>`;
+        if(r.of)right=`<span class="${mC(r.mb)}" style="font-weight:800">$${r.of} → ${fK(r.mb*(gv('pfx')||0))}</span>`;
+        else right='<span class="pz-dim">$ 미입력</span>';
+      }
+      h+=`<button class="pz-co pz-press${pCo===c.n?' on':''}" style="--i:${i}" onclick="pCoPick(decodeURIComponent('${cnJ}'));document.getElementById('pzCmpM').classList.add('h')">
+        <span class="pz-cofl">${hlEsc(c.f)}</span><span class="pz-conm">${hlEsc(c.n)}</span>
+        <span style="margin-left:auto;font-size:10.5px;font-family:'JetBrains Mono',monospace;color:var(--t2)">${mid}</span>
+        <span style="font-size:10px;font-family:'JetBrains Mono',monospace">${right}</span>${pCo===c.n?'<span class="pz-cosj">현재</span>':''}</button>`;
+    });
+    h+='</div>';
+  });
+  b.innerHTML=h||'<div class="le">비교할 항목이 없습니다</div>';
+}
+// ── 📝 오퍼 일괄 기록 — PRICE 입력된 스펙 전부를 공통 정보(인보이스·제조자·상차일·메모) 한 번으로 오퍼히스토리에 전송 ──
+function pBatchItems(){
+  const out=[];
+  if(!pCo)return out;
+  pActiveSids().forEach(sid=>{const r=pCalc(pCo,sid);if(r&&r.of&&!r.noFr&&!r.noRaw&&!r.empty)out.push({sid,r});});
+  return out;
+}
+function pBatchOpen(){
+  const items=pBatchItems();
+  if(!items.length){alert('PRICE(오퍼가)가 입력된 스펙이 없습니다.\n카드에서 $를 입력한 뒤 다시 눌러주세요.');return;}
+  const ov=pzModal('pzBatM');
+  const co=PC.find(c=>c.n===pCo);
+  let h='<div class="pzSheet"><div class="pz-sht">📝 오퍼 일괄 기록 <span class="pz-shs">'+hlEsc((co?co.f+' ':'')+pCo)+' · '+hlEsc(pSj||'')+' · '+gv('psh')+'ft</span><button class="pz-x pz-press" onclick="document.getElementById(\'pzBatM\').classList.add(\'h\')">✕</button></div>';
+  h+='<div class="pz-batg">';
+  items.forEach(({sid,r},i)=>{
+    h+=`<label class="pz-batrow"><input type="checkbox" class="pzBatChk" data-sid="${hlEsc(sid)}" checked>
+      <span class="pz-batsp">${hlEsc(r.sp)}</span>
+      <span class="pz-batv">$${r.of} · <b class="${mC(r.mb)}">${fD(r.mb)}</b> · ${fN(r.tb)}박스</span></label>`;
+  });
+  h+='</div><div class="gbm-grid" style="margin-top:10px">'
+    +'<label>인보이스 <em>공통</em><input id="pbInv" type="text" placeholder="예: KINGO-26-02"></label>'
+    +'<label>제조자 <em>공통</em><input id="pbMkr" type="text" value="'+hlEsc(pSj||'')+'"></label>'
+    +'<label>상차일 <em>공통</em><input id="pbLd" type="date"></label>'
+    +'<label>메모 <em>공통</em><input id="pbMemo" type="text" placeholder="선택"></label>'
+    +'</div><div class="mbs" style="margin-top:12px"><button class="mb k" onclick="document.getElementById(\'pzBatM\').classList.add(\'h\')">취소</button><button class="mb s" id="pbSend" onclick="pBatchSend()">📤 전체 전송</button></div></div>';
+  ov.innerHTML=h;ov.classList.remove('h');
+}
+function pBatchSend(){
+  const me=getMe();if(!me){alert('이름을 먼저 입력하세요');return;}
+  const checked=Array.from(document.querySelectorAll('.pzBatChk')).filter(x=>x.checked).map(x=>x.getAttribute('data-sid'));
+  const items=pBatchItems().filter(x=>checked.includes(x.sid));
+  if(!items.length){alert('전송할 항목을 선택하세요');return;}
+  // 이상치 일괄 점검 (개별 sendGuard와 동일 기준을 한 번에)
+  const warns=[];
+  const negN=items.filter(x=>x.r.mb<0).length;if(negN)warns.push('마이너스 마진 '+negN+'건이 포함되어 있습니다');
+  const rtN=gv('pfx');if(TODAY_FX>0&&rtN>0&&Math.abs(rtN-TODAY_FX)/TODAY_FX>0.03)warns.push('적용환율(₩'+fN(rtN)+')이 오늘 시세(₩'+fN(TODAY_FX)+')와 3% 이상 차이납니다');
+  const ovN=items.filter(x=>x.r.tb>x.r.defTb).length;if(ovN)warns.push('만적 초과 수량 '+ovN+'건');
+  const stH=syncStaleHours();if(stH)warns.push('시트 동기화가 '+stH+'시간 전입니다');
+  if(warns.length&&!confirm('⚠ 전송 전 확인해주세요:\n\n· '+warns.join('\n· ')+'\n\n그래도 '+items.length+'건을 전송할까요?'))return;
+  const inv=($('pbInv')&&$('pbInv').value.trim())||'',mkr=($('pbMkr')&&$('pbMkr').value.trim())||'',ld=($('pbLd')&&$('pbLd').value)||'',memo=($('pbMemo')&&$('pbMemo').value.trim().slice(0,500))||'';
+  const co=PC.find(c=>c.n===pCo);
+  const btn=$('pbSend');if(btn){btn.disabled=true;}
+  let okN=0,failN=0;
+  const send=(i)=>{
+    if(i>=items.length){
+      if(btn){btn.disabled=false;btn.textContent=failN?'⚠ '+okN+'건 전송 · '+failN+'건 미전송(기록탭 보관)':'✅ '+okN+'건 전송 완료';}
+      try{rL();uLC();fetchHist();}catch(e){}
+      if(!failN)setTimeout(()=>{const ov=$('pzBatM');if(ov)ov.classList.add('h');},1200);
+      return;
+    }
+    if(btn)btn.textContent='⏳ '+(i+1)+'/'+items.length+' 전송 중...';
+    const{sid,r}=items[i];
+    const rec={fr:'p',co:pCo,fl:co?.f||'',sp:r.sp,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('pfx'),sj:pSj,sh:gv('psh')+'ft',
+      qty:`${r.sp} ${r.ctn}ctn × ${r.tp}p (${fN(r.tb)}ctn)`,raw:fN(Math.round(r.raw))+'원/박스',maker:mkr||pSj,tb:r.tb,defTb:r.defTb,
+      invoice:inv,loadDate:ld,me:memo,author:me,id:genId(),dt:new Date().toISOString()};
+    const fin=(sent)=>{
+      if(sent){rec.sent=true;rec.sentAt=new Date().toISOString();okN++;}else failN++;
+      logs=logs.filter(l=>String(l.id)!==String(rec.id));logs.unshift({...rec});try{saveL();}catch(e){}
+      const lb=$('pb'+pCo+sid);if(lb&&sent){lb.classList.add('ok');setTimeout(()=>lb.classList.remove('ok'),1200);}
+      send(i+1);
+    };
+    const cb=jsonpCb('bat'),sc=document.createElement('script');
+    sc.src=SU+'?action=log&callback='+cb+'&data='+encodeURIComponent(JSON.stringify(buildLogPayload(rec,me)));
+    const t=setTimeout(()=>{cl();fin(false);},20000);
+    function cl(){clearTimeout(t);jsonpDone(cb,sc);}
+    sc.onerror=function(){cl();fin(false);};
+    window[cb]=function(d2){cl();fin(!!(d2&&(d2.ok||d2.success)));};
+    document.head.appendChild(sc);
+  };
+  send(0);
+}
+// ── 🧹 현재 노선 입력 초기화 — 이 국가의 PRICE·수량 + 이 산지의 원물·작업비 입력만 비움 (기준단가·기록은 유지) ──
+function pReset(){
+  if(!confirm('현재 노선의 입력값을 비울까요?\n\n· '+(pCo||'-')+'의 PRICE($)·수량\n· '+(pSj||'-')+'의 원물·작업비 입력\n\n(기준단가·부자재/박스 수정·기록은 유지됩니다)'))return;
+  const pfx2=[];
+  if(pCo){pfx2.push('po'+pCo,'pq'+pCo);}
+  pfx2.push('praw'+(pSj||''),'prawU'+(pSj||''),'pwk2'+(pSj||''),'pwk2U'+(pSj||''));
+  clearInpPrefix(pfx2);
+  pB();
+}
+// 버튼 리플 애니메이션 — .pz-press 공용 (터치 피드백)
+document.addEventListener('pointerdown',function(e){
+  const b=e.target&&e.target.closest?e.target.closest('.pz-press'):null;if(!b)return;
+  try{const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height);
+  const s2=document.createElement('span');s2.className='pz-rip';
+  s2.style.width=s2.style.height=d+'px';
+  s2.style.left=(e.clientX-r.left-d/2)+'px';s2.style.top=(e.clientY-r.top-d/2)+'px';
+  b.appendChild(s2);setTimeout(function(){if(s2.parentNode)s2.parentNode.removeChild(s2);},520);}catch(err){}
+});
 
 // ── 배 스펙별 부자재·박스 수정(📦) — 시트 sync 기본값 위에 사용자 오버라이드 (산지·운송 공통, 비우면 시트값 복귀) ──
 let pCost={};
@@ -1015,128 +1476,187 @@ function countryEnsure(c){
   if(c.no20)NO20[n]=1;
   return added;
 }
-function pSetRgn(k){pRgn=k;pB();pA();}
+// ── 계산 카드 빌드 (STEP 3) ──
+function pRawId(us,sid){return 'praw'+(us?'U':'')+(pSj||'')+sid;}
+function pWkId(us,sid){return 'pwk2'+(us?'U':'')+(pSj||'')+sid;}
+let _pDq={};
+// 수량 기본값 = 컨테이너 1대를 선택 스펙들에 파레트 분배 — 직접 입력한 수량(파레트 환산)을 뺀 나머지를 미입력 스펙에 균등 배분.
+// 스펙 1개면 만적. 이렇게 하면 기본 상태에서 운임이 정확히 1회만 반영된다.
+function pDefQtyCalc(){
+  _pDq={};
+  const sh=pShV(),cnt=pCntV();
+  const list=pActiveSids().map(sid=>{
+    const sp=PS.find(s=>s.id===sid);if(!sp)return null;
+    const ctn=sh==='f'?sp.c4:sp.c2;if(!(ctn>0))return null;
+    const tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9);
+    const q=pCo?gv('pq'+pCo+sid):0;
+    return{sid,ctn,tp,q};
+  }).filter(Boolean);
+  if(!list.length)return;
+  const tp=list.reduce((m,x)=>Math.max(m,x.tp),0)*cnt;   // 컨테이너 N대 = 파레트 풀도 N배
+  if(list.length===1){_pDq[list[0].sid]=list[0].ctn*tp;return;}
+  const typedPl=list.reduce((s2,x)=>s2+(x.q>0?x.q/x.ctn:0),0);
+  const un=list.filter(x=>!(x.q>0));
+  if(!un.length)return;
+  const remPl=Math.max(0,Math.floor(tp-typedPl+1e-6));
+  const n=un.length,basePl=Math.floor(remPl/n),extra=remPl%n;
+  un.forEach((x,i)=>{_pDq[x.sid]=(basePl+(i<extra?1:0))*x.ctn;});
+}
+function pDefQty(sid){return _pDq[sid]||0;}
+// 미국 작업비 기본값 — OCEAN 실측 방식: 국내기본+5%(b5) / 화지·3팩 순수값+5% / 대과+5% (입력 시 그 값 우선)
+function pWkDef(us,sp,raw){
+  const base=(pSj&&PWK_SJ[pSj]&&PWK_SJ[pSj][sp.wk])||PWK[sp.wk]||0;
+  if(!us)return{v:base,add:0};
+  const r5=raw>0?raw*0.05:0;
+  let pv=base;
+  if(sp.uw==='u5'){const hj=$('puwk_hj');pv=(hj&&hj.value)==='무화지'?PUWK.u5b:PUWK.u5;}
+  else if(sp.uw==='u3p'){const st=$('puwk_st');pv=(st&&st.value)==='부착'?PUWK.u3ps:PUWK.u3pn;}
+  else if(sp.uw==='udg')pv=PUWK.udg;
+  else if(sp.uw!=='b5')return{v:base,add:0};   // uw 미지정(15kg·7.5kg 등) = 가산 없음
+  return{v:pv+r5,add:r5};
+}
 function pB(){
   inpSaveAll();
-  const o=$('to');
-  if(!pSj){o.innerHTML='<div class="le"><span style="font-size:36px;display:block;margin-bottom:6px">🍐</span>산지를 선택하세요</div>';return;}
-  const p={a:gv('pa'),b:gv('pb'),c:gv('pc')};
-  const us={a:gv('ha'),b:gv('hb'),c:gv('hc')};
-  const conv={'5kg(6-8s)':Math.round(p.a/3),'5kg(9-10s)':Math.round(p.b/3),'7.5kg':Math.round(p.a/15*7.5),
-    '12.8kg':Math.round(p.b/15*12.8),'10.9kg':Math.round(p.c/15*10.9),'3kg(5s)':Math.round((p.a/24*3)+(p.b/26*2)),
-    '3kg(6s)':Math.round(p.b/26*6),'10kg대과':Math.round(p.a/15*10)};   // 3kg(6s)=6알 전량 (시트와 동시 수정)
-  const showUS=pRgn==='ame'||pRgn==='all';
-  // 필요한 단가 축이 전부 입력된 행만 표시 — 일부만 입력 시 부분합·₩0이 정상값처럼 보이던 문제 방지 (계산표의 ud 차단과 동일 기준)
-  const usRows=[
-    {l:'미국 5kg(6-8s)',d:[us.a],fn:()=>us.a},
-    {l:'미국 5kg(9-10s)',d:[us.b],fn:()=>us.b},
-    {l:'미국 3kg(5s)',d:[us.a,us.b],fn:()=>(us.a/8*3)+(us.b/9*2)},
-    {l:'미국 3kg(6s)',d:[us.b],fn:()=>us.b/10*6},
-    {l:'미국 12kg 5구',d:[us.a,us.b],fn:()=>((us.a/8*3)+(us.b/9*2))*4},
-    {l:'미국 12.8kg',d:[us.b],fn:()=>us.b/5*12.8},
-    {l:'미국 10.9kg',d:[us.c],fn:()=>us.c/5*10.9},
-    {l:'미국 10kg대과',d:[p.a],fn:()=>p.a/15*10}
-  ].filter(r=>r.d.every(x=>x>0)).map(r=>({l:r.l,raw:r.fn()}));
-  const usConv=usRows.length?usRows:null;
-  let h=`<div class="pp"><h3>📐 ${hlEsc(pSj)} 사이즈환산</h3><div class="cv">${Object.entries(conv).map(([k,v])=>`<div class="cr"><span>${k}</span><span class="cvl">₩${fN(v)}</span></div>`).join('')}</div></div>`;   // 산지명은 시트 배 탭 유래(auto-extend) — 이스케이프 (산지 버튼과 동일 패턴)
-  if(showUS&&usConv){
-    h+=`<div class="pp" style="background:linear-gradient(135deg,#fff5f5,#ffe8e8);border-color:#fcc"><h3 style="color:#a01818">🇺🇸 ${hlEsc(pSj)} 미국 환산 (US 단가 기준)</h3><div class="cv" style="border-color:#fcc">${usConv.map(r=>`<div class="cr" style="border-color:#fee"><span style="color:#7a1a1a">${r.l}</span><span class="cvl" style="color:#a01818">₩${fN(Math.round(r.raw))}</span></div>`).join('')}</div></div>`;
-  }
-
-  const sh=gv('psh')==40?'f':'t';
-  if(sh==='t'&&pRgn==='ame')pRgn='all';
-  const availPRG=sh==='t'?PRG.filter(r=>r.k!=='ame'):PRG;
-  h+=`<div class="rgnb">${availPRG.map(r=>`<button class="rgn${pRgn===r.k?' a':''}" style="${pRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="pSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
-
-  const specs=PS.filter(s=>{
-    if(sh==='f'&&!s.c4)return false;
-    if(sh==='t'&&!s.c2)return false;
-    return true;
-  });
-  const rgn=PRG.find(r=>r.k===pRgn);
-  let filteredPC=pRgn==='all'?PC:PC.filter(c=>rgn.ns.indexOf(c.n)>=0);
-  if(sh==='t')filteredPC=filteredPC.filter(c=>!c.us);
-  const sjMap=PSJ_COUNTRY[pSj]||{};
-  const sh40=sh==='f'?'40':'20';
-  filteredPC=filteredPC.filter(c=>(sjMap[c.n]||[]).indexOf(sh40)>=0);
-  filteredPC=favSort('p',filteredPC,c=>c.n);   // ★ 즐겨찾기 국가 상단 고정 (입력 id가 국가명 기반이라 순서 변경은 저장·복원에 안전)
-
-  h+=`<div style="overflow-x:auto"><table><thead><tr><th>국가</th><th>스펙</th><th style="font-size:8px">작업비</th><th>$</th><th>마진</th><th style="font-size:8px">실출고</th><th>총마진($)</th><th></th></tr></thead><tbody>`;
-  filteredPC.forEach(c=>{
-    const cSpecs=specs.filter(s=>!(c.us&&s.noUS));
-    cSpecs.forEach((s,si)=>{
-      const wkVal=gv('pwk_'+s.wk)||(pSj&&PWK_SJ[pSj]&&PWK_SJ[pSj][s.wk])||PWK[s.wk]||0;   // pCalc 국내 폴백과 동일 기준 — 표시값과 계산값 불일치 방지
-      const sCtn=sh==='f'?s.c4:s.c2;
-      const sTb=sCtn*(sh==='f'?(s.tp4>0?s.tp4:20):(s.tp2>0?s.tp2:9));   // 실출고 placeholder도 시트 TP 반영
-      const cnH=hlEsc(c.n),cnJ=`decodeURIComponent('${jsArg(c.n)}')`;   // 국가명은 시트 앱설정 유래 — HTML/JS 인자 이스케이프 (favBtn과 동일 위협모델, 잔존 구멍 봉합)
-      h+=`<tr${si===cSpecs.length-1?' class="cs"':''}>`+(si===0?`<td class="ctd" rowspan="${cSpecs.length}">${favBtn('p',c.n)}${hlEsc(c.f)}<br><span style="font-size:9px">${cnH}</span><br><button class="qcopy" onclick="copyQuote(${cnJ})" title="이 국가 견적 전체 복사">📄</button></td>`:'')+
-        `<td style="font-size:11px;color:#1a1a2e;font-weight:600">${s.l} <button class="gbj-btn pbjb${s.id}${pcOn(s.id)?' on':''}" style="padding:2px 5px;font-size:9px" onclick="pBjOpen('${s.id}')" title="부자재·박스 수정">📦</button></td>
-        <td style="font-size:8px;text-align:center;color:#b8860b;font-family:'JetBrains Mono',monospace" id="pw${cnH}${s.id}">${fN(wkVal)}</td>
-        <td class="ptd"><input type="number" step="0.1" id="po${cnH}${s.id}" oninput="pR(${cnJ},'${s.id}')"><div class="lof" id="lofpo${cnH}${s.id}"></div></td>
-        <td class="mc" id="pm${cnH}${s.id}" onclick="pCif(${cnJ},'${s.id}')" title="탭하면 원가 내역">-</td>
-        <td class="ptd"><input type="number" id="pq${cnH}${s.id}" placeholder="${sTb}" oninput="pR(${cnJ},'${s.id}')" style="width:50px;font-size:10px"></td>
-        <td class="tc" id="pt${cnH}${s.id}">-</td>
-        <td><button class="lb" id="pb${cnH}${s.id}" onclick="pL(${cnJ},'${s.id}')">📝</button></td></tr>`;
+  pStepR();
+  const o=$('to');if(!o)return;
+  const sh=pShV(),co=PC.find(c=>c.n===pCo);
+  const sids=pActiveSids();
+  let h='';
+  if(pWz<4||!pCo||!pSj){
+    if(pWz>=4){pWz=pCo&&pSj?3:2;pStateSave();pStepR();}
+    h=`<div class="wz-teaser"><span class="wz-tico">${pWz===1?'💱':pWz===2?'🚢':'📦'}</span>${pWz===1?'환율을 확인하고 <b>다음</b>을 누르세요':pWz===2?'국가와 산지를 선택하세요':'스펙을 고르고 <b>계산하기</b>를 누르세요'}<div class="wz-tsub">완료한 단계는 위쪽 칩을 탭해 언제든 수정할 수 있습니다</div></div>`;
+  }else if(sh==='t'&&co&&co.us){
+    h=`<div class="pz-empty"><span class="pz-emoji">⚠️</span>${hlEsc(pCo)}는 20ft 노선이 없습니다<div class="pz-emsub">40ft로 전환하거나 다른 국가를 선택하세요</div><button class="pz-cta pz-press" onclick="setSh('psh','40')">🚢 40ft로 전환</button></div>`;
+  }else if(!sids.length){
+    pWz=3;pStateSave();pStepR();
+    h=`<div class="wz-teaser"><span class="wz-tico">📦</span>스펙을 고르고 <b>계산하기</b>를 누르세요</div>`;
+  }else{
+    pDefQtyCalc();
+    const cnH=hlEsc(pCo);
+    h=`<div class="pz-tools"><button class="gtoolbtn pz-press" onclick="copyQuote(decodeURIComponent('${jsArg(pCo)}'))">📄 ${cnH} 견적</button><button class="gtoolbtn pz-press" onclick="pBatchOpen()">📝 전체 기록 <b id="pzBatN">0</b></button><button class="gtoolbtn pz-press" onclick="pCompareOpen()">🌏 국가 비교</button><button class="gtoolbtn pz-press" onclick="rawHistOpen('p',null)">🕘</button><button class="gtoolbtn pz-press" onclick="pReset()" title="이 노선의 입력값 비우기">🧹</button></div><div class="pz-cards">`;
+    let inSet=false;
+    sids.forEach((sid,idx)=>{
+      const sp=PS.find(s=>s.id===sid);if(!sp)return;
+      if(sp.set&&!inSet){h+=`<div class="pz-setlb">🍐 15kg 세트 <em>3개 사이즈가 한 세트</em></div>`;inSet=true;}
+      if(!sp.set)inSet=false;
+      h+=pCardHtml(pCo,sp,idx);
     });
-  });
-  h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();pA();
+    h+=`</div><div class="pz-sum" id="pzSum"></div>`;
+  }
+  o.innerHTML=h;inpRestore();pA();
 }
-
+function pCardHtml(cn,sp,idx){
+  const sh=pShV(),co=PC.find(c=>c.n===cn),us=!!(co&&co.us);
+  const sid=sp.id,cnH=hlEsc(cn),sidH=hlEsc(sid),sidJ=jsArg(sid),cnJ=jsArg(cn);
+  const ctn=sh==='f'?sp.c4:sp.c2;
+  const tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9);
+  const rawId=pRawId(us,sid),wkId=pWkId(us,sid);
+  const A=`decodeURIComponent('${cnJ}'),decodeURIComponent('${sidJ}')`;
+  if(!ctn)return`<div class="pz-card dis" style="--i:${idx}"><div class="pz-ch"><span class="pz-cl">${hlEsc(sp.l)}</span><span class="pz-cb warn">${sh==='f'?'40ft':'20ft'} 미취급 (ctn/p 없음)</span></div></div>`;
+  return`<div class="pz-card" id="pzc${cnH}${sidH}" style="--i:${idx}">
+  <div class="pz-ch"><span class="pz-cl">${us?'🇺🇸 ':''}${hlEsc(sp.l)}</span><span class="pz-cb">${ctn}ctn/p × ${tp}p</span><span style="flex:1"></span>
+    <button class="pz-ico pz-press" onclick="pCif(${A})" title="원가 내역">ⓘ</button>
+    <button class="lb pz-press" id="pb${cnH}${sidH}" onclick="pL(${A})" title="오퍼히스토리 기록">📝</button></div>
+  <div class="pz-cg">
+    <label class="pz-f"><em>원물 ₩</em><input type="number" inputmode="numeric" id="${hlEsc(rawId)}" oninput="pA();pRawH('${sidJ}',this.value)"></label>
+    <label class="pz-f"><em>작업비 ₩</em><input type="number" inputmode="numeric" id="${hlEsc(wkId)}" oninput="pA()"></label>
+    <label class="pz-f"><em>부자재 ₩</em><input type="number" inputmode="numeric" value="${pcRaw(sid,'bj')}" placeholder="${+sp.bj||0}" oninput="pcSet(decodeURIComponent('${sidJ}'),'bj',this.value)"></label>
+    <label class="pz-f"><em>박스 ₩</em><input type="number" inputmode="numeric" value="${pcRaw(sid,'bx')}" placeholder="${+sp.bx||0}" oninput="pcSet(decodeURIComponent('${sidJ}'),'bx',this.value)"></label>
+    <label class="pz-f"><em>수량 <b>만적${fN(ctn*tp*pCntV())}${pCntV()>1?'·'+pCntV()+'대':''}</b></em><input type="number" inputmode="numeric" id="pq${cnH}${sidH}" oninput="pA()"></label>
+    <label class="pz-f pz-price"><em>PRICE $</em><input type="number" step="0.1" inputmode="decimal" id="po${cnH}${sidH}" oninput="pA()"></label>
+  </div>
+  <div class="lof" id="lofpo${cnH}${sidH}"></div>
+  <div class="pz-res"><span class="pz-cif" id="pcf${cnH}${sidH}">-</span><span class="pz-mb" id="pm${cnH}${sidH}">-</span><span class="pz-tk" id="pt${cnH}${sidH}">-</span></div>
+</div>`;
+}
+function pRawH(sidEnc,val){const sid=decodeURIComponent(sidEnc);const sp=PS.find(s=>s.id===sid);if(!sp||!pSj)return;const co=PC.find(c=>c.n===pCo);rawLog('p',pSj,'',sp.l+(co&&co.us?' (미국)':''),val,'원/박스');}
 function pCalc(cn,sid){
-  if(!pSj)return null;
-  const fx=gv('pfx'),sup=gv('psp'),sh=gv('psh')==40?'f':'t';
+  if(!pSj||!cn)return null;
+  const fx=gv('pfx'),sup=gv('psp'),sh=pShV();
   const sp=PS.find(s=>s.id===sid);const co=PC.find(c=>c.n===cn);if(!sp||!co)return null;
   const sea=PSEA[cn],il=PIL[pSj];if(!sea||!il)return null;
-  const seaV=sea[sh],inlV=il[sh];if(!seaV||!inlV)return null;   // 내륙운임 0(미수신)이면 CIF 과소계산 → 계산 차단('-' 표시)
-  const ctn=sh==='f'?sp.c4:sp.c2;if(!ctn)return null;
-  const tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9),defTb=ctn*tp;   // 파레트 수: 시트 K열(TP) sync값 우선
+  const seaV=sea[sh],inlV=il[sh];
+  const ctn=sh==='f'?sp.c4:sp.c2;
+  const tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9);
+  if(!seaV||!inlV||!ctn)return{noFr:true,why:!ctn?(sh==='f'?'40ft':'20ft')+' 미취급':!inlV?'산지 국내운임 미수신':'국가 항/해운임 미수신'};
+  const defTb=ctn*tp*pCntV(),dq=pDefQty(sid)||defTb;   // 만적 = 컨테이너 N대 기준
   const qIn=gv('pq'+cn+sid);
-  const tb=qIn>0?qIn:defTb;
-
-  const p={a:gv('pa'),b:gv('pb'),c:gv('pc')};
-  const h={a:gv('ha'),b:gv('hb'),c:gv('hc')};
-  // 시트 미국작업비 블록과 1:1 입력칸 + 계산기준 토글 — 5kg은 화지/무화지, 3팩(12.8·10.9kg)은 스티커 부착/미부착 중 선택값으로 계산
-  const hjE=$('puwk_hj'),stE=$('puwk_st');
-  const u3p=(stE&&stE.value)==='부착'?(gv('puwk_u3ps')||PUWK.u3ps):(gv('puwk_u3pn')||PUWK.u3pn);
-  const wc={u5:(hjE&&hjE.value)==='무화지'?(gv('puwk_u5b')||PUWK.u5b):(gv('puwk_u5')||PUWK.u5),
-    u3a:gv('puwk_u3a')||PUWK.u3a,u3b:gv('puwk_u3b')||PUWK.u3b,
-    u12:gv('puwk_u12')||PUWK.u12,u128:u3p,u109:u3p,udg:gv('puwk_udg')||PUWK.udg};
-
-  let raw,wk,wkAdd=0;
-  if(co.us&&sp.urf){
-    if(sp.ud&&sp.ud.some(k=>!(h[k]>0)))return null;   // 합성 스펙(3kg 5s·12kg 등)은 구성 단가 중 하나만 비어도 원물 과소계산 — 필요한 축(ud) 전부 있어야 계산
-    raw=sp.urf(h,p);if(!(raw>0))return null;wk=sp.uwk(raw,wc);wkAdd=raw*0.05;   // 미국 단가 미입력 시 raw=0으로 CIF 과소계산되던 문제 — 계산 차단('-' 표시)
-  }
-  else{
-    if(sp.kd&&sp.kd.some(k=>!(p[k]>0)))return null;   // 합성 스펙(3kg 5s·12kg)은 국내 단가도 필요 축 전부 있어야 계산 — 부분합 CIF 과소 차단
-    raw=sp.rf(p);if(!(raw>0))return null;   // 단가 공란/0이면 원물 0원으로 마진 과대 표시되던 문제 — 미국 경로와 동일하게 차단('-')
-    wk=gv('pwk_'+sp.wk)||(pSj&&PWK_SJ[pSj]&&PWK_SJ[pSj][sp.wk])||PWK[sp.wk]||0;   // 공란 폴백도 산지 선택 중엔 산지 기준(PWK_SJ) — '← 산지 기준' 라벨과 계산 일치
-  }
-
+  const tb=qIn>0?qIn:dq;
+  const us=!!co.us;
+  const p={a:gv('pa'),b:gv('pb'),c:gv('pc')},hh={a:gv('ha'),b:gv('hb'),c:gv('hc')};
+  // 환산 기본값 (placeholder·원물 폴백) — 필요한 단가 축이 모두 있어야 계산 (부분합 CIF 과소 차단)
+  let cvRaw=0;
+  if(us&&sp.urf){if(!(sp.ud&&sp.ud.some(k=>!(hh[k]>0))))cvRaw=sp.urf(hh,p)||0;}
+  else if(sp.rf){if(!(sp.kd&&sp.kd.some(k=>!(p[k]>0))))cvRaw=sp.rf(p)||0;}
+  if(!us&&sp.d5){const d5v=gv(sp.d5);if(d5v>0)cvRaw=d5v;}   // 기준단가 '5kg 직접단가' 입력 시 15kg÷3 환산보다 우선 (국내 전용)
+  if(!(cvRaw>0))cvRaw=0;
+  const rawIn=gv(pRawId(us,sid));
+  const raw=rawIn>0?rawIn:cvRaw;
+  const wd=pWkDef(us,sp,raw);
+  const wkIn=gv(pWkId(us,sid));
+  const wk=wkIn>0?wkIn:wd.v;
+  const wkAdd=wkIn>0?0:wd.add;
   const pbf=(inlV+seaV)/tp/ctn;
-  const bj=pcVal(sp,'bj'),bx=pcVal(sp,'bx');   // 📦 스펙별 사용자 오버라이드 우선 (기본=시트 sync)
+  const bj=pcVal(sp,'bj'),bx=pcVal(sp,'bx');
+  const base={sp:sp.l,us,ctn,tp,defTb,dq,tb,inlV,seaV,pbf,bj,bx,cvRaw,rawIn,wkDef:wd.v,wk,wkAdd};
+  if(!(raw>0))return{...base,noRaw:true};
   const cif=raw+wk+bj+bx+pbf;
   const be=fx?cif/fx:0;
   const of=gv('po'+cn+sid);
-  if(!of||!fx)return{empty:true,be,cif,tb,defTb,raw,wk,wkAdd,bj,bx,pbf,sp:sp.l};   // 환율 0이면 마진이 -Infinity가 되므로 차단
+  if(!of||!fx)return{...base,empty:true,raw,cif,be};
   const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;
-  return{of,mb,tk,tkUsd:fx?tk/fx:0,cif,tb,defTb,raw,wk,wkAdd,bj,bx,pbf,be,sp:sp.l};
+  return{...base,of,raw,cif,be,mb,tk,tkUsd:fx?tk/fx:0};
 }
 function pR(cn,sid){
+  const eC=$('pcf'+cn+sid),eM=$('pm'+cn+sid),eT=$('pt'+cn+sid);
   const r=pCalc(cn,sid);
-  const e1=$('pm'+cn+sid),e2=$('pt'+cn+sid),ew=$('pw'+cn+sid),ei=$('po'+cn+sid);
-  if(!r){if(e1)e1.textContent='-';if(e2)e2.textContent='-';if(ew)ew.textContent='-';return;}   // 작업비 셀도 '-' — 미국 단가 미입력 시 국내 작업비 초기값이 미국 행에 잔존 표시되던 문제
-  if(ew)ew.textContent=fN(r.wk||0);
-  if(ei&&r.be)ei.placeholder=r.be.toFixed(2);
-  lofR('lofpo'+cn+sid,'po'+cn+sid,'p',cn,r.sp,()=>pR(cn,sid),gv('psh')+'ft');
-  if(r.empty){
-    if(e1)e1.innerHTML=`<span style="opacity:.32;font-weight:600">0.00</span>`;
-    if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">0</span>`;
+  if(!eC&&!eM)return;
+  if(!r||r.noFr){
+    if(eC)eC.innerHTML=`<span class="pz-need">⚠ ${r&&r.why?hlEsc(r.why):'계산 불가'}</span>`;
+    if(eM)eM.textContent='-';if(eT)eT.textContent='-';
     return;
   }
-  const cl=mC(r.mb);
-  if(e1)e1.innerHTML=`<span class="${cl}">${fD(r.mb)}</span>`;
-  if(e2)e2.innerHTML=`<span class="${cl}" style="font-size:11px">${(r.tkUsd>=0?'+':'-')}$${fN(Math.abs(r.tkUsd))}</span><br><span class="${cl}" style="font-size:8px;opacity:.85">${fK(r.tk)}</span>`;
+  const co=PC.find(c=>c.n===cn),us=!!(co&&co.us);
+  const eR=$(pRawId(us,sid)),eW=$(pWkId(us,sid)),eQ=$('pq'+cn+sid),eO=$('po'+cn+sid);
+  if(eR)eR.placeholder=r.cvRaw>0?Math.round(r.cvRaw):'직접 입력';
+  if(eW)eW.placeholder=Math.round(r.wkDef)||0;
+  if(eQ)eQ.placeholder=r.dq||r.defTb;
+  lofR('lofpo'+cn+sid,'po'+cn+sid,'p',cn,r.sp,()=>pR(cn,sid),gv('psh')+'ft');
+  if(r.noRaw){
+    if(eC)eC.innerHTML=`<span class="pz-need">✏️ 원물가를 입력하세요${r.cvRaw===0&&!r.rawIn?' (환산 기준단가 미입력)':''}</span>`;
+    if(eM)eM.textContent='-';if(eT)eT.textContent='-';
+    return;
+  }
+  if(eO)eO.placeholder=r.be?r.be.toFixed(2):'';
+  if(eC)eC.innerHTML=`CIF <b>₩${fN(Math.round(r.cif))}</b> · 원가 <b>$${r.be?r.be.toFixed(2):'-'}</b>`;
+  const fx2=gv('pfx');
+  if(r.empty){
+    if(eM)eM.innerHTML=`<span class="pz-dim">$ 입력 대기</span>`;
+    if(eT)eT.innerHTML=`<span class="pz-dim">-</span>`;
+    return;
+  }
+  const cl=mC(r.mb),mbW=r.mb*fx2;   // 마진 표시는 원화 기준 (박스당마진₩ = PRICE×환율 − CIF), $는 보조
+  if(eM)eM.innerHTML=`<span class="${cl}">${fK(mbW)}<em>/box</em></span><span class="pz-mb2 ${cl}">${fD(r.mb)}$</span>`;
+  if(eT)eT.innerHTML=`<span class="${cl}">${fK(r.tk)}</span><span class="pz-tk2 ${cl}">${(r.tkUsd>=0?'+':'-')}$${fN(Math.abs(r.tkUsd))} · ${fN(r.tb)}박스</span>`;
+}
+// ── 컨테이너 요약 (운임 1회 적용 게이지 + 총마진 합계) ──
+function pSum(){
+  const e=$('pzSum');if(!e)return;
+  const sh=pShV(),sids=pActiveSids();
+  if(!pCo||!pSj||!sids.length){e.innerHTML='';return;}
+  const sea=(PSEA[pCo]||{})[sh]||0,il=(PIL[pSj]||{})[sh]||0,cnt=pCntV(),FT=(sea+il)*cnt,fx=gv('pfx');
+  let plUsed=0,plCap=0,tkSum=0,tkN=0,frApp=0,boxN=0;
+  sids.forEach(sid=>{const r=pCalc(pCo,sid);if(!r||r.noFr)return;
+    plCap=Math.max(plCap,r.tp*cnt);plUsed+=r.tb/r.ctn;boxN+=r.tb;frApp+=r.tb*r.pbf;
+    if(r.tk!=null){tkSum+=r.tk;tkN++;}});
+  if(!plCap){e.innerHTML='';return;}
+  const pct=Math.min(135,plUsed/plCap*100);
+  const over=plUsed>plCap+0.01,under=plUsed<plCap-0.01;
+  const cl=tkSum>=0?'mpos':'mneg';
+  e.innerHTML=`<div class="pz-sumt">🧮 컨테이너 요약 <em>${hlEsc(pSj)} → ${hlEsc(pCo)} · ${sh==='f'?'40ft':'20ft'} ${cnt}대</em></div>
+  <div class="pz-gaug"><div class="pz-gbar${over?' over':''}" style="width:${Math.min(100,pct)}%"></div><span class="pz-glab">${plUsed.toFixed(1)} / ${plCap}파레트 · ${fN(boxN)}박스${over?' ⚠ 초과':under?' (여유 '+(plCap-plUsed).toFixed(1)+'p)':' ✓ 만적'}</span></div>
+  <div class="pz-sumr"><span>🚢 운임 <b>₩${fN(FT)}</b> <em>${cnt}대 × 1회</em></span><span class="pz-frap">반영 ₩${fN(Math.round(frApp))}${Math.abs(frApp-FT)>1?'':' ✓'}</span></div>
+  <div class="pz-sumr big"><span>합계 총마진 <em>${tkN}건</em></span><b class="${cl}">${fK(tkSum)} <em>${fx?(tkSum>=0?'+':'-')+'$'+fN(Math.abs(tkSum/fx)):''}</em></b></div>`;
 }
 function markBest(prefix,calcFn,iterPairs){
   let best=null;
@@ -1145,13 +1665,28 @@ function markBest(prefix,calcFn,iterPairs){
   if(best){const el=$(prefix+best.a+best.b);if(el){const tr=el.closest('tr');if(tr)tr.classList.add('best');}}
   return best;
 }
-function pA(){PC.forEach(c=>PS.forEach(s=>pR(c.n,s.id)));const pairs=[];PC.forEach(c=>PS.forEach(s=>pairs.push([c.n,s.id])));markBest('pb',pCalc,pairs);}
-function pL(cn,sid){const r=pCalc(cn,sid);if(!r||r.empty||!r.of)return;const co=PC.find(c=>c.n===cn);   // 오퍼가 미입력 시 $undefined 기록 모달이 열리던 문제 — 포도 gL과 동일 가드
-  const sp=PS.find(s=>s.id===sid),sh=gv('psh')==40?'f':'t',ctn=sh==='f'?sp.c4:sp.c2,tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9);
-  const qty=`${r.sp} ${ctn}ctn × ${tp}p (${r.tb}ctn)`;
+function pA(){
+  if(F!=='p')return;
+  // 기준단가 5kg 직접단가 placeholder = 15kg÷3 환산값 (비우면 환산 적용을 흐리게 안내)
+  const p5a=$('pd5a'),p5b=$('pd5b');
+  if(p5a)p5a.placeholder=gv('pa')>0?Math.round(gv('pa')/3):'환산';
+  if(p5b)p5b.placeholder=gv('pb')>0?Math.round(gv('pb')/3):'환산';
+  const sids=pActiveSids();
+  pDefQtyCalc();
+  if(pCo)sids.forEach(sid=>pR(pCo,sid));
+  pSum();
+  let best=null;
+  if(pCo)sids.forEach(sid=>{const r=pCalc(pCo,sid);if(r&&r.of&&r.mb>0&&(!best||r.mb>best.mb))best={sid,mb:r.mb};});
+  document.querySelectorAll('.pz-card.best').forEach(x=>x.classList.remove('best'));
+  if(best){const el=$('pzc'+pCo+best.sid);if(el)el.classList.add('best');}
+  const bn=$('pzBatN');if(bn)bn.textContent=pBatchItems().length;   // 전체 기록 버튼의 건수 배지
+}
+function pL(cn,sid){
+  const r=pCalc(cn,sid);if(!r||r.noFr||r.noRaw||r.empty||!r.of)return;const co=PC.find(c=>c.n===cn);
+  const qty=`${r.sp} ${r.ctn}ctn × ${r.tp}p (${fN(r.tb)}ctn)`;
   const raw=fN(Math.round(r.raw))+'원/박스';
   cmOpen({fr:'p',co:cn,fl:co?.f||'',sp:r.sp,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('pfx'),sj:pSj,sh:gv('psh')+'ft',btn:'pb'+cn+sid,qty,raw,maker:pSj,tb:r.tb,defTb:r.defTb},
-    `${co?.f} ${cn} · ${r.sp} · ${pSj}`,`오퍼: <span>$${r.of}</span> | CIF: <span>₩${fN(Math.round(r.cif))}</span> (작업비 ₩${fN(Math.round(r.wk-(r.wkAdd||0)))}${r.wkAdd?' +5%가산':''}) | 마진: <span class="${mC(r.mb)}">${fD(r.mb)}$</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${r.tb}박스)</span>`);}
+    `${co?.f} ${cn} · ${r.sp} · ${pSj}`,`오퍼: <span>$${r.of}</span> | CIF 원가(박스당): <span>₩${fN(Math.round(r.cif))}</span> = 원물+작업비+부자재+박스+운임 | 마진: <span class="${mC(r.mb)}">${fK(r.mb*gv('pfx'))}/박스 (${fD(r.mb)}$)</span> | 총 <span class="${mC(r.tk)}">${fK(r.tk)} (${fN(r.tb)}박스)</span>`);}
 
 // ═══ GRAPE BUILD ═══
 // ── 포도 스펙별 비용 (원물/작업비/부자재/박스/CTNS·P/파레트) — 시트처럼 스펙마다 따로 입력 ──
@@ -1214,7 +1749,7 @@ function rawLog(fr,sj,co,sp,val,unit){
   }catch(e){}},1000);
 }
 function grawLog(si,val){if(!gSj)return;rawLog('g',gSj,'',GS[si]?GS[si].l:'',val,'원/박스');}   // 포도: 원물은 산지·스펙 기준(국가 무관 공유값이라 국가는 기록 안 함)
-const PRAW_LBL={pa:'18-24s 단가(15kg)',pb:'26-30s 단가(15kg)',pc:'32-36s 단가(15kg)',ha:'미국 6-8과 단가',hb:'미국 9-10과 단가',hc:'미국 11-12과 단가'};
+const PRAW_LBL={pa:'18-24s 단가(15kg)',pb:'26-30s 단가(15kg)',pc:'32-36s 단가(15kg)',pd5a:'5kg 6-8s 직접단가',pd5b:'5kg 9-10s 직접단가',ha:'미국 6-8과 단가',hb:'미국 9-10과 단가',hc:'미국 11-12과 단가'};
 function pRawLog(id,val){rawLog('p',pSj,'',PRAW_LBL[id]||id,val,'원');}   // 배: 단가 축 6종 — 선택 산지별로 축적
 function sRawLog(i,val){rawLog('s','','',i===0?'250g 단가(kg)':'500g/330g 단가(kg)',val,'원/kg');}   // 딸기: kg 단가 2종
 function mRawLog(cn,si,val){const d=MFD[F];if(!d||!d.specs[si])return;rawLog(F,mSj[F],cn,MFN[F]+' '+d.specs[si].l,val,'원/박스');}   // 귤·키위·감: 원물 입력칸이 국가별이라 국가도 함께 기록
@@ -1276,75 +1811,439 @@ function gBjClose(){$('gbm').classList.add('h');gBjSi=null;}
 let gOpen=new Set();
 function gTog(si){if(gOpen.has(si))gOpen.delete(si);else gOpen.add(si);var op=gOpen.has(si);document.querySelectorAll('.gc'+si).forEach(function(tr){tr.classList.toggle('ghide',!op);});var ch=document.getElementById('gchev'+si);if(ch)ch.textContent=op?'▾':'▸';}
 function gTogAll(open){if(open){GS.forEach(function(_,i){gOpen.add(i);});}else{gOpen.clear();}gB();}
+// ═══ GRAPE BUILD — 배와 동일한 순차 카드 위저드 (해운 40/20 + 항공) ═══
+let gCo=null,gSpecSel=[],gWz=1,_gDq={};
+function gShvV(){return $('gsh')?$('gsh').value:'40';}
+function gIsAir(){return gShvV()==='air';}
+function gCoList(){return gIsAir()?GAIR_C:GC;}
+function gSjList(){return gIsAir()?GAIR_SJ:GSANJI;}
+function gActiveSis(){return gSpecSel.filter(si=>GS[si]).slice();}
 function bG(){
   loadGCost();
-  $('bs').innerHTML=`<div class="ig"><label>환율 <em>₩/$</em></label><input type="number" id="gfx" value="1410" oninput="gA()"><div class="fxhint" id="gfxToday"></div></div>
-    <div class="ig"><label>지원 <em>₩/kg</em></label><input type="number" id="gsp" value="0" oninput="gA()"></div>
-    <div class="ig"><label>운송</label><div class="shtg"><button type="button" class="sho a" id="gsh_40" onclick="setSh('gsh','40')">40ft</button><button type="button" class="sho" id="gsh_20" onclick="setSh('gsh','20')">20ft</button><button type="button" class="sho" id="gsh_air" onclick="setSh('gsh','air')">항공</button></div><input type="hidden" id="gsh" value="40"></div>`;
-  $('ex').innerHTML=`<div class="sl">산지 <span id="gsjMode" style="font-size:9px;color:var(--t3);font-weight:600;margin-left:4px"></span></div>
-    <div class="sjb" id="gsb"></div>`;
-  inpRestore();   // ★ 테이블 빌드 전에 저장값 복원 — gB() 첫 줄 inpSaveAll()의 기본값 커밋으로부터 사용자 값(환율/지원/운송모드) 보호
+  $('bs').innerHTML='';$('bs').style.display='none';
+  $('ex').innerHTML=`
+    <input type="hidden" id="gco"><input type="hidden" id="gsjv"><input type="hidden" id="gspecs"><input type="hidden" id="gsh" value="40"><input type="hidden" id="gwz" value="">
+    <div class="wz grape" id="gwzRoot">
+      <div class="wz-rail" id="gwzRail"></div>
+      <div class="wz-step" id="gwzS1">
+        <div class="wz-chip pz-press" onclick="gWzGo(1)"><span class="wz-ck">✓</span><span class="wz-ci">💱</span><b id="gwzC1">-</b><span class="wz-ce">수정</span></div>
+        <div class="wz-body">
+          <div class="wz-ht"><span class="wz-no">1</span>환율 <em>오늘 기준 환율을 확인하세요</em></div>
+          <div class="wz-fxrow">
+            <label class="wz-big"><em>환율 ₩/$</em><input type="number" id="gfx" value="1410" inputmode="numeric" oninput="gA()"></label>
+            <label class="wz-big sm"><em>지원 ₩/kg</em><input type="number" id="gsp" value="0" inputmode="numeric" oninput="gA()"></label>
+          </div>
+          <div class="fxhint" id="gfxToday" style="margin-top:4px"></div>
+          <button class="wz-next pz-press" onclick="gWzGo(2)">다음 — 노선 선택 →</button>
+        </div>
+      </div>
+      <div class="wz-step" id="gwzS2">
+        <div class="wz-chip pz-press" onclick="gWzGo(2)"><span class="wz-ck">✓</span><span class="wz-ci">🚢</span><b id="gwzC2">-</b><span class="wz-ce">수정</span></div>
+        <div class="wz-body">
+          <div class="wz-ht"><span class="wz-no">2</span>노선 선택 <em>운송 → 국가 → 산지</em></div>
+          <div id="gzRoute"></div>
+          <button class="wz-next pz-press" id="gwzN2" onclick="gWzGo(3)">다음 — 스펙 선택 →</button>
+        </div>
+      </div>
+      <div class="wz-step" id="gwzS3">
+        <div class="wz-chip pz-press" onclick="gWzGo(3)"><span class="wz-ck">✓</span><span class="wz-ci">🍇</span><b id="gwzC3">-</b><span class="wz-ce">수정</span></div>
+        <div class="wz-body">
+          <div class="wz-ht"><span class="wz-no">3</span>스펙 선택 <em>중복 선택 가능</em></div>
+          <div id="gzSpecs"></div>
+          <button class="wz-next pz-press" id="gwzN3" onclick="gWzGo(4)">계산하기 ⚡</button>
+        </div>
+      </div>
+    </div>`;
+  inpRestore();
+  const co0=($('gco')&&$('gco').value)||'';gCo=gCoList().some(c=>c.n===co0)?co0:null;
+  const sj0=($('gsjv')&&$('gsjv').value)||'';gSj=gSjList().includes(sj0)?sj0:null;
+  const spRaw=($('gspecs')&&$('gspecs').value)||'';
+  gSpecSel=spRaw?spRaw.split(',').map(x=>+x).filter(si=>GS[si]):[];
+  const wz0=+($('gwz')&&$('gwz').value)||0;
+  gWz=(wz0>=1&&wz0<=4)?wz0:(gActiveSis().length&&gCo&&gSj?4:(gCo&&gSj?3:1));   // 첫 방문은 환율부터
   gB();
 }
-function gSl(s){gSj=gSj===s?null:s;document.querySelectorAll('#gsb .sj').forEach(b=>{const a=b.textContent===gSj;b.classList.toggle('a',a);b.style.background=a?'linear-gradient(135deg,#9b59b6,#7b2d8e)':'';b.style.color=a?'#fff':'';b.style.borderColor=a?'#7b2d8e':'';});gB();}
-
-function gSetRgn(k){gRgn=k;gB();gA();}
-function gSetSpc(k){gSpc=k;gB();gA();}
+function gStateSave(){
+  if($('gco'))$('gco').value=gCo||'';
+  if($('gsjv'))$('gsjv').value=gSj||'';
+  if($('gspecs'))$('gspecs').value=gSpecSel.join(',');
+  if($('gwz'))$('gwz').value=String(gWz);
+  ['gco','gsjv','gspecs','gwz'].forEach(id=>{const e=$(id);if(e)inpSet(id,e.value);});
+}
+function gWzGo(n){
+  if(n>=2&&!(gv('gfx')>0)){const e=$('gfx');if(e){e.focus();e.classList.add('wz-shake');setTimeout(()=>e.classList.remove('wz-shake'),400);}return;}
+  if(n>=3&&!(gCo&&gSj)){gWz=2;gStateSave();gB();if(!gCo)setTimeout(gCoOpen,220);else setTimeout(gSjOpen2,220);return;}
+  if(n>=4&&!gActiveSis().length){gWz=3;gStateSave();gB();return;}
+  gWz=n;gStateSave();gB();
+  if(n===2&&!gCo)setTimeout(gCoOpen,260);
+}
+function gWzR(){
+  const isAir=gIsAir(),shv=gShvV(),co=gCoList().find(c=>c.n===gCo);
+  [1,2,3].forEach(n=>{
+    const el=$('gwzS'+n);if(!el)return;
+    el.classList.remove('act','done','lock');
+    el.classList.add(n===gWz?'act':(n<gWz?'done':'lock'));
+    if(gWz===4)el.classList.remove('act'),el.classList.add('done');
+  });
+  const c1=$('gwzC1');if(c1)c1.textContent='₩'+fN(gv('gfx')||0)+(gv('gsp')>0?' · 지원'+fN(gv('gsp')):'');
+  const c2=$('gwzC2');if(c2)c2.innerHTML=(gCo&&gSj)?`${hlEsc((co||{}).f||'')} ${hlEsc(gCo)} · ${hlEsc(gSj)} · ${isAir?'AIR':shv+'ft'}`:'노선 미선택';
+  const c3=$('gwzC3');if(c3)c3.textContent=gActiveSis().length?gActiveSis().length+'개 스펙':'스펙 미선택';
+  const rail=$('gwzRail');
+  if(rail){
+    const labs=['환율','노선','스펙','계산'];
+    rail.innerHTML=labs.map((l,i)=>{const n=i+1;const st=n<gWz?'done':n===gWz?'act':'';
+      return `<div class="wz-seg ${st}" onclick="gWzGo(${n})"><span class="wz-dot">${n<gWz?'✓':n}</span><em>${l}</em></div>`;}).join('');
+  }
+  const n2=$('gwzN2');if(n2)n2.disabled=!(gCo&&gSj);
+  const n3=$('gwzN3');if(n3){const k=gActiveSis().length;n3.disabled=!k;n3.textContent=k?`계산하기 ⚡ (${k}개 스펙)`:'스펙을 선택하세요';}
+}
+function gStepR(){
+  gWzR();
+  const isAir=gIsAir(),shv=gShvV(),sh=shv==='40'?'f':'t';
+  const co=gCoList().find(c=>c.n===gCo);
+  let h=`<div class="pz-selrow">
+    <div class="pz-sel pz-shwrap"><span class="pz-selk">운송</span><div class="shtg pz-shtg"><button type="button" class="sho pz-press${shv==='40'?' a':''}" id="gsh_40" onclick="setSh('gsh','40')">40ft</button><button type="button" class="sho pz-press${shv==='20'?' a':''}" id="gsh_20" onclick="setSh('gsh','20')">20ft</button><button type="button" class="sho pz-press${shv==='air'?' a':''}" id="gsh_air" onclick="setSh('gsh','air')">✈AIR</button></div></div>
+    <button class="pz-sel pz-press${gCo?' on':''}" onclick="gCoOpen()"><span class="pz-selk">국가</span><span class="pz-selv">${co?hlEsc(co.f)+' '+hlEsc(co.n):'선택 ▾'}</span></button>
+    <button class="pz-sel pz-press${gSj?' on':''}" onclick="gSjOpen2()"><span class="pz-selk">산지</span><span class="pz-selv">${gSj?'📍 '+hlEsc(gSj):'선택 ▾'}</span></button>
+  </div>`;
+  if(gCo&&gSj){
+    if(isAir){
+      const kg=GAIR_KG[gCo]||0;
+      const dom=(GAIR_DOM_C[gCo]!=null)?GAIR_DOM_C[gCo]:GAIR_DOM;
+      if(kg)h+=`<div class="pz-frline"><span class="pz-frb">✈️ 항공운임 <b>₩${fN(kg)}/kg</b> <em>G.W 기준</em></span><span class="pz-frd">도내운송(${hlEsc(gSj)}→공항) ₩${fN(dom)} — 실출고로 분배</span>${FR_UPD?`<span class="pz-frd2">운임표 ${hlEsc(FR_UPD)}</span>`:''}</div>`;
+      else h+=`<div class="pz-warn">⚠ ${hlEsc(gCo)} 항공운임 미수신 — DATA '일반(냉장)' 요율표 확인/동기화 필요</div>`;
+    }else{
+      const seaV=(GSEA[gCo]||{})[sh]||0,ilV=(GIL[gSj]||{})[sh]||0;
+      const si=GIL_SRC[gSj];
+      const siTx=si?(si.s==='DATA'?`DATA 내륙표 · ${hlEsc(si.n)}${si.p?'('+hlEsc(si.p)+')':''}`:si.s==='OCEAN'?'⚠ 매핑 미확인 — OCEAN 시트값':si.s==='SHEET'?'시트 집계값':'⚠ 미확인'):'';
+      const siWarn=si&&si.s!=='DATA';
+      if(seaV&&ilV)h+=`<div class="pz-frline"><span class="pz-frb">🚢 운임 <b>₩${fN(seaV+ilV)}</b> <em>/ 컨테이너 1대 · 1회 적용</em></span><span class="pz-frd">국내(${hlEsc(gSj)}) ₩${fN(ilV)} + 항/해(${hlEsc(gCo)}) ₩${fN(seaV)}</span>${(siTx||FR_UPD)?`<span class="pz-frd2${siWarn?' warn':''}">${siTx?'국내운임: '+siTx:''}${siTx&&FR_UPD?' · ':''}${FR_UPD?'운임표 '+hlEsc(FR_UPD):''}${siWarn?' — 앱설정 [포도 산지-운임 매핑]에서 지정':''}</span>`:''}</div>`;
+      else h+=`<div class="pz-warn">⚠ ${hlEsc(gSj)} → ${hlEsc(gCo)} ${shv}ft 운임 미수신 — 동기화(🔄) 또는 시트 확인 필요</div>`;
+    }
+  }
+  const rt=$('gzRoute');if(rt)rt.innerHTML=h;
+  // STEP 3 — 스펙 칩 (카테고리 그룹)
+  let h2='';
+  GSC.filter(c=>c.k!=='all').forEach(cat=>{
+    const list=GS.map((s,si)=>({s,si})).filter(x=>x.s.cat===cat.k);
+    if(!list.length)return;
+    h2+=`<div class="pz-cmpt" style="color:${cat.c}">${cat.l}</div><div class="pz-chips">`;
+    list.forEach(({s,si},i)=>{const on=gSpecSel.includes(si);
+      h2+=`<button class="pz-chip pz-press${on?' on gp':''}" onclick="gTgSpec(${si})" style="--i:${i}">${hlEsc(s.l)}</button>`;});
+    h2+='</div>';
+  });
+  h2+=`${gSpecSel.length?`<button class="pz-clear pz-press" style="margin-top:8px" onclick="gSpecsClear()">전체 해제</button>`:''}`;
+  const sp=$('gzSpecs');if(sp)sp.innerHTML=h2;
+}
+function gTgSpec(si){
+  const i=gSpecSel.indexOf(si);
+  if(i>=0)gSpecSel.splice(i,1);else gSpecSel.push(si);
+  gStateSave();gB();
+}
+function gSpecsClear(){gSpecSel=[];gStateSave();gB();}
+// ── 국가/산지 선택 시트 ──
+function gCoOpen(){const ov=pzModal('gzCoM');ov.innerHTML='<div class="pzSheet grape"><div class="pz-sht">🌏 국가 선택 <span class="pz-shs">'+(gIsAir()?'항공 요율(₩/kg)':'국가 운임(항/해)')+'이 적용됩니다</span><button class="pz-x pz-press" onclick="document.getElementById(\'gzCoM\').classList.add(\'h\')">✕</button></div><div id="gzCoB"></div></div>';ov.classList.remove('h');gCoR();}
+function gCoR(){
+  const b=$('gzCoB');if(!b)return;
+  const isAir=gIsAir(),sh=gShvV()==='40'?'f':'t';
+  const rgList=isAir?GAIR_RG:GRG;
+  let h=`<div class="rgnb pz-rgnb">${rgList.map(r=>`<button class="rgn pz-press${gRgn===r.k?' a':''}" style="${gRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="gRgn='${r.k}';gCoR()">${r.l}</button>`).join('')}</div><div class="pz-colist">`;
+  const rgn=rgList.find(r=>r.k===gRgn);
+  let list=(gRgn==='all'||!rgn)?gCoList().slice():gCoList().filter(c=>rgn.ns&&rgn.ns.indexOf(c.n)>=0);
+  const favCat=isAir?'ga':'g';
+  list=favSort(favCat,list,c=>c.n);
+  list.forEach((c,i)=>{
+    const dis=!isAir&&sh==='t'&&c.us;
+    const fr=isAir?(GAIR_KG[c.n]||0):((GSEA[c.n]||{})[sh]||0);
+    h+=`<button class="pz-co pz-press${gCo===c.n?' on':''}${dis?' dis':''}" style="--i:${i}" ${dis?'':`onclick="gCoPick(decodeURIComponent('${jsArg(c.n)}'))"`}>
+      <span class="pz-cofav" onclick="event.stopPropagation();favTog('${favCat}',decodeURIComponent('${jsArg(c.n)}'));gCoR()">${favGet(favCat).includes(c.n)?'★':'☆'}</span>
+      <span class="pz-cofl">${hlEsc(c.f)}</span><span class="pz-conm">${hlEsc(c.n)}</span>
+      <span class="pz-cofr">${dis?'20ft 없음':(fr?'₩'+fN(fr)+(isAir?'/kg':''):'운임 미수신')}</span></button>`;
+  });
+  h+='</div>';b.innerHTML=h;
+}
+function gCoPick(n){
+  gCo=n;gStateSave();
+  const ov=$('gzCoM');if(ov)ov.classList.add('h');
+  gB();
+  if(!gSj)setTimeout(gSjOpen2,180);
+}
+function gSjOpen2(){const ov=pzModal('gzSjM');ov.innerHTML='<div class="pzSheet grape"><div class="pz-sht">📍 산지 선택 <span class="pz-shs">산지 운임(국내)이 적용됩니다</span><button class="pz-x pz-press" onclick="document.getElementById(\'gzSjM\').classList.add(\'h\')">✕</button></div><div id="gzSjB"></div></div>';ov.classList.remove('h');gSjR();}
+function gSjR(){
+  const b=$('gzSjB');if(!b)return;
+  const isAir=gIsAir(),sh=gShvV()==='40'?'f':'t';
+  let h='<div class="pz-colist">';
+  gSjList().forEach((s2,i)=>{
+    const fr=isAir?((GAIR_DOM_C[s2]!=null)?GAIR_DOM_C[s2]:GAIR_DOM):((GIL[s2]||{})[sh]||0);
+    h+=`<button class="pz-co pz-press${gSj===s2?' on':''}" style="--i:${i}" onclick="gSjPick(decodeURIComponent('${jsArg(s2)}'))">
+      <span class="pz-cofl">📍</span><span class="pz-conm">${hlEsc(s2)}</span>
+      <span class="pz-cofr">${fr?'₩'+fN(fr)+(isAir?' 도내':''):'운임 미수신'}</span></button>`;
+  });
+  h+='</div>';b.innerHTML=h;
+}
+function gSjPick(s2){
+  gSj=s2;gStateSave();
+  const ov=$('gzSjM');if(ov)ov.classList.add('h');
+  gB();
+}
+function gSl(s2){gSjPick(s2);}   // 구버전 호환
+function gSjBtns(){if($('gzSjM')&&!$('gzSjM').classList.contains('h'))gSjR();if($('gzCoM')&&!$('gzCoM').classList.contains('h'))gCoR();}
+// ── 수량 자동 분배 (해운: 컨테이너 1대 파레트 분배 / 항공: 스펙별 파레트 단위 유지) ──
+function gDefQtyCalc(){
+  _gDq={};
+  if(gIsAir())return;
+  const sh=gShvV()==='40'?'f':'t';
+  const list=gActiveSis().map(si=>{
+    const sp=GS[si];const ctp=gcVal(si,'ctp')||sp.ct||0;if(!(ctp>0))return null;
+    const tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9);
+    const q=gCo?gv('gq'+gCo+si):0;
+    return{si,ctp,tp,q};
+  }).filter(Boolean);
+  if(!list.length)return;
+  const tp=list.reduce((m,x)=>Math.max(m,x.tp),0);
+  if(list.length===1){_gDq[list[0].si]=list[0].ctp*tp;return;}
+  const typedPl=list.reduce((s2,x)=>s2+(x.q>0?x.q/x.ctp:0),0);
+  const un=list.filter(x=>!(x.q>0));
+  if(!un.length)return;
+  const remPl=Math.max(0,Math.floor(tp-typedPl+1e-6));
+  const n=un.length,basePl=Math.floor(remPl/n),extra=remPl%n;
+  un.forEach((x,i)=>{_gDq[x.si]=(basePl+(i<extra?1:0))*x.ctp;});
+}
 function gB(){
   inpSaveAll();
-  const shv=$('gsh')?$('gsh').value:'40';
-  const isAir=shv==='air';
-  const sjList=isAir?GAIR_SJ:GSANJI;
-  if(gSj&&!sjList.includes(gSj))gSj=null;
-  const sb=$('gsb');
-  if(sb){
-    sb.innerHTML=sjList.map(s=>{
-      const a=gSj===s?' a':'';
-      const st=gSj===s?' style="background:linear-gradient(135deg,#9b59b6,#7b2d8e);color:#fff;border-color:#7b2d8e"':'';
-      return `<button class="sj${a}" onclick="gSl(decodeURIComponent('${jsArg(s)}'))"${st}>${hlEsc(s)}</button>`;   // 산지명은 시트 셀 유래(auto-extend) — 무이스케이프 삽입 방지 (rL과 동일 패턴)
-    }).join('');
-  }
-  const md=$('gsjMode');if(md)md.textContent=isAir?'✈️ 항공 산지 ('+sjList.length+')':'🚢 해운 산지 ('+sjList.length+')';
-  const o=$('to');
-  if(!gSj){o.innerHTML=`<div class="le"><span style="font-size:36px;display:block;margin-bottom:6px">🍇</span>${isAir?'AIR ':''}산지를 선택하세요</div>`;return;}
+  // 모드 전환 후 목록 정합 (항공↔해운 국가/산지 목록이 다름)
+  if(gCo&&!gCoList().some(c=>c.n===gCo))gCo=null;
+  if(gSj&&!gSjList().includes(gSj))gSj=null;
+  if(gWz>=3&&!(gCo&&gSj))gWz=2;
+  gStepR();
+  const o=$('to');if(!o)return;
+  const sis=gActiveSis();
   let h='';
-  const rgList=isAir?GAIR_RG:GRG;
-  const sh=isAir?'air':(shv==='40'?'f':'t');
-  if(sh==='t'&&gRgn==='ame')gRgn='all';
-  let availRG=sh==='t'?rgList.filter(r=>r.k!=='ame'):rgList;
-  if(!availRG.find(r=>r.k===gRgn))gRgn='all';
-  h+=`<div class="rgnb">${availRG.map(r=>`<button class="rgn${gRgn===r.k?' a':''}" style="${gRgn===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="gSetRgn('${r.k}')">${r.l}</button>`).join('')}</div>`;
-  h+=`<div class="rgnb">${GSC.map(r=>`<button class="rgn${gSpc===r.k?' a':''}" style="${gSpc===r.k?'background:'+r.c+';border-color:'+r.c:'color:'+r.c+';border-color:'+r.c+'33'}" onclick="gSetSpc('${r.k}')">${r.l}</button>`).join('')}</div>`;
-  const cList=isAir?GAIR_C:GC;
-  const rgn=rgList.find(r=>r.k===gRgn);
-  let fGC=gRgn==='all'?cList:cList.filter(c=>rgn&&rgn.ns.indexOf(c.n)>=0);
-  if(sh==='t')fGC=fGC.filter(c=>!c.us);
-  fGC=favSort(isAir?'ga':'g',fGC,c=>c.n);   // ★ 즐겨찾기 국가 상단 고정 (해운/항공 목록 분리)
-  const fGS=GS.map((s,i)=>({s,i})).filter(o=>gSpc==='all'||o.s.cat===gSpc);
-  if(!fGC.length||!fGS.length){o.innerHTML=h+'<div class="le">조건에 맞는 항목 없음</div>';return;}
-  // ── 접이식 스펙: 헤더(항상 보임) / 펼치면 비용입력행 + 국가행 ──
-  h+=`<div class="gtools"><button class="gtoolbtn" onclick="gTogAll(true)">▾ 전체 펼치기</button><button class="gtoolbtn" onclick="gTogAll(false)">▸ 전체 접기</button><button class="gtoolbtn" onclick="rawHistOpen('g',null)">🕘 지난 원물가</button></div>`;
-  h+=`<div style="overflow-x:auto"><table><thead><tr>`+
-     `<th style="text-align:left;padding-left:10px">국가</th><th>$</th><th style="font-size:9px">실출고</th><th>총마진($)</th><th></th></tr></thead><tbody>`;
-  fGS.forEach(o=>{const s=o.s,si=o.i;const op=gOpen.has(si);
-    h+=`<tr class="gband"><td colspan="5"><div class="gband-in"><span class="gband-tog" onclick="gTog(${si})"><span class="gchev" id="gchev${si}">${op?'▾':'▸'}</span><span class="gband-sp">${s.l}</span>${gcVal(si,'raw')>0?'':'<span style="color:#c2860a;font-size:9px;font-weight:800;margin-left:6px">⚠원물0</span>'}</span></div></td></tr>`;
-    h+=`<tr class="gc${si} gcostrow${op?'':' ghide'}"><td colspan="5"><div class="gband-f">`+
-       `<label>원물<input class="gci" type="number" inputmode="numeric" placeholder="0" value="${gcRaw(si,'raw')}" oninput="gcSet(${si},'raw',this.value)"></label>`+
-       `<button class="gbj-btn" onclick="rawHistOpen('g',decodeURIComponent('${jsArg(s.l)}'))" title="이 스펙의 지난 원물가격">🕘</button>`+
-       `<label>cnt/p<input class="gci dim" type="number" inputmode="numeric" placeholder="${isAir&&s.ca?s.ca:((shv==='20'&&s.ct2>0)?s.ct2:s.ct)}" value="${gcRaw(si,'ctp')}" oninput="gcSet(${si},'ctp',this.value)"></label>`+
-       `<button class="gbj-btn" id="gbj${si}" onclick="gBjOpen(${si})">${gBjLabel(si)}</button>`+
-       `</div></td></tr>`;
-    fGC.forEach((c)=>{
-      const cnH=hlEsc(c.n),cnJ=`decodeURIComponent('${jsArg(c.n)}')`;   // 국가명은 시트 앱설정 유래(GC·GAIR_C 모두) — HTML/JS 인자 이스케이프
-      h+=`<tr class="gc${si}${op?'':' ghide'}">`+
-         `<td class="gctry">${favBtn(isAir?'ga':'g',c.n)}${hlEsc(c.f)} ${cnH} <button class="qcopy" style="margin:0;padding:1px 4px" onclick="copyQuote(${cnJ})" title="이 국가 견적 전체 복사">📄</button></td>`+
-         `<td class="ptd"><input type="number" step="0.1" id="go${cnH}${si}" oninput="gR(${cnJ},${si})"><div class="lof" id="lofgo${cnH}${si}"></div></td>`+
-         `<td class="ptd"><input type="number" id="gq${cnH}${si}" oninput="gR(${cnJ},${si})" style="width:48px;font-size:10px"></td>`+
-         `<td class="tc" id="gt${cnH}${si}" onclick="gCif(${cnJ},${si})" title="탭하면 원가 내역">-</td>`+
-         `<td><button class="lb" id="gb${cnH}${si}" onclick="gL(${cnJ},${si})">📝</button></td></tr>`;
+  if(gWz<4){
+    h=`<div class="wz-teaser"><span class="wz-tico">${gWz===1?'💱':gWz===2?'🚢':'🍇'}</span>${gWz===1?'환율을 확인하고 <b>다음</b>을 누르세요':gWz===2?'운송·국가·산지를 선택하세요':'스펙을 고르고 <b>계산하기</b>를 누르세요'}<div class="wz-tsub">완료한 단계는 위쪽 칩을 탭해 언제든 수정할 수 있습니다</div></div>`;
+  }else if(!sis.length){
+    gWz=3;gStateSave();gStepR();
+    h=`<div class="wz-teaser"><span class="wz-tico">🍇</span>스펙을 선택하세요</div>`;
+  }else{
+    gDefQtyCalc();
+    const cnH=hlEsc(gCo);
+    h=`<div class="pz-tools"><button class="gtoolbtn pz-press" onclick="copyQuote(decodeURIComponent('${jsArg(gCo)}'))">📄 ${cnH} 견적</button><button class="gtoolbtn pz-press" onclick="gBatchOpen()">📝 전체 기록 <b id="gzBatN">0</b></button><button class="gtoolbtn pz-press" onclick="gCompareOpen()">🌏 국가 비교</button><button class="gtoolbtn pz-press" onclick="rawHistOpen('g',null)">🕘</button><button class="gtoolbtn pz-press" onclick="gReset()" title="이 노선의 PRICE·수량 비우기">🧹</button></div><div class="pz-cards">`;
+    sis.forEach((si,idx)=>{h+=gCardHtml(gCo,si,idx);});
+    h+=`</div><div class="pz-sum grape" id="gzSum"></div>`;
+  }
+  o.innerHTML=h;inpRestore();gA();
+}
+function gCardHtml(cn,si,idx){
+  const sp=GS[si];if(!sp)return'';
+  const isAir=gIsAir(),sh=gShvV()==='40'?'f':'t';
+  const cnH=hlEsc(cn),cnJ=jsArg(cn);
+  const ctp=gcVal(si,'ctp')||sp.ct||0;
+  const tp=isAir?0:(sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9));
+  const A=`decodeURIComponent('${cnJ}'),${si}`;
+  return`<div class="pz-card grape" id="gzc${cnH}${si}" style="--i:${idx}">
+  <div class="pz-ch"><span class="pz-cl">${hlEsc(sp.l)}</span><span class="pz-cb gp">${ctp?ctp+'ctn/p':'-'}${isAir?' · ✈':' × '+tp+'p'}</span><span style="flex:1"></span>
+    <button class="pz-ico pz-press" onclick="gCif(${A})" title="원가 내역">ⓘ</button>
+    <button class="lb pz-press" id="gb${cnH}${si}" onclick="gL(${A})" title="오퍼히스토리 기록">📝</button></div>
+  <div class="pz-cg">
+    <label class="pz-f"><em>원물 ₩</em><input type="number" inputmode="numeric" value="${gcRaw(si,'raw')}" placeholder="입력" oninput="gcSet(${si},'raw',this.value)"></label>
+    <label class="pz-f"><em>작업비 ₩</em><input type="number" inputmode="numeric" value="${gcRaw(si,'wk')}" placeholder="0" oninput="gcSet(${si},'wk',this.value)"></label>
+    <label class="pz-f"><em>부자재 ₩</em><input type="number" inputmode="numeric" value="${gcRaw(si,'bj')}" placeholder="${+sp.bj||0}" oninput="gcSet(${si},'bj',this.value)"></label>
+    <label class="pz-f"><em>박스 ₩</em><input type="number" inputmode="numeric" value="${gcRaw(si,'bx')}" placeholder="${+sp.bx||0}" oninput="gcSet(${si},'bx',this.value)"></label>
+    <label class="pz-f"><em>${isAir?'ctns/plt ✈':'cnt/p'}</em><input type="number" inputmode="numeric" value="${gcRaw(si,'ctp')}" placeholder="${(gcDef(si)||{}).ctp||''}" oninput="gcSet(${si},'ctp',this.value)"></label>
+    <label class="pz-f"><em>수량 ${isAir?'':'<b>만적'+fN((ctp||0)*tp)+'</b>'}</em><input type="number" inputmode="numeric" id="gq${cnH}${si}" oninput="gA()"></label>
+    <label class="pz-f pz-price gp"><em>PRICE $</em><input type="number" step="0.1" inputmode="decimal" id="go${cnH}${si}" oninput="gA()"></label>
+  </div>
+  <div class="lof" id="lofgo${cnH}${si}"></div>
+  <div class="pz-res"><span class="pz-cif" id="gcf${cnH}${si}">-</span><span class="pz-mb" id="gm${cnH}${si}">-</span><span class="pz-tk" id="gt${cnH}${si}">-</span></div>
+</div>`;
+}
+function gR(cn,si){
+  const eC=$('gcf'+cn+si),eM=$('gm'+cn+si),eT=$('gt'+cn+si);
+  if(!eC&&!eM)return;
+  const r=gCalc(cn,si);
+  const fx2=gv('gfx');
+  if(!r){
+    if(eC)eC.innerHTML='<span class="pz-need">⚠ 운임 미수신 또는 계산 불가</span>';
+    if(eM)eM.textContent='-';if(eT)eT.textContent='-';
+    return;
+  }
+  const eQ=$('gq'+cn+si),eO=$('go'+cn+si);
+  if(eQ)eQ.placeholder=(!gIsAir()&&_gDq[si]!=null)?_gDq[si]:r.defTb;
+  lofR('lofgo'+cn+si,'go'+cn+si,'g',cn,GS[si].l,()=>gR(cn,si),gIsAir()?'항공':gShvV()+'ft');
+  if(!(r.raw>0)){
+    if(eC)eC.innerHTML='<span class="pz-need">✏️ 원물가를 입력하세요</span>';
+    if(eM)eM.textContent='-';if(eT)eT.textContent='-';
+    if(eO)eO.placeholder='';   // 원물 없는 손익분기(과소)가 placeholder로 새는 것 방지
+    return;
+  }
+  if(eO)eO.placeholder=r.be?r.be.toFixed(2):'';
+  if(eC)eC.innerHTML=`CIF <b>₩${fN(Math.round(r.cif))}</b> · 원가 <b>$${r.be?r.be.toFixed(2):'-'}</b>`;
+  if(r.empty){
+    if(eM)eM.innerHTML='<span class="pz-dim">$ 입력 대기</span>';
+    if(eT)eT.innerHTML='<span class="pz-dim">-</span>';
+    return;
+  }
+  const cl=mC(r.mb),mbW=r.mb*fx2;
+  if(eM)eM.innerHTML=`<span class="${cl}">${fK(mbW)}<em>/box</em></span><span class="pz-mb2 ${cl}">${fD(r.mb)}$</span>`;
+  if(eT)eT.innerHTML=`<span class="${cl}">${fK(r.tk)}</span><span class="pz-tk2 ${cl}">${(r.tkUsd>=0?'+':'-')}$${fN(Math.abs(r.tkUsd))} · ${fN(r.tb)}박스</span>`;
+}
+function gSum(){
+  const e=$('gzSum');if(!e)return;
+  const sis=gActiveSis();
+  if(!gCo||!gSj||!sis.length){e.innerHTML='';return;}
+  const isAir=gIsAir(),sh=gShvV()==='40'?'f':'t',fx=gv('gfx');
+  let tkSum=0,tkN=0,boxN=0;
+  if(isAir){
+    const kg=GAIR_KG[gCo]||0,dom=(GAIR_DOM_C[gCo]!=null)?GAIR_DOM_C[gCo]:GAIR_DOM;
+    let kgSum=0;
+    sis.forEach(si=>{const r=gCalc(gCo,si);if(!r)return;boxN+=r.tb;kgSum+=r.tb*(GS[si].gw||0);if(r.tk!=null){tkSum+=r.tk;tkN++;}});
+    const cl=tkSum>=0?'mpos':'mneg';
+    e.innerHTML=`<div class="pz-sumt">🧮 항공 요약 <em>${hlEsc(gSj)} → ${hlEsc(gCo)} · AIR</em></div>
+    <div class="pz-sumr"><span>✈️ 요율 <b>₩${fN(kg)}/kg</b> · 총 G.W ${fN(Math.round(kgSum))}kg</span><span class="pz-frap">${fN(boxN)}박스</span></div>
+    <div class="pz-sumr"><span>🚚 도내운송 <b>₩${fN(dom)}</b> <em>1회 · 실출고 분배</em></span></div>
+    <div class="pz-sumr big"><span>합계 총마진 <em>${tkN}건</em></span><b class="${cl}">${fK(tkSum)} <em>${fx?(tkSum>=0?'+':'-')+'$'+fN(Math.abs(tkSum/fx)):''}</em></b></div>`;
+    return;
+  }
+  const sea=(GSEA[gCo]||{})[sh]||0,il=(GIL[gSj]||{})[sh]||0,FT=sea+il;
+  let plUsed=0,plCap=0,frApp=0;
+  sis.forEach(si=>{const r=gCalc(gCo,si);if(!r)return;
+    const ctp=r.ctp||1;const sp=GS[si];const tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9);
+    plCap=Math.max(plCap,tp);plUsed+=r.tb/ctp;boxN+=r.tb;frApp+=r.tb*r.pbf;
+    if(r.tk!=null){tkSum+=r.tk;tkN++;}});
+  if(!plCap){e.innerHTML='';return;}
+  const pct=Math.min(135,plUsed/plCap*100);
+  const over=plUsed>plCap+0.01,under=plUsed<plCap-0.01;
+  const cl=tkSum>=0?'mpos':'mneg';
+  e.innerHTML=`<div class="pz-sumt">🧮 컨테이너 요약 <em>${hlEsc(gSj)} → ${hlEsc(gCo)} · ${gShvV()}ft 1대</em></div>
+  <div class="pz-gaug"><div class="pz-gbar${over?' over':''}" style="width:${Math.min(100,pct)}%"></div><span class="pz-glab">${plUsed.toFixed(1)} / ${plCap}파레트 · ${fN(boxN)}박스${over?' ⚠ 초과':under?' (여유 '+(plCap-plUsed).toFixed(1)+'p)':' ✓ 만적'}</span></div>
+  <div class="pz-sumr"><span>🚢 운임 <b>₩${fN(FT)}</b> <em>1회 적용</em></span><span class="pz-frap">반영 ₩${fN(Math.round(frApp))}${Math.abs(frApp-FT)>1?'':' ✓'}</span></div>
+  <div class="pz-sumr big"><span>합계 총마진 <em>${tkN}건</em></span><b class="${cl}">${fK(tkSum)} <em>${fx?(tkSum>=0?'+':'-')+'$'+fN(Math.abs(tkSum/fx)):''}</em></b></div>`;
+}
+function gA(){
+  if(F!=='g')return;
+  gDefQtyCalc();
+  const sis=gActiveSis();
+  if(gCo&&gWz===4)sis.forEach(si=>gR(gCo,si));
+  gSum();
+  let best=null;
+  if(gCo)sis.forEach(si=>{const r=gCalc(gCo,si);if(r&&r.of&&r.mb>0&&(!best||r.mb>best.mb))best={si,mb:r.mb};});
+  document.querySelectorAll('.pz-card.grape.best').forEach(x=>x.classList.remove('best'));
+  if(best){const el=$('gzc'+gCo+best.si);if(el)el.classList.add('best');}
+  const bn=$('gzBatN');if(bn)bn.textContent=gBatchItems().length;
+  gWzR();
+}
+// ── 국가 비교 · 일괄 기록 · 초기화 (배와 동일 패턴) ──
+function gCompareOpen(){
+  if(!gSj||!gActiveSis().length)return;
+  const ov=pzModal('gzCmpM');
+  ov.innerHTML='<div class="pzSheet grape"><div class="pz-sht">🌏 국가별 원가 비교 <span class="pz-shs">'+hlEsc(gSj)+' · '+(gIsAir()?'AIR':gShvV()+'ft')+' · 국가 탭하면 전환</span><button class="pz-x pz-press" onclick="document.getElementById(\'gzCmpM\').classList.add(\'h\')">✕</button></div><div id="gzCmpB"></div></div>';
+  ov.classList.remove('h');gCmpR();
+}
+function gCmpR(){
+  const b=$('gzCmpB');if(!b)return;
+  const isAir=gIsAir(),sh=gShvV()==='40'?'f':'t',fx=gv('gfx');
+  let list=gCoList().filter(c=>!(!isAir&&sh==='t'&&c.us));
+  list=favSort(isAir?'ga':'g',list,c=>c.n);
+  let h='';
+  gActiveSis().forEach(si=>{
+    const sp=GS[si];
+    const rows=[];
+    list.forEach(c=>{const r=gCalc(c.n,si);rows.push({c,r});});
+    h+=`<div class="pz-cmpt">${hlEsc(sp.l)}</div><div class="pz-colist" style="margin-bottom:10px">`;
+    rows.sort((a,b2)=>{const av=(a.r&&a.r.be)||1e15,bv=(b2.r&&b2.r.be)||1e15;return av-bv;});
+    rows.forEach(({c,r},i)=>{
+      const cnJ=jsArg(c.n);
+      let mid='',right='';
+      if(!r)mid='<span class="pz-dim">운임 미수신</span>';
+      else if(!(r.raw>0))mid='<span class="pz-dim">원물 미입력</span>';
+      else{mid=`원가 <b>$${r.be?r.be.toFixed(2):'-'}</b>`;
+        if(r.of)right=`<span class="${mC(r.mb)}" style="font-weight:800">$${r.of} → ${fK(r.mb*fx)}</span>`;
+        else right='<span class="pz-dim">$ 미입력</span>';}
+      h+=`<button class="pz-co pz-press${gCo===c.n?' on':''}" style="--i:${i}" onclick="gCoPick(decodeURIComponent('${cnJ}'));document.getElementById('gzCmpM').classList.add('h')">
+        <span class="pz-cofl">${hlEsc(c.f)}</span><span class="pz-conm">${hlEsc(c.n)}</span>
+        <span style="margin-left:auto;font-size:10.5px;font-family:'JetBrains Mono',monospace;color:var(--t2)">${mid}</span>
+        <span style="font-size:10px;font-family:'JetBrains Mono',monospace">${right}</span>${gCo===c.n?'<span class="pz-cosj">현재</span>':''}</button>`;
     });
+    h+='</div>';
   });
-  h+=`</tbody></table></div>`;o.innerHTML=h;inpRestore();gA();
+  b.innerHTML=h||'<div class="le">비교할 항목이 없습니다</div>';
+}
+function gBatchItems(){
+  const out=[];
+  if(!gCo)return out;
+  gActiveSis().forEach(si=>{const r=gCalc(gCo,si);if(r&&r.of&&!r.empty&&r.raw>0)out.push({si,r});});
+  return out;
+}
+function gBatchOpen(){
+  const items=gBatchItems();
+  if(!items.length){alert('PRICE(오퍼가)가 입력된 스펙이 없습니다.\n카드에서 $를 입력한 뒤 다시 눌러주세요.');return;}
+  const ov=pzModal('gzBatM');
+  const co=gCoList().find(c=>c.n===gCo);
+  let h='<div class="pzSheet grape"><div class="pz-sht">📝 오퍼 일괄 기록 <span class="pz-shs">'+hlEsc((co?co.f+' ':'')+gCo)+' · '+hlEsc(gSj||'')+' · '+(gIsAir()?'항공':gShvV()+'ft')+'</span><button class="pz-x pz-press" onclick="document.getElementById(\'gzBatM\').classList.add(\'h\')">✕</button></div>';
+  h+='<div class="pz-batg">';
+  items.forEach(({si,r})=>{
+    h+=`<label class="pz-batrow"><input type="checkbox" class="gzBatChk" data-si="${si}" checked>
+      <span class="pz-batsp">${hlEsc(GS[si].l)}</span>
+      <span class="pz-batv">$${r.of} · <b class="${mC(r.mb)}">${fK(r.mb*gv('gfx'))}</b> · ${fN(r.tb)}박스</span></label>`;
+  });
+  h+='</div><div class="gbm-grid" style="margin-top:10px">'
+    +'<label>인보이스 <em>공통</em><input id="gbInv" type="text" placeholder="예: KINGO-26-02"></label>'
+    +'<label>제조자 <em>공통</em><input id="gbMkr" type="text" value="'+hlEsc(gSj||'')+'"></label>'
+    +'<label>상차일 <em>공통</em><input id="gbLd" type="date"></label>'
+    +'<label>메모 <em>공통</em><input id="gbMemo" type="text" placeholder="선택"></label>'
+    +'</div><div class="mbs" style="margin-top:12px"><button class="mb k" onclick="document.getElementById(\'gzBatM\').classList.add(\'h\')">취소</button><button class="mb s" id="gbSend" onclick="gBatchSend()">📤 전체 전송</button></div></div>';
+  ov.innerHTML=h;ov.classList.remove('h');
+}
+function gBatchSend(){
+  const me=getMe();if(!me){alert('이름을 먼저 입력하세요');return;}
+  const checked=Array.from(document.querySelectorAll('.gzBatChk')).filter(x=>x.checked).map(x=>+x.getAttribute('data-si'));
+  const items=gBatchItems().filter(x=>checked.includes(x.si));
+  if(!items.length){alert('전송할 항목을 선택하세요');return;}
+  const warns=[];
+  const negN=items.filter(x=>x.r.mb<0).length;if(negN)warns.push('마이너스 마진 '+negN+'건이 포함되어 있습니다');
+  const rtN=gv('gfx');if(TODAY_FX>0&&rtN>0&&Math.abs(rtN-TODAY_FX)/TODAY_FX>0.03)warns.push('적용환율(₩'+fN(rtN)+')이 오늘 시세(₩'+fN(TODAY_FX)+')와 3% 이상 차이납니다');
+  const stH=syncStaleHours();if(stH)warns.push('시트 동기화가 '+stH+'시간 전입니다');
+  if(warns.length&&!confirm('⚠ 전송 전 확인해주세요:\n\n· '+warns.join('\n· ')+'\n\n그래도 '+items.length+'건을 전송할까요?'))return;
+  const inv=($('gbInv')&&$('gbInv').value.trim())||'',mkr=($('gbMkr')&&$('gbMkr').value.trim())||'',ld=($('gbLd')&&$('gbLd').value)||'',memo=($('gbMemo')&&$('gbMemo').value.trim().slice(0,500))||'';
+  const co=gCoList().find(c=>c.n===gCo);
+  const isAir=gIsAir(),shLbl=isAir?'항공':gShvV()+'ft';
+  const btn=$('gbSend');if(btn)btn.disabled=true;
+  let okN=0,failN=0;
+  const send=(i)=>{
+    if(i>=items.length){
+      if(btn){btn.disabled=false;btn.textContent=failN?'⚠ '+okN+'건 전송 · '+failN+'건 미전송(기록탭 보관)':'✅ '+okN+'건 전송 완료';}
+      try{rL();uLC();fetchHist();}catch(e){}
+      if(!failN)setTimeout(()=>{const ov=$('gzBatM');if(ov)ov.classList.add('h');},1200);
+      return;
+    }
+    if(btn)btn.textContent='⏳ '+(i+1)+'/'+items.length+' 전송 중...';
+    const{si,r}=items[i];
+    const sp=GS[si];
+    const qty=isAir?`${sp.l} 항공 (${fN(r.tb)}ctn)`:`${sp.l} ${r.ctp||sp.ct}ctn/p (${fN(r.tb)}ctn)`;
+    const rec={fr:'g',co:gCo,fl:co?.f||'',sp:sp.l,of:r.of,sym:'$',mb:r.mb,tk:r.tk,cif:r.cif,rt:gv('gfx'),sj:gSj,sh:shLbl,
+      qty,raw:fN(Math.round(r.raw))+'원/박스',maker:mkr||gSj,tb:r.tb,defTb:r.defTb,
+      invoice:inv,loadDate:ld,me:memo,author:me,id:genId(),dt:new Date().toISOString()};
+    const fin=(sent)=>{
+      if(sent){rec.sent=true;rec.sentAt=new Date().toISOString();okN++;}else failN++;
+      logs=logs.filter(l=>String(l.id)!==String(rec.id));logs.unshift({...rec});try{saveL();}catch(e){}
+      const lb=$('gb'+gCo+si);if(lb&&sent){lb.classList.add('ok');setTimeout(()=>lb.classList.remove('ok'),1200);}
+      send(i+1);
+    };
+    const cb=jsonpCb('gbat'),sc=document.createElement('script');
+    sc.src=SU+'?action=log&callback='+cb+'&data='+encodeURIComponent(JSON.stringify(buildLogPayload(rec,me)));
+    const t=setTimeout(()=>{cl();fin(false);},20000);
+    function cl(){clearTimeout(t);jsonpDone(cb,sc);}
+    sc.onerror=function(){cl();fin(false);};
+    window[cb]=function(d2){cl();fin(!!(d2&&(d2.ok||d2.success)));};
+    document.head.appendChild(sc);
+  };
+  send(0);
+}
+function gReset(){
+  if(!gCo)return;
+  if(!confirm('현재 노선('+gCo+')의 PRICE($)·수량 입력을 비울까요?\n(원물·작업비 등 산지 비용과 기록은 유지됩니다)'))return;
+  clearInpPrefix(['go'+gCo,'gq'+gCo]);
+  gB();
 }
 function gCalc(cn,si){
   if(!gSj)return null;
@@ -1372,7 +2271,7 @@ function gCalc(cn,si){
     if(!seaV||!inlV)return null;   // 내륙운임 0(미수신/신규산지)이면 CIF 과소계산 → 계산 차단
     const tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9);   // 파레트 수: 시트 K열(TP) sync값 우선, 미수신 시 종전 하드코딩(40ft=20/20ft=9)
     defTb=ctp*tp;
-    tb=qIn>0?qIn:defTb;                           // 실출고 미입력 시 만적(cnt/p×TP)
+    tb=qIn>0?qIn:((typeof _gDq!=='undefined'&&_gDq[si]!=null)?_gDq[si]:defTb);   // 미입력 시 분배 기본값(다중 스펙=컨테이너 1대 파레트 분배) → 만적
     pbf=(inlV+seaV)/tp/ctp;                        // 해운: 박스당운임 = (내륙+해운)÷(TP×cnt/p)
   }
   const cif=raw+wk+buja+box+pbf;
@@ -1381,28 +2280,6 @@ function gCalc(cn,si){
   if(!of||!fx)return{empty:true,be,cif,tb,defTb,raw,wk,buja,box,pbf,ctp};   // 환율 0이면 마진 -Infinity → 차단
   const mb=of-(cif/fx),tk=mb*tb*fx+tb*sp.nw*sup;   // 원화 총마진 = 박스당마진×실출고 + 지원(₩/kg)×N.W×실출고
   return{of,raw,wk,buja,box,pbf,mb,tk,tkUsd:fx?tk/fx:0,cif,tb,defTb,be,ctp};
-}
-function gR(cn,si){
-  const r=gCalc(cn,si);
-  const e2=$('gt'+cn+si),ei=$('go'+cn+si),qi=$('gq'+cn+si);
-  if(!r){if(e2)e2.innerHTML='<span style="opacity:.3">-</span>';return;}
-  if(ei&&r.be)ei.placeholder=r.be.toFixed(2);   // $ placeholder = 손익분기 단가
-  if(qi)qi.placeholder=r.defTb||'';             // 실출고 placeholder = 만적 박스수
-  lofR('lofgo'+cn+si,'go'+cn+si,'g',cn,GS[si].l,()=>gR(cn,si),($('gsh')&&$('gsh').value==='air')?'AIR':gv('gsh')+'ft');
-  if(r.empty){if(e2)e2.innerHTML=`<span style="opacity:.32;font-weight:600">-</span>`;return;}
-  // 원물 미입력(0원) 상태의 마진은 과대 — 초록 대신 노란 경고색으로 표시해 전송 전 단계에서 바로 눈에 띄게 (sendGuard 경고를 입력 시점으로 당김)
-  if(!(r.raw>0)){if(e2)e2.innerHTML=`<span style="color:#c2860a;font-size:11px">⚠${(r.tkUsd>=0?'+':'-')}$${fN(Math.abs(r.tkUsd))}</span><br><span style="color:#c2860a;font-size:8px;opacity:.9">원물0 — 마진 과대</span>`;return;}
-  const cl=mC(r.mb);
-  if(e2)e2.innerHTML=`<span class="${cl}" style="font-size:11px">${(r.tkUsd>=0?'+':'-')}$${fN(Math.abs(r.tkUsd))}</span><br><span class="${cl}" style="font-size:8px;opacity:.85">${fK(r.tk)}</span>`;
-}
-function gA(){
-  const shv=$('gsh')?$('gsh').value:'40';
-  const isAir=shv==='air';
-  const cList=isAir?GAIR_C:GC;
-  cList.forEach(c=>GS.forEach((_,i)=>{if($('go'+c.n+i))gR(c.n,i);}));
-  const pairs=[];
-  cList.forEach(c=>GS.forEach((_,i)=>pairs.push([c.n,i])));
-  markBest('gb',gCalc,pairs);
 }
 function gL(cn,si){
   const r=gCalc(cn,si);if(!r||!r.of)return;
@@ -1815,13 +2692,21 @@ function sCif(k,i){const r=sCalc(k,i);if(!r)return;const sp=SS[i],fd=SF[k];
     r.empty?null:['오퍼 → 마진/박스',(r.sym)+r.of+' → '+fD(r.mb)+(r.sym)],
     r.empty?null:['총마진 ('+sp.ct+'박스)',fK(r.tk)]
   ].concat(offerHistRows('s',fd.n,sp.l,null)));}
-function pCif(cn,sid){const r=pCalc(cn,sid);if(!r)return;const sp=PS.find(s=>s.id===sid);
+function pCif(cn,sid){const r=pCalc(cn,sid);if(!r||r.noFr)return;const sp=PS.find(s=>s.id===sid);
+  const sh=gv('psh')==40?'40ft':'20ft';
   cifOpen(cn+' · '+sp.l+(pSj?' · '+pSj:''),[
-    ['원물','₩'+fN(r.raw)],['작업비','₩'+fN(Math.round(r.wk-(r.wkAdd||0)))],r.wkAdd?['원물 5% 가산','₩'+fN(Math.round(r.wkAdd))]:null,['부자재','₩'+fN(r.bj)+(pcRaw(sid,'bj')!==''?' ✏️':'')],['박스','₩'+fN(r.bx)+(pcRaw(sid,'bx')!==''?' ✏️':'')],['물류(박스당)','₩'+fN(r.pbf)],
-    ['CIF 합계','₩'+fN(r.cif),'tot'],
-    ['손익분기','$'+(r.be?r.be.toFixed(2):'-')],
-    r.empty?null:['오퍼 → 마진/박스','$'+r.of+' → '+fD(r.mb)+'$'],
-    r.empty?['만적',fN(r.defTb)+'박스']:['총마진 ('+fN(r.tb)+'박스)',fK(r.tk)]
+    ['원물','₩'+fN(Math.round(r.raw||0))+(r.rawIn>0?' ✏️':(r.cvRaw>0?' (환산)':''))],
+    ['작업비','₩'+fN(Math.round(r.wk-(r.wkAdd||0)))],r.wkAdd?['└ 원물 5% 가산','₩'+fN(Math.round(r.wkAdd))]:null,
+    ['부자재','₩'+fN(r.bj)+(pcRaw(sid,'bj')!==''?' ✏️':'')],['박스','₩'+fN(r.bx)+(pcRaw(sid,'bx')!==''?' ✏️':'')],
+    ['박스당 운임 (만적 기준)','₩'+fN(Math.round(r.pbf))],
+    r.noRaw?null:['CIF 합계','₩'+fN(Math.round(r.cif)),'tot'],
+    r.noRaw?null:['손익분기','$'+(r.be?r.be.toFixed(2):'-')],
+    (r.empty||r.noRaw)?null:['오퍼 → 마진/박스','$'+r.of+' → '+fK(r.mb*(gv('pfx')||0))+' ('+fD(r.mb)+'$)'],
+    (r.empty||r.noRaw)?['만적',fN(r.defTb)+'박스']:['총마진 ('+fN(r.tb)+'박스)',fK(r.tk)],
+    ['─ 컨테이너 운임 ('+sh+' 1대·1회 적용)','₩'+fN(r.inlV+r.seaV)],
+    ['└ 국내 ('+(pSj||'-')+')','₩'+fN(r.inlV)],
+    ['└ 항/해 ('+cn+')','₩'+fN(r.seaV)],
+    ['└ 계산: (국내+항/해) ÷ '+r.tp+'p ÷ '+r.ctn+'ctn','₩'+fN(Math.round(r.pbf))+'/박스']
   ].concat(offerHistRows('p',cn,sp.l,gv('psh')+'ft')));}
 function gCif(cn,si){const r=gCalc(cn,si);if(!r)return;const sp=GS[si];
   cifOpen(cn+' · '+sp.l+(gSj?' · '+gSj:''),[
@@ -2314,7 +3199,9 @@ function applySyncData(d,src){
   const pw=pk(d,'pearWk','pWk');if(pw)Object.keys(pw).forEach(k=>{if(PWK[k]!=null){const rv=Math.round(+pw[k]);if(PWK[k]!==rv){chgP=true;dAdd('배 작업비',k,'',PWK[k],rv);}PWK[k]=rv;if(!pSj)syncSetVal('pwk_'+k,rv,src);cnt++;}});   // syncSetVal 가드로 통일 + 수식값 반올림 (미국 작업비와 동일 정책)
   // 배 스펙별 값 sync — 부자재·박스·ctn(40/20ft)·TP·N.W·GW를 배 탭에서 (포도 grapeSpecs와 동일 원칙: 시트=진실원천, 0/빈값은 무시)
   const psp2=pk(d,'pearSpecs','pSpecs');
-  if(psp2){PS.forEach(sp=>{if(!sp.sk)return;const dd=psp2[sp.sk];if(!dd)return;
+  if(psp2){PS.forEach(sp=>{if(!sp.sk)return;
+    let ali=null;Object.keys(PSK_ALIAS).forEach(k2=>{if(PSK_ALIAS[k2]===sp.sk&&psp2[k2])ali={...(ali||{}),...psp2[k2]};});   // 구 명칭 키 병합 (표준 키가 있으면 표준이 우선)
+    const dd={...(ali||{}),...(psp2[sp.sk]||{})};if(!Object.keys(dd).length)return;
     if(dd.bj>0&&sp.bj!==dd.bj){dAdd('배 스펙',sp.l,'부자재',sp.bj,dd.bj);sp.bj=dd.bj;chgP=true;}
     if(dd.bx>0&&sp.bx!==dd.bx){dAdd('배 스펙',sp.l,'박스',sp.bx,dd.bx);sp.bx=dd.bx;chgP=true;}
     if(dd.ct>0&&sp.c4!==dd.ct){dAdd('배 스펙',sp.l,'40ft ctn/p',sp.c4,dd.ct);sp.c4=dd.ct;chgP=true;}
@@ -2323,7 +3210,10 @@ function applySyncData(d,src){
     if(dd.tp2>0&&sp.tp2!==dd.tp2){sp.tp2=dd.tp2;chgP=true;}
     if(dd.nw>0&&sp.nw!==dd.nw){dAdd('배 스펙',sp.l,'N.W(kg)',sp.nw,dd.nw);sp.nw=dd.nw;}
     if(dd.gw>0&&sp.gw!==dd.gw){dAdd('배 스펙',sp.l,'G.W(kg)',sp.gw,dd.gw);sp.gw=dd.gw;}
-    cnt++;});}
+    cnt++;});
+    // OCEAN 시트 신규 스펙 자동 추가 — 표준 목록에 없는 키는 스펙 선택의 '기타' 그룹으로 등장 (원물 직접 입력)
+    let extN=0;Object.keys(psp2).forEach(k2=>{try{if(pSpecExtend(k2,psp2[k2]||{})){extN++;dAdd('배 스펙 추가',k2,'',0,1);}}catch(e2){}});
+    if(extN){chgP=true;cnt++;}}
   // 배 산지×국가 매트릭스 — 배 탭 행 존재 기준으로 산지 자동 추가/제거·국가별 40/20 가능 여부 갱신 (시트=진실원천)
   const pm=pk(d,'pearMatrix','pMatrix');
   let chgSanjiP=false;
@@ -2338,7 +3228,11 @@ function applySyncData(d,src){
     PSANJI.slice().forEach(sj=>{if(!pm[sj]){const i=PSANJI.indexOf(sj);if(i>=0){PSANJI.splice(i,1);chgSanjiP=true;if(pSj===sj)pSj=null;}}});   // 시트에서 사라진 산지 제거
     cnt++;
   }
-  // 신규 배 산지 내륙운임 — 배 탭 V열(국내운임)로 생성. 기존 산지 갱신은 위 pearInland 핸들러가 담당(GAS가 V열 우선 병합 전송, 2026-07-28 사용자 확정)
+  // 산지별 국내운임 출처 + 운임표 기준일 — 'DATA·외서(부산)' 식으로 표시 (운임이 어디서 왔는지 항상 보이게, 배·포도 공통)
+  const pisrc=pk(d,'pearIlSrc');if(pisrc&&typeof pisrc==='object')PIL_SRC=pisrc;
+  const gisrc=pk(d,'grapeIlSrc');if(gisrc&&typeof gisrc==='object')GIL_SRC=gisrc;
+  if(d.meta&&d.meta.freightUpdated)FR_UPD=String(d.meta.freightUpdated);
+  // 신규 배 산지 내륙운임 — OCEAN/DATA 매칭으로 생성. 기존 산지 갱신은 위 pearInland 핸들러가 담당
   const pis=pk(d,'pearInlandSheet','pIlSheet');
   if(pis)Object.keys(pis).forEach(sj=>{if(PIL[sj])return;const r=parseFT(pis[sj]);if(!r)return;const rr={};if(r.f>0)rr.f=r.f;if(r.t>0)rr.t=r.t;
     if(Object.keys(rr).length){PIL[sj]={f:0,t:0};Object.assign(PIL[sj],rr);chgP=true;dAdd('배 내륙(신규)',sj,'',0,rr.f||rr.t);cnt++;}});
@@ -2465,7 +3359,7 @@ function pushState(){
     const supId=F==='p'?'psp':F==='g'?'gsp':F==='c'?'csp':(F==='s'?null:'msp');
     const sj=F==='p'?(pSj||''):F==='g'?(gSj||''):(F==='s'||F==='c'?'':(mSj[F]||''));
     const st=inpStore();
-    let keys={s:['sp0','sp1','sfx','ssg','so'],p:['pa','pb','pc','ha','hb','hc','pwk_','puwk_','pfx','psp','po','pq'],g:['gfx','gsp','go','gq'],c:['cnm','cfx','csp','cnw','cgw','cct','craw','cwk','cbj','cbx','cin','cdm','cof','cq']}[F];
+    let keys={s:['sp0','sp1','sfx','ssg','so'],p:['pa','pb','pc','pd5','ha','hb','hc','pwk_','puwk_','pfx','psp','po','pq','praw','pwk2','pco','psjv','pspecs','psh'],g:['gfx','gsp','go','gq'],c:['cnm','cfx','csp','cnw','cgw','cct','craw','cwk','cbj','cbx','cin','cdm','cof','cq']}[F];
     if(!keys)keys=['mfx','msp','mr'+F,'mo'+F,'mnw'+F,'mgw'+F,'mct'+F,'mwk'+F];
     const inputs={};Object.keys(st).forEach(k=>{if(keys.some(p=>k.slice(0,p.length)===p))inputs[k]=st[k];});
     const detail={inputs};

@@ -1,5 +1,5 @@
 // 현농프레쉬 오퍼계산기 Service Worker
-const CACHE_VERSION = 'hn-v39';   // v39: 배 스펙별 부자재·박스 수정 UI(📦) — 시트 sync 기본값 위 오버라이드, 비우면 복귀
+const CACHE_VERSION = 'hn-v46';   // v46: 배·포도 순차 카드 위저드(환율→노선→스펙→계산, 접힌 칩 수정) + 전면 새 디자인, 목표마진 제거, 포도 카드형 계산·요약·일괄기록·국가비교
 const CORE_CACHE = CACHE_VERSION + '-core';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 

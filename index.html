@@ -509,22 +509,64 @@ tbody tr:hover td{background:#fafbfd}
 .pz-tk2{font-size:8.5px;opacity:.8}
 .pz-dim{color:var(--bd2);font-weight:600;font-size:11px}
 .pz-need{color:#b06d00;font-weight:700;font-size:10.5px;animation:pzIn .3s ease}
-/* 요약 */
-.pz-sum{margin:6px 14px 16px;background:linear-gradient(135deg,#1a1a2e,#2d2d4a);border-radius:14px;padding:12px 14px;color:#fff;box-shadow:var(--sh2);animation:pzUp .35s ease}
-.pz-sumt{font-size:11px;font-weight:900;margin-bottom:8px}
-.pz-sumt em{font-style:normal;font-size:9px;font-weight:600;opacity:.75;margin-left:4px}
-.pz-gaug{position:relative;height:20px;background:rgba(255,255,255,.12);border-radius:10px;overflow:hidden;margin-bottom:8px}
-.pz-gbar{height:100%;background:linear-gradient(90deg,#16a368,#3ecf8e);border-radius:10px;transition:width .5s cubic-bezier(.22,1,.36,1)}
-.pz-gbar.over{background:linear-gradient(90deg,#dc2626,#f87171)}
-.pz-glab{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;font-family:'JetBrains Mono',monospace;text-shadow:0 1px 2px rgba(0,0,0,.4)}
-.pz-sumr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:10px;padding:3px 0;opacity:.95}
-.pz-sumr>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pz-sumr em{font-style:normal;font-size:8px;opacity:.7;font-weight:700;white-space:nowrap}
-.pz-sumr b{font-family:'JetBrains Mono',monospace}
-.pz-sumr.big{border-top:1px solid rgba(255,255,255,.15);margin-top:5px;padding-top:7px;font-size:11.5px;font-weight:800}
-.pz-sumr.big b{font-size:15px}
-.pz-sumr.big .mpos{color:#4ade80!important}.pz-sumr.big .mneg{color:#f87171!important}
-.pz-frap{font-family:'JetBrains Mono',monospace;font-size:9px;opacity:.85}
+/* ═══ 요약 히어로 카드 (sm2) — 총마진이 주인공, 하단 고정으로 항상 보임 ═══ */
+.pz-sum{display:none}
+.pz-sum.on{display:block;position:sticky;bottom:8px;z-index:6;margin:8px 12px 14px;background:linear-gradient(150deg,#151528 0%,#1f1f3d 55%,#2b2350 100%);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:14px 15px 12px;color:#fff;box-shadow:0 14px 40px rgba(15,15,40,.45),0 2px 10px rgba(15,15,40,.3);animation:pzUp .35s ease}
+.pz-sum.grape.on{background:linear-gradient(150deg,#1d0f26 0%,#33164a 55%,#4a1d63 100%)}
+.sm2-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.sm2-t{font-size:10px;font-weight:900;letter-spacing:.05em;opacity:.85}
+.sm2-route{font-size:9.5px;font-weight:700;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:3px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sm2-hero{text-align:center;padding:2px 0 8px}
+.sm2-hero em{display:block;font-style:normal;font-size:9px;font-weight:700;opacity:.65;margin-bottom:2px}
+.sm2-hero b{display:block;font-size:31px;font-weight:900;font-family:'JetBrains Mono',monospace;letter-spacing:-.03em;line-height:1.1}
+.sm2-hero.pos b{color:#4ade80;text-shadow:0 0 24px rgba(74,222,128,.35)}
+.sm2-hero.neg b{color:#f87171;text-shadow:0 0 24px rgba(248,113,113,.3)}
+.sm2-hero span{display:block;font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;opacity:.75;margin-top:1px}
+.sm2-hero b.bump{animation:sm2Bump .45s cubic-bezier(.22,1,.36,1)}
+@keyframes sm2Bump{0%{transform:scale(1)}35%{transform:scale(1.12)}100%{transform:scale(1)}}
+.sm2-st{text-align:center;font-size:10px;font-weight:800;border-radius:9px;padding:5px 8px;margin-bottom:8px}
+.sm2-st.ok{background:rgba(74,222,128,.14);color:#4ade80}
+.sm2-st.warn{background:rgba(251,191,36,.14);color:#fbbf24}
+.sm2-st.over{background:rgba(248,113,113,.16);color:#f87171}
+.sm2-seg{display:flex;gap:2.5px;height:16px;margin-bottom:4px}
+.sm2-seg i{flex:1;border-radius:4px;background:rgba(255,255,255,.1);transition:background .3s}
+.sm2-seg i.full{background:linear-gradient(180deg,#4ade80,#16a368);animation:segIn .3s ease backwards;animation-delay:var(--d,0ms)}
+.sm2-seg i.part{background:linear-gradient(180deg,rgba(74,222,128,.55),rgba(22,163,104,.55))}
+.sm2-seg i.full.ov,.sm2-seg i.part.ov{background:linear-gradient(180deg,#f87171,#dc2626)}
+@keyframes segIn{from{transform:scaleY(.2);opacity:0}to{transform:scaleY(1);opacity:1}}
+.sm2-bar{height:14px;background:rgba(255,255,255,.1);border-radius:8px;overflow:hidden;margin-bottom:4px}
+.sm2-fill{height:100%;background:linear-gradient(90deg,#16a368,#4ade80);border-radius:8px;transition:width .5s cubic-bezier(.22,1,.36,1)}
+.sm2-fill.ov{background:linear-gradient(90deg,#dc2626,#f87171)}
+.sm2-glab{text-align:center;font-size:9px;font-weight:700;font-family:'JetBrains Mono',monospace;opacity:.8;margin-bottom:9px}
+.sm2-glab b{font-size:10.5px;color:#4ade80}
+.sm2-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}
+.sm2-kpis>div{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:7px 6px;text-align:center}
+.sm2-kpis i{font-style:normal;font-size:12px;display:block;margin-bottom:2px}
+.sm2-kpis b{display:block;font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;letter-spacing:-.02em}
+.sm2-kpis em{display:block;font-style:normal;font-size:7.5px;font-weight:700;opacity:.6;margin-top:1px}
+.sm2-specs{display:flex;flex-direction:column;gap:3px;border-top:1px solid rgba(255,255,255,.1);padding-top:7px}
+.sm2-sp{display:flex;align-items:center;gap:6px;font-size:9.5px;font-weight:700}
+.sm2-sp i{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.sm2-sp i.pos{background:#4ade80}.sm2-sp i.neg{background:#f87171}
+.sm2-sp span{opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sm2-sp b{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px}
+.sm2-sp b.pos{color:#4ade80}.sm2-sp b.neg{color:#f87171}
+.sm2-sp.more{opacity:.5;font-size:8.5px;justify-content:center}
+/* 출발항 선택 칩 (부산/광양/인천) */
+.pz-ports{display:flex;gap:6px;margin-top:9px}
+.pz-port{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;background:var(--sf2);border:1.5px solid var(--bd);border-radius:11px;padding:7px 6px;font-size:11px;font-weight:800;color:var(--t2);cursor:pointer;font-family:inherit;transition:all .16s}
+.pz-port em{font-style:normal;font-size:9px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--t3)}
+.pz-port.on{background:linear-gradient(135deg,#eaf6ff,#fff);border-color:#1d4ed8;color:#1d4ed8;box-shadow:0 2px 8px rgba(29,78,216,.15)}
+.pz-port.on em{color:#1d4ed8}
+.pz-port.dis{opacity:.42;cursor:not-allowed;border-style:dashed}
+/* 커스텀 산지 운임 직접 입력 */
+.pz-cusrow{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-top:9px;background:#fff8e8;border:1.5px dashed #e3c86b;border-radius:12px;padding:9px 11px}
+.pz-cust{flex-basis:100%;font-size:9.5px;font-weight:800;color:#8a6508}
+.pz-cusrow label{flex:1;display:flex;flex-direction:column;gap:3px}
+.pz-cusrow label em{font-style:normal;font-size:8.5px;font-weight:800;color:var(--t2)}
+.pz-cusrow input{width:100%;box-sizing:border-box;background:#fff;border:1.5px solid var(--bd);border-radius:9px;padding:8px 10px;font-size:13px;font-weight:700;font-family:'JetBrains Mono',monospace;outline:none}
+.pz-cusrow input:focus{border-color:#b8860b;box-shadow:0 0 0 3px rgba(184,134,11,.13)}
+.pz-co.cus{border-style:dashed}
 /* 빈 상태 */
 .pz-empty{text-align:center;padding:46px 20px 40px;color:var(--t2);font-size:14px;animation:pzIn .35s ease}
 .pz-emoji{display:block;font-size:44px;margin-bottom:10px;animation:pzFloat 2.6s ease-in-out infinite}
@@ -790,6 +832,7 @@ let pRgn='all';
 const PSEA={대만:{f:1869000,t:1203700},베트남:{f:2785500,t:1669000},홍콩:{f:2292000,t:1457500},말레이시아:{f:3420000,t:2021500},인도네시아:{f:3490500,t:2233000},태국:{f:2785500,t:1669000},호주:{f:5570140,t:3220000},미국LA:{f:11486500,t:0},미국NY:{f:16139500,t:0},캐나다:{f:11586500,t:0}};   // OCEAN Y열=DATA 계 (26.08.04 업뎃 실측 폴백)
 const PIL={아리팜:{f:1263500,t:1133500},전남:{f:1263500,t:1133500},순천:{f:969000,t:844500},천안:{f:1378400,t:1227100},상주:{f:1053700,t:917900},고창:{f:1063000,t:929000},아산:{f:1430100,t:1268400},경남:{f:509200,t:452400},논산:{f:1314600,t:1175300},경기:{f:1400000,t:1100000},외서:{f:1053700,t:917900},김제:{f:1284300,t:1150000}};   // DATA 내륙표 매칭 폴백 (온라인이면 GAS가 DATA 실시간 매칭값으로 덮음)
 let PIL_SRC={},FR_UPD='';   // 산지별 국내운임 출처(GAS pearIlSrc: DATA행·출발항·매핑근거) / 운임표 기준일(DATA N1) — 노선 카드에 표시
+let PIL_PORTS={},GIL_PORTS={};   // 산지별 출발항 운임표(GAS pearIlPorts/grapeIlPorts: {산지:{부산:{f,t},광양:{f,t},인천:{f,t}}}) — 출발항 선택 칩
 // 산지별 출고 가능 (국가, 운송) — OCEAN 시트 행 존재 기준(sync로 자동 갱신). 매트릭스에 없는 조합도 선택은 가능(운임만 있으면 계산됨).
 const PSJ_COUNTRY={
 아리팜:{대만:['40','20'],베트남:['40','20'],말레이시아:['40','20'],인도네시아:['40','20'],태국:['40','20'],홍콩:['40','20']},
@@ -877,8 +920,8 @@ const GS=[
 {l:'2kg 3송이',k:'2kg|3bunch',ct:208,ca:143,nw:2,gw:2.8,bj:0,bx:0,cat:'bun'},
 {l:'2.5kg 3송이',k:'2.5kg|3bunch',ct:160,ca:100,nw:2.5,gw:3.5,bj:0,bx:0,cat:'bun'},
 {l:'3.8kg 5-7송이',k:'3.8kg|5-7bunch',ct:120,nw:3.8,gw:5.1,bj:180,bx:0,cat:'bun'},
-{l:'4kg 5송이',k:'4kg|5bunch',ct:120,ca:80,nw:4,gw:5.1,bj:150,bx:0,cat:'bun'},
-{l:'4kg 5송이(2등급)',k:'4kg(b)|5bunch',ct:120,ca:80,nw:4,gw:5.1,bj:150,bx:0,cat:'bun'},   // 구 '4kg 6송이' — 실제는 4kg 5송이 2등급(시트 표기 4kg(b))으로 확인(2026-07-28), 키 교정으로 시트 동기화 연결
+{l:'4.05kg 5송이',k:'4kg|5bunch',ct:120,ca:80,nw:4.05,gw:5.1,bj:150,bx:0,cat:'bun'},   // 표기 4.05kg (시트 키는 4kg|5bunch 유지 — NW는 시트 값이 오면 그 값 우선)
+{l:'4.05kg 5송이(2등급)',k:'4kg(b)|5bunch',ct:120,ca:80,nw:4.05,gw:5.1,bj:150,bx:0,cat:'bun'},   // 표기 4.05kg · 시트 키 4kg(b)|5bunch 유지
 // ── 멀티팩 (Multipack) ──
 {l:'2.1kg 800g×3',k:'2.1kg|800g*3pack',ct:160,ca:100,nw:2.1,gw:3.1,bj:0,bx:0,cat:'mlt'},
 {l:'2.4kg 700g×3',k:'2.4kg|700g*3pack',ct:160,ca:100,nw:2.4,gw:3.4,bj:0,bx:0,cat:'mlt'},
@@ -1071,7 +1114,7 @@ function bP(){
   loadPCost();
   $('bs').innerHTML='';$('bs').style.display='none';
   $('ex').innerHTML=`
-    <input type="hidden" id="pco"><input type="hidden" id="psjv"><input type="hidden" id="pspecs"><input type="hidden" id="psh" value="40"><input type="hidden" id="pcnt" value="1"><input type="hidden" id="pwz" value="">
+    <input type="hidden" id="pco"><input type="hidden" id="psjv"><input type="hidden" id="pspecs"><input type="hidden" id="psh" value="40"><input type="hidden" id="pcnt" value="1"><input type="hidden" id="pwz" value=""><input type="hidden" id="pport" value="">
     <div class="wz" id="pwzRoot">
       <div class="wz-rail" id="pwzRail"></div>
       <div class="wz-step" id="pwzS1">
@@ -1116,7 +1159,7 @@ function bP(){
     </div>`;
   inpRestore();
   const co0=($('pco')&&$('pco').value)||'';pCo=PC.some(c=>c.n===co0)?co0:null;
-  const sj0=($('psjv')&&$('psjv').value)||'';pSj=PSANJI.includes(sj0)?sj0:null;
+  const sj0=($('psjv')&&$('psjv').value)||'';pSj=(sj0==='커스텀'||PSANJI.includes(sj0))?sj0:null;
   const spRaw=($('pspecs')&&$('pspecs').value)||'';
   pSpecSel=spRaw?spRaw.split(',').filter(t=>t==='15set'||PS.some(s=>s.id===t)):[];
   const wz0=+($('pwz')&&$('pwz').value)||0;
@@ -1164,23 +1207,27 @@ function pWzR(){
 function pStepR(){
   pWzR();
   const sh=pShV(),co=PC.find(c=>c.n===pCo),cntCur=pCntV();
-  const seaOk=pCo&&PSEA[pCo]&&PSEA[pCo][sh]>0,ilOk=pSj&&PIL[pSj]&&PIL[pSj][sh]>0;
-  const frTot=(seaOk&&ilOk)?PIL[pSj][sh]+PSEA[pCo][sh]:0;
+  const ilObj=pSj?(pIlOf(pSj)||{}):{};
+  const seaOk=pCo&&PSEA[pCo]&&PSEA[pCo][sh]>0,ilOk=(ilObj[sh]||0)>0;
+  const frTot=(seaOk&&ilOk)?ilObj[sh]+PSEA[pCo][sh]:0;
   const usBlock=sh==='t'&&co&&co.us;
   let h=`<div class="pz-selrow">
     <button class="pz-sel pz-press${pCo?' on':''}" onclick="pCoOpen()"><span class="pz-selk">국가</span><span class="pz-selv">${co?hlEsc(co.f)+' '+hlEsc(co.n):'선택 ▾'}</span></button>
     <button class="pz-sel pz-press${pSj?' on':''}" onclick="pSjOpen()"><span class="pz-selk">산지</span><span class="pz-selv">${pSj?'📍 '+hlEsc(pSj):'선택 ▾'}</span></button>
     <div class="pz-sel pz-shwrap"><span class="pz-selk">컨테이너</span><div style="display:flex;gap:5px;align-items:center"><div class="shtg pz-shtg"><button type="button" class="sho pz-press${sh==='f'?' a':''}" id="psh_40" onclick="setSh('psh','40')">40ft</button><button type="button" class="sho pz-press${sh==='t'?' a':''}" id="psh_20" onclick="setSh('psh','20')">20ft</button></div><div class="wz-cnt"><button class="pz-press" onclick="pCntSet(-1)">−</button><b>${cntCur}대</b><button class="pz-press" onclick="pCntSet(1)">＋</button></div></div></div>
   </div>`;
+  if(pSj==='커스텀')h+=`<div class="pz-cusrow"><span class="pz-cust">✏️ 커스텀 산지 — 국내운임 직접 입력 (₩/컨테이너)</span><label><em>40ft</em><input type="number" id="pcil40" inputmode="numeric" oninput="pA()" onchange="pB()"></label><label><em>20ft</em><input type="number" id="pcil20" inputmode="numeric" oninput="pA()" onchange="pB()"></label></div>`;
+  else if(pSj&&PIL_PORTS[pSj])h+=portChipsHtml(PIL_PORTS[pSj],pPortCur(pSj),sh,'pPortSet');
   if(usBlock)h+=`<div class="pz-warn">⚠ ${hlEsc(pCo)}는 20ft 노선이 없습니다 — 40ft를 선택하세요</div>`;
   else if(pCo&&pSj){
     const si=PIL_SRC[pSj];
-    const siTx=si?(si.s==='DATA'?`DATA 내륙표 · ${hlEsc(si.n)}${si.p?'('+hlEsc(si.p)+')':''}`:si.s==='OCEAN'?'⚠ 매핑 미확인 — OCEAN 시트값':'⚠ 운임 미확인'):'';
-    const siWarn=si&&si.s!=='DATA';
-    if(frTot)h+=`<div class="pz-frline" id="pzFr"><span class="pz-frb">🚢 운임 <b>₩${fN(frTot)}</b>${cntCur>1?` × ${cntCur}대 = <b>₩${fN(frTot*cntCur)}</b>`:''} <em>/ 컨테이너당 1회 적용</em></span><span class="pz-frd">국내(${hlEsc(pSj)}) ₩${fN(PIL[pSj][sh])} + 항/해(${hlEsc(pCo)}) ₩${fN(PSEA[pCo][sh])}</span>${(siTx||FR_UPD)?`<span class="pz-frd2${siWarn?' warn':''}">${siTx?'국내운임: '+siTx:''}${siTx&&FR_UPD?' · ':''}${FR_UPD?'운임표 '+hlEsc(FR_UPD):''}${siWarn?' — 앱설정 [배 산지-운임 매핑]에서 지정':''}</span>`:''}</div>`;
-    else h+=`<div class="pz-warn">⚠ ${hlEsc(pSj)} → ${hlEsc(pCo)} ${sh==='f'?'40ft':'20ft'} 운임 미수신 — 시트 DATA/OCEAN 확인 또는 동기화(🔄) 필요</div>`;
+    const portLbl=pSj==='커스텀'?'직접 입력':(PIL_PORTS[pSj]?pPortCur(pSj)+'출발':'');
+    const siTx=pSj==='커스텀'?'커스텀 — 직접 입력한 운임':(si?(si.s==='DATA'?`DATA 내륙표 · ${hlEsc(si.n)}${portLbl?'('+hlEsc(portLbl)+')':''}`:si.s==='OCEAN'?'⚠ 매핑 미확인 — OCEAN 시트값':'⚠ 운임 미확인'):'');
+    const siWarn=pSj!=='커스텀'&&si&&si.s!=='DATA';
+    if(frTot)h+=`<div class="pz-frline" id="pzFr"><span class="pz-frb">🚢 운임 <b>₩${fN(frTot)}</b>${cntCur>1?` × ${cntCur}대 = <b>₩${fN(frTot*cntCur)}</b>`:''} <em>/ 컨테이너당 1회 적용</em></span><span class="pz-frd">국내(${hlEsc(pSj)}${portLbl&&pSj!=='커스텀'?'·'+hlEsc(portLbl):''}) ₩${fN(ilObj[sh])} + 항/해(${hlEsc(pCo)}) ₩${fN(PSEA[pCo][sh])}</span>${(siTx||FR_UPD)?`<span class="pz-frd2${siWarn?' warn':''}">${siTx?'국내운임: '+siTx:''}${siTx&&FR_UPD?' · ':''}${FR_UPD?'운임표 '+hlEsc(FR_UPD):''}${siWarn?' — 앱설정 [배 산지-운임 매핑]에서 지정':''}</span>`:''}</div>`;
+    else h+=`<div class="pz-warn">${pSj==='커스텀'?'✏️ 위 칸에 커스텀 국내운임을 입력하세요':'⚠ '+hlEsc(pSj)+' → '+hlEsc(pCo)+' '+(sh==='f'?'40ft':'20ft')+' 운임 미수신 — 시트 DATA/OCEAN 확인 또는 동기화(🔄) 필요'}</div>`;
     const mt=(PSJ_COUNTRY[pSj]||{})[pCo];
-    if(frTot&&!(mt&&mt.includes(sh==='f'?'40':'20')))h+=`<div class="pz-note">ℹ 시트 OCEAN에 없는 조합입니다 — 운임 기준으로 계산됩니다</div>`;
+    if(frTot&&pSj!=='커스텀'&&!(mt&&mt.includes(sh==='f'?'40':'20')))h+=`<div class="pz-note">ℹ 시트 OCEAN에 없는 조합입니다 — 운임 기준으로 계산됩니다</div>`;
   }
   const rt=$('pzRoute');if(rt)rt.innerHTML=h;
   // STEP 3 내용 (스펙 칩)
@@ -1249,16 +1296,21 @@ function pSjR(){
   });
   let h='<div class="pz-colist">';
   arr.forEach((s2,i)=>{
-    const il=PIL[s2]||{};const fr=il[sh]||0;
+    const il=pIlOf(s2)||{};const fr=il[sh]||0;
     const mt=pCo&&(PSJ_COUNTRY[s2]||{})[pCo];
+    const pn=PIL_PORTS[s2]?`<span class="pz-cosj">${pPortCur(s2)}</span>`:'';
     h+=`<button class="pz-co pz-press${pSj===s2?' on':''}" style="--i:${i}" onclick="pSjPick(decodeURIComponent('${jsArg(s2)}'))">
       <span class="pz-cofl">📍</span><span class="pz-conm">${hlEsc(s2)}</span>
-      <span class="pz-cofr">${fr?'₩'+fN(fr):'운임 미수신'}</span>${mt?`<span class="pz-cosj">${mt.map(x=>x+'ft').join('·')}</span>`:''}</button>`;
+      <span class="pz-cofr">${fr?'₩'+fN(fr):'운임 미수신'}</span>${pn}${mt?`<span class="pz-cosj">${mt.map(x=>x+'ft').join('·')}</span>`:''}</button>`;
   });
+  h+=`<button class="pz-co pz-press cus${pSj==='커스텀'?' on':''}" onclick="pSjPick('커스텀')">
+    <span class="pz-cofl">✏️</span><span class="pz-conm">커스텀 <span style="font-size:9px;color:var(--t3);font-weight:600">산지 운임 직접 입력</span></span>
+    <span class="pz-cofr">${gv('pcil40')>0?'₩'+fN(gv('pcil40')):'직접 입력'}</span></button>`;
   h+='</div>';b.innerHTML=h;
 }
 function pSjPick(s2){
   pSj=s2;pStateSave();   // 모달에서는 항상 '선택' — 같은 산지 재탭이 해제로 오작동하지 않게
+  const pe=$('pport');if(pe){pe.value='';inpSet('pport','');}   // 산지 변경 시 출발항은 그 산지의 매핑 기본으로 리셋
   const ov=$('pzSjM');if(ov)ov.classList.add('h');
   pB();
 }
@@ -1574,7 +1626,7 @@ function pCalc(cn,sid){
   if(!pSj||!cn)return null;
   const fx=gv('pfx'),sup=gv('psp'),sh=pShV();
   const sp=PS.find(s=>s.id===sid);const co=PC.find(c=>c.n===cn);if(!sp||!co)return null;
-  const sea=PSEA[cn],il=PIL[pSj];if(!sea||!il)return null;
+  const sea=PSEA[cn],il=pIlOf(pSj);if(!sea||!il)return null;
   const seaV=sea[sh],inlV=il[sh];
   const ctn=sh==='f'?sp.c4:sp.c2;
   const tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9);
@@ -1639,24 +1691,79 @@ function pR(cn,sid){
   if(eM)eM.innerHTML=`<span class="${cl}">${fK(mbW)}<em>/box</em></span><span class="pz-mb2 ${cl}">${fD(r.mb)}$</span>`;
   if(eT)eT.innerHTML=`<span class="${cl}">${fK(r.tk)}</span><span class="pz-tk2 ${cl}">${(r.tkUsd>=0?'+':'-')}$${fN(Math.abs(r.tkUsd))} · ${fN(r.tb)}박스</span>`;
 }
-// ── 컨테이너 요약 (운임 1회 적용 게이지 + 총마진 합계) ──
+// ── 컨테이너 요약 — 히어로 카드 (총마진 주인공 + 파레트 세그먼트 게이지 + KPI, 하단 고정) ──
+function pPortDef(sj){return (PIL_SRC[sj]&&PIL_SRC[sj].p)||'부산';}
+function pPortCur(sj){const w=($('pport')&&$('pport').value)||'';const ports=PIL_PORTS[sj]||{};return (w&&ports[w])?w:pPortDef(sj);}
+function pIlOf(sj){
+  if(sj==='커스텀')return{f:gv('pcil40'),t:gv('pcil20')};   // 커스텀 산지 = 국내운임 직접 입력
+  const ports=PIL_PORTS[sj];
+  if(ports){const pick=ports[pPortCur(sj)]||ports[pPortDef(sj)]||ports['부산']||ports['광양']||ports['인천'];
+    if(pick&&(pick.f>0||pick.t>0))return pick;}
+  return PIL[sj];
+}
+function pPortSet(p){const e=$('pport');if(!e)return;e.value=p;inpSet('pport',p);pB();}
+// 출발항 선택 칩 렌더 (배·포도 공용) — 값 없는 항구는 '없음' 비활성
+function portChipsHtml(ports,cur,sh,setFn){
+  if(!ports)return'';
+  const names=['부산','광양'].concat((ports['인천']&&(ports['인천'].f>0||ports['인천'].t>0))?['인천']:[]);
+  return `<div class="pz-ports">${names.map(p=>{const o=ports[p];const has=!!(o&&o[sh]>0);
+    return `<button type="button" class="pz-port pz-press${cur===p?' on':''}${has?'':' dis'}" ${has?`onclick="${setFn}('${p}')"`:''}>${p}출발${has?`<em>₩${fN(o[sh])}</em>`:'<em>없음</em>'}</button>`;}).join('')}</div>`;
+}
 function pSum(){
   const e=$('pzSum');if(!e)return;
   const sh=pShV(),sids=pActiveSids();
-  if(!pCo||!pSj||!sids.length){e.innerHTML='';return;}
-  const sea=(PSEA[pCo]||{})[sh]||0,il=(PIL[pSj]||{})[sh]||0,cnt=pCntV(),FT=(sea+il)*cnt,fx=gv('pfx');
-  let plUsed=0,plCap=0,tkSum=0,tkN=0,frApp=0,boxN=0;
+  if(!pCo||!pSj||!sids.length){e.innerHTML='';e.classList.remove('on');return;}
+  const co=PC.find(c=>c.n===pCo);
+  const sea=(PSEA[pCo]||{})[sh]||0,il=(pIlOf(pSj)||{})[sh]||0,cnt=pCntV(),FT=(sea+il)*cnt,fx=gv('pfx');
+  let plUsed=0,plCap=0,tkSum=0,tkN=0,frApp=0,boxN=0;const rows=[];
   sids.forEach(sid=>{const r=pCalc(pCo,sid);if(!r||r.noFr)return;
     plCap=Math.max(plCap,r.tp*cnt);plUsed+=r.tb/r.ctn;boxN+=r.tb;frApp+=r.tb*r.pbf;
-    if(r.tk!=null){tkSum+=r.tk;tkN++;}});
-  if(!plCap){e.innerHTML='';return;}
-  const pct=Math.min(135,plUsed/plCap*100);
-  const over=plUsed>plCap+0.01,under=plUsed<plCap-0.01;
-  const cl=tkSum>=0?'mpos':'mneg';
-  e.innerHTML=`<div class="pz-sumt">🧮 컨테이너 요약 <em>${hlEsc(pSj)} → ${hlEsc(pCo)} · ${sh==='f'?'40ft':'20ft'} ${cnt}대</em></div>
-  <div class="pz-gaug"><div class="pz-gbar${over?' over':''}" style="width:${Math.min(100,pct)}%"></div><span class="pz-glab">${plUsed.toFixed(1)} / ${plCap}파레트 · ${fN(boxN)}박스${over?' ⚠ 초과':under?' (여유 '+(plCap-plUsed).toFixed(1)+'p)':' ✓ 만적'}</span></div>
-  <div class="pz-sumr"><span>🚢 운임 <b>₩${fN(FT)}</b> <em>${cnt}대 × 1회</em></span><span class="pz-frap">반영 ₩${fN(Math.round(frApp))}${Math.abs(frApp-FT)>1?'':' ✓'}</span></div>
-  <div class="pz-sumr big"><span>합계 총마진 <em>${tkN}건</em></span><b class="${cl}">${fK(tkSum)} <em>${fx?(tkSum>=0?'+':'-')+'$'+fN(Math.abs(tkSum/fx)):''}</em></b></div>`;
+    if(r.tk!=null){tkSum+=r.tk;tkN++;rows.push({l:r.sp,tk:r.tk,mb:r.mb});}});
+  if(!plCap){e.innerHTML='';e.classList.remove('on');return;}
+  e.classList.add('on');
+  e.innerHTML=sumCardHtml({title:'컨테이너 요약',route:`${hlEsc(pSj)} → ${hlEsc((co||{}).f||'')} ${hlEsc(pCo)} · ${sh==='f'?'40ft':'20ft'} ${cnt}대`,
+    tkSum,tkN,fx,plUsed,plCap,boxN,FT,frApp,rows,frLabel:cnt>1?cnt+'대 × 1회':'1회 적용'});
+  sumBump(e,'p',tkSum);
+}
+// 요약 히어로 카드 공용 렌더러 (배·포도 해운)
+function sumCardHtml(o){
+  const cl=o.tkSum>=0?'pos':'neg';
+  const fill=o.plCap?o.plUsed/o.plCap:0;
+  const over=o.plUsed>o.plCap+0.01,full=!over&&o.plUsed>o.plCap-0.01;
+  const remain=Math.max(0,o.plCap-o.plUsed);
+  const st=over?['over','⚠ '+(o.plUsed-o.plCap).toFixed(1)+'파레트 초과 — 수량을 줄이거나 컨테이너를 늘리세요']:full?['ok','✓ 만적 — 컨테이너를 꽉 채웠어요 · 운임 낭비 없음']:['warn','여유 '+remain.toFixed(1)+'파레트 — 더 실을 수 있어요'];
+  let gauge='';
+  if(o.plCap<=40){
+    let cells='';
+    for(let i=0;i<o.plCap;i++){
+      const f2=Math.min(1,Math.max(0,o.plUsed-i));
+      cells+=`<i style="--d:${i*14}ms" class="${f2>=1?'full':f2>0?'part':''}${over?' ov':''}"></i>`;
+    }
+    gauge=`<div class="sm2-seg">${cells}</div>`;
+  }else{
+    gauge=`<div class="sm2-bar"><div class="sm2-fill${over?' ov':''}" style="width:${Math.min(100,fill*100)}%"></div></div>`;
+  }
+  const usd=o.fx?((o.tkSum>=0?'+':'-')+'$'+fN(Math.abs(o.tkSum/o.fx))):'';
+  const specs=o.rows.slice(0,6).map(r=>`<div class="sm2-sp"><i class="${r.mb>=0?'pos':'neg'}"></i><span>${hlEsc(r.l)}</span><b class="${r.mb>=0?'pos':'neg'}">${fK(r.tk)}</b></div>`).join('')
+    +(o.rows.length>6?`<div class="sm2-sp more">외 ${o.rows.length-6}건</div>`:'');
+  return `<div class="sm2-top"><span class="sm2-t">📦 ${o.title}</span><span class="sm2-route">${o.route}</span></div>
+  <div class="sm2-hero ${cl}"><em>합계 총마진 · ${o.tkN}건 입력</em><b id="sm2v">${fK(o.tkSum)}</b><span>${usd}</span></div>
+  <div class="sm2-st ${st[0]}">${st[1]}</div>
+  ${gauge}
+  <div class="sm2-glab"><b>${o.plUsed.toFixed(1)}</b> / ${o.plCap} 파레트 · ${fN(o.boxN)}박스</div>
+  <div class="sm2-kpis">
+    <div><i>🚢</i><b>₩${fN(o.FT)}</b><em>운임 · ${o.frLabel}</em></div>
+    <div><i>💰</i><b>₩${fN(Math.round(o.frApp))}</b><em>반영 운임${Math.abs(o.frApp-o.FT)>1?'':' ✓ 일치'}</em></div>
+    <div><i>🧮</i><b>${Math.round(fill*100)}%</b><em>실림율</em></div>
+  </div>
+  ${specs?`<div class="sm2-specs">${specs}</div>`:''}`;
+}
+// 총마진 변경 시 펄스 — 숫자가 바뀐 순간을 눈으로 알 수 있게
+const _sumLast={};
+function sumBump(e,key,v){
+  const rv=Math.round(v);
+  if(_sumLast[key]!=null&&_sumLast[key]!==rv){const b=e.querySelector('#sm2v');if(b){b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');}}
+  _sumLast[key]=rv;
 }
 function markBest(prefix,calcFn,iterPairs){
   let best=null;
@@ -1822,7 +1929,7 @@ function bG(){
   loadGCost();
   $('bs').innerHTML='';$('bs').style.display='none';
   $('ex').innerHTML=`
-    <input type="hidden" id="gco"><input type="hidden" id="gsjv"><input type="hidden" id="gspecs"><input type="hidden" id="gsh" value="40"><input type="hidden" id="gwz" value="">
+    <input type="hidden" id="gco"><input type="hidden" id="gsjv"><input type="hidden" id="gspecs"><input type="hidden" id="gsh" value="40"><input type="hidden" id="gwz" value=""><input type="hidden" id="gport" value="">
     <div class="wz grape" id="gwzRoot">
       <div class="wz-rail" id="gwzRail"></div>
       <div class="wz-step" id="gwzS1">
@@ -1856,7 +1963,7 @@ function bG(){
     </div>`;
   inpRestore();
   const co0=($('gco')&&$('gco').value)||'';gCo=gCoList().some(c=>c.n===co0)?co0:null;
-  const sj0=($('gsjv')&&$('gsjv').value)||'';gSj=gSjList().includes(sj0)?sj0:null;
+  const sj0=($('gsjv')&&$('gsjv').value)||'';gSj=(sj0==='커스텀'||gSjList().includes(sj0))?sj0:null;
   const spRaw=($('gspecs')&&$('gspecs').value)||'';
   gSpecSel=spRaw?spRaw.split(',').map(x=>+x).filter(si=>GS[si]):[];
   const wz0=+($('gwz')&&$('gwz').value)||0;
@@ -1906,19 +2013,25 @@ function gStepR(){
     <button class="pz-sel pz-press${gCo?' on':''}" onclick="gCoOpen()"><span class="pz-selk">국가</span><span class="pz-selv">${co?hlEsc(co.f)+' '+hlEsc(co.n):'선택 ▾'}</span></button>
     <button class="pz-sel pz-press${gSj?' on':''}" onclick="gSjOpen2()"><span class="pz-selk">산지</span><span class="pz-selv">${gSj?'📍 '+hlEsc(gSj):'선택 ▾'}</span></button>
   </div>`;
+  if(gSj==='커스텀'){
+    if(isAir)h+=`<div class="pz-cusrow"><span class="pz-cust">✏️ 커스텀 산지 — 도내운송 직접 입력 (₩)</span><label><em>도내운송</em><input type="number" id="gcdom" inputmode="numeric" oninput="gA()" onchange="gB()"></label></div>`;
+    else h+=`<div class="pz-cusrow"><span class="pz-cust">✏️ 커스텀 산지 — 국내운임 직접 입력 (₩/컨테이너)</span><label><em>40ft</em><input type="number" id="gcil40" inputmode="numeric" oninput="gA()" onchange="gB()"></label><label><em>20ft</em><input type="number" id="gcil20" inputmode="numeric" oninput="gA()" onchange="gB()"></label></div>`;
+  }else if(gSj&&!isAir&&GIL_PORTS[gSj])h+=portChipsHtml(GIL_PORTS[gSj],gPortCur(gSj),sh,'gPortSet');
   if(gCo&&gSj){
     if(isAir){
       const kg=GAIR_KG[gCo]||0;
-      const dom=(GAIR_DOM_C[gCo]!=null)?GAIR_DOM_C[gCo]:GAIR_DOM;
-      if(kg)h+=`<div class="pz-frline"><span class="pz-frb">✈️ 항공운임 <b>₩${fN(kg)}/kg</b> <em>G.W 기준</em></span><span class="pz-frd">도내운송(${hlEsc(gSj)}→공항) ₩${fN(dom)} — 실출고로 분배</span>${FR_UPD?`<span class="pz-frd2">운임표 ${hlEsc(FR_UPD)}</span>`:''}</div>`;
+      const dom=(gSj==='커스텀'&&gv('gcdom')>0)?gv('gcdom'):((GAIR_DOM_C[gCo]!=null)?GAIR_DOM_C[gCo]:GAIR_DOM);
+      if(kg)h+=`<div class="pz-frline"><span class="pz-frb">✈️ 항공운임 <b>₩${fN(kg)}/kg</b> <em>G.W 기준</em></span><span class="pz-frd">도내운송(${hlEsc(gSj)}→공항) ₩${fN(dom)}${gSj==='커스텀'?' · 직접 입력':''} — 실출고로 분배</span>${FR_UPD?`<span class="pz-frd2">운임표 ${hlEsc(FR_UPD)}</span>`:''}</div>`;
       else h+=`<div class="pz-warn">⚠ ${hlEsc(gCo)} 항공운임 미수신 — DATA '일반(냉장)' 요율표 확인/동기화 필요</div>`;
     }else{
-      const seaV=(GSEA[gCo]||{})[sh]||0,ilV=(GIL[gSj]||{})[sh]||0;
+      const ilObj=gIlOf(gSj)||{};
+      const seaV=(GSEA[gCo]||{})[sh]||0,ilV=ilObj[sh]||0;
       const si=GIL_SRC[gSj];
-      const siTx=si?(si.s==='DATA'?`DATA 내륙표 · ${hlEsc(si.n)}${si.p?'('+hlEsc(si.p)+')':''}`:si.s==='OCEAN'?'⚠ 매핑 미확인 — OCEAN 시트값':si.s==='SHEET'?'시트 집계값':'⚠ 미확인'):'';
-      const siWarn=si&&si.s!=='DATA';
-      if(seaV&&ilV)h+=`<div class="pz-frline"><span class="pz-frb">🚢 운임 <b>₩${fN(seaV+ilV)}</b> <em>/ 컨테이너 1대 · 1회 적용</em></span><span class="pz-frd">국내(${hlEsc(gSj)}) ₩${fN(ilV)} + 항/해(${hlEsc(gCo)}) ₩${fN(seaV)}</span>${(siTx||FR_UPD)?`<span class="pz-frd2${siWarn?' warn':''}">${siTx?'국내운임: '+siTx:''}${siTx&&FR_UPD?' · ':''}${FR_UPD?'운임표 '+hlEsc(FR_UPD):''}${siWarn?' — 앱설정 [포도 산지-운임 매핑]에서 지정':''}</span>`:''}</div>`;
-      else h+=`<div class="pz-warn">⚠ ${hlEsc(gSj)} → ${hlEsc(gCo)} ${shv}ft 운임 미수신 — 동기화(🔄) 또는 시트 확인 필요</div>`;
+      const portLbl=gSj==='커스텀'?'':(GIL_PORTS[gSj]?gPortCur(gSj)+'출발':'');
+      const siTx=gSj==='커스텀'?'커스텀 — 직접 입력한 운임':(si?(si.s==='DATA'?`DATA 내륙표 · ${hlEsc(si.n)}${portLbl?'('+hlEsc(portLbl)+')':''}`:si.s==='OCEAN'?'⚠ 매핑 미확인 — OCEAN 시트값':si.s==='SHEET'?'시트 집계값':'⚠ 미확인'):'');
+      const siWarn=gSj!=='커스텀'&&si&&si.s!=='DATA';
+      if(seaV&&ilV)h+=`<div class="pz-frline"><span class="pz-frb">🚢 운임 <b>₩${fN(seaV+ilV)}</b> <em>/ 컨테이너 1대 · 1회 적용</em></span><span class="pz-frd">국내(${hlEsc(gSj)}${portLbl?'·'+hlEsc(portLbl):''}) ₩${fN(ilV)} + 항/해(${hlEsc(gCo)}) ₩${fN(seaV)}</span>${(siTx||FR_UPD)?`<span class="pz-frd2${siWarn?' warn':''}">${siTx?'국내운임: '+siTx:''}${siTx&&FR_UPD?' · ':''}${FR_UPD?'운임표 '+hlEsc(FR_UPD):''}${siWarn?' — 앱설정 [포도 산지-운임 매핑]에서 지정':''}</span>`:''}</div>`;
+      else h+=`<div class="pz-warn">${gSj==='커스텀'?'✏️ 위 칸에 커스텀 국내운임을 입력하세요':'⚠ '+hlEsc(gSj)+' → '+hlEsc(gCo)+' '+shv+'ft 운임 미수신 — 동기화(🔄) 또는 시트 확인 필요'}</div>`;
     }
   }
   const rt=$('gzRoute');if(rt)rt.innerHTML=h;
@@ -1974,15 +2087,20 @@ function gSjR(){
   const isAir=gIsAir(),sh=gShvV()==='40'?'f':'t';
   let h='<div class="pz-colist">';
   gSjList().forEach((s2,i)=>{
-    const fr=isAir?((GAIR_DOM_C[s2]!=null)?GAIR_DOM_C[s2]:GAIR_DOM):((GIL[s2]||{})[sh]||0);
+    const fr=isAir?((GAIR_DOM_C[s2]!=null)?GAIR_DOM_C[s2]:GAIR_DOM):((gIlOf(s2)||{})[sh]||0);
+    const pn=(!isAir&&GIL_PORTS[s2])?`<span class="pz-cosj">${gPortCur(s2)}</span>`:'';
     h+=`<button class="pz-co pz-press${gSj===s2?' on':''}" style="--i:${i}" onclick="gSjPick(decodeURIComponent('${jsArg(s2)}'))">
       <span class="pz-cofl">📍</span><span class="pz-conm">${hlEsc(s2)}</span>
-      <span class="pz-cofr">${fr?'₩'+fN(fr)+(isAir?' 도내':''):'운임 미수신'}</span></button>`;
+      <span class="pz-cofr">${fr?'₩'+fN(fr)+(isAir?' 도내':''):'운임 미수신'}</span>${pn}</button>`;
   });
+  h+=`<button class="pz-co pz-press cus${gSj==='커스텀'?' on':''}" onclick="gSjPick('커스텀')">
+    <span class="pz-cofl">✏️</span><span class="pz-conm">커스텀 <span style="font-size:9px;color:var(--t3);font-weight:600">${isAir?'도내운송':'산지 운임'} 직접 입력</span></span>
+    <span class="pz-cofr">${isAir?(gv('gcdom')>0?'₩'+fN(gv('gcdom')):'직접 입력'):(gv('gcil40')>0?'₩'+fN(gv('gcil40')):'직접 입력')}</span></button>`;
   h+='</div>';b.innerHTML=h;
 }
 function gSjPick(s2){
   gSj=s2;gStateSave();
+  const ge=$('gport');if(ge){ge.value='';inpSet('gport','');}   // 산지 변경 시 출발항 기본으로 리셋
   const ov=$('gzSjM');if(ov)ov.classList.add('h');
   gB();
 }
@@ -2013,7 +2131,7 @@ function gB(){
   inpSaveAll();
   // 모드 전환 후 목록 정합 (항공↔해운 국가/산지 목록이 다름)
   if(gCo&&!gCoList().some(c=>c.n===gCo))gCo=null;
-  if(gSj&&!gSjList().includes(gSj))gSj=null;
+  if(gSj&&gSj!=='커스텀'&&!gSjList().includes(gSj))gSj=null;
   if(gWz>=3&&!(gCo&&gSj))gWz=2;
   gStepR();
   const o=$('to');if(!o)return;
@@ -2087,37 +2205,55 @@ function gR(cn,si){
   if(eM)eM.innerHTML=`<span class="${cl}">${fK(mbW)}<em>/box</em></span><span class="pz-mb2 ${cl}">${fD(r.mb)}$</span>`;
   if(eT)eT.innerHTML=`<span class="${cl}">${fK(r.tk)}</span><span class="pz-tk2 ${cl}">${(r.tkUsd>=0?'+':'-')}$${fN(Math.abs(r.tkUsd))} · ${fN(r.tb)}박스</span>`;
 }
+function gPortDef(sj){return (GIL_SRC[sj]&&GIL_SRC[sj].p)||'부산';}
+function gPortCur(sj){const w=($('gport')&&$('gport').value)||'';const ports=GIL_PORTS[sj]||{};return (w&&ports[w])?w:gPortDef(sj);}
+function gIlOf(sj){
+  if(sj==='커스텀')return{f:gv('gcil40'),t:gv('gcil20')};   // 커스텀 산지 = 국내운임 직접 입력
+  const ports=GIL_PORTS[sj];
+  if(ports){const pick=ports[gPortCur(sj)]||ports[gPortDef(sj)]||ports['부산']||ports['광양']||ports['인천'];
+    if(pick&&(pick.f>0||pick.t>0))return pick;}
+  return GIL[sj];
+}
+function gPortSet(p){const e=$('gport');if(!e)return;e.value=p;inpSet('gport',p);gB();}
 function gSum(){
   const e=$('gzSum');if(!e)return;
   const sis=gActiveSis();
-  if(!gCo||!gSj||!sis.length){e.innerHTML='';return;}
+  if(!gCo||!gSj||!sis.length){e.innerHTML='';e.classList.remove('on');return;}
   const isAir=gIsAir(),sh=gShvV()==='40'?'f':'t',fx=gv('gfx');
-  let tkSum=0,tkN=0,boxN=0;
+  const co=gCoList().find(c=>c.n===gCo);
+  let tkSum=0,tkN=0,boxN=0;const rows=[];
   if(isAir){
-    const kg=GAIR_KG[gCo]||0,dom=(GAIR_DOM_C[gCo]!=null)?GAIR_DOM_C[gCo]:GAIR_DOM;
+    const kg=GAIR_KG[gCo]||0;
+    const dom=(gSj==='커스텀'&&gv('gcdom')>0)?gv('gcdom'):((GAIR_DOM_C[gCo]!=null)?GAIR_DOM_C[gCo]:GAIR_DOM);
     let kgSum=0;
-    sis.forEach(si=>{const r=gCalc(gCo,si);if(!r)return;boxN+=r.tb;kgSum+=r.tb*(GS[si].gw||0);if(r.tk!=null){tkSum+=r.tk;tkN++;}});
-    const cl=tkSum>=0?'mpos':'mneg';
-    e.innerHTML=`<div class="pz-sumt">🧮 항공 요약 <em>${hlEsc(gSj)} → ${hlEsc(gCo)} · AIR</em></div>
-    <div class="pz-sumr"><span>✈️ 요율 <b>₩${fN(kg)}/kg</b> · 총 G.W ${fN(Math.round(kgSum))}kg</span><span class="pz-frap">${fN(boxN)}박스</span></div>
-    <div class="pz-sumr"><span>🚚 도내운송 <b>₩${fN(dom)}</b> <em>1회 · 실출고 분배</em></span></div>
-    <div class="pz-sumr big"><span>합계 총마진 <em>${tkN}건</em></span><b class="${cl}">${fK(tkSum)} <em>${fx?(tkSum>=0?'+':'-')+'$'+fN(Math.abs(tkSum/fx)):''}</em></b></div>`;
+    sis.forEach(si=>{const r=gCalc(gCo,si);if(!r)return;boxN+=r.tb;kgSum+=r.tb*(GS[si].gw||0);if(r.tk!=null){tkSum+=r.tk;tkN++;rows.push({l:GS[si].l,tk:r.tk,mb:r.mb});}});
+    const cl=tkSum>=0?'pos':'neg';
+    const usd=fx?((tkSum>=0?'+':'-')+'$'+fN(Math.abs(tkSum/fx))):'';
+    const specs=rows.slice(0,6).map(r=>`<div class="sm2-sp"><i class="${r.mb>=0?'pos':'neg'}"></i><span>${hlEsc(r.l)}</span><b class="${r.mb>=0?'pos':'neg'}">${fK(r.tk)}</b></div>`).join('')+(rows.length>6?`<div class="sm2-sp more">외 ${rows.length-6}건</div>`:'');
+    e.classList.add('on');
+    e.innerHTML=`<div class="sm2-top"><span class="sm2-t">✈️ 항공 요약</span><span class="sm2-route">${hlEsc(gSj)} → ${hlEsc((co||{}).f||'')} ${hlEsc(gCo)} · AIR</span></div>
+    <div class="sm2-hero ${cl}"><em>합계 총마진 · ${tkN}건 입력</em><b id="sm2v">${fK(tkSum)}</b><span>${usd}</span></div>
+    <div class="sm2-st ok">✈️ ₩${fN(kg)}/kg × G.W 적용</div>
+    <div class="sm2-kpis">
+      <div><i>📦</i><b>${fN(boxN)}</b><em>박스</em></div>
+      <div><i>⚖️</i><b>${fN(Math.round(kgSum))}kg</b><em>총 G.W</em></div>
+      <div><i>🚚</i><b>₩${fN(dom)}</b><em>도내운송 1회</em></div>
+    </div>
+    ${specs?`<div class="sm2-specs">${specs}</div>`:''}`;
+    sumBump(e,'g',tkSum);
     return;
   }
-  const sea=(GSEA[gCo]||{})[sh]||0,il=(GIL[gSj]||{})[sh]||0,FT=sea+il;
+  const sea=(GSEA[gCo]||{})[sh]||0,il=(gIlOf(gSj)||{})[sh]||0,FT=sea+il;
   let plUsed=0,plCap=0,frApp=0;
   sis.forEach(si=>{const r=gCalc(gCo,si);if(!r)return;
     const ctp=r.ctp||1;const sp=GS[si];const tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9);
     plCap=Math.max(plCap,tp);plUsed+=r.tb/ctp;boxN+=r.tb;frApp+=r.tb*r.pbf;
-    if(r.tk!=null){tkSum+=r.tk;tkN++;}});
-  if(!plCap){e.innerHTML='';return;}
-  const pct=Math.min(135,plUsed/plCap*100);
-  const over=plUsed>plCap+0.01,under=plUsed<plCap-0.01;
-  const cl=tkSum>=0?'mpos':'mneg';
-  e.innerHTML=`<div class="pz-sumt">🧮 컨테이너 요약 <em>${hlEsc(gSj)} → ${hlEsc(gCo)} · ${gShvV()}ft 1대</em></div>
-  <div class="pz-gaug"><div class="pz-gbar${over?' over':''}" style="width:${Math.min(100,pct)}%"></div><span class="pz-glab">${plUsed.toFixed(1)} / ${plCap}파레트 · ${fN(boxN)}박스${over?' ⚠ 초과':under?' (여유 '+(plCap-plUsed).toFixed(1)+'p)':' ✓ 만적'}</span></div>
-  <div class="pz-sumr"><span>🚢 운임 <b>₩${fN(FT)}</b> <em>1회 적용</em></span><span class="pz-frap">반영 ₩${fN(Math.round(frApp))}${Math.abs(frApp-FT)>1?'':' ✓'}</span></div>
-  <div class="pz-sumr big"><span>합계 총마진 <em>${tkN}건</em></span><b class="${cl}">${fK(tkSum)} <em>${fx?(tkSum>=0?'+':'-')+'$'+fN(Math.abs(tkSum/fx)):''}</em></b></div>`;
+    if(r.tk!=null){tkSum+=r.tk;tkN++;rows.push({l:sp.l,tk:r.tk,mb:r.mb});}});
+  if(!plCap){e.innerHTML='';e.classList.remove('on');return;}
+  e.classList.add('on');
+  e.innerHTML=sumCardHtml({title:'컨테이너 요약',route:`${hlEsc(gSj)} → ${hlEsc((co||{}).f||'')} ${hlEsc(gCo)} · ${gShvV()}ft 1대`,
+    tkSum,tkN,fx,plUsed,plCap,boxN,FT,frApp,rows,frLabel:'1회 적용'});
+  sumBump(e,'g',tkSum);
 }
 function gA(){
   if(F!=='g')return;
@@ -2262,10 +2398,10 @@ function gCalc(cn,si){
     if(!airKg)return null;
     defTb=ctp;
     tb=qIn>0?qIn:defTb;
-    var gdom=(GAIR_DOM_C[cn]!=null)?GAIR_DOM_C[cn]:GAIR_DOM;
+    var gdom=(gSj==='커스텀'&&gv('gcdom')>0)?gv('gcdom'):((GAIR_DOM_C[cn]!=null)?GAIR_DOM_C[cn]:GAIR_DOM);   // 커스텀 산지 = 도내운송 직접 입력
     pbf=airKg*sp.gw + gdom/Math.max(tb,1);    // 항공: 박스당운임 = G.W×운임계(₩/kg) + 도내운송÷실출고 (도내운송 국가별)
   } else {
-    const sea=GSEA[cn],il=GIL[gSj];
+    const sea=GSEA[cn],il=gIlOf(gSj);
     if(!sea||!il)return null;
     const seaV=sea[sh],inlV=il[sh];
     if(!seaV||!inlV)return null;   // 내륙운임 0(미수신/신규산지)이면 CIF 과소계산 → 계산 차단
@@ -3231,6 +3367,8 @@ function applySyncData(d,src){
   // 산지별 국내운임 출처 + 운임표 기준일 — 'DATA·외서(부산)' 식으로 표시 (운임이 어디서 왔는지 항상 보이게, 배·포도 공통)
   const pisrc=pk(d,'pearIlSrc');if(pisrc&&typeof pisrc==='object')PIL_SRC=pisrc;
   const gisrc=pk(d,'grapeIlSrc');if(gisrc&&typeof gisrc==='object')GIL_SRC=gisrc;
+  const pipt=pk(d,'pearIlPorts');if(pipt&&typeof pipt==='object')PIL_PORTS=pipt;
+  const gipt=pk(d,'grapeIlPorts');if(gipt&&typeof gipt==='object')GIL_PORTS=gipt;
   if(d.meta&&d.meta.freightUpdated)FR_UPD=String(d.meta.freightUpdated);
   // 신규 배 산지 내륙운임 — OCEAN/DATA 매칭으로 생성. 기존 산지 갱신은 위 pearInland 핸들러가 담당
   const pis=pk(d,'pearInlandSheet','pIlSheet');
@@ -3242,7 +3380,10 @@ function applySyncData(d,src){
   const gs=pk(d,'grapeSea','gSea');if(gs)Object.keys(gs).forEach(k=>{if(!GSEA[k])return;const r=parseFT(gs[k]);if(r){if(NO20[k]&&r.t>0)delete r.t;if(!Object.keys(r).length)return;if(Object.keys(r).some(x=>GSEA[k][x]!==r[x]))chgG=true;Object.keys(r).forEach(x=>dAdd('포도 해운',k,x==='f'?'40ft':'20ft',GSEA[k][x],r[x]));Object.assign(GSEA[k],r);cnt++;}});
   // 포도 내륙 sync — 기존 산지는 값 갱신 / 시트에 새 산지가 생기면 GIL+GSANJI에 자동 추가(목록에 표시). 0인 다리는 무시(내륙 0은 비정상 — 기존값 유지).
   const gi=pk(d,'grapeInland','gInland');if(gi)Object.keys(gi).forEach(k=>{if(GSANJI_REMOVED.includes(k))return;const r=parseFT(gi[k]);if(!r)return;const rr={};if(r.f>0)rr.f=r.f;if(r.t>0)rr.t=r.t;if(!Object.keys(rr).length)return;if(!GIL[k]){GIL[k]={f:0,t:0};if(!GSANJI.includes(k))GSANJI.push(k);chgG=true;}if(Object.keys(rr).some(x=>GIL[k][x]!==rr[x]))chgG=true;Object.keys(rr).forEach(x=>dAdd('포도 내륙',k,x==='f'?'40ft':'20ft',GIL[k][x],rr[x]));Object.assign(GIL[k],rr);cnt++;});   // GSANJI_REMOVED: 개명·삭제된 산지는 구 GAS/캐시가 보내도 무시
-  // 포도 항공운임 sync — GAS가 'SLP 항공요율표' BLOCK A(운임 계=운임+FSC)를 읽어 국가별 전송. (도내운송 350,000은 요율표에 없어 앱 하드코딩 유지)
+  // 포도 항공 도내운송 — '-Air-' 시트 국내운임 다수값 (미수신 시 기존값 유지)
+  const gad=pk(d,'grapeAirDom','gAirDom');
+  if(gad>0&&GAIR_DOM!==+gad){dAdd('포도 항공 도내운송','도내운송','',GAIR_DOM,+gad);GAIR_DOM=+gad;cnt++;}
+  // 포도 항공운임 sync — DATA '일반(냉장)' 요율표 국가별 전송 (+ '-Air-' 시트 보충)
   const gak=pk(d,'grapeAirKg','gAirKg');if(gak)Object.keys(gak).forEach(k=>{if(GAIR_KG[k]!=null){const vv=+gak[k];if(vv>0){if(GAIR_KG[k]!==vv){chgG=true;dAdd('포도 항공',k,'₩/kg',GAIR_KG[k],vv);}GAIR_KG[k]=vv;cnt++;}}});
   // 포도 스펙별 값 sync — cnt/p(ct/ca)·부자재·박스를 시트값으로 덮어쓰기(GS.k 매칭, 별칭 보조). 빈값/미매칭은 앱값 유지(안전).
   const gsp2=pk(d,'grapeSpecs','gSpecs');
@@ -3359,7 +3500,7 @@ function pushState(){
     const supId=F==='p'?'psp':F==='g'?'gsp':F==='c'?'csp':(F==='s'?null:'msp');
     const sj=F==='p'?(pSj||''):F==='g'?(gSj||''):(F==='s'||F==='c'?'':(mSj[F]||''));
     const st=inpStore();
-    let keys={s:['sp0','sp1','sfx','ssg','so'],p:['pa','pb','pc','pd5','ha','hb','hc','pwk_','puwk_','pfx','psp','po','pq','praw','pwk2','pco','psjv','pspecs','psh'],g:['gfx','gsp','go','gq'],c:['cnm','cfx','csp','cnw','cgw','cct','craw','cwk','cbj','cbx','cin','cdm','cof','cq']}[F];
+    let keys={s:['sp0','sp1','sfx','ssg','so'],p:['pa','pb','pc','pd5','ha','hb','hc','pwk_','puwk_','pfx','psp','po','pq','praw','pwk2','pco','psjv','pspecs','psh','pwz','pport','pcil'],g:['gfx','gsp','go','gq','gsh','gco','gsjv','gspecs','gwz','gport','gcil','gcdom'],c:['cnm','cfx','csp','cnw','cgw','cct','craw','cwk','cbj','cbx','cin','cdm','cof','cq']}[F];
     if(!keys)keys=['mfx','msp','mr'+F,'mo'+F,'mnw'+F,'mgw'+F,'mct'+F,'mwk'+F];
     const inputs={};Object.keys(st).forEach(k=>{if(keys.some(p=>k.slice(0,p.length)===p))inputs[k]=st[k];});
     const detail={inputs};

@@ -1,5 +1,5 @@
 // 현농프레쉬 오퍼계산기 Service Worker
-const CACHE_VERSION = 'hn-v46';   // v46: 배·포도 순차 카드 위저드(환율→노선→스펙→계산, 접힌 칩 수정) + 전면 새 디자인, 목표마진 제거, 포도 카드형 계산·요약·일괄기록·국가비교
+const CACHE_VERSION = 'hn-v48';   // v48: 요약 히어로 카드(하단 고정·세그먼트 게이지·KPI) + 산지 커스텀(운임 직접 입력) + 출발항(부산/광양/인천) 선택
 const CORE_CACHE = CACHE_VERSION + '-core';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 

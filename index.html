@@ -455,9 +455,13 @@ tbody tr:hover td{background:#fafbfd}
 .pz-selk{font-size:8px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.04em}
 .pz-selv{font-size:13px;font-weight:800;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .pz-sel.on .pz-selv{color:#8a6508}
-.pz-shwrap{cursor:default}
+/* 컨테이너(배)·운송(포도) 칸 — 폰 폭에서 3칸 한 줄이면 토글+대수가 칸 밖으로 잘려서, 한 줄 전체를 차지하는 가로 배치로 (2026-08-17) */
+.pz-shwrap{cursor:default;flex-basis:100%;flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 12px;padding:9px 12px}
+.pz-shwrap .pz-selk{align-self:center}
+.pz-shrow{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-left:auto}
 .pz-shtg{display:flex;gap:4px}
-.pz-shtg .sho{padding:5px 13px;font-size:12px;border-radius:8px}
+.pz-shtg .sho{padding:8px 16px;font-size:13px;border-radius:8px}
+@media(min-width:680px){.pz-shwrap{flex-basis:auto}}
 .pz-frline{margin-top:9px;padding:8px 11px;background:linear-gradient(135deg,#f0f7ff,#f7fbff);border:1px solid #cfe3fa;border-radius:10px;display:flex;flex-direction:column;gap:2px;animation:pzIn .3s ease}
 .pz-frb{font-size:11px;font-weight:700;color:#1d4ed8}
 .pz-frb b{font-family:'JetBrains Mono',monospace}
@@ -518,47 +522,49 @@ tbody tr:hover td{background:#fafbfd}
 .pz-need{color:#b06d00;font-weight:700;font-size:10.5px;animation:pzIn .3s ease}
 /* ═══ 요약 히어로 카드 (sm2) — 총마진이 주인공, 하단 고정으로 항상 보임 ═══ */
 .pz-sum{display:none}
-.pz-sum.on{display:block;position:sticky;bottom:8px;z-index:6;margin:8px 12px 14px;background:linear-gradient(150deg,#151528 0%,#1f1f3d 55%,#2b2350 100%);border:1px solid rgba(255,255,255,.09);border-radius:20px;padding:14px 15px 12px;color:#fff;box-shadow:0 14px 40px rgba(15,15,40,.45),0 2px 10px rgba(15,15,40,.3);animation:pzUp .35s ease}
-.pz-sum.grape.on{background:linear-gradient(150deg,#1d0f26 0%,#33164a 55%,#4a1d63 100%)}
-.sm2-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
-.sm2-t{font-size:10px;font-weight:900;letter-spacing:.05em;opacity:.85}
-.sm2-route{font-size:9.5px;font-weight:700;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:3px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sm2-hero{text-align:center;padding:2px 0 8px}
-.sm2-hero em{display:block;font-style:normal;font-size:9px;font-weight:700;opacity:.65;margin-bottom:2px}
-.sm2-hero b{display:block;font-size:31px;font-weight:900;font-family:'JetBrains Mono',monospace;letter-spacing:-.03em;line-height:1.1}
-.sm2-hero.pos b{color:#4ade80;text-shadow:0 0 24px rgba(74,222,128,.35)}
-.sm2-hero.neg b{color:#f87171;text-shadow:0 0 24px rgba(248,113,113,.3)}
-.sm2-hero span{display:block;font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;opacity:.75;margin-top:1px}
+/* ═══ 요약 카드 (2026-08-17 재디자인) — 밝은 카드, 한눈에: 나라·산지 → 합계 총마진 → 스펙별 오퍼가·수량·마진. 기본은 한 줄 요약바(mini), 탭하면 펼침 ═══ */
+.pz-sum.on{display:block;position:sticky;bottom:8px;z-index:6;margin:8px 12px 14px;background:#fff;border:1.5px solid #e6d7a8;border-radius:18px;padding:12px 14px 10px;color:var(--tx);box-shadow:0 10px 30px rgba(120,90,10,.16),0 2px 8px rgba(20,25,55,.08);animation:pzUp .35s ease}
+.pz-sum.grape.on{border-color:#dcc4ea;box-shadow:0 10px 30px rgba(90,30,120,.16),0 2px 8px rgba(20,25,55,.08)}
+.pz-sum.on.mini{padding:9px 12px 9px 13px;border-radius:16px}
+.sm2-top{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.sm2-t{font-size:11px;font-weight:900;color:#8a6508;letter-spacing:.02em;white-space:nowrap}
+.pz-sum.grape .sm2-t{color:#7b2d8e}
+.sm2-route{font-size:10px;font-weight:800;color:var(--tx);background:#fdf6e3;border:1px solid #ecd9a8;border-radius:8px;padding:3px 9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.pz-sum.grape .sm2-route{background:#faf0ff;border-color:#e2c7ee}
+.sm2-fold{margin-left:auto;flex-shrink:0;width:26px;height:26px;border-radius:8px;border:1px solid var(--bd);background:var(--sf2);color:var(--t2);font-size:11px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.sm2-hero{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding:4px 2px 8px;border-bottom:1px dashed var(--bd)}
+.sm2-hero em{display:block;width:100%;font-style:normal;font-size:9.5px;font-weight:800;color:var(--t2)}
+.sm2-hero b{display:block;font-size:28px;font-weight:900;font-family:'JetBrains Mono',monospace;letter-spacing:-.03em;line-height:1.1}
+.sm2-hero.pos b{color:var(--gr)}
+.sm2-hero.neg b{color:var(--rd)}
+.sm2-hero span{font-size:11.5px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--t2)}
 .sm2-hero b.bump{animation:sm2Bump .45s cubic-bezier(.22,1,.36,1)}
-@keyframes sm2Bump{0%{transform:scale(1)}35%{transform:scale(1.12)}100%{transform:scale(1)}}
-.sm2-st{text-align:center;font-size:10px;font-weight:800;border-radius:9px;padding:5px 8px;margin-bottom:8px}
-.sm2-st.ok{background:rgba(74,222,128,.14);color:#4ade80}
-.sm2-st.warn{background:rgba(251,191,36,.14);color:#fbbf24}
-.sm2-st.over{background:rgba(248,113,113,.16);color:#f87171}
-.sm2-seg{display:flex;gap:2.5px;height:16px;margin-bottom:4px}
-.sm2-seg i{flex:1;border-radius:4px;background:rgba(255,255,255,.1);transition:background .3s}
-.sm2-seg i.full{background:linear-gradient(180deg,#4ade80,#16a368);animation:segIn .3s ease backwards;animation-delay:var(--d,0ms)}
-.sm2-seg i.part{background:linear-gradient(180deg,rgba(74,222,128,.55),rgba(22,163,104,.55))}
-.sm2-seg i.full.ov,.sm2-seg i.part.ov{background:linear-gradient(180deg,#f87171,#dc2626)}
-@keyframes segIn{from{transform:scaleY(.2);opacity:0}to{transform:scaleY(1);opacity:1}}
-.sm2-bar{height:14px;background:rgba(255,255,255,.1);border-radius:8px;overflow:hidden;margin-bottom:4px}
-.sm2-fill{height:100%;background:linear-gradient(90deg,#16a368,#4ade80);border-radius:8px;transition:width .5s cubic-bezier(.22,1,.36,1)}
-.sm2-fill.ov{background:linear-gradient(90deg,#dc2626,#f87171)}
-.sm2-glab{text-align:center;font-size:9px;font-weight:700;font-family:'JetBrains Mono',monospace;opacity:.8;margin-bottom:9px}
-.sm2-glab b{font-size:10.5px;color:#4ade80}
-.sm2-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:8px}
-.sm2-kpis>div{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:7px 6px;text-align:center}
-.sm2-kpis i{font-style:normal;font-size:12px;display:block;margin-bottom:2px}
-.sm2-kpis b{display:block;font-size:11px;font-weight:800;font-family:'JetBrains Mono',monospace;letter-spacing:-.02em}
-.sm2-kpis em{display:block;font-style:normal;font-size:7.5px;font-weight:700;opacity:.6;margin-top:1px}
-.sm2-specs{display:flex;flex-direction:column;gap:3px;border-top:1px solid rgba(255,255,255,.1);padding-top:7px}
-.sm2-sp{display:flex;align-items:center;gap:6px;font-size:9.5px;font-weight:700}
-.sm2-sp i{width:6px;height:6px;border-radius:50%;flex-shrink:0}
-.sm2-sp i.pos{background:#4ade80}.sm2-sp i.neg{background:#f87171}
-.sm2-sp span{opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sm2-sp b{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:10px}
-.sm2-sp b.pos{color:#4ade80}.sm2-sp b.neg{color:#f87171}
-.sm2-sp.more{opacity:.5;font-size:8.5px;justify-content:center}
+@keyframes sm2Bump{0%{transform:scale(1)}35%{transform:scale(1.08)}100%{transform:scale(1)}}
+.sm2-st{text-align:center;font-size:10px;font-weight:800;border-radius:9px;padding:6px 8px;margin:8px 0 2px}
+.sm2-st.over{background:#fff1f1;color:var(--rd);border:1px solid #fecaca}
+/* 스펙별 행: [●] 스펙명 ………… 총마진 / 아래줄: $오퍼가 · 수량 · 박스당 마진 */
+.sm2-rows{display:flex;flex-direction:column}
+.sm2-r{display:grid;grid-template-columns:8px minmax(0,1fr) auto;column-gap:7px;row-gap:1px;align-items:center;padding:7px 0;border-bottom:1px solid #f0f2f7}
+.sm2-r:last-child{border-bottom:none;padding-bottom:2px}
+.sm2-r i{width:8px;height:8px;border-radius:50%;background:var(--bd2)}
+.sm2-r i.pos{background:var(--gr)}.sm2-r i.neg{background:var(--rd)}.sm2-r i.dim{background:var(--bd)}
+.sm2-rl{font-size:12px;font-weight:800;color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sm2-r>b{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:900;letter-spacing:-.02em;white-space:nowrap}
+.sm2-r>b.pos{color:var(--gr)}.sm2-r>b.neg{color:var(--rd)}.sm2-r>b.dim{color:var(--t3);font-weight:700}
+.sm2-rd{grid-column:2/4;font-size:9.5px;font-weight:700;color:var(--t2);font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* mini 바 */
+.sm2-mini{display:flex;align-items:center;gap:8px;cursor:pointer;min-width:0}
+.sm2-mini .sm2-mi{font-size:15px;flex-shrink:0}
+.sm2-mini .sm2-mv{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:900;letter-spacing:-.03em;line-height:1.05;white-space:nowrap}
+.sm2-mini .sm2-mv.pos{color:var(--gr)}.sm2-mini .sm2-mv.neg{color:var(--rd)}
+.sm2-mini .sm2-msub{display:block;font-size:8.5px;font-weight:700;color:var(--t2);font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sm2-mini .sm2-mst{margin-left:auto;font-size:9.5px;font-weight:800;padding:5px 9px;border-radius:9px;white-space:nowrap;flex-shrink:0;max-width:44%;overflow:hidden;text-overflow:ellipsis}
+.sm2-mini .sm2-mst.tag{background:#fdf6e3;border:1px solid #ecd9a8;color:var(--tx)}
+.pz-sum.grape .sm2-mini .sm2-mst.tag{background:#faf0ff;border-color:#e2c7ee}
+.sm2-mini .sm2-mchev{font-size:11px;color:var(--t3);flex-shrink:0}
+.sm2-mini .sm2-mv.bump{animation:sm2Bump .45s cubic-bezier(.22,1,.36,1)}
+.pz-sum.on:not(.open) .sm2-full{display:none}
+.pz-sum.on.open .sm2-mini{display:none}
 /* 출발항 선택 칩 (부산/광양/인천) */
 .pz-ports{display:flex;gap:6px;margin-top:9px}
 .pz-port{flex:1;display:flex;flex-direction:column;align-items:center;gap:1px;background:var(--sf2);border:1.5px solid var(--bd);border-radius:11px;padding:7px 6px;font-size:11px;font-weight:800;color:var(--t2);cursor:pointer;font-family:inherit;transition:all .16s}
@@ -647,7 +653,6 @@ tbody tr:hover td{background:#fafbfd}
 .pz-price.gp input{border-color:#7b2d8e55;background:#faf0ff}
 .pz-price.gp em{color:#7b2d8e}
 .pz-card.grape{animation-name:pzUp}
-.pz-sum.grape{background:linear-gradient(135deg,#2a1233,#3d1b4d)}
 .pz-cmpt{font-size:11px;font-weight:900;color:#8a6508;margin:4px 0 6px}
 .pz-batg{display:flex;flex-direction:column;gap:5px;max-height:34vh;overflow-y:auto}
 .pz-batrow{display:flex;align-items:center;gap:8px;background:var(--sf2);border:1px solid var(--bd);border-radius:10px;padding:8px 10px;cursor:pointer}
@@ -1227,7 +1232,7 @@ function pStepR(){
   let h=`<div class="pz-selrow">
     <button class="pz-sel pz-press${pCo?' on':''}" onclick="pCoOpen()"><span class="pz-selk">국가</span><span class="pz-selv">${co?hlEsc(co.f)+' '+hlEsc(co.n):'선택 ▾'}</span></button>
     <button class="pz-sel pz-press${pSj?' on':''}" onclick="pSjOpen()"><span class="pz-selk">산지</span><span class="pz-selv">${pSj?'📍 '+hlEsc(pSj):'선택 ▾'}</span></button>
-    <div class="pz-sel pz-shwrap"><span class="pz-selk">컨테이너</span><div style="display:flex;gap:5px;align-items:center"><div class="shtg pz-shtg"><button type="button" class="sho pz-press${sh==='f'?' a':''}" id="psh_40" onclick="setSh('psh','40')">40ft</button><button type="button" class="sho pz-press${sh==='t'?' a':''}" id="psh_20" onclick="setSh('psh','20')">20ft</button></div><div class="wz-cnt"><button class="pz-press" onclick="pCntSet(-1)">−</button><b>${cntCur}대</b><button class="pz-press" onclick="pCntSet(1)">＋</button></div></div></div>
+    <div class="pz-sel pz-shwrap"><span class="pz-selk">컨테이너</span><div class="pz-shrow"><div class="shtg pz-shtg"><button type="button" class="sho pz-press${sh==='f'?' a':''}" id="psh_40" onclick="setSh('psh','40')">40ft</button><button type="button" class="sho pz-press${sh==='t'?' a':''}" id="psh_20" onclick="setSh('psh','20')">20ft</button></div><div class="wz-cnt"><button class="pz-press" onclick="pCntSet(-1)">−</button><b>${cntCur}대</b><button class="pz-press" onclick="pCntSet(1)">＋</button></div></div></div>
   </div>`;
   if(pSj==='커스텀')h+=`<div class="pz-cusrow"><span class="pz-cust">✏️ 커스텀 산지 — 국내운임 직접 입력 (₩/컨테이너)</span><label><em>40ft</em><input type="number" id="pcil40" inputmode="numeric" oninput="pA()" onchange="pB()"></label><label><em>20ft</em><input type="number" id="pcil20" inputmode="numeric" oninput="pA()" onchange="pB()"></label></div>`;
   else if(pSj&&PIL_PORTS[pSj])h+=portChipsHtml(PIL_PORTS[pSj],pPortCur(pSj),sh,'pPortSet');
@@ -1731,51 +1736,47 @@ function pSum(){
   let plUsed=0,plCap=0,tkSum=0,tkN=0,frApp=0,boxN=0;const rows=[];
   sids.forEach(sid=>{const r=pCalc(pCo,sid);if(!r||r.noFr)return;
     plCap=Math.max(plCap,r.tp*cnt);plUsed+=r.tb/r.ctn;boxN+=r.tb;frApp+=r.tb*r.pbf;
-    if(r.tk!=null){tkSum+=r.tk;tkN++;rows.push({l:r.sp,tk:r.tk,mb:r.mb});}});
+    if(r.tk!=null){tkSum+=r.tk;tkN++;rows.push({l:r.sp,tk:r.tk,mb:r.mb,of:r.of,tb:r.tb});}else rows.push({l:r.sp,tb:r.tb});});   // $ 미입력 스펙도 행으로 (수량만)
   if(!plCap){e.innerHTML='';e.classList.remove('on');return;}
-  e.classList.add('on');
-  e.innerHTML=sumCardHtml({title:'컨테이너 요약',route:`${hlEsc(pSj)} → ${hlEsc((co||{}).f||'')} ${hlEsc(pCo)} · ${sh==='f'?'40ft':'20ft'} ${cnt}대`,
+  e.classList.add('on');sumApplyState(e);
+  e.innerHTML=sumCardHtml({title:'컨테이너 요약',route:`${hlEsc(pSj)} → ${hlEsc((co||{}).f||'')} ${hlEsc(pCo)} · ${sh==='f'?'40ft':'20ft'} ${cnt}대`,routeShort:`${hlEsc((co||{}).f||'')} ${hlEsc(pCo)} · ${hlEsc(pSj)}`,
     tkSum,tkN,fx,plUsed,plCap,boxN,FT,frApp,rows,frLabel:cnt>1?cnt+'대 × 1회':'1회 적용'});
   sumBump(e,'p',tkSum);
 }
 // 요약 히어로 카드 공용 렌더러 (배·포도 해운)
 function sumCardHtml(o){
+  // 2026-08-17 사용자 요청: 요약에는 나라·산지 / 스펙별 오퍼가($)·수량·마진 / 합계 총마진만. 운임·반영운임·만적 상태·파레트 게이지·실림율 표시는 제거.
+  //   파레트 초과(컨테이너 1대를 넘는 수량)일 때만 빨간 경고 한 줄 — 실수 방지용.
   const cl=o.tkSum>=0?'pos':'neg';
-  const fill=o.plCap?o.plUsed/o.plCap:0;
-  const over=o.plUsed>o.plCap+0.01,full=!over&&o.plUsed>o.plCap-0.01;
-  const remain=Math.max(0,o.plCap-o.plUsed);
-  const st=over?['over','⚠ '+(o.plUsed-o.plCap).toFixed(1)+'파레트 초과 — 수량을 줄이거나 컨테이너를 늘리세요']:full?['ok','✓ 만적 — 컨테이너를 꽉 채웠어요 · 운임 낭비 없음']:['warn','여유 '+remain.toFixed(1)+'파레트 — 더 실을 수 있어요'];
-  let gauge='';
-  if(o.plCap<=40){
-    let cells='';
-    for(let i=0;i<o.plCap;i++){
-      const f2=Math.min(1,Math.max(0,o.plUsed-i));
-      cells+=`<i style="--d:${i*14}ms" class="${f2>=1?'full':f2>0?'part':''}${over?' ov':''}"></i>`;
-    }
-    gauge=`<div class="sm2-seg">${cells}</div>`;
-  }else{
-    gauge=`<div class="sm2-bar"><div class="sm2-fill${over?' ov':''}" style="width:${Math.min(100,fill*100)}%"></div></div>`;
-  }
+  const over=o.plCap>0&&o.plUsed>o.plCap+0.01;
   const usd=o.fx?((o.tkSum>=0?'+':'-')+'$'+fN(Math.abs(o.tkSum/o.fx))):'';
-  const specs=o.rows.slice(0,6).map(r=>`<div class="sm2-sp"><i class="${r.mb>=0?'pos':'neg'}"></i><span>${hlEsc(r.l)}</span><b class="${r.mb>=0?'pos':'neg'}">${fK(r.tk)}</b></div>`).join('')
-    +(o.rows.length>6?`<div class="sm2-sp more">외 ${o.rows.length-6}건</div>`:'');
-  return `<div class="sm2-top"><span class="sm2-t">📦 ${o.title}</span><span class="sm2-route">${o.route}</span></div>
-  <div class="sm2-hero ${cl}"><em>합계 총마진 · ${o.tkN}건 입력</em><b id="sm2v">${fK(o.tkSum)}</b><span>${usd}</span></div>
-  <div class="sm2-st ${st[0]}">${st[1]}</div>
-  ${gauge}
-  <div class="sm2-glab"><b>${o.plUsed.toFixed(1)}</b> / ${o.plCap} 파레트 · ${fN(o.boxN)}박스</div>
-  <div class="sm2-kpis">
-    <div><i>🚢</i><b>₩${fN(o.FT)}</b><em>운임 · ${o.frLabel}</em></div>
-    <div><i>💰</i><b>₩${fN(Math.round(o.frApp))}</b><em>반영 운임${Math.abs(o.frApp-o.FT)>1?'':' ✓ 일치'}</em></div>
-    <div><i>🧮</i><b>${Math.round(fill*100)}%</b><em>실림율</em></div>
-  </div>
-  ${specs?`<div class="sm2-specs">${specs}</div>`:''}`;
+  const rows=sumRowsHtml(o.rows,o.fx);
+  const mini=sumMiniHtml({tkSum:o.tkSum,tkN:o.tkN,usd,tag:o.routeShort||'',sub:`${fN(o.boxN)}박스`});
+  return sumWrap(mini,`<div class="sm2-top"><span class="sm2-t">📦 ${o.title}</span><span class="sm2-route">${o.route}</span><button type="button" class="sm2-fold" onclick="sumToggle()" title="접기">▾</button></div>
+  <div class="sm2-hero ${cl}"><em>합계 총마진 · ${o.tkN}건 입력 · ${fN(o.boxN)}박스</em><b id="sm2v">${fK(o.tkSum)}</b><span>${usd}</span></div>
+  ${over?`<div class="sm2-st over">⚠ ${(o.plUsed-o.plCap).toFixed(1)}파레트 초과 — 수량을 줄이거나 컨테이너를 늘리세요</div>`:''}
+  ${rows}`);
 }
-// 총마진 변경 시 펄스 — 숫자가 바뀐 순간을 눈으로 알 수 있게
+// 스펙별 행: 스펙 · 오퍼가 $ · 수량 · 박스당 마진(₩/$) · 총마진 — 배·포도(해운/항공) 공용
+function sumRowsHtml(rows,fx){
+  if(!rows||!rows.length)return'';
+  return `<div class="sm2-rows">${rows.map(r=>{
+    const has=r.of!=null&&r.mb!=null;
+    const cls=has?(r.mb>=0?'pos':'neg'):'dim';
+    return `<div class="sm2-r"><i class="${cls}"></i><span class="sm2-rl">${hlEsc(r.l)}</span><b class="${cls}">${has?fK(r.tk):'-'}</b>
+      <span class="sm2-rd">${has?`$${r.of} · ${fN(r.tb)}박스 · 박스당 ${fK(r.mb*fx)} (${fD(r.mb)}$)`:`$ 미입력 · ${fN(r.tb)}박스`}</span></div>`;}).join('')}</div>`;
+}
+// 요약 카드 접기/펼치기 — 기본 mini(한 줄), 탭하면 전체. 선택은 기기에 기억.
+let _sumOpen=false;try{_sumOpen=localStorage.getItem('hn_sum_open')==='1';}catch(e){}
+function sumMiniHtml(m){return `<span class="sm2-mi">📦</span><span style="min-width:0"><b class="sm2-mv ${m.tkSum>=0?'pos':'neg'}">${fK(m.tkSum)}</b><span class="sm2-msub">${m.usd?m.usd+' · ':''}${m.tkN}건 · ${m.sub}</span></span>${m.tag?`<span class="sm2-mst tag">${m.tag}</span>`:''}<span class="sm2-mchev">▴</span>`;}
+function sumWrap(mini,full){return `<div class="sm2-mini" onclick="sumToggle()" title="탭하면 상세">${mini}</div><div class="sm2-full">${full}</div>`;}
+function sumApplyState(e){e.classList.toggle('open',_sumOpen);e.classList.toggle('mini',!_sumOpen);}
+function sumToggle(){_sumOpen=!_sumOpen;try{localStorage.setItem('hn_sum_open',_sumOpen?'1':'0');}catch(e){}document.querySelectorAll('.pz-sum.on').forEach(sumApplyState);}
+// 총마진 변경 시 펄스 — 숫자가 바뀐 순간을 눈으로 알 수 있게 (전체 카드 #sm2v + mini 바 .sm2-mv 둘 다)
 const _sumLast={};
 function sumBump(e,key,v){
   const rv=Math.round(v);
-  if(_sumLast[key]!=null&&_sumLast[key]!==rv){const b=e.querySelector('#sm2v');if(b){b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');}}
+  if(_sumLast[key]!=null&&_sumLast[key]!==rv){e.querySelectorAll('#sm2v,.sm2-mv').forEach(b=>{b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');});}
   _sumLast[key]=rv;
 }
 function markBest(prefix,calcFn,iterPairs){
@@ -2245,20 +2246,13 @@ function gSum(){
     const kg=GAIR_KG[gCo]||0;
     const dom=(gSj==='커스텀'&&gv('gcdom')>0)?gv('gcdom'):((GAIR_DOM_C[gCo]!=null)?GAIR_DOM_C[gCo]:GAIR_DOM);
     let kgSum=0;
-    sis.forEach(si=>{const r=gCalc(gCo,si);if(!r)return;boxN+=r.tb;kgSum+=r.tb*(GS[si].gw||0);if(r.tk!=null){tkSum+=r.tk;tkN++;rows.push({l:GS[si].l,tk:r.tk,mb:r.mb});}});
+    sis.forEach(si=>{const r=gCalc(gCo,si);if(!r)return;boxN+=r.tb;kgSum+=r.tb*(GS[si].gw||0);if(r.tk!=null){tkSum+=r.tk;tkN++;rows.push({l:GS[si].l,tk:r.tk,mb:r.mb,of:r.of,tb:r.tb});}else rows.push({l:GS[si].l,tb:r.tb});});
     const cl=tkSum>=0?'pos':'neg';
     const usd=fx?((tkSum>=0?'+':'-')+'$'+fN(Math.abs(tkSum/fx))):'';
-    const specs=rows.slice(0,6).map(r=>`<div class="sm2-sp"><i class="${r.mb>=0?'pos':'neg'}"></i><span>${hlEsc(r.l)}</span><b class="${r.mb>=0?'pos':'neg'}">${fK(r.tk)}</b></div>`).join('')+(rows.length>6?`<div class="sm2-sp more">외 ${rows.length-6}건</div>`:'');
-    e.classList.add('on');
-    e.innerHTML=`<div class="sm2-top"><span class="sm2-t">✈️ 항공 요약</span><span class="sm2-route">${hlEsc(gSj)} → ${hlEsc((co||{}).f||'')} ${hlEsc(gCo)} · AIR</span></div>
-    <div class="sm2-hero ${cl}"><em>합계 총마진 · ${tkN}건 입력</em><b id="sm2v">${fK(tkSum)}</b><span>${usd}</span></div>
-    <div class="sm2-st ok">✈️ ₩${fN(kg)}/kg × G.W 적용</div>
-    <div class="sm2-kpis">
-      <div><i>📦</i><b>${fN(boxN)}</b><em>박스</em></div>
-      <div><i>⚖️</i><b>${fN(Math.round(kgSum))}kg</b><em>총 G.W</em></div>
-      <div><i>🚚</i><b>₩${fN(dom)}</b><em>도내운송 1회</em></div>
-    </div>
-    ${specs?`<div class="sm2-specs">${specs}</div>`:''}`;
+    e.classList.add('on');sumApplyState(e);
+    e.innerHTML=sumWrap(sumMiniHtml({tkSum,tkN,usd,tag:`${hlEsc((co||{}).f||'')} ${hlEsc(gCo)} · ${hlEsc(gSj)}`,sub:`${fN(boxN)}박스`}),`<div class="sm2-top"><span class="sm2-t">✈️ 항공 요약</span><span class="sm2-route">${hlEsc(gSj)} → ${hlEsc((co||{}).f||'')} ${hlEsc(gCo)} · AIR</span><button type="button" class="sm2-fold" onclick="sumToggle()" title="접기">▾</button></div>
+    <div class="sm2-hero ${cl}"><em>합계 총마진 · ${tkN}건 입력 · ${fN(boxN)}박스 · ${fN(Math.round(kgSum))}kg</em><b id="sm2v">${fK(tkSum)}</b><span>${usd}</span></div>
+    ${sumRowsHtml(rows,fx)}`);
     sumBump(e,'g',tkSum);
     return;
   }
@@ -2267,10 +2261,10 @@ function gSum(){
   sis.forEach(si=>{const r=gCalc(gCo,si);if(!r)return;
     const ctp=r.ctp||1;const sp=GS[si];const tp=sh==='f'?(sp.tp4>0?sp.tp4:20):(sp.tp2>0?sp.tp2:9);
     plCap=Math.max(plCap,tp);plUsed+=r.tb/ctp;boxN+=r.tb;frApp+=r.tb*r.pbf;
-    if(r.tk!=null){tkSum+=r.tk;tkN++;rows.push({l:sp.l,tk:r.tk,mb:r.mb});}});
+    if(r.tk!=null){tkSum+=r.tk;tkN++;rows.push({l:sp.l,tk:r.tk,mb:r.mb,of:r.of,tb:r.tb});}else rows.push({l:sp.l,tb:r.tb});});
   if(!plCap){e.innerHTML='';e.classList.remove('on');return;}
-  e.classList.add('on');
-  e.innerHTML=sumCardHtml({title:'컨테이너 요약',route:`${hlEsc(gSj)} → ${hlEsc((co||{}).f||'')} ${hlEsc(gCo)} · ${gShvV()}ft 1대`,
+  e.classList.add('on');sumApplyState(e);
+  e.innerHTML=sumCardHtml({title:'컨테이너 요약',route:`${hlEsc(gSj)} → ${hlEsc((co||{}).f||'')} ${hlEsc(gCo)} · ${gShvV()}ft 1대`,routeShort:`${hlEsc((co||{}).f||'')} ${hlEsc(gCo)} · ${hlEsc(gSj)}`,
     tkSum,tkN,fx,plUsed,plCap,boxN,FT,frApp,rows,frLabel:'1회 적용'});
   sumBump(e,'g',tkSum);
 }

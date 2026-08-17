@@ -1,5 +1,5 @@
 // 현농프레쉬 오퍼계산기 Service Worker
-const CACHE_VERSION = 'hn-v48';   // v48: 요약 히어로 카드(하단 고정·세그먼트 게이지·KPI) + 산지 커스텀(운임 직접 입력) + 출발항(부산/광양/인천) 선택
+const CACHE_VERSION = 'hn-v49';   // v49: iOS 입력칸 포커스 자동확대 차단(좌우 흔들림 수정) + 운임 진실원천 DATA 전용(OCEAN/Air=스펙만, GAS FREIGHT_DATA_ONLY) + 감사 11건 수정 / v48: 요약 히어로 카드 + 산지 커스텀 + 출발항 선택
 const CORE_CACHE = CACHE_VERSION + '-core';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 

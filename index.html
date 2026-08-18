@@ -1582,8 +1582,8 @@ function pWkDef(us,sp,raw){
   if(sp.uw==='u5'){const hj=$('puwk_hj');pv=(hj&&hj.value)==='무화지'?PUWK.u5b:PUWK.u5;}
   else if(sp.uw==='u3p'){const st=$('puwk_st');pv=(st&&st.value)==='부착'?PUWK.u3ps:PUWK.u3pn;}
   else if(sp.uw==='udg')pv=PUWK.udg;
-  else if(sp.uw!=='b5')return{v:base,add:0};   // uw 미지정(15kg·7.5kg 등) = 가산 없음
-  return{v:pv+r5,add:r5};
+  else if(sp.uw!=='b5')return{v:base,add:0};   // uw 미지정(15kg·7.5kg 등) = 가산 없음 (OCEAN 미국 15kg 행에 5% 없음과 동일)
+  return{v:pv,add:r5};   // v=순수 작업비 기본값, add=수수료 5%(원물×5%) — 미국은 직접 입력한 작업비 위에도 항상 가산 (2026-08-17: 시트 수식 =작업비+원물×5% 와 동일, 순수 작업비만 입력)
 }
 function pB(){
   inpSaveAll();
@@ -1629,7 +1629,7 @@ function pCardHtml(cn,sp,idx){
     <button class="lb pz-press" id="pb${cnH}${sidH}" onclick="pL(${A})" title="오퍼히스토리 기록">📝</button></div>
   <div class="pz-cg">
     <label class="pz-f"><em>원물 ₩</em><input type="number" inputmode="numeric" id="${hlEsc(rawId)}" oninput="pA();pRawH('${sidJ}',this.value)"></label>
-    <label class="pz-f"><em>작업비 ₩</em><input type="number" inputmode="numeric" id="${hlEsc(wkId)}" oninput="pA()"></label>
+    <label class="pz-f"><em>작업비 ₩${us&&sp.uw?' <b>+수수료5% 자동</b>':''}</em><input type="number" inputmode="numeric" id="${hlEsc(wkId)}" oninput="pA()"></label>
     <label class="pz-f"><em>부자재 ₩</em><input type="number" inputmode="numeric" value="${pcRaw(sid,'bj')}" placeholder="${+sp.bj||0}" oninput="pcSet(decodeURIComponent('${sidJ}'),'bj',this.value)"></label>
     <label class="pz-f"><em>박스 ₩</em><input type="number" inputmode="numeric" value="${pcRaw(sid,'bx')}" placeholder="${+sp.bx||0}" oninput="pcSet(decodeURIComponent('${sidJ}'),'bx',this.value)"></label>
     <label class="pz-f"><em>수량 <b>만적${fN(ctn*tp*pCntV())}${pCntV()>1?'·'+pCntV()+'대':''}</b></em><input type="number" inputmode="numeric" id="pq${cnH}${sidH}" oninput="pA()"></label>
@@ -1664,8 +1664,9 @@ function pCalc(cn,sid){
   const raw=rawIn>0?rawIn:cvRaw;
   const wd=pWkDef(us,sp,raw);
   const wkIn=gv(pWkId(us,sid));
-  const wk=wkIn>0?wkIn:wd.v;
-  const wkAdd=wkIn>0?0:wd.add;
+  const wkBase=wkIn>0?wkIn:wd.v;   // 입력값 또는 순수 기본 작업비
+  const wkAdd=wd.add;              // 미국 수수료 5% — 입력 여부와 무관하게 항상 가산 (종전: 비웠을 때만 가산 → 4,700 입력 시 5% 누락으로 시트와 ₩489/박스 차이)
+  const wk=wkBase+wkAdd;
   const pbf=(inlV+seaV)/tp/ctn;
   const bj=pcVal(sp,'bj'),bx=pcVal(sp,'bx');
   const base={sp:sp.l,us,ctn,tp,defTb,dq,tb,inlV,seaV,pbf,bj,bx,cvRaw,rawIn,wkDef:wd.v,wk,wkAdd};
@@ -1698,7 +1699,7 @@ function pR(cn,sid){
     return;
   }
   if(eO)eO.placeholder=r.be?r.be.toFixed(2):'';
-  if(eC)eC.innerHTML=`CIF <b>₩${fN(Math.round(r.cif))}</b> · 원가 <b>$${r.be?r.be.toFixed(2):'-'}</b>`;
+  if(eC)eC.innerHTML=`CIF <b>₩${fN(Math.round(r.cif))}</b> · 원가 <b>$${r.be?r.be.toFixed(2):'-'}</b>${r.wkAdd>0?` · 수수료 ₩${fN(Math.round(r.wkAdd))}`:''}`;
   const fx2=gv('pfx');
   if(r.empty){
     if(eM)eM.innerHTML=`<span class="pz-dim">$ 입력 대기</span>`;
@@ -2853,7 +2854,7 @@ function pCif(cn,sid){const r=pCalc(cn,sid);if(!r||r.noFr)return;const sp=PS.fin
   const sh=gv('psh')==40?'40ft':'20ft';
   cifOpen(cn+' · '+sp.l+(pSj?' · '+pSj:''),[
     ['원물','₩'+fN(Math.round(r.raw||0))+(r.rawIn>0?' ✏️':(r.cvRaw>0?' (환산)':''))],
-    ['작업비','₩'+fN(Math.round(r.wk-(r.wkAdd||0)))],r.wkAdd?['└ 원물 5% 가산','₩'+fN(Math.round(r.wkAdd))]:null,
+    ['작업비','₩'+fN(Math.round(r.wk-(r.wkAdd||0)))],r.wkAdd?['└ 수수료 5% (원물×5% · 미국 자동)','₩'+fN(Math.round(r.wkAdd))]:null,
     ['부자재','₩'+fN(r.bj)+(pcRaw(sid,'bj')!==''?' ✏️':'')],['박스','₩'+fN(r.bx)+(pcRaw(sid,'bx')!==''?' ✏️':'')],
     ['박스당 운임 (만적 기준)','₩'+fN(Math.round(r.pbf))],
     r.noRaw?null:['CIF 합계','₩'+fN(Math.round(r.cif)),'tot'],

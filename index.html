@@ -471,6 +471,12 @@ tbody tr:hover td{background:#fafbfd}
 .pz-frd2.warn{color:#b06d00;font-weight:700}
 .pz-warn{margin-top:9px;padding:8px 11px;background:#fff5f5;border:1px solid #fecaca;border-radius:10px;font-size:10.5px;font-weight:700;color:#b91c1c;animation:pzShake .35s ease}
 .pz-note{margin-top:6px;font-size:9px;color:var(--t3);padding:0 2px}
+/* 스펙 사이즈 구성 메모 — 선택 단계 박스 + 카드 한 줄 */
+.pz-sznb{margin-top:9px;background:#fffbea;border:1px dashed #e3c86b;border-radius:10px;padding:8px 10px}
+.pz-sznt{font-size:9.5px;font-weight:800;color:#8a6508;margin-bottom:4px}
+.pz-szn{font-size:11px;color:var(--tx);padding:2px 0;line-height:1.35}
+.pz-szn b{font-weight:800}
+.pz-csz{font-size:10.5px;font-weight:700;color:#8a6508;background:#fffbea;border:1px dashed #e3c86b;border-radius:8px;padding:4px 8px;margin:-2px 0 8px}
 .pz-chips{display:flex;flex-wrap:wrap;gap:6px}
 .pz-chips.h{display:none}
 .pz-chip{background:var(--sf2);border:1.5px solid var(--bd);border-radius:10px;padding:7px 11px;font-size:11px;font-weight:700;color:var(--t2);cursor:pointer;font-family:inherit;transition:all .16s;animation:pzPop .3s ease backwards;animation-delay:calc(var(--i,0)*.02s)}
@@ -893,6 +899,22 @@ const PS=[
 ];
 // 구 '배' 시트 명칭 → 표준(OCEAN) 스펙키 별칭 — 구버전 GAS/캐시가 옛 키로 보내도 '기타'로 중복 생성하지 않고 표준 스펙에 값을 합침
 const PSK_ALIAS={'10kg대과2구|2pcs*8pack':'10kg|2pcs*8pack','10kg대과1구|1pcs*16pack':'10kg|1pc*16pack','10kg|1pcs*16pack':'10kg|1pc*16pack','12kg5구|5pcs*4pack':'12kg|5pcs*4pack'};
+// 스펙별 배 사이즈 구성 메모 (2026-08-17 사용자 제공) — 스펙 선택 단계·카드에 한 줄로 표시 (오퍼 참고). 키 = 표준 스펙키(sk).
+const PSIZE_NOTE={
+  '3kg|5s':'(5kg 사이즈 기준) 8과 3개 · 9과 2개',
+  '3kg|6s':'(5kg 사이즈 기준) 10과 6개',
+  '3kg|7s':'(5kg 사이즈 기준) 11과 4개 · 12과 3개',
+  '3kg|8s':'(5kg 사이즈 기준) 11과 3개 · 12과 4개',
+  '12.8kg|3pcs*8pack':'(5kg 사이즈 기준) 9과 2개 · 10과 1개',
+  '12.8kg|2pcs*12pack':'(15kg 사이즈 기준) 28~30과 (9~10과)',
+  '12kg|5pcs*4pack':'(5kg 사이즈 기준) 8과 3개 · 9과 2개',
+  '10.9kg|3pcs*8pack':'(15kg 사이즈 기준) 32과 2개 · 34과 1개',
+  '10.9kg|2pcs*12pack':'(15kg 사이즈 기준) 32과 2개',
+  '10kg|1pc*16pack':'(15kg 사이즈 기준) 20~24과',
+  '10kg|2pcs*8pack':'24과 2개',
+  '10kg|2pcs*8packsleeve':'24과 2개'
+};
+function pSizeNote(sp){if(!sp)return'';return PSIZE_NOTE[sp.sk]||PSIZE_NOTE[(sp.id||'').replace(/^x:/,'')]||'';}
 // 시트에서 발견됐지만 위 표준 목록에 없는 스펙 — sync(pearSpecs)가 자동 추가 (스펙 선택의 '기타' 그룹, 원물 직접 입력)
 function pSpecExtend(k,dd){
   if(PSK_ALIAS[k])return false;   // 옛 명칭 키는 별칭으로 표준 스펙에 병합됨 — 기타 추가 금지
@@ -1262,6 +1284,9 @@ function pStepR(){
       h2+=`<button class="pz-chip etc pz-press${on?' on':''}" onclick="pTgSpec(decodeURIComponent('${jsArg(s.id)}'))">${hlEsc(s.l)}</button>`;});
   }
   h2+=`</div>${pSpecSel.length?`<button class="pz-clear pz-press" style="margin-top:8px" onclick="pSpecsClear()">전체 해제</button>`:''}`;
+  // 선택 스펙의 사이즈 구성 메모 — 선택하면 칩 아래에 한 줄씩 (2026-08-17)
+  const szn=pActiveSids().map(sid=>{const s3=PS.find(x=>x.id===sid);const nt=s3?pSizeNote(s3):'';return nt?`<div class="pz-szn"><b>${hlEsc(s3.l)}</b> · ${hlEsc(nt)}</div>`:'';}).join('');
+  if(szn)h2+=`<div class="pz-sznb"><div class="pz-sznt">🍐 사이즈 구성 (오퍼 참고)</div>${szn}</div>`;
   const sp=$('pzSpecs');if(sp)sp.innerHTML=h2;
 }
 function pCntSet(d){const e=$('pcnt');if(!e)return;const v=Math.min(9,Math.max(1,(+e.value||1)+d));e.value=v;inpSet('pcnt',String(v));pB();}
@@ -1582,7 +1607,7 @@ function pWkDef(us,sp,raw){
   if(sp.uw==='u5'){const hj=$('puwk_hj');pv=(hj&&hj.value)==='무화지'?PUWK.u5b:PUWK.u5;}
   else if(sp.uw==='u3p'){const st=$('puwk_st');pv=(st&&st.value)==='부착'?PUWK.u3ps:PUWK.u3pn;}
   else if(sp.uw==='udg')pv=PUWK.udg;
-  else if(sp.uw!=='b5')return{v:base,add:0};   // uw 미지정(15kg·7.5kg 등) = 가산 없음 (OCEAN 미국 15kg 행에 5% 없음과 동일)
+  // uw 미지정(15kg·7.5kg·기타 스펙)도 미국은 수수료 5% 가산 — 2026-08-17 사용자 확인('15kg도 5% 붙어'), 원가표(수출원가계산)와 동일. 기본 작업비는 국내 기준값(b5와 같음)
   return{v:pv,add:r5};   // v=순수 작업비 기본값, add=수수료 5%(원물×5%) — 미국은 직접 입력한 작업비 위에도 항상 가산 (2026-08-17: 시트 수식 =작업비+원물×5% 와 동일, 순수 작업비만 입력)
 }
 function pB(){
@@ -1627,9 +1652,10 @@ function pCardHtml(cn,sp,idx){
   <div class="pz-ch"><span class="pz-cl">${us?'🇺🇸 ':''}${hlEsc(sp.l)}</span><span class="pz-cb">${ctn}ctn/p × ${tp}p</span><span style="flex:1"></span>
     <button class="pz-ico pz-press" onclick="pCif(${A})" title="원가 내역">ⓘ</button>
     <button class="lb pz-press" id="pb${cnH}${sidH}" onclick="pL(${A})" title="오퍼히스토리 기록">📝</button></div>
+  ${pSizeNote(sp)?`<div class="pz-csz">🍐 ${hlEsc(pSizeNote(sp))}</div>`:''}
   <div class="pz-cg">
     <label class="pz-f"><em>원물 ₩</em><input type="number" inputmode="numeric" id="${hlEsc(rawId)}" oninput="pA();pRawH('${sidJ}',this.value)"></label>
-    <label class="pz-f"><em>작업비 ₩${us&&sp.uw?' <b>+수수료5% 자동</b>':''}</em><input type="number" inputmode="numeric" id="${hlEsc(wkId)}" oninput="pA()"></label>
+    <label class="pz-f"><em>작업비 ₩${us?' <b>+수수료5% 자동</b>':''}</em><input type="number" inputmode="numeric" id="${hlEsc(wkId)}" oninput="pA()"></label>
     <label class="pz-f"><em>부자재 ₩</em><input type="number" inputmode="numeric" value="${pcRaw(sid,'bj')}" placeholder="${+sp.bj||0}" oninput="pcSet(decodeURIComponent('${sidJ}'),'bj',this.value)"></label>
     <label class="pz-f"><em>박스 ₩</em><input type="number" inputmode="numeric" value="${pcRaw(sid,'bx')}" placeholder="${+sp.bx||0}" oninput="pcSet(decodeURIComponent('${sidJ}'),'bx',this.value)"></label>
     <label class="pz-f"><em>수량 <b>만적${fN(ctn*tp*pCntV())}${pCntV()>1?'·'+pCntV()+'대':''}</b></em><input type="number" inputmode="numeric" id="pq${cnH}${sidH}" oninput="pA()"></label>

@@ -966,15 +966,15 @@ const GS=[
 {l:'4.8kg 600g×8',k:'4.8kg|600g*8pack',ct:68,ca:44,nw:4.8,gw:6.8,bj:240,bx:0,cat:'pack'},
 {l:'4.8kg 700g×3',k:'4.8kg|700g*3pack',ct:56,nw:4.8,gw:6,bj:0,bx:0,cat:'pack'},
 {l:'5.4kg 700g×3',k:'5.4kg|700g*3pack',ct:56,nw:5.4,gw:6,bj:0,bx:0,cat:'pack'},
-// (구 '알포도' 카테고리 — 팩은 팩작업으로, 300g×9 벌크는 벌크작업으로, '(알포도)' 2종은 없는 스펙이라 숨김(hide) — 배열 순번 유지 위해 삭제하지 않음)
+// (구 '알포도' 그룹 재배치 — 팩은 팩작업으로, 300g×9 벌크는 벌크작업으로, '(알포도)' 2종은 알포도 카테고리 유지)
 {l:'2.7kg 300g×9 벌크',k:'2.7kg|300gbulk9b',ct:120,nw:2.7,gw:3.7,bj:90,bx:0,cat:'bulk'},
 {l:'2.7kg 300g×9팩',k:'2.7kg|300g*9pack',ct:64,nw:2.7,gw:5,bj:270,bx:0,cat:'pack'},
 {l:'3kg 300g×10팩',k:'3kg|300g*10pack',ct:68,nw:3,gw:5,bj:400,bx:0,cat:'pack'},
 {l:'3.6kg(종이) 400g×9',k:'3.6kg(종이)|400g*9pack',ct:64,nw:3.6,gw:6,bj:270,bx:0,cat:'pack'},
 {l:'4.05kg 450g×9팩',k:'4kg|450g*9pack',ct:68,ca:44,nw:4,gw:6,bj:300,bx:0,cat:'pack'},
 {l:'4.5kg 500g×9팩',k:'4.5kg|500g*9pack',ct:64,ca:44,nw:4.5,gw:6.5,bj:270,bx:0,cat:'pack'},
-{l:'8kg 800g×10(알포도)',k:'8kg|800g*10pack(알포도)',ct:60,nw:5.6,gw:7.6,bj:0,bx:0,cat:'lse',hide:1},
-{l:'9kg 1kg×9(알포도)',k:'9kg|1kg*9pack(알포도)',ct:60,nw:4.9,gw:6.9,bj:0,bx:0,cat:'lse',hide:1},
+{l:'8kg 800g×10 (알포도)',k:'8kg|800g*10pack(알포도)',ct:60,nw:5.6,gw:7.6,bj:0,bx:0,cat:'lse'},
+{l:'9kg 1kg×9 (알포도)',k:'9kg|1kg*9pack(알포도)',ct:60,nw:4.9,gw:6.9,bj:0,bx:0,cat:'lse'},
 // ── 기프트 (Gift) ──
 {l:'3.6kg GIFT 900g×4',k:'3.6kg|900g*4case(gift)',ct:102,ca:60,nw:3.6,gw:5,bj:6600,bx:9360,cat:'gft'},
 {l:'4kg GIFT 1kg×4',k:'4kg|1kg*4case(gift)',ct:102,ca:60,nw:4,gw:5.4,bj:0,bx:0,cat:'gft'},
@@ -990,7 +990,8 @@ const GRG=[
 const GSC=[
 {k:'all',l:'전체 스펙',c:'#7b2d8e'},
 {k:'bulk',l:'벌크작업',c:'#3b6ff0'},   // 2026-08-17 개편: 송이(수) 벌크 — '1.5kg 2수', '4kg 4~6수' 식 표기
-{k:'pack',l:'팩작업',c:'#16a368'},   // 멀티팩+팩(300g×9팩·450g×9팩 등) 통합. '알포도' 카테고리는 폐지(그런 스펙 없음)
+{k:'pack',l:'팩작업',c:'#16a368'},   // 멀티팩+팩(300g×9팩·450g×9팩 등) 통합
+{k:'lse',l:'알포도',c:'#d48a00'},   // OCEAN 시트에 '(알포도)' 스펙 2종 존재(8kg 800g×10, 9kg 1kg×9) — 사용자 확인 후 복구(2026-08-17)
 {k:'gft',l:'기프트',c:'#dc2626'},
 ];
 // 항공 (포도Air 시트 기반)
@@ -2820,7 +2821,7 @@ function saveL(){try{localStorage.setItem('hn4',JSON.stringify(logs));}catch(e){
 // ═══ 지난 오퍼가 힌트 — 같은 과일·국가·스펙(+운송모드)의 최근 기록 오퍼가를 $ 입력칸 밑에 표시 (탭하면 채움) ═══
 const shNorm=v=>String(v||'').trim().toUpperCase()==='AIR'?'항공':String(v||'').trim();   // 구 기록의 'AIR'와 현재 '항공' 표기를 같은 모드로 취급
 // 포도 스펙 표기 개편(2026-08-17: 송이→수, 4.05kg 5송이→4kg 4~6수, 4kg 450g×9팩→4.05kg 450g×9팩) 전 기록의 옛 라벨을 새 라벨로 매핑 — 지난 오퍼 힌트가 끊기지 않게
-const GLBL_ALIAS={'1.5kg 2송이':'1.5kg 2수','1.8kg 2송이':'1.8kg 2수','2kg 2송이':'2kg 2수','2kg 3송이':'2kg 3수','2.5kg 3송이':'2.5kg 3수','3.8kg 5-7송이':'3.8kg 5~7수','4.05kg 5송이':'4kg 4~6수','4.05kg 5송이(2등급)':'4kg 4~6수 (2등급)','4kg 450g×9팩':'4.05kg 450g×9팩','2.7kg 300g×9 bulk':'2.7kg 300g×9 벌크'};
+const GLBL_ALIAS={'1.5kg 2송이':'1.5kg 2수','1.8kg 2송이':'1.8kg 2수','2kg 2송이':'2kg 2수','2kg 3송이':'2kg 3수','2.5kg 3송이':'2.5kg 3수','3.8kg 5-7송이':'3.8kg 5~7수','4.05kg 5송이':'4kg 4~6수','4.05kg 5송이(2등급)':'4kg 4~6수 (2등급)','4kg 450g×9팩':'4.05kg 450g×9팩','2.7kg 300g×9 bulk':'2.7kg 300g×9 벌크','8kg 800g×10(알포도)':'8kg 800g×10 (알포도)','9kg 1kg×9(알포도)':'9kg 1kg×9 (알포도)'};
 const spNorm=v=>{const t=String(v||'').trim();return GLBL_ALIAS[t]||t;};
 function lastOffer(fr,co,spl,sh){
   let best=null;const coC=cano(co);
